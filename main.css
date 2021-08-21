@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    height: 100vh;
+}
+
+input {
+    cursor:text !important;
+}
+
+input:focus {
+    outline: 1px solid white !important;
+}
+
+#leftPanel {
+    height: 130%;
+}
+
+.squareLine {
+    display: flex;
+}
+
+.squareElement {
+    margin-top: 2px;
+    margin-left: 2px;
+    min-width: 180px;
+    min-height: 180px;
+    line-height: 180px;
+    text-align: center;
+    font-size: larger;
+    border: 1px black solid;
+}
+
+#square {
+    align-self: center;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
