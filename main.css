@@ -12,7 +12,7 @@ input:focus {
 }
 
 #leftPanel {
-    height: 130%;
+    height: 100%;
 }
 
 .squareLine {
@@ -37,4 +37,12 @@ input:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.step-sm {
+    margin-top: 4px;
+}
+
+.step-lg {
+    margin-top: 20px;
 }

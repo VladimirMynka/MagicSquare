@@ -11,49 +11,67 @@
 
     <body>
         <div id = "leftPanel" class = "d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-            <div>Мы любим магические квадраты и вам желаем того же</div>
+            <div><h6>Мы любим магические квадраты и вам желаем того же</h6></div>
             <div id = "values" class = "container-sm container-output-light">
-                <div>
+                <div class="step-sm">
                     E = <input class="btn btn-outline-light" type = "number" id = "inputE" value = "5" maxlength = "3" min = "-9999" max = "999">
                     x = <input class="btn btn-outline-light" type = "number" id = "inputX" value = "3" maxlength = "3" min = "-9999" max = "999">
                     y = <input class="btn btn-outline-light" type = "number" id = "inputY" value = "1" maxlength = "3" min = "-9999" max = "999">
                 </div>
-                <div>    
+                <div class="step-sm">    
                     <button id = "applyButton" class="btn btn-light">Задать</button>
                     <button id = "factorizeButton" class="btn btn-light">Расписать на простые</button>
                     <button id = "minimizeButton" class="btn btn-light">Минимизировать</button>
                 </div>
-                <div>
+                <div class="step-sm">
                     <button id = "multiplyButton" class="btn btn-light">Умножить на</button>
                     <input class="btn btn-outline-light" type = "number" id = "inputMultiply" value = "-1" maxlength = "3" min = "-9999" max = "999">
                 </div>
-            </div><br>
-            <div>Сгенерировать dir-квадрат</div>
+            </div>
+            <div class="step-lg">Сгенерировать dir-квадрат</div>
             <div id = "dirs">
-                a1 = <input class="btn btn-outline-light" type = "number" id = "inputA1" value = "1" maxlength = "3" min = "1" max = "15">
-                b1 = <input class="btn btn-outline-light" type = "number" id = "inputB1" value = "1" maxlength = "3" min = "1" max = "15">
-                a2 = <input class="btn btn-outline-light" type = "number" id = "inputA2" value = "1" maxlength = "3" min = "1" max = "15">
-                b2 = <input class="btn btn-outline-light" type = "number" id = "inputB2" value = "1" maxlength = "3" min = "1" max = "15"><br>
-                maxRandom = <input class="btn btn-light" type = "number" id = "inputMaxACEGJ" value = "10" maxlength = "3" min = "1" max = "15">
-                <button id = "randomButtonACEGJ" class="btn btn-light">Зарандомить</button><br>
-                <button id = "applyButtonACEGJ" class="btn btn-light">Задать ACEGJ</button><br>
-                <button id = "applyButtonABEHJ" class="btn btn-light">Задать ABEHJ</button><br>
-                <button id = "applyButtonBDEFH" class="btn btn-light">Задать BDEFH</button><br>
-                <button id = "applyButtonABDEJ" class="btn btn-light">Задать ABDEJ</button><br>
-                <button id = "applyButtonABEFH" class="btn btn-light">Задать ABEFH</button> не решено<br>
-                <button id = "applyButtonACDFH" class="btn btn-light">Задать ACDFH</button><br><br>
-                <button id = "applyButtonACEFGH" class="btn btn-light">Задать ACEFGH</button> решено частично ниже<br>
-                <button id = "applyButtonABDFHJ" class="btn btn-light">Задать ABDFHJ</button> решено частично ниже<br>
-            </div><br>
-            <div>
-                c = <input class="btn btn-outline-light" type = "number" id = "inputC" value = "2" maxlength = "3" min = "1" max = "15">
-                d = <input class="btn btn-outline-light" type = "number" id = "inputD" value = "1" maxlength = "3" min = "1" max = "15"><br>
-                maxRandom = <input class="btn btn-outline-light" type = "number" id = "inputMaxCD" value = "5" maxlength = "3" min = "1" max = "15"><br>
-                <button class="btn btn-light" id = "randomButtonCD">Зарандомить</button><br>
-                <button class="btn btn-light" id = "solveFirstButton">tf(2a, a+b) = tf(a, b)</button><br>
-                <button class="btn btn-light" id = "solveSecondButton">tf(2a, a-b) = tf(a, b)</button><br>
-                <button class="btn btn-light" id = "solveThirdButton">tf(a+b, b) = tf(a, b)</button><br>
-                <button class="btn btn-light" id = "solveFourthButton">tf(2b, a-b) = tf(a, b)</button>
+                <div class = "step-sm">
+                    a1 = <input class="btn btn-outline-light" type = "number" id = "inputA1" value = "1" maxlength = "3" min = "1" max = "15">
+                    b1 = <input class="btn btn-outline-light" type = "number" id = "inputB1" value = "1" maxlength = "3" min = "1" max = "15">
+                    a2 = <input class="btn btn-outline-light" type = "number" id = "inputA2" value = "1" maxlength = "3" min = "1" max = "15">
+                    b2 = <input class="btn btn-outline-light" type = "number" id = "inputB2" value = "1" maxlength = "3" min = "1" max = "15">
+                </div>   
+                <div class = "step-sm">
+                    maxRandom = <input class="btn btn-outline-light" type = "number" id = "inputMaxACEGJ" value = "10" maxlength = "3" min = "1" max = "15">
+                    <button id = "randomButtonACEGJ" class="btn btn-light">Зарандомить</button>
+                </div>
+                <div class = "step-sm">
+                    <button id = "applyButtonACEGJ" class="btn btn-light">Задать ACEGJ</button>
+                    <button id = "applyButtonABEHJ" class="btn btn-light">Задать ABEHJ</button>
+                    <button id = "applyButtonBDEFH" class="btn btn-light">Задать BDEFH</button>
+                </div>
+                <div class = "step-sm">
+                    <button id = "applyButtonABDEJ" class="btn btn-light">Задать ABDEJ</button>
+                    <button id = "applyButtonABEFH" class="btn btn-light">Задать ABEFH</button>
+                    <button id = "applyButtonACDFH" class="btn btn-light">Задать ACDFH</button>
+                </div>
+                <div class = "step-sm">
+                    <button id = "applyButtonACEFGH" class="btn btn-light">Задать ACEFGH</button>
+                    <button id = "applyButtonABDFHJ" class="btn btn-light">Задать ABDFHJ</button>
+                </div>
+            </div>
+            <div class = "step-lg">
+                <div class = "step-sm">
+                    c = <input class="btn btn-outline-light" type = "number" id = "inputC" value = "2" maxlength = "3" min = "1" max = "15">
+                    d = <input class="btn btn-outline-light" type = "number" id = "inputD" value = "1" maxlength = "3" min = "1" max = "15">
+                </div>
+                <div class = "step-sm">
+                    maxRandom = <input class="btn btn-outline-light" type = "number" id = "inputMaxCD" value = "5" maxlength = "3" min = "1" max = "15">
+                    <button class="btn btn-light" id = "randomButtonCD">Зарандомить</button>
+                </div>
+                <div class = "step-sm">
+                    <button class="btn btn-light" id = "solveFirstButton">tf(2a, a+b) = tf(a, b)</button>
+                    <button class="btn btn-light" id = "solveSecondButton">tf(2a, a-b) = tf(a, b)</button>
+                    <button class="btn btn-light" id = "solveThirdButton">tf(a+b, b) = tf(a, b)</button>
+                </div>
+                <div class = "step-sm">
+                    <button class="btn btn-light" id = "solveFourthButton">f(a, b) = f(b, c)</button>
+                </div>
             </div>
         </div>
         <div id = "square">
@@ -73,11 +91,7 @@
                 <div id = "E-x" class = "squareElement"></div>
             </div>
         </div>
-        <div id = "fmn">
-            
-        </div>
         <script src = "math.js"></script>
-        <script src = "bigInt.js"></script>
         <script src = "main.js"></script>
     </body>
 

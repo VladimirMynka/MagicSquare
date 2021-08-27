@@ -12,7 +12,8 @@ let inputB1 = document.getElementById("inputB1")
 let inputA2 = document.getElementById("inputA2")
 let inputB2 = document.getElementById("inputB2")
 let inputMaxAcegj = document.getElementById("inputMaxACEGJ")
-let acegjRandom = document.getElementById("randomButtonACEGJ")
+let acegjRandomButton = document.getElementById("randomButtonACEGJ")
+
 let acegjButton = document.getElementById("applyButtonACEGJ")
 let abehjButton = document.getElementById("applyButtonABEHJ")
 let bdefhButton = document.getElementById("applyButtonBDEFH")
@@ -31,7 +32,6 @@ let solveFirstButton = document.getElementById("solveFirstButton")
 let solveSecondButton = document.getElementById("solveSecondButton")
 let solveThirdButton = document.getElementById("solveThirdButton")
 let solveFourthButton = document.getElementById("solveFourthButton")
-let solveFifthButton = document.getElementById("solveFifthButton")
 
 let c1Place = document.getElementById("E+x")
 let s1Place = document.getElementById("E-x+y")
@@ -105,7 +105,7 @@ function DrawFactorizationSquare(E, x, y) {
     factorizationSwitch = true
 }
 
-acegjRandom.onclick = RandomACEGJ
+acegjRandomButton.onclick = RandomACEGJ
 
 function RandomACEGJ() {
     let a = Random(2, +inputMaxAcegj.value)
@@ -297,6 +297,7 @@ solveFirstButton.onclick = () => Solve1(inputC.value, inputD.value)
 solveSecondButton.onclick = () => Solve2(inputC.value, inputD.value)
 solveThirdButton.onclick = () => Solve3(inputC.value, inputD.value)
 solveFourthButton.onclick = () => Solve4(inputC.value, inputD.value)
+
 randomButtonCD.onclick = () => {
     let c = Random(2, inputMaxCD.value)
     let d = Random(1, inputMaxCD.value)
@@ -338,13 +339,16 @@ function Solve3(c, d) { //tf(a+b, b) = tf(a, b)
     inputB2.value = b1 / gcd
 }
 
-function Solve4(c, d) { //tf(2b, a-b) = tf(a, b)
-    let a1 = 6 * c ** 2
-    let b1 = 2 * c ** 2 + d ** 2
-    let gcd = Math.gcd(a1, b1)
+function Solve4(m, n) { //f(a, b) = f(b, c)
+    let mn = m * n
+    let mm = m * m
+    let nn = n * n
+    let a = Math.abs(3 * nn - 2 * mn)
+    let b = Math.abs(mm + 3 * nn - 3 * mn)
+    let c = Math.abs(2 * mn - mm)
 
-    inputA1.value = a1 / gcd
-    inputB1.value = b1 / gcd
-    inputA2.value = 2 * b1 / gcd
-    inputB2.value = (a1 - b1) / gcd
+    inputA1.value = Math.max(a, b)
+    inputB1.value = Math.min(a, b)
+    inputA2.value = Math.max(b, c)
+    inputB2.value = Math.min(b, c)
 }
