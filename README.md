@@ -1,2 +1,2 @@
 # MagicSquare
-Web-generation magic squares
+Web-generator magic squares

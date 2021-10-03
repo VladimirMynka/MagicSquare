@@ -1,15 +1,18 @@
 Math.gcd = function() {
+    let result;
     if (arguments.length == 2) {
-        if (arguments[1] == 0)
-            return arguments[0]
-        else
-            return Math.gcd(arguments[1], arguments[0] % arguments[1]);
-    } else if (arguments.length > 2) {
-        var result = Math.gcd(arguments[0], arguments[1]);
-        for (var i = 2; i < arguments.length; i++)
+        if (arguments[1] == 0) result = arguments[0]
+        else result = Math.gcd(arguments[1], arguments[0] % arguments[1]);
+    } 
+    else if (arguments.length > 2) {
+        result = Math.gcd(arguments[0], arguments[1]);
+        for (var i = 2; i < arguments.length; i++){
             result = Math.gcd(result, arguments[i])
-        return result
+            if (result == 1 || result == -1) break;
+        }
     }
+    if (result < 0) result *= -1;
+    return result;
 }
 
 function Factorization(n){

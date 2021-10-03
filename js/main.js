@@ -220,10 +220,11 @@ function CalculateValuesByABEFH(a1, b1, a2, b2) {
     let sum2 = SquareSumSquares(a2, b2)
 
     let diff1 = sum1 - 4 * fmn1
+    let diff2 = sum2 - 4 * fmn2
 
-    let E = sum1 * (diff1 ** 2)
-    let x = 4 * diff1 * (fmn1 * sum2 + fmn2 * sum1)
-    let y = x - 4 * fmn1 * (diff1 ** 2)
+    let E = sum1 * diff2
+    let x = 4 * (fmn2 * sum1 - fmn1 * sum2)
+    let y = 4 * fmn2 * diff1
 
     inputE.value = E
     inputX.value = x
@@ -236,9 +237,9 @@ function CalculateValuesByACDFH(a1, b1, a2, b2) {
     let sum1 = SquareSumSquares(a1, b1)
     let sum2 = SquareSumSquares(a2, b2)
 
-    let E = sum1 * sum2 - 16 * fmn1 * fmn2
-    let x = -4 * fmn2 * sum1 + 16 * fmn1 * fmn2
-    let y = 4 * fmn1 * sum2 - 16 * fmn1 * fmn2
+    let E = sum1 * sum2 + 16 * fmn1 * fmn2
+    let x = 4 * fmn1 * sum2 - 16 * fmn1 * fmn2
+    let y = 4 * fmn2 * sum1 + 16 * fmn1 * fmn2
 
     inputE.value = E
     inputX.value = x
@@ -351,4 +352,93 @@ function Solve4(m, n) { //f(a, b) = f(b, c)
     inputB1.value = Math.min(a, b)
     inputA2.value = Math.max(b, c)
     inputB2.value = Math.min(b, c)
+}
+
+function t(n) {
+    let k = n;
+    for(let i = 2; i*i <= Math.abs(n); i++){
+        while (k % (i*i) == 0) k /= (i*i);
+    }
+    return +k;
+}
+
+function first(m, n) {
+    return m**4 - 6* n**2 * m**2 + n**4;
+}
+
+function second(m, n) {
+    return m**4 + 4 * n**4;
+}
+
+function third(m, n) {
+    return m**4 + 6 * m**2 * n**2 + n**4;
+}
+
+function printFor(func, z) {
+    let str = ``;
+    for (let m = 1; m < z; m++){
+        for (let n = 1; n <= m; n++){
+            if (Math.gcd(m, n) != 1) continue;
+            let x = Math.abs(func(m, n));
+            str += `${m} ${n}: ${Factorization(x)}, ${Factorization(t(x))} 
+`;
+        }
+    }
+    console.log(str);
+}
+
+function printFmnFor(y, z) {
+    let str = ``;
+    for (let a = y; a < z; a++){
+        for (let b = 1; b < a; b++){
+            let f1 = Fmn(a,b)
+            for (let c = 1; c < a; c++){
+                for (let d = 1; d < c; d++){
+                    if (a == d || b == c || b == d || a-b == c+d || a+b == c+d) continue;
+                    if (a % 2 == b % 2 && c % 2 == d % 2) continue;
+                    if (Math.gcd(Math.gcd(a,b), Math.gcd(c, d)) != 1) continue;
+                    let f2 = Fmn(c, d);
+                    if (f1 == f2) str += `f(${a}, ${b}) = f(${c}, ${d})
+`;
+                }
+            }
+        }
+    }
+    console.log(str);
+}
+
+let f = (a, b) => a*b*(a**2 - b**2);
+let g = (a, b) => a*b*(a**2 + b**2);
+
+function Fmns(min, max){
+    let fmns = [];
+    for(let i = min; i < max; i++){
+        for(let j = 1; j < i; j++){
+            if (Math.gcd(i, j) == 1) fmns.push([i, j, f(i,j)]);
+        }
+    }
+    return fmns;
+}
+
+function Gmns(min, max){
+    let gmns = [];
+    for(let i = min; i < max; i++){
+        for(let j = 1; j < i; j++){
+            if (Math.gcd(i, j) == 1) gmns.push([i, j, g(i,j)]);
+        }
+    }
+    return gmns;
+}
+
+function compareAndPrint(){
+    str = ``;
+    for (let i = 0; i < fmns.length; i++){
+        for (let j = 0; j < gmns.length; j++){
+            if (fmns[i][2] == gmns[j][2]){
+                str += `f(${fmns[i][0]}, ${fmns[i][1]}) = g(${gmns[j][0]}, ${gmns[j][1]})
+`;
+            }
+        }
+    }
+    console.log(str);
 }
