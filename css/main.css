@@ -1,3 +1,35 @@
+@media (max-width: 1200px){
+    .content{
+        flex-direction: column;
+    }
+
+    #leftPanel {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        height: 30%;
+        display: flex;
+        flex-direction: row !important;
+        overflow: scroll;
+    }
+
+    #leftPanel h6 {
+        display: none;
+    }
+
+    #square {
+        position: absolute !important;
+        right: 20% !important;
+    }
+
+    .squareElement {
+        width: 120px !important;
+        height: 120px !important;
+        line-height: 120px !important;
+        font-size: medium !important;
+    }
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -18,7 +50,7 @@ input:focus {
     flex: 1;
 }
 
-#leftPanel{
+.leftPanel{
     width: 50%;
 }
 
@@ -30,8 +62,8 @@ input:focus {
     box-sizing: border-box;
     margin-top: 2px;
     margin-left: 2px;
-    min-width: 180px;
-    min-height: 180px;
+    width: 180px;
+    height: 180px;
     line-height: 180px;
     text-align: center;
     font-size: larger;
