@@ -93,3 +93,9 @@ function Fmn(a, b){
 function SquareSumSquares(a, b){
     return (a ** 2 + b ** 2) ** 2
 }
+
+function isSquare (n) {
+    let sqrtN = Math.sqrt(n);
+    if (Number.isInteger(sqrtN)) return true;
+    return false;
+}

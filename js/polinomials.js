@@ -345,3 +345,51 @@ function printEquals(equals) {
     }
     console.log(str);
 }
+
+function vecMultiply(){
+    if (arguments.length == 1) return arguments[0];
+    if (arguments.length == 2){
+        let arr = [];
+        for (let i = 0; i < arguments[0].length + arguments[1].length - 1; i++) arr.push(0);
+        for (let i = 0; i < arguments[0].length; i++){
+            for (let j = 0; j < arguments[1].length; j++){
+                arr[i+j] += arguments[0][i] * arguments[1][j];
+            }
+        }
+        return arr;
+    }
+    
+    let arr = vecMultiply(arguments[0], arguments[1]);
+    for (let i = 2; i < arguments.length; i++){
+        arr = vecMultiply(arr, arguments[i]);
+    }
+    return arr;
+}
+
+function vecDifference(arr1, arr2){
+    if (arr1.length != arr2.length) return null;
+    let arr = arr1.slice();
+    for (let i = 0; i < arr.length; i++){
+        arr[i] -= arr2[i];
+    }
+    return arr;
+}
+
+function vecSum(arr1, arr2){
+    if (arr1.length != arr2.length) return null;
+    let arr = arr1.slice();
+    for (let i = 0; i < arr.length; i++){
+        arr[i] += arr2[i];
+    }
+    return arr;
+}
+
+function vecPrint(arr, step = 1){
+    let str = ``;
+    str += nc(arr[0], `x${MakeSuperscript(step * (arr.length - 1))}`);
+    for (let i = 1; i < arr.length - 1; i++){
+        str += pc(arr[i], `x${MakeSuperscript(step * (arr.length - 1 - i))}y${MakeSuperscript(step * i)}`);
+    }
+    str += pc(arr[arr.length - 1], `y${MakeSuperscript(step * (arr.length - 1))}`);
+    console.log(str);
+}

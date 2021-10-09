@@ -1,5 +1,6 @@
 body {
     display: flex;
+    flex-direction: column;
     height: 100vh;
 }
 
@@ -11,8 +12,14 @@ input:focus {
     outline: 1px solid white !important;
 }
 
-#leftPanel {
-    height: 100%;
+.content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+#leftPanel{
+    width: 50%;
 }
 
 .squareLine {
@@ -20,6 +27,7 @@ input:focus {
 }
 
 .squareElement {
+    box-sizing: border-box;
     margin-top: 2px;
     margin-left: 2px;
     min-width: 180px;
@@ -28,9 +36,16 @@ input:focus {
     text-align: center;
     font-size: larger;
     border: 1px black solid;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #square {
+    position: fixed;
+    right: 1%;
+    top: 10%;
     align-self: center;
     width: 50%;
     display: flex;
@@ -39,10 +54,43 @@ input:focus {
     align-items: center;
 }
 
+.red {
+    color: red;
+    font-weight: bold;
+    border-color: red;
+    border-width: 2px;
+}
+
+.row button {
+    margin: 1px 2px;
+}
+
+.row {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.col {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+div.btn:hover, input.btn:hover {
+    color: #f8f9fa;
+    background-color: #212529;
+}
+
+div.btn{
+    margin: 1px 2px;
+    cursor: default;
+}
+
 .step-sm {
-    margin-top: 4px;
+    margin-top: 1px;
 }
 
 .step-lg {
-    margin-top: 20px;
+    margin-top: 15px;
 }
