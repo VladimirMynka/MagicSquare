@@ -366,20 +366,110 @@ function vecMultiply(){
     return arr;
 }
 
-function vecDifference(arr1, arr2){
-    if (arr1.length != arr2.length) return null;
-    let arr = arr1.slice();
-    for (let i = 0; i < arr.length; i++){
-        arr[i] -= arr2[i];
+function vecRatio(){
+    if (arguments[0] == null) return null;
+    if (arguments.length == 1) return arguments[0];
+    if (arguments.length == 2){
+        let arr1 = zeroDestuctor(arguments[0]);
+        let arr2 = zeroDestuctor(arguments[1]);
+        if (arr1[0] < arr2[0]) return null;
+
+        let arr = [];
+        let helper = arr1[1].slice(0, arr2[1].length);
+        for (let i = 0; i < arr1[1].length - arr2[1].length; i++){
+            let n = helper[0] / arr2[1][0];
+            if (Number.isInteger(n) == false) return null;
+            arr.push(n);
+            for (var j = 0; j < arr2[1].length - 1; j++){
+                helper[j] = helper[j + 1] - n * arr2[1][j + 1];
+            }
+            helper[j] = arr1[1][i+j+1];
+        }
+        let n = helper[0] / arr2[1][0];
+        if (Number.isInteger(n) == false) return null;
+        for (let i = 0; i < arr2[1].length; i++){
+            if (divWithZeros(helper[i], arr2[1][i], n) != n) return null;
+        }
+        arr.push(n);
+
+        let zeroArr = [];
+        for(let i = 0; i < arr1[0] - arr2[0]; i++) zeroArr.push(0);
+        return zeroArr.concat(arr);
+    }
+    
+    let arr = vecRatio(arguments[0], arguments[1]);
+    for (let i = 2; i < arguments.length; i++){
+        arr = vecRatio(arr, arguments[i]);
     }
     return arr;
 }
 
-function vecSum(arr1, arr2){
-    if (arr1.length != arr2.length) return null;
-    let arr = arr1.slice();
+function zeroDestuctor(arr){
+    let i = 0;
+    while (arr[i] == 0){
+        i++;
+    }
+    return [i, arr.slice(i)];
+}
+
+function divWithZeros(a, b, n){// 0/0 = n
+    if (b != 0) return a / b;
+    if (a == 0) return n;
+    return NaN;
+}
+
+function vecCollect(arr, collecter = null, length = 1){
+    if (arr.length == 2 && Math.gcd(arr[0], arr[1]) == 1) return arr;
+    let gcd = arr.reduce((GCD, current) => {return Math.gcd(GCD, current)});
+    if (gcd != 1){ 
+        return [[gcd], vecCollect(arr.map((elem) => elem / gcd))];
+    }
+    if(collecter == null) collecter = [];
+    let divider = null;
+    let ratio = null;
+    let dividersFirst = getDividers(arr[0]);
+    let dividersLast = getDividers(arr[arr.length - 1]);
+
+    for (let i = 0; i < dividersFirst.length; i++){
+        for (let j = 0; j < dividersLast.length; j++){
+            divider = [dividersFirst[i], dividersLast[j]];
+            ratio = vecRatio(arr, divider);
+            if (ratio != null) break;
+        }
+        if (ratio != null) break;
+    }
+    if (ratio != null){
+        return [divider, vecCollect(ratio)];
+    }
+    return arr;
+}
+
+function vecDifference(){
+    let length = arguments[0].length;
+    for (const arr of arguments) {
+        if (arr.length != length) return null;
+    }
+
+    let arr = arguments[0].slice();
     for (let i = 0; i < arr.length; i++){
-        arr[i] += arr2[i];
+        for (let j = 1; j < arguments.length; j++){
+            arr[i] -= arguments[j][i];
+        }
+    }
+    return arr;
+}
+
+function vecSum(){
+    let length = arguments[0].length;
+    for (const arr of arguments) {
+        if (arr.length != length) return null;
+    }
+
+    let arr = arguments[0].slice();
+    for (let i = 0; i < arr.length; i++){
+        for (let j = 1; j < arguments.length; j++){
+            arr[i] += arguments[j][i];
+        }
     }
     return arr;
 }

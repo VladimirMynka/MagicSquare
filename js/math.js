@@ -46,7 +46,7 @@ function GetBeginString(n, lastFactor){
     else return "\u22c5"
 }
 
-function FindMinFactor(n, lastFactor){
+function FindMinFactor(n, lastFactor = 1){
     for(let i = lastFactor + 1; i * i <= n; i++){
         if(n % i == 0) return i;
     }
@@ -98,4 +98,40 @@ function isSquare (n) {
     let sqrtN = Math.sqrt(n);
     if (Number.isInteger(sqrtN)) return true;
     return false;
+}
+
+function getSimpleDividers (n) {
+    let simpleDividers = [];
+    let k = n;
+    let current = FindMinFactor(k);
+    simpleDividers.push(current);
+    while(current != k){
+        while (k % current == 0)
+            k /= current;
+        if (k == 1) break;
+        current = FindMinFactor(k, current);
+        simpleDividers.push(current);
+    }
+    return simpleDividers;
+}
+
+function getDividers (n) {
+    if (n == 0) return [0];
+    let dividers = [];
+    let absN = Math.abs(n);
+    for (var i = 1; i * i < absN; i++){
+        if (n % i == 0){
+            dividers.push(i);
+        }
+    }
+
+    let minus = 1;
+    if (i * i == absN){
+        dividers.push(i);
+        minus++;
+    } 
+    for (let i = dividers.length - minus; i >= 0; i--){
+        dividers.push(Math.abs(n) / dividers[i]);
+    }
+    return dividers;
 }
