@@ -418,32 +418,6 @@ function divWithZeros(a, b, n){// 0/0 = n
     return NaN;
 }
 
-function vecCollect(arr, collecter = null, length = 1){
-    if (arr.length == 2 && Math.gcd(arr[0], arr[1]) == 1) return arr;
-    let gcd = arr.reduce((GCD, current) => {return Math.gcd(GCD, current)});
-    if (gcd != 1){ 
-        return [[gcd], vecCollect(arr.map((elem) => elem / gcd))];
-    }
-    if(collecter == null) collecter = [];
-    let divider = null;
-    let ratio = null;
-    let dividersFirst = getDividers(arr[0]);
-    let dividersLast = getDividers(arr[arr.length - 1]);
-
-    for (let i = 0; i < dividersFirst.length; i++){
-        for (let j = 0; j < dividersLast.length; j++){
-            divider = [dividersFirst[i], dividersLast[j]];
-            ratio = vecRatio(arr, divider);
-            if (ratio != null) break;
-        }
-        if (ratio != null) break;
-    }
-    if (ratio != null){
-        return [divider, vecCollect(ratio)];
-    }
-    return arr;
-}
-
 function vecDifference(){
     let length = arguments[0].length;
     for (const arr of arguments) {
