@@ -1,34 +1,31 @@
 const polinomialMatrices = [];
 
-function fillPolinomialMatrices(n) {
-    for (let i = polinomialMatrices.length + 1; i <= n; i++){
-        polinomialMatrices.push(getPolinomialMatrix(i));
-    }
-}
-
 function getPolinomialMatrix(n) {
-    if (n < polinomialMatrices.length) return polinomialMatrices[n];
-    let matrix = [];
-    for (let i = 0; i < n; i++){
-        matrix.push([1]);
-        for (let j = 1; j < n; j++){
-            matrix[i].push(matrix[i][j - 1] * i);
+    if (n <= polinomialMatrices.length) return polinomialMatrices[n - 1];
+    let matrix;
+    for (let k = polinomialMatrices.length + 1; k <= n; k++){
+        matrix = [];
+        for (let i = 0; i < k; i++){
+            matrix.push([1]);
+            for (let j = 1; j < k; j++){
+                matrix[i].push(matrix[i][j - 1] * i);
+            }
         }
+        polinomialMatrices.push(matrix)
     }
     return matrix;
 }
 
 const attachedMatrices = [];
 
-function fillAttachedMatrices(n) {
-    for (let i = attachedMatrices.length + 1; i <= n; i++){
-        polinomialMatrices.push(getAttachedMatrix(i));
-    }
-}
-
 function getAttachedForPolinomial(n) {
-    if (n < attachedMatrices.length) return attachedMatrices[n];
-    return getAttachedMatrix(getPolinomialMatrix(n));
+    if (n <= attachedMatrices.length) return attachedMatrices[n - 1];
+    let matrix;
+    for (let k = attachedMatrices.length + 1; k <= n; k++){
+        matrix = getAttachedMatrix(getPolinomialMatrix(k));
+        attachedMatrices.push(matrix);
+    }
+    return matrix;
 }
 
 function calculateSuperfactorial(n){
@@ -84,6 +81,7 @@ function calculateDeterminate(matrix, isInteger = true){
 
 function getAttachedMatrix(matrix) {
     if (matrix.length != matrix[0].length) return null;
+    if (matrix.length == 1) return [[1]];
     let result = matrix.map((elem) => elem.slice());
     let factor = (matrix.length % 2 == 0) ? 1 : -1;
     for (let i = 0; i < result.length; i++){
