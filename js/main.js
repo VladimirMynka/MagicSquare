@@ -50,15 +50,15 @@ let c4Place = document.getElementById("E-x")
 
 let placeArray = [c1Place, s1Place, c2Place, s2Place, ePlace, s3Place, c3Place, s4Place, c4Place]
 let placeFormulas = [
-    (E, x, y) => +E + (+x),
-    (E, x, y) => +E - x + (+y),
-    (E, x, y) => +E - y,
-    (E, x, y) => +E - x - y,
-    (E, x, y) => +E,
-    (E, x, y) => +E + (+x) + (+y),
-    (E, x, y) => +E + (+y),
-    (E, x, y) => +E + (+x) - y,
-    (E, x, y) => +E - x
+    (E, x, y) => BigInt(E) + BigInt(x),
+    (E, x, y) => BigInt(E) - BigInt(x) + BigInt(y),
+    (E, x, y) => BigInt(E) - BigInt(y),
+    (E, x, y) => BigInt(E) - BigInt(x) - BigInt(y),
+    (E, x, y) => BigInt(E),
+    (E, x, y) => BigInt(E) + BigInt(x) + BigInt(y),
+    (E, x, y) => BigInt(E) + BigInt(y),
+    (E, x, y) => BigInt(E) + BigInt(x) - BigInt(y),
+    (E, x, y) => BigInt(E) - BigInt(x)
 ]
 
 let factorizationSwitch = false
@@ -69,15 +69,16 @@ applyButton.onclick = DrawCurrentSquare
 factorizeButton.onclick = FactorizeCurrentSquare
 minimizeButton.onclick = MinimizeValues
 multiplyButton.onclick = () => {
-    inputE.value *= inputMultiply.value
-    inputX.value *= inputMultiply.value
-    inputY.value *= inputMultiply.value
-    UpdateSquare()
+    let factor = BigInt(inputMultiply.value);
+    inputE.value = (BigInt(inputE.value) * factor).toString();
+    inputX.value = (BigInt(inputX.value) * factor).toString();
+    inputY.value = (BigInt(inputY.value) * factor).toString();
+    UpdateSquare();
 }
 
 function UpdateSquare() {
-    if (factorizationSwitch) factorizeButton.onclick()
-    else applyButton.onclick()
+    if (factorizationSwitch) factorizeButton.click();
+    else applyButton.click();
 }
 
 function DrawCurrentSquare() {
@@ -89,13 +90,15 @@ function FactorizeCurrentSquare() {
 }
 
 function MinimizeValues() {
-    if (!Number.isInteger(+inputE.value) || !Number.isInteger(+inputX.value) || !Number.isInteger(+inputY.value)) return
-    let gcd = Math.gcd(inputE.value, inputX.value, inputY.value)
-    inputE.value /= gcd
-    inputX.value /= gcd
-    inputY.value /= gcd
+    let E = BigInt(inputE.value);
+    let x = BigInt(inputX.value);
+    let y = BigInt(inputY.value);
+    let gcd = Math.gcd(E, x, y)
+    inputE.value = (E / gcd).toString();
+    inputX.value = (x / gcd).toString();
+    inputY.value = (y / gcd).toString();
 
-    UpdateSquare()
+    UpdateSquare();
 }
 
 function DrawSquare(E, x, y) {
@@ -140,7 +143,7 @@ function RandomACEGJ() {
 }
 
 function Random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 let buttonGroup1 = [
@@ -176,29 +179,49 @@ for(let i = 0; i < buttonGroup1.length; i++){
 }
 
 function CalculateValuesByACEGJ(a1, b1, a2, b2) {
-    E = GetE(a1, b1, a2, b2)
-    inputE.value = E * E
-    inputX.value = DirxE(a1, b1, E)
-    inputY.value = DirxE(a2, b2, E)
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
+    let E = GetE(a1, b1, a2, b2)
+    inputE.value = E * E;
+    inputX.value = DirxE(a1, b1, E);
+    inputY.value = DirxE(a2, b2, E);
 }
 
 function CalculateValuesByABEHJ(a1, b1, a2, b2) {
-    E = GetE(a1, b1, a2, b2)
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
+    let E = GetE(a1, b1, a2, b2)
     inputE.value = E * E
     inputX.value = DirxE(a1, b1, E)
-    inputY.value = DirxE(a2, b2, E) + (+inputX.value)
+    inputY.value = DirxE(a2, b2, E) + BigInt(inputX.value)
 }
 
 function CalculateValuesByBDEFH(a1, b1, a2, b2) {
-    E = GetE(a1, b1, a2, b2)
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
+    let E = GetE(a1, b1, a2, b2)
     let dir1 = DirxE(a1, b1, E)
     let dir2 = DirxE(a2, b2, E)
     inputE.value = E * E
-    inputX.value = (dir1 + dir2) / 2
-    inputY.value = (dir1 - dir2) / 2
+    inputX.value = (dir1 + dir2) / 2n
+    inputY.value = (dir1 - dir2) / 2n
 }
 
 function CalculateValuesByABDEJ(a1, b1, a2, b2) {
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
     let fmn1 = Fmn(a1, b1)
     let fmn2 = Fmn(a2, b2)
     let sum1 = SquareSumSquares(a1, b1)
@@ -207,22 +230,27 @@ function CalculateValuesByABDEJ(a1, b1, a2, b2) {
     let E = sum1 * sum2
 
     inputE.value = E
-    inputX.value = 4 * fmn1 * sum2
-    inputY.value = 4 * fmn2 * (sum1 - 4 * fmn1)
+    inputX.value = 4n * fmn1 * sum2
+    inputY.value = 4n * fmn2 * (sum1 - 4n * fmn1)
 }
 
 function CalculateValuesByABEFH(a1, b1, a2, b2) {
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
     let fmn1 = Fmn(a1, b1)
     let fmn2 = Fmn(a2, b2)
     let sum1 = SquareSumSquares(a1, b1)
     let sum2 = SquareSumSquares(a2, b2)
 
-    let diff1 = sum1 - 4 * fmn1
-    let diff2 = sum2 - 4 * fmn2
+    let diff1 = sum1 - 4n * fmn1
+    let diff2 = sum2 - 4n * fmn2
 
     let E = sum1 * diff2
-    let x = 4 * (fmn2 * sum1 - fmn1 * sum2)
-    let y = 4 * fmn2 * diff1
+    let x = 4n * (fmn2 * sum1 - fmn1 * sum2)
+    let y = 4n * fmn2 * diff1
 
     inputE.value = E
     inputX.value = x
@@ -230,14 +258,19 @@ function CalculateValuesByABEFH(a1, b1, a2, b2) {
 }
 
 function CalculateValuesByACDFH(a1, b1, a2, b2) {
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
     let fmn1 = Fmn(a1, b1)
     let fmn2 = Fmn(a2, b2)
     let sum1 = SquareSumSquares(a1, b1)
     let sum2 = SquareSumSquares(a2, b2)
 
-    let E = sum1 * sum2 + 16 * fmn1 * fmn2
-    let x = 4 * fmn1 * sum2 - 16 * fmn1 * fmn2
-    let y = 4 * fmn2 * sum1 + 16 * fmn1 * fmn2
+    let E = sum1 * sum2 + 16n * fmn1 * fmn2
+    let x = 4n * fmn1 * sum2 - 16n * fmn1 * fmn2
+    let y = 4n * fmn2 * sum1 + 16n * fmn1 * fmn2
 
     inputE.value = E
     inputX.value = x
@@ -245,6 +278,11 @@ function CalculateValuesByACDFH(a1, b1, a2, b2) {
 }
 
 function CalculateValuesByACEFGH(a1, b1, a2, b2) {
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
     let fmn1 = Fmn(a1, b1)
     let fmn2 = Fmn(a2, b2)
     let sum1 = SquareSumSquares(a1, b1)
@@ -253,7 +291,7 @@ function CalculateValuesByACEFGH(a1, b1, a2, b2) {
 
     let E = fmn1 * sum2 / gcdFmn
     let A = fmn2 * sum1 / gcdFmn
-    let y = 4 * fmn2 * E / sum2
+    let y = 4n * fmn2 * E / sum2
 
     inputE.value = E
     inputX.value = A - E
@@ -261,6 +299,11 @@ function CalculateValuesByACEFGH(a1, b1, a2, b2) {
 }
 
 function CalculateValuesByABDFHJ(a1, b1, a2, b2) {
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
     let fmn1 = Fmn(a1, b1)
     let fmn2 = Fmn(a2, b2)
     let sum1 = SquareSumSquares(a1, b1)
@@ -271,29 +314,38 @@ function CalculateValuesByABDFHJ(a1, b1, a2, b2) {
     let A = fmn1 * sum2 / gcdFmn
     let y = 4 * fmn1 * B / sum1
 
-    if ((A + B) % 2 == 1){
-        A *= 4;
-        B *= 4;
-        y *= 4;
+    if ((A + B) % 2n === 1n){
+        A *= 4n;
+        B *= 4n;
+        y *= 4n;
     } 
 
-    inputE.value = (+A + (+B)) / 2
-    inputX.value = (A - B) / 2
+    inputE.value = (A + B) / 2n
+    inputX.value = (A - B) / 2n
     inputY.value = y
 }
 
 function GetE(a1, b1, a2, b2) {
-    let sum1 = a1 * a1 + b1 * b1
-    let sum2 = a2 * a2 + b2 * b2
+    a1 = BigInt(a1);
+    b1 = BigInt(b1);
+    a2 = BigInt(a2);
+    b2 = BigInt(b2);
+
+    let sum1 = a1 * a1 + b1 * b1;
+    let sum2 = a2 * a2 + b2 * b2;
     let gcd = Math.gcd(sum1, sum2)
-    let E = sum1 * sum2 / gcd
-    E = reduce(E, 2)
-    return E
+    let E = sum1 * sum2 / gcd;
+    E = reduce(E, 2);
+    return E;
 }
 
 function DirxE(a, b, E) {
-    let v = E / (a * a + b * b)
-    return 4 * a * b * (a * a - b * b) * v * v
+    a = BigInt(a);
+    b = BigInt(b);
+    E = BigInt(E);
+
+    let v = E / (a * a + b * b);
+    return 4n * a * b * (a * a - b * b) * v * v;
 }
 
 let buttonGroup2 = [
@@ -306,7 +358,7 @@ let buttonGroup2 = [
 
 function SolveBy(func, button) {
     return () => {func(inputC.value, inputD.value)
-    acefghButton.onclick()
+    acefghButton.click();
     lastClickGroup2 = button}
 }
 
@@ -326,99 +378,128 @@ randomButtonCD.onclick = () => {
     let c = Random(2, inputMaxCD.value)
     let d = Random(1, inputMaxCD.value)
     let gcd = Math.gcd(c, d)
-    inputC.value = c /= gcd
-    inputD.value = d /= gcd
+    inputC.value = c / gcd
+    inputD.value = d / gcd
 
-    lastClickGroup2.onclick();
+    lastClickGroup2.click();
 }
 
 function Solve1(c, d) { //tf(2a, a+b) = tf(a, b)
-    let a1 = c ** 2 - 2 * d ** 2
-    let b1 = 6 * d ** 2
+    c = BigInt(c); d = BigInt(d);
+
+    let a1 = c ** 2n - 2n * d ** 2n
+    let b1 = 6n * d ** 2n
     let gcd = Math.gcd(a1, b1)
 
-    let a = Math.max(a1, b1);
-    let b = Math.min(a1, b1);
-    let a2 = Math.max(2 * a1, +a1 + (+b1));
-    let b2 = Math.min(2 * a1, +a1 + (+b1));
+    let a = max(a1, b1);
+    let b = min(a1, b1);
+    let a2 = max(2n * a1, a1 + b1);
+    let b2 = min(2n * a1, a1 + b1);
 
     inputA1.value = a / gcd
-    inputB1.value = Math.abs(b / gcd)
+    inputB1.value = abs(b / gcd)
     inputA2.value = a2 / gcd
-    inputB2.value = Math.abs(b2 / gcd)
+    inputB2.value = abs(b2 / gcd)
 
 }
 
+function max(a, b) {
+    return a > b ? a : b;
+}
+
+function min(a, b) {
+    return a < b ? a : b;
+}
+
+function abs(a) {
+    return a > 0 ? a : -a;
+}
+
 function Solve2(c, d) { //tf(2a, a-b) = tf(a, b)
-    let a1 = c ** 2 + 2 * d ** 2
-    let b1 = 6 * d ** 2
+    c = BigInt(c); d = BigInt(d);
+
+    let a1 = c ** 2n + 2n * d ** 2n
+    let b1 = 6n * d ** 2n
     let gcd = Math.gcd(a1, b1)
 
-    let a = Math.max(a1, b1);
-    let b = Math.min(a1, b1);
-    let a2 = Math.max(2 * a1, +a1 - (+b1));
-    let b2 = Math.min(2 * a1, +a1 - (+b1));
+    let a = max(a1, b1);
+    let b = min(a1, b1);
+    let a2 = max(2n * a1, a1 - b1);
+    let b2 = min(2n * a1, a1 - b1);
 
     inputA1.value = a / gcd
     inputB1.value = b / gcd
     inputA2.value = a2 / gcd
-    inputB2.value = Math.abs(b2 / gcd)
+    inputB2.value = abs(b2 / gcd)
 
 }
 
 function Solve3(c, d) { //tf(a+b, b) = tf(a, b)
-    let a1 = c ** 2 + 2 * d ** 2
-    let b1 = c ** 2 - d ** 2
+    c = BigInt(c); d = BigInt(d);
+
+    let a1 = c ** 2n + 2n * d ** 2n
+    let b1 = c ** 2n - d ** 2n
     let gcd = Math.gcd(a1, b1)
 
     inputA1.value = a1 / gcd
-    inputB1.value = Math.abs(b1 / gcd)
-    inputA2.value = (+a1 + (+b1)) / gcd
-    inputB2.value = Math.abs(b1 / gcd)
+    inputB1.value = abs(b1 / gcd)
+    inputA2.value = (a1 + b1) / gcd
+    inputB2.value = abs(b1 / gcd)
 
 }
 
 function Solve4(m, n) { //f(a, b) = f(b, c)
+    m = BigInt(m); n = BigInt(n);
+
     let mn = m * n
     let mm = m * m
     let nn = n * n
-    let a = Math.abs(mm - nn)
-    let b = Math.abs(mm + mn + nn)
-    let c = Math.abs(2 * mn + nn)
+    let a = abs(mm - nn)
+    let b = abs(mm + mn + nn)
+    let c = abs(2n * mn + nn)
 
-    inputA1.value = Math.max(a, b)
-    inputB1.value = Math.min(a, b)
-    inputA2.value = Math.max(b, c)
-    inputB2.value = Math.min(b, c)
+    inputA1.value = max(a, b)
+    inputB1.value = min(a, b)
+    inputA2.value = max(b, c)
+    inputB2.value = min(b, c)
 
 }
 
 function Solve7(m, n) {
-    inputA1.value = Math.max(m, n);
-    inputB1.value = Math.min(m, n);
+    m = BigInt(m); n = BigInt(n);
+
+    inputA1.value = max(m, n);
+    inputB1.value = min(m, n);
     inputA2.value = c(m, n);
-    inputB2.value = Math.abs(4 * f(m, n));
+    inputB2.value = abs(4n * f(m, n));
 
 }
 
 function t(n) {
+    n = BigInt(n);
     let k = n;
-    for(let i = 2; i*i <= Math.abs(n); i++){
-        while (k % (i*i) == 0) k /= (i*i);
+    for(let i = 2n; i * i <= abs(n); i++){
+        while (k % (i*i) === 0n) k /= (i*i);
     }
     return +k;
 }
 
 function first(m, n) {
-    return m**4 - 6* n**2 * m**2 + n**4;
+    m = BigInt(m); n = BigInt(n);
+
+    return m ** 4n - 6n * n ** 2n * m ** 2n + n ** 4n;
 }
 
 function second(m, n) {
-    return m**4 + 4 * n**4;
+    m = BigInt(m); n = BigInt(n);
+
+    return m**4n + 4n * n**4n;
 }
 
 function third(m, n) {
-    return m**4 + 6 * m**2 * n**2 + n**4;
+    m = BigInt(m); n = BigInt(n);
+
+    return m**4n + 6n * m**2n * n**2n + n**4n;
 }
 
 function printFor(func, z) {
@@ -455,9 +536,16 @@ function printFmnFor(y, z) {
 }
 
 
-let c = (a, b) => (a**2 + b**2)**2;
-let f = (a, b) => a*b*(a**2 - b**2);
-let g = (a, b) => a*b*(a**2 + b**2);
+let c = (a, b) => (BigInt(a) ** 2n + BigInt(b) ** 2n) ** 2n;
+
+let f = (a, b) => {
+    a = BigInt(a); b = BigInt(b);
+    return a * b * (a ** 2n - b ** 2n);
+}
+let g = (a, b) => {
+    a = BigInt(a); b = BigInt(b);
+    return a * b * (a ** 2n + b ** 2n);
+}
 
 function Fmns(min, max){
     let fmns = [];
@@ -533,4 +621,4 @@ inputA2.onchange = () => {lastClickGroup1.onclick()}
 inputB2.onchange = () => {lastClickGroup1.onclick()}
 
 inputC.onchange = () => {lastClickGroup2.onclick()}
-inputD.onchange = () => {lastClickGroup.onclick()}
+inputD.onchange = () => {lastClickGroup2.onclick()}

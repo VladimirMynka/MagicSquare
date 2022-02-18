@@ -196,3 +196,88 @@ function vecCollect(arr, collecter = null, length = 1){
     collecter.push(arr);
     return collecter;
 }
+
+function vecPower(vector, power){
+    if (power == 0n) return [1];
+    let between = vector;
+    for (let i = 1; i < power; i++){
+        between = vecMultiply(between, vector);
+    }
+    return between;
+}
+
+function vecChangeSystem(vector, x, y){
+    if (typeof vector[0] === 'object')
+        return vecCollect(vecChangeSystem(vecMultiply.apply(this, vector), x, y));
+    if (arguments.length === 2)
+        return vecCalculate(vector, x);
+    let current = getArrayWithNeededLength(vector, x);
+    vector.forEach((elem, index, array) => {
+        let between = vecMultiply([elem], vecPower(x, array.length - index - 1), vecPower(y, index));
+        current = vecSum(current, between);
+    });
+    return current;
+}
+
+function vecCalculate(vector, x){
+    let y = x.map(() => 0);
+    y[y.length - 1] = 1;
+    return vecChangeSystem(vector, x, y);
+}
+
+function getArrayWithNeededLength(vector, x){
+    let array = [];
+    for (let i = 0; i <= (vector.length - 1) * (x.length - 1); i++){
+        array.push(0);
+    }
+    return array;
+}
+
+function vecGcd(vec1, vec2, base) {
+     let sorted = vecMaxAndMin(vec1, vec2);
+     sorted[0] = sorted[0].map((elem) => elem % base);
+     sorted[1] = sorted[1].map((elem) => elem % base);
+     let gcd = Math.gcd(...sorted[1]);
+     sorted[1] = sorted[1].map((elem) => elem / gcd);
+     while ((sorted[1][0] != 0 || sorted[1].length > 1) && sorted[1].length !== 0){
+         sorted = vecMaxAndMin(vecDivide(sorted[0], sorted[1])[1].map(elem => elem % base), sorted[1]);
+         if (sorted[1][0] == 0 && sorted[1].length <= 1) break;
+         gcd = Math.gcd(...sorted[1]);
+         sorted[1] = sorted[1].map((elem) => elem / gcd);
+     }
+     return sorted[0];
+}
+
+function vecMaxAndMin(vec1, vec2) {
+    if (vec1.length > vec2.length) return [vec1, vec2];
+    if (vec2.length > vec1.length) return [vec2, vec1];
+    for(let i = 0; i < vec1.length; i++){
+        if (vec1[i] > vec2[i]) return [vec1, vec2];
+        if (vec2[i] > vec1[i]) return [vec2, vec1];
+    }
+    return [vec1, vec2];
+}
+
+function vecDivide(big, small) {
+    small = zeroDestuctor(small.map(elem => BigInt(elem)))[1];
+    big = zeroDestuctor(big.map(elem => BigInt(elem)))[1];
+
+    let current = big.slice(0, small.length);
+    let plusToNext = big.slice(0, small.length - 1);
+    let result = big.slice(0, big.length - small.length + 1);
+    for(let i = 0; i < big.length - small.length + 1; i++){
+        if (current[0] % small[0] != 0){
+            let gcd = Math.gcd(current[0], small[0]);
+            let factor = small[0] / gcd;
+            return vecDivide(big.map(elem => elem * factor), small);
+        }
+        result[i] = current[0] / small[0];
+        for(let j = 1; j < small.length; j++){
+            plusToNext[j - 1] = current[j] - small[j] * result[i];
+        }
+        current = big.slice(i + 1, small.length + i + 1).map((elem, index) =>
+            index < plusToNext.length ? plusToNext[index] : BigInt(elem)
+        );
+    }
+    return [result, zeroDestuctor(plusToNext)[1]];
+}

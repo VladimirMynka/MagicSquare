@@ -350,10 +350,10 @@ function vecMultiply(){
     if (arguments.length == 1) return arguments[0];
     if (arguments.length == 2){
         let arr = [];
-        for (let i = 0; i < arguments[0].length + arguments[1].length - 1; i++) arr.push(0);
+        for (let i = 0; i < arguments[0].length + arguments[1].length - 1; i++) arr.push(0n);
         for (let i = 0; i < arguments[0].length; i++){
             for (let j = 0; j < arguments[1].length; j++){
-                arr[i+j] += arguments[0][i] * arguments[1][j];
+                arr[i+j] += BigInt(arguments[0][i]) * BigInt(arguments[1][j]);
             }
         }
         return arr;
