@@ -182,3 +182,152 @@ function abs(n) {
         return n;
     else return -n;
 }
+
+function Euler(n){
+    n = BigInt(n);
+    let dividers = getSimpleDividers(n);
+    let val = BigInt(n);
+    dividers.forEach((divider) => {
+        val /= divider;
+        val *= divider - 1n;
+    })
+    return val;
+}
+
+function EulerFromTwoPrime(n, p){
+    n = BigInt(n);
+    p = BigInt(p);
+
+    return (p - 1n) * (n / p - 1n);
+}
+
+function EulerOfPrimary(n){
+    return BigInt(n) - 1n;
+}
+
+function searchRoot(n, power) {
+    n = BigInt(n);
+    power = BigInt(power);
+    let start = 1n;
+    let end = n / power;
+    while (end > start + 1n){
+        let middle = (start + end) / 2n;
+        if (middle ** power > n)
+            end = middle;
+        else
+            start = middle;
+    }
+    if (start ** power === n)
+        return [true, start];
+    return [false, end];
+}
+
+function powerByModal(base, power, number){
+    base = BigInt(base);
+    power = BigInt(power);
+    number = BigInt(number);
+
+    if (power < 0n){
+        number = getInverseByModal(base, number);
+        power = -power;
+    }
+
+    let mods = [];
+    mods.push([1n, number % base]);
+    let j = 0;
+    for (let i = 2n; i < power; i *= 2n){
+        mods.push([i, mods[j][1] * mods[j][1] % base]);
+        j++;
+    }
+    let result = 1n;
+    while (power > 0n){
+        while (mods[j][0] > power)
+            j--;
+        result = (result * mods[j][1]) % base;
+        power -= mods[j][0];
+    }
+    return result;
+}
+
+function chinesSuperC(c, n){
+    let inv = inversesForChines(c, n);
+    let ccc = prod(c);
+    let nnn = prod(n);
+    return c.reduce((result, elem, i) => result +
+            ccc * nnn / n[i] * prod(inv[i]) / inv[i][i] % nnn,
+        0n) % nnn;
+}
+
+function inversesForChines(c, n){
+    let inv = [];
+    for (let i = 0; i < c.length; i++){
+        inv.push([])
+        for (let j = 0; j < c.length; j++){
+            inv[i].push(getInverseByModal(n[i], c[j] * n[j]));
+        }
+    }
+    return inv;
+}
+
+function prod(array){
+    return array.reduce((result, elem) => result * BigInt(elem), 1n);
+}
+
+function calculateContinuedFraction(numerator, denominator) {
+    numerator = BigInt(numerator);
+    denominator = BigInt(denominator);
+
+    let result = [];
+    while (denominator !== 0n){
+        let stepper = numerator / denominator;
+        result.push(stepper);
+        let temp = numerator;
+        numerator = denominator;
+        denominator = temp - stepper * denominator;
+    }
+
+    return result;
+}
+
+function getApproximations(fraction) {
+    let approxes = [];
+    approxes.push([1n, 0n]);
+    approxes.push([fraction[0], 1n]);
+
+    for (let i = 1; i < fraction.length; i++){
+        approxes.push([
+            fraction[i] * approxes[i][0] + approxes[i - 1][0],
+            fraction[i] * approxes[i][1] + approxes[i - 1][1],
+        ])
+    }
+
+    return approxes.slice(1);
+}
+
+function quadraticEquation(b, c) {
+    b = BigInt(b);
+    c = BigInt(c);
+
+    let d = searchRoot(b ** 2n - 4n * c, 2n);
+    return [(b - d[1]) / 2n, (b + d[1]) / 2n];
+}
+
+function Bezout(a, b) {
+    a = BigInt(a); b = BigInt(b);
+    let oldGcd = a, gcd = b, oldX = 1n, x = 0n, oldY = 0n, y = 1n;
+    while (gcd != 0n) {
+        let quotient = oldGcd / gcd;
+        let temp = gcd;
+        gcd = oldGcd - quotient * gcd;
+        oldGcd = temp;
+
+        temp = x;
+        x = oldX - quotient * x;
+        oldX = temp;
+
+        temp = y;
+        y = oldY - quotient * y;
+        oldY = temp;
+    }
+    return [oldX, oldY, oldGcd];
+}
