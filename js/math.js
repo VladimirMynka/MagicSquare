@@ -69,6 +69,27 @@ function FindMinFactor(n, lastFactor = 1n){
     return BigInt(n);
 }
 
+function FindMinFactorNotBigint(n, lastFactor = 1){
+    for(let i = lastFactor + 1; i * i <= n; i++){
+        if(n % i === 0) return i;
+    }
+    return n;
+}
+
+function FindMeanForTfmnMinFactor(n, lastFactor = 1n){
+    n = BigInt(n);
+    lastFactor = BigInt(lastFactor);
+
+    for(let i = lastFactor + 1n; (i - 1n) ** 4n < n; i++){
+        if(n % i === 0n) return i;
+    }
+    let root = searchRoot(n, 3n);
+    if (root[0]) return root[1];
+    root = searchRoot(n, 2n);
+    if (root[0]) return root[1];
+    return BigInt(n);
+}
+
 function reduce(n, k){
     if (k == 1) return BigInt(n);
     n = BigInt(n);
@@ -108,15 +129,10 @@ function MakeSuperscript(n){
 }
 
 function Div(n, k){
-    n = BigInt(n);
-    k = BigInt(k);
-
     return (n - n % k) / k
 }
 
 function Fmn(a, b){
-    a = BigInt(a);
-    b = BigInt(b);
     return a * b * (a - b) * (a + b);
 }
 
@@ -134,7 +150,7 @@ function isSquare (n) {
     return false;
 }
 
-function getSimpleDividers (n) {
+function getPrimeDividers (n) {
     n = BigInt(n);
 
     let simpleDividers = [];
@@ -153,6 +169,65 @@ function getSimpleDividers (n) {
     return simpleDividers;
 }
 
+function getFactorization (n) {
+    n = BigInt(n);
+
+    let simpleDividers = [];
+    let k = BigInt(n);
+    let current = FindMinFactor(k);
+
+    while(k !== 1n){
+        let i = 0n;
+        while (k % current === 0n) {
+            i++;
+            k /= current;
+        }
+        simpleDividers.push([current, i]);
+        if (k === 1n)
+            break;
+        current = FindMinFactor(k, current);
+    }
+    return simpleDividers;
+}
+
+function getMeanForTfmnFactorization (n) {
+    n = BigInt(n);
+
+    let simpleDividers = [];
+    let k = BigInt(n);
+    let current = FindMeanForTfmnMinFactor(k);
+
+    while(k !== 1n){
+        let i = 0n;
+        while (k % current === 0n) {
+            i++;
+            k /= current;
+        }
+        simpleDividers.push([current, i]);
+        if (k === 1n)
+            break;
+        current = FindMeanForTfmnMinFactor(k, current);
+    }
+    return simpleDividers;
+}
+
+function getPrimeDividersNotBigint(n) {
+    let simpleDividers = [];
+    let k = n;
+    let current = FindMinFactorNotBigint(k);
+    simpleDividers.push(current);
+
+    while(current !== k){
+        while (k % current === 0)
+            k /= current;
+        if (k === 1)
+            break;
+        current = FindMinFactorNotBigint(k, current);
+        simpleDividers.push(current);
+    }
+    return simpleDividers;
+}
+
 function getDividers (n) {
     n = BigInt(n);
 
@@ -166,13 +241,13 @@ function getDividers (n) {
         }
     }
 
-    let minus = 1n;
+    let minus = 1;
     if (i * i == absN){
         dividers.push(i);
         minus++;
     } 
-    for (let i = dividers.length - minus; i >= 0n; i--){
-        dividers.push(Math.abs(n) / dividers[i]);
+    for (let i = dividers.length - minus; i >= 0; i--){
+        dividers.push(abs(n) / dividers[i]);
     }
     return dividers;
 }
@@ -185,7 +260,7 @@ function abs(n) {
 
 function Euler(n){
     n = BigInt(n);
-    let dividers = getSimpleDividers(n);
+    let dividers = getPrimeDividers(n);
     let val = BigInt(n);
     dividers.forEach((divider) => {
         val /= divider;
@@ -205,7 +280,7 @@ function EulerOfPrimary(n){
     return BigInt(n) - 1n;
 }
 
-function searchRoot(n, power) {
+function searchRoot(n, power = 2) {
     n = BigInt(n);
     power = BigInt(power);
     let start = 1n;

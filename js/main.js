@@ -344,8 +344,8 @@ function DirxE(a, b, E) {
     b = BigInt(b);
     E = BigInt(E);
 
-    let v = E / (a * a + b * b);
-    return 4n * a * b * (a * a - b * b) * v * v;
+    let v = (a * a + b * b);
+    return 4n * a * b * (a * a - b * b) * E * E / v / v;
 }
 
 let buttonGroup2 = [
