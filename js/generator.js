@@ -649,3 +649,26 @@ function mergeTfmn(first, second) {
     }
     return result;
 }
+
+function generateForSearch4kPlus3Primes(maxM) {
+    let time = performance.now();
+    console.log(new Date());
+    let tfmns = [];
+    for (let m = 1n; m <= maxM; m++) {
+        for (let n = m - 1n; n > 2n * m / 5n; n -= 2n) {
+            if (Math.gcd(m, n) !== 1n) continue;
+            let abt = getPithagoras1(m ,n);
+            let tfmn = tOfBigInt(abt[2]);
+            let index = binarySearchIndex(tfmns, compareTfmn(tfmn));
+            if (index < 0n)
+                insert([tfmn, [abt[0], abt[1]]], ~index, tfmns);
+            else {
+                tfmns[index].push([abt[0], abt[1]]);
+            }
+        }
+        if (m % 100n === 0n)
+            console.log(`m = ${m}, length = ${tfmns.length}, current time: ${getFormattedTime(performance.now() - time)}`);
+    }
+    console.log(`Finished, length = ${tfmns.length}, current time: ${getFormattedTime(performance.now() - time)}`);
+    return tfmns;
+}

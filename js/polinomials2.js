@@ -6,9 +6,9 @@ function getPolinomialMatrix(n) {
     for (let k = polinomialMatrices.length + 1; k <= n; k++){
         matrix = [];
         for (let i = 0; i < k; i++){
-            matrix.push([1]);
+            matrix.push([1n]);
             for (let j = 1; j < k; j++){
-                matrix[i].push(matrix[i][j - 1] * i);
+                matrix[i].push(matrix[i][j - 1] * BigInt(i));
             }
         }
         polinomialMatrices.push(matrix)
@@ -29,9 +29,9 @@ function getAttachedForPolinomial(n) {
 }
 
 function calculateSuperfactorial(n){
-    let factorial = 1;
-    let superfactorial = 1;
-    for (let i = 1; i <= n; i++){
+    let factorial = 1n;
+    let superfactorial = 1n;
+    for (let i = 1n; i <= n; i++){
         factorial *= i;
         superfactorial *= factorial;
     }
@@ -47,24 +47,23 @@ function innerFor(i, iterators, lists,
     else for (iterators[i] of lists[i]) {
         innerFor(length - 1, iterators, lists, func, params, result);
         if (breakIf(iterators, breakParams)) break;
-        if (continueIf(iterators, continueParams)) continue;
     }
 
     return result;
 }
 
 function calculateDeterminate(matrix, isInteger = true){
-    if (matrix.length != matrix[0].length) return null;
+    if (matrix.length !== matrix[0].length) return null;
     let copy = matrix.map((element) => element.slice());
-    let det = 1;
+    let det = 1n;
 
     for (let columnNumber = 0; columnNumber < copy.length - 1; columnNumber++){
         for (let rowNumber = columnNumber + 1; rowNumber < copy.length; rowNumber++){
-            if (copy[columnNumber][columnNumber] == 0){
-                rowCopy = copy[columnNumber];
+            if (copy[columnNumber][columnNumber] === 0n){
+                let rowCopy = copy[columnNumber];
                 copy[columnNumber] = copy[columnNumber + 1];
                 copy[columnNumber + 1] = rowCopy;
-                det *= -1;
+                det *= -1n;
                 break;
             }
 
@@ -75,25 +74,24 @@ function calculateDeterminate(matrix, isInteger = true){
         }
     }
     for (let i = 0; i < copy.length; i++) det *= copy[i][i];
-    if (isInteger) det = Math.round(det);
     return det;
 }
 
 function getAttachedMatrix(matrix) {
-    if (matrix.length != matrix[0].length) return null;
-    if (matrix.length == 1) return [[1]];
+    if (matrix.length !== matrix[0].length) return null;
+    if (matrix.length === 1) return [[1]];
     let result = matrix.map((elem) => elem.slice());
-    let factor = (matrix.length % 2 == 0) ? 1 : -1;
+    let factor = (matrix.length % 2 === 0) ? 1n : -1n;
     for (let i = 0; i < result.length; i++){
-        if (matrix.length % 2 == 0) factor *= -1;
+        if (matrix.length % 2 === 0) factor *= -1n;
         for (let j = 0; j < result.length; j++){
-            factor *= -1;
+            factor *= -1n;
             let minorMatrix = [];
             for (let x = 0; x < result.length; x++){
-                if (x == i) continue;
+                if (x === i) continue;
                 minorMatrix.push([]);
                 for (let y = 0; y < result.length; y++){
-                    if (y == j) continue;
+                    if (y === j) continue;
                     minorMatrix[minorMatrix.length - 1].push(matrix[x][y]);
                 }
             }
@@ -105,12 +103,12 @@ function getAttachedMatrix(matrix) {
 }
 
 function multiplyMatrices(matrix1, matrix2){
-    if (matrix1[0].length != matrix2.length) return null;
+    if (matrix1[0].length !== matrix2.length) return null;
     let result = [];
     for (let i = 0; i < matrix1.length; i++){
         result.push([])
         for (let j = 0; j < matrix2[0].length; j++){
-            let sum = 0;
+            let sum = 0n;
             for (let k = 0; k < matrix1[0].length; k++){
                 sum += matrix1[i][k] * matrix2[k][j];
             }
@@ -122,8 +120,9 @@ function multiplyMatrices(matrix1, matrix2){
 
 function functionPolinomial(array) {
     return (x) => {
-        let y = 1;
-        let sum = 0;
+        x = BigInt(x);
+        let y = 1n;
+        let sum = 0n;
         for (let i = 0; i < array.length; i++){
             sum += array[i] * y;
             y *= x;
@@ -133,15 +132,16 @@ function functionPolinomial(array) {
 }
 
 function vecCollect(arr, collecter = null, length = 1){
-    if (arr.length == 2 && Math.gcd(arr[0], arr[1]) == 1){
+    arr = arr.map(elem => BigInt(elem));
+    if (arr.length === 2 && Math.gcd(arr[0], arr[1]) === BigInt(1)){
         collecter.push(arr);
         return collecter;
     }
     if (collecter == null) collecter = [];
 
-    if (length == 1){
+    if (length === 1){
         let gcd = arr.reduce((GCD, current) => {return Math.gcd(GCD, current)});
-        if (gcd != 1){ 
+        if (gcd !== 1n){
             collecter.push([gcd]);
             return vecCollect(arr.map((elem) => elem / gcd), collecter, 2);
         }
@@ -167,7 +167,8 @@ function vecCollect(arr, collecter = null, length = 1){
             if (i >= length){
                 divider = multiplyMatrices(matrix, currentSet);
                 divider = divider.map(elem => elem[0] / det);
-                ratio = vecRatio(arr, divider);
+                ratio = vecDivide(arr, divider);
+                ratio = ratio[1].length === 0 ? ratio[0] : null;
                 return;
             }
 
@@ -178,7 +179,7 @@ function vecCollect(arr, collecter = null, length = 1){
                 func(i + 1);
                 
                 if (ratio != null) return;
-                if (i == 0) continue;
+                if (i === 0n) continue;
                 currentSet.length = i;
                 currentSet.push([-d[i]]);
                 func(i + 1);

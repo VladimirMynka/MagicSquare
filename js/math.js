@@ -3,9 +3,9 @@ Math.gcd = function() {
     if (arguments.length === 1)
         return arguments[0];
     if (arguments.length === 2) {
-        if (arguments[1] == 0) return arguments[0];
         let max = arguments[0] > arguments[1] ? arguments[0] : arguments[1];
         let min = arguments[0] < arguments[1] ? arguments[0] : arguments[1];
+        if (min == 0) return max;
         while (max % min != 0){
             let temp = max % min;
             max = min;
@@ -144,10 +144,8 @@ function SquareSumSquares(a, b){
 }
 
 function isSquare (n) {
-    n = Number(n);
-    let sqrtN = Math.sqrt(n);
-    if (Number.isInteger(sqrtN)) return true;
-    return false;
+    n = BigInt(n);
+    return searchRoot(n)[0];
 }
 
 function getPrimeDividers (n) {

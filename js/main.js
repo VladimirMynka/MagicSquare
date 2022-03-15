@@ -5,6 +5,9 @@ let inputMultiply = document.getElementById("inputMultiply")
 let applyButton = document.getElementById("applyButton")
 let factorizeButton = document.getElementById("factorizeButton")
 let minimizeButton = document.getElementById("minimizeButton")
+let leftRotateButton = document.getElementById("leftRotateButton")
+let rightRotateButton = document.getElementById("rightRotateButton")
+let mirrorButton = document.getElementById("mirrorButton")
 let multiplyButton = document.getElementById("multiplyButton")
 
 let inputA1 = document.getElementById("inputA1")
@@ -75,6 +78,24 @@ multiplyButton.onclick = () => {
     inputY.value = (BigInt(inputY.value) * factor).toString();
     UpdateSquare();
 }
+leftRotateButton.onclick = () => {
+    let temp = inputX.value;
+    inputX.value = -inputY.value;
+    inputY.value = temp;
+    UpdateSquare();
+}
+rightRotateButton.onclick = () => {
+    let temp = inputX.value;
+    inputX.value = inputY.value;
+    inputY.value = -temp;
+    UpdateSquare();
+}
+mirrorButton.onclick = () => {
+    let temp = inputX.value;
+    inputX.value = inputY.value;
+    inputY.value = temp;
+    UpdateSquare();
+}
 
 function UpdateSquare() {
     if (factorizationSwitch) factorizeButton.click();
@@ -102,9 +123,13 @@ function MinimizeValues() {
 }
 
 function DrawSquare(E, x, y) {
+    let px = 180 * (Div(placeFormulas[5](E, x, y).toString().length, 15) + 1) + 'px';
     for (let i = 0; i < 9; i++) {
         let number = placeFormulas[i](E, x, y);
         placeArray[i].innerText = number;
+        placeArray[i].style.width = px;
+        placeArray[i].style.lineHeight = px;
+        placeArray[i].style.height = px;
         if (isSquare(number)) placeArray[i].classList.add("red");
         else placeArray[i].classList.remove("red");
     }
@@ -312,7 +337,7 @@ function CalculateValuesByABDFHJ(a1, b1, a2, b2) {
 
     let B = fmn2 * sum1 / gcdFmn
     let A = fmn1 * sum2 / gcdFmn
-    let y = 4 * fmn1 * B / sum1
+    let y = 4n * fmn1 * B / sum1
 
     if ((A + B) % 2n === 1n){
         A *= 4n;
