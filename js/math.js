@@ -43,7 +43,7 @@ function FactorizationRec(n, lastFactor){
     let currentFactor = FindMinFactor(n, lastFactor);
     string += currentFactor;
 
-    let degree = GetDegreeIn(n, currentFactor);
+    let degree = GetPowerIn(n, currentFactor);
     if (degree >= 2n) string += MakeSuperscript(degree);
 
     return string + FactorizationRec(reduce(n, currentFactor), currentFactor);
@@ -99,7 +99,7 @@ function reduce(n, k){
     return n
 }
 
-function GetDegreeIn(n, k){
+function GetPowerIn(n, k){
     if (k == 1) return -1n;
     n = BigInt(n);
     k = BigInt(k);
