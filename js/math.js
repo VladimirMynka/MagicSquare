@@ -24,11 +24,11 @@ Math.gcd = function() {
     return result;
 }
 
-function Factorization(n){
-    return FactorizationRec(n, 1)
+function factorization(n){
+    return factorizationRec(n, 1)
 }
 
-function FactorizationRec(n, lastFactor){
+function factorizationRec(n, lastFactor){
     n = BigInt(n);
     lastFactor = BigInt(lastFactor);
 
@@ -37,19 +37,19 @@ function FactorizationRec(n, lastFactor){
     if(n === -1n && lastFactor === 1n) return "-1";
     if(n === 1n || n === -1n) return "";
 
-    let string = GetBeginString(n, lastFactor);
+    let string = getBeginString(n, lastFactor);
     if (n < 0n) n *= -1n;
 
-    let currentFactor = FindMinFactor(n, lastFactor);
+    let currentFactor = findMinFactor(n, lastFactor);
     string += currentFactor;
 
-    let degree = GetPowerIn(n, currentFactor);
-    if (degree >= 2n) string += MakeSuperscript(degree);
+    let degree = getPowerIn(n, currentFactor);
+    if (degree >= 2n) string += makeSuperscript(degree);
 
-    return string + FactorizationRec(reduce(n, currentFactor), currentFactor);
+    return string + factorizationRec(reduce(n, currentFactor), currentFactor);
 }
 
-function GetBeginString(n, lastFactor){
+function getBeginString(n, lastFactor){
     n = BigInt(n);
     lastFactor = BigInt(lastFactor);
     if (lastFactor === 1n){
@@ -59,7 +59,7 @@ function GetBeginString(n, lastFactor){
     else return "\u22c5"
 }
 
-function FindMinFactor(n, lastFactor = 1n){
+function findMinFactor(n, lastFactor = 1n){
     n = BigInt(n);
     lastFactor = BigInt(lastFactor);
 
@@ -69,14 +69,14 @@ function FindMinFactor(n, lastFactor = 1n){
     return BigInt(n);
 }
 
-function FindMinFactorNotBigint(n, lastFactor = 1){
+function findMinFactorNotBigint(n, lastFactor = 1){
     for(let i = lastFactor + 1; i * i <= n; i++){
         if(n % i === 0) return i;
     }
     return n;
 }
 
-function FindMeanForTfmnMinFactor(n, lastFactor = 1n){
+function findMeanForTfmnMinFactor(n, lastFactor = 1n){
     n = BigInt(n);
     lastFactor = BigInt(lastFactor);
 
@@ -99,7 +99,7 @@ function reduce(n, k){
     return n
 }
 
-function GetPowerIn(n, k){
+function getPowerIn(n, k){
     if (k == 1) return -1n;
     n = BigInt(n);
     k = BigInt(k);
@@ -112,9 +112,9 @@ function GetPowerIn(n, k){
     return i;
 }
 
-function MakeSuperscript(n){
+function makeSuperscript(n){
     n = BigInt(n);
-    if(n > 9n) return MakeSuperscript(Div(n, 10n)) + MakeSuperscript(n % 10n)
+    if(n > 9n) return makeSuperscript(div(n, 10n)) + makeSuperscript(n % 10n)
     else if(n == 9n) return "\u2079"
     else if(n == 8n) return "\u2078"
     else if(n == 7n) return "\u2077"
@@ -128,32 +128,30 @@ function MakeSuperscript(n){
     else return "die"
 }
 
-function Div(n, k){
+function div(n, k) {
     return (n - n % k) / k
 }
 
-function Fmn(a, b){
+function fmn(a, b) {
     return a * b * (a - b) * (a + b);
 }
 
-function SquareSumSquares(a, b){
-    a = BigInt(a);
-    b = BigInt(b);
-
-    return (a ** 2n + b ** 2n) ** 2n;
+function squareSumSquares(a, b) {
+    let sqrSum = a * a + b * b;
+    return sqrSum * sqrSum;
 }
 
-function isSquare (n) {
+function isSquare(n) {
     n = BigInt(n);
     return searchRoot(n)[0];
 }
 
-function getPrimeDividers (n) {
+function getPrimeDividers(n) {
     n = BigInt(n);
 
     let simpleDividers = [];
     let k = BigInt(n);
-    let current = FindMinFactor(k);
+    let current = findMinFactor(k);
     simpleDividers.push(current);
 
     while(current !== k){
@@ -161,18 +159,18 @@ function getPrimeDividers (n) {
             k /= current;
         if (k === 1n)
             break;
-        current = FindMinFactor(k, current);
+        current = findMinFactor(k, current);
         simpleDividers.push(current);
     }
     return simpleDividers;
 }
 
-function getFactorization (n) {
+function getFactorization(n) {
     n = BigInt(n);
 
     let simpleDividers = [];
     let k = BigInt(n);
-    let current = FindMinFactor(k);
+    let current = findMinFactor(k);
 
     while(k !== 1n){
         let i = 0n;
@@ -183,17 +181,17 @@ function getFactorization (n) {
         simpleDividers.push([current, i]);
         if (k === 1n)
             break;
-        current = FindMinFactor(k, current);
+        current = findMinFactor(k, current);
     }
     return simpleDividers;
 }
 
-function getMeanForTfmnFactorization (n) {
+function getMeanForTfmnFactorization(n) {
     n = BigInt(n);
 
     let simpleDividers = [];
     let k = BigInt(n);
-    let current = FindMeanForTfmnMinFactor(k);
+    let current = findMeanForTfmnMinFactor(k);
 
     while(k !== 1n){
         let i = 0n;
@@ -204,7 +202,7 @@ function getMeanForTfmnFactorization (n) {
         simpleDividers.push([current, i]);
         if (k === 1n)
             break;
-        current = FindMeanForTfmnMinFactor(k, current);
+        current = findMeanForTfmnMinFactor(k, current);
     }
     return simpleDividers;
 }
@@ -212,7 +210,7 @@ function getMeanForTfmnFactorization (n) {
 function getPrimeDividersNotBigint(n) {
     let simpleDividers = [];
     let k = n;
-    let current = FindMinFactorNotBigint(k);
+    let current = findMinFactorNotBigint(k);
     simpleDividers.push(current);
 
     while(current !== k){
@@ -220,13 +218,13 @@ function getPrimeDividersNotBigint(n) {
             k /= current;
         if (k === 1)
             break;
-        current = FindMinFactorNotBigint(k, current);
+        current = findMinFactorNotBigint(k, current);
         simpleDividers.push(current);
     }
     return simpleDividers;
 }
 
-function getDividers (n) {
+function getDividers(n) {
     n = BigInt(n);
 
     if (n === 0n) return [0n];
@@ -256,7 +254,7 @@ function abs(n) {
     else return -n;
 }
 
-function Euler(n){
+function euler(n) {
     n = BigInt(n);
     let dividers = getPrimeDividers(n);
     let val = BigInt(n);
@@ -267,20 +265,22 @@ function Euler(n){
     return val;
 }
 
-function EulerFromTwoPrime(n, p){
-    n = BigInt(n);
+function eulerForTwoPrime(p, q) {
+    q = BigInt(q);
     p = BigInt(p);
 
-    return (p - 1n) * (n / p - 1n);
+    return (p - 1n) * (q - 1n);
 }
 
-function EulerOfPrimary(n){
+function eulerOfPrimary(n) {
     return BigInt(n) - 1n;
 }
 
 function searchRoot(n, power = 2) {
     n = BigInt(n);
     power = BigInt(power);
+    if (n === 4n && power === 2n || n === 8n && power === 3n)
+        return [true, 2n];
     let start = 1n;
     let end = n / power;
     while (end > start + 1n){
@@ -295,7 +295,7 @@ function searchRoot(n, power = 2) {
     return [false, end];
 }
 
-function powerByModal(base, power, number){
+function powerByModal(base, power, number) {
     base = BigInt(base);
     power = BigInt(power);
     number = BigInt(number);
@@ -322,16 +322,39 @@ function powerByModal(base, power, number){
     return result;
 }
 
-function chinesSuperC(c, n){
-    let inv = inversesForChines(c, n);
-    let ccc = prod(c);
-    let nnn = prod(n);
-    return c.reduce((result, elem, i) => result +
-            ccc * nnn / n[i] * prod(inv[i]) / inv[i][i] % nnn,
+function getInverseByModal(base, number){
+    base = BigInt(base);
+    number = BigInt(number);
+
+    let t = 0n, r = base, newt = 1n, newr = number, quotient = 0n, temp = 0n;
+    while (newr !== 0n){
+        quotient = r / newr;
+
+        temp = t;
+        t = newt;
+        newt = temp - quotient * newt;
+
+        temp = r;
+        r = newr;
+        newr = temp - quotient * newr;
+    }
+
+    if (r > 1n) return -1n;
+    if (t < 0n) return t + base;
+
+    return t;
+}
+
+function chines(values, bases) {
+    let inv = inversesForChines(values, bases);
+    let ccc = prod(values);
+    let nnn = prod(bases);
+    return values.reduce((result, elem, i) => result +
+            ccc * nnn / bases[i] * prod(inv[i]) / inv[i][i] % nnn,
         0n) % nnn;
 }
 
-function inversesForChines(c, n){
+function inversesForChines(c, n) {
     let inv = [];
     for (let i = 0; i < c.length; i++){
         inv.push([])
@@ -342,7 +365,7 @@ function inversesForChines(c, n){
     return inv;
 }
 
-function prod(array){
+function prod(array) {
     return array.reduce((result, elem) => result * BigInt(elem), 1n);
 }
 
@@ -351,7 +374,7 @@ function calculateContinuedFraction(numerator, denominator) {
     denominator = BigInt(denominator);
 
     let result = [];
-    while (denominator !== 0n){
+    while (denominator !== 0n) {
         let stepper = numerator / denominator;
         result.push(stepper);
         let temp = numerator;
@@ -362,7 +385,7 @@ function calculateContinuedFraction(numerator, denominator) {
     return result;
 }
 
-function getApproximations(fraction) {
+function getApproximationsForContinuedFraction(fraction) {
     let approxes = [];
     approxes.push([1n, 0n]);
     approxes.push([fraction[0], 1n]);
@@ -385,7 +408,7 @@ function quadraticEquation(b, c) {
     return [(b - d[1]) / 2n, (b + d[1]) / 2n];
 }
 
-function Bezout(a, b) {
+function bezout(a, b) {
     a = BigInt(a); b = BigInt(b);
     let oldGcd = a, gcd = b, oldX = 1n, x = 0n, oldY = 0n, y = 1n;
     while (gcd != 0n) {

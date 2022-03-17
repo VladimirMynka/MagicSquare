@@ -73,7 +73,7 @@ class MyBigInt {
             let second = (other.getAt(i) != null) ? other.getAt(i) : 0
             let sum = first + second + memory
             bigSum.push(sum % 10)
-            memory = Div(sum, 10)
+            memory = div(sum, 10)
         }
         if (memory != 0) bigSum.push(memory)
         return bigSum
@@ -110,11 +110,11 @@ class MyBigInt {
                 sum += this.getAt(j) * other.getAt(i - j)
             }
             bigMulti.push(sum % 10)
-            memory = Div(sum, 10)
+            memory = div(sum, 10)
         }
         while(memory > 0){
             bigMulti.push(memory % 10)
-            memory = Div(memory, 10)
+            memory = div(memory, 10)
         }
         bigMulti.deleteZeros()
         return bigMulti

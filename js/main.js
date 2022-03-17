@@ -123,7 +123,7 @@ function MinimizeValues() {
 }
 
 function DrawSquare(E, x, y) {
-    let px = 180 * (Div(placeFormulas[5](E, x, y).toString().length, 15) + 1) + 'px';
+    let px = 180 * (div(placeFormulas[5](E, x, y).toString().length, 15) + 1) + 'px';
     for (let i = 0; i < 9; i++) {
         let number = placeFormulas[i](E, x, y);
         placeArray[i].innerText = number;
@@ -139,7 +139,7 @@ function DrawSquare(E, x, y) {
 function DrawFactorizationSquare(E, x, y) {
     for (let i = 0; i < 9; i++) {
         let number = placeFormulas[i](E, x, y);
-        placeArray[i].innerText = Factorization(number);
+        placeArray[i].innerText = factorization(number);
         if (isSquare(number)) placeArray[i].classList.add("red");
         else placeArray[i].classList.remove("red");
     }
@@ -247,10 +247,10 @@ function CalculateValuesByABDEJ(a1, b1, a2, b2) {
     a2 = BigInt(a2);
     b2 = BigInt(b2);
 
-    let fmn1 = Fmn(a1, b1)
-    let fmn2 = Fmn(a2, b2)
-    let sum1 = SquareSumSquares(a1, b1)
-    let sum2 = SquareSumSquares(a2, b2)
+    let fmn1 = fmn(a1, b1)
+    let fmn2 = fmn(a2, b2)
+    let sum1 = squareSumSquares(a1, b1)
+    let sum2 = squareSumSquares(a2, b2)
 
     let E = sum1 * sum2
 
@@ -265,10 +265,10 @@ function CalculateValuesByABEFH(a1, b1, a2, b2) {
     a2 = BigInt(a2);
     b2 = BigInt(b2);
 
-    let fmn1 = Fmn(a1, b1)
-    let fmn2 = Fmn(a2, b2)
-    let sum1 = SquareSumSquares(a1, b1)
-    let sum2 = SquareSumSquares(a2, b2)
+    let fmn1 = fmn(a1, b1)
+    let fmn2 = fmn(a2, b2)
+    let sum1 = squareSumSquares(a1, b1)
+    let sum2 = squareSumSquares(a2, b2)
 
     let diff1 = sum1 - 4n * fmn1
     let diff2 = sum2 - 4n * fmn2
@@ -288,10 +288,10 @@ function CalculateValuesByACDFH(a1, b1, a2, b2) {
     a2 = BigInt(a2);
     b2 = BigInt(b2);
 
-    let fmn1 = Fmn(a1, b1)
-    let fmn2 = Fmn(a2, b2)
-    let sum1 = SquareSumSquares(a1, b1)
-    let sum2 = SquareSumSquares(a2, b2)
+    let fmn1 = fmn(a1, b1)
+    let fmn2 = fmn(a2, b2)
+    let sum1 = squareSumSquares(a1, b1)
+    let sum2 = squareSumSquares(a2, b2)
 
     let E = sum1 * sum2 + 16n * fmn1 * fmn2
     let x = 4n * fmn1 * sum2 - 16n * fmn1 * fmn2
@@ -308,10 +308,10 @@ function CalculateValuesByACEFGH(a1, b1, a2, b2) {
     a2 = BigInt(a2);
     b2 = BigInt(b2);
 
-    let fmn1 = Fmn(a1, b1)
-    let fmn2 = Fmn(a2, b2)
-    let sum1 = SquareSumSquares(a1, b1)
-    let sum2 = SquareSumSquares(a2, b2)
+    let fmn1 = fmn(a1, b1)
+    let fmn2 = fmn(a2, b2)
+    let sum1 = squareSumSquares(a1, b1)
+    let sum2 = squareSumSquares(a2, b2)
     let gcdFmn = Math.gcd(fmn1, fmn2)
 
     let E = fmn1 * sum2 / gcdFmn
@@ -329,10 +329,10 @@ function CalculateValuesByABDFHJ(a1, b1, a2, b2) {
     a2 = BigInt(a2);
     b2 = BigInt(b2);
 
-    let fmn1 = Fmn(a1, b1)
-    let fmn2 = Fmn(a2, b2)
-    let sum1 = SquareSumSquares(a1, b1)
-    let sum2 = SquareSumSquares(a2, b2)
+    let fmn1 = fmn(a1, b1)
+    let fmn2 = fmn(a2, b2)
+    let sum1 = squareSumSquares(a1, b1)
+    let sum2 = squareSumSquares(a2, b2)
     let gcdFmn = Math.gcd(fmn1, fmn2)
 
     let B = fmn2 * sum1 / gcdFmn
@@ -533,7 +533,7 @@ function printFor(func, z) {
         for (let n = 1; n <= m; n++){
             if (Math.gcd(m, n) != 1) continue;
             let x = Math.abs(func(m, n));
-            str += `${m} ${n}: ${Factorization(x)}, ${Factorization(t(x))} 
+            str += `${m} ${n}: ${factorization(x)}, ${factorization(t(x))} 
 `;
         }
     }
@@ -544,13 +544,13 @@ function printFmnFor(y, z) {
     let str = ``;
     for (let a = y; a < z; a++){
         for (let b = 1; b < a; b++){
-            let f1 = Fmn(a,b)
+            let f1 = fmn(a,b)
             for (let c = 1; c < a; c++){
                 for (let d = 1; d < c; d++){
                     if (a == d || b == c || b == d || a-b == c+d || a+b == c+d) continue;
                     if (a % 2 == b % 2 && c % 2 == d % 2) continue;
                     if (Math.gcd(Math.gcd(a,b), Math.gcd(c, d)) != 1) continue;
-                    let f2 = Fmn(c, d);
+                    let f2 = fmn(c, d);
                     if (f1 == f2) str += `f(${a}, ${b}) = f(${c}, ${d})
 `;
                 }

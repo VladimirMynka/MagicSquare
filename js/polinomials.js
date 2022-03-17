@@ -164,7 +164,7 @@ function sfmnWithTrs(smth) {
         else str += `(${nc(x[2][i][0], "x\u00b2")}${nc(x[2][i][1], "xy")}${nc(x[2][i][2], "y\u00b2")})`;
     }
 
-    return nc(Factorization(x[0]), str);
+    return nc(factorization(x[0]), str);
 }
 
 function pc(n, str) { //print checker
@@ -450,10 +450,10 @@ function vecSum(){
 
 function vecPrint(arr, step = 1){
     let str = ``;
-    str += nc(arr[0], `x${MakeSuperscript(step * (arr.length - 1))}`);
+    str += nc(arr[0], `x${makeSuperscript(step * (arr.length - 1))}`);
     for (let i = 1; i < arr.length - 1; i++){
-        str += pc(arr[i], `x${MakeSuperscript(step * (arr.length - 1 - i))}y${MakeSuperscript(step * i)}`);
+        str += pc(arr[i], `x${makeSuperscript(step * (arr.length - 1 - i))}y${makeSuperscript(step * i)}`);
     }
-    str += pc(arr[arr.length - 1], `y${MakeSuperscript(step * (arr.length - 1))}`);
+    str += pc(arr[arr.length - 1], `y${makeSuperscript(step * (arr.length - 1))}`);
     console.log(str);
 }

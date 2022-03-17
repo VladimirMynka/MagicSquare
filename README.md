@@ -15,7 +15,10 @@
 ---
 
 ## Возможности интерфейса <span id = "interface"></span>
-Интерфейс к приложению был написан в первую очередь ещё летом 2021, и с тех пор не сильно изменялся. Основная его задача - предоставлять визуализацию магических квадратов. В частности, здесь в пару кликов можно сгенерировать `5/9-dir-квадраты` и `6/9-dir-квадраты` (см. теорию).
+Интерфейс к приложению был написан в первую очередь ещё летом 2021, 
+и с тех пор не сильно изменялся. Основная его задача - предоставлять 
+визуализацию магических квадратов. В частности, здесь в пару кликов 
+можно сгенерировать `5/9-dir-квадраты` и `6/9-dir-квадраты` (см. теорию).
 
 Здесь же предоставлена ссылка на [теоретический материал](https://comgrid.ru/MagicSquare/MagicSquare.pdf), на котором построено всё приложение (или большая его часть).
 
@@ -46,7 +49,7 @@
 предположительно есть делитель больше, чем 10⁸, рекомендуется 
 использовать для визуализации только кнопку "задать". Иначе возможно 
 зависание приложения. В крайнем случае, проверьте в консоли, что все числа 
-могут быть факторизованы
+могут быть факторизованы.
 
 #### Блок "Сгенерировать dir-квадрат" <span id = "generate-dir-square"></span>
 Этот блок напрямую связан с теорией.
@@ -67,7 +70,7 @@
 элементы одной dir-линии, либо меняет местами две dir-линии, при этом значения в 
 остальных клетках меняются относительно непредсказуемо.
 
-  Хороший пример этого -- знаменитый ABEHJ-квадрат (единственный известный 7/9), 
+  Хороший пример этого – знаменитый ABEHJ-квадрат (единственный известный 7/9), 
 получаемый на значениях 9 2 3 4. В зависимости от порядка пар и чисел в парах, 
 он может представлять собой 7/9, 6/9 и 5/9 квадрат.
 
@@ -77,22 +80,23 @@
 <em>Знаменитый 7/9</em>
 </p>
 
-- `Зарандомить` устанавливает в каждый инпут рандомное значение не больше `maxRandom`, но вы никогда не получите пару не взаимно простых `alpha` и `beta`.
+- `Зарандомить` устанавливает в каждый инпут рандомное значение не больше `maxRandom`, 
+но вы никогда не получите пару не взаимно простых `alpha` и `beta`.
 
 #### Блок "Решить tfmn-уравнение" <span id = "resolve-tfmn-equation"></span>
 Этот блок призван генерировать 6/9 квадраты
 
-Все решения -- параметрические, и принимают на вход два параметра. 
-Подробнее -- в теории. Приложение лишь реализует эти решения
+Все решения – параметрические, и принимают на вход два параметра. 
+Подробнее – в теории. Приложение лишь реализует эти решения.
 
-`Зарандомить` и `Обратить` работают так же, как и в блоке выше
+`Зарандомить` и `Обратить` работают так же, как и в блоке выше.
 
 ---
 ## Консоль <span id = "interface"></span>
 Несмотря на то, что изначально система создавалась для визуализации определённых видов квадратов, 
 и в этой роли она действительно оказалась полезной, в последующем
 при исследовании я столкнулся с необходимостью решать кодом несколько
-более сложные задачи, визуализация которых, при этом, не так важна
+более сложные задачи, визуализация которых, при этом, не так важна.
 
 Для этого я не стал далеко ходить, и просто написал весь необходимый
 код в том же проекте. JavaScript-код исполняется прямо в браузерной
@@ -104,7 +108,7 @@
 Как его использовать? Для этого на странице приложения используйте комбинацию клавиш 
 ctrl+shift+I (для браузера Google Chrome), либо кликните правой 
 кнопкой мыши и выберите "инструменты разработчика". В открывшемся
-меню выберите вкладку Console. Для примера, введите Factorization(147)
+меню выберите вкладку Console. Для примера, введите Factorization(147).
 
 <p style="width: 100%; text-align: center">
 <img src="./readme/3.png" 
@@ -115,9 +119,13 @@ ctrl+shift+I (для браузера Google Chrome), либо кликните 
 Надеюсь, однако, что человек, читающий это пособие, имеет базовые 
 знания в программировании, а также способен самостоятельно решить
 все возникающие технические трудности. Далее в этой документации
-будет представлено лишь описание функций, реализованных для использования
+будет представлено лишь описание функций, реализованных для использования.
 
-Встроенные функции js также не будут здесь рассмотрены
+Встроенные функции js также не будут здесь рассмотрены.
+
+К функциям, где сложность, потенциально, важна, она указывается примерно.
+Не исключено, что я упустил в процессе оценки важную деталь или не учёл
+сложность работы с `BigInt`.
 
 #### Полезные математические функции <span id = "useful-math"></span>
 - ```typescript
@@ -133,44 +141,163 @@ ctrl+shift+I (для браузера Google Chrome), либо кликните 
 `gcd(a, b, c, d) = gcd(gcd(gcd(a, b), c), d)`
 
 - ```typescript
-  Factorization(n: number | BigInt): string
-Принимает число, возвращает его факторизацию в виде строки.
-
-Сложность алгоритма для `number` - _**O(sqrt(p))**_ или _**O(p)**_, где _p_ - 
-наибольший простой делитель _n_.
+  function factorization(n: number | BigInt): string
+Принимает число, возвращает его факторизацию в виде строки
 
 - ```typescript
-  FindMinFactor(n: number | BigInt | string, lastFactor: number | BigInt | string): BigInt
+  function findMinFactor(n: number | BigInt | string, lastFactor: number | BigInt | string): BigInt
 Возвращает наименьший множитель числа _n_, больше, чем _lastFactor_. Приводит все входящие
-значения к BigInt.
+значения к `BigInt`
 
 Сложность алгоритма - **_O((p - lastFactor)log(n))_** для не простых _n_, 
-**_O(sqrt(n)log(n))_** -- для простых. _p_ -- наименьший простой делитель n
+**_O(sqrt(n)log(n))_** – для простых. _p_ – наименьший простой делитель _n_
 
 - ```typescript
-  FindMinFactorNotBigInt(n: number, lastFactor: number): number
-Метод такой же, как `FindMinFactor`, но работающий только с типом `number`
+  function findMinFactorNotBigInt(n: number, lastFactor: number): number
+Метод такой же, как `findMinFactor`, но работающий только с типом `number`
 
 Сложность алгоритма - **_O((p - lastFactor))_** для не простых _n_,
-**_O(sqrt(n))_** -- для простых. _p_ -- наименьший простой делитель n
+**_O(sqrt(n))_** – для простых. _p_ – наименьший простой делитель _n_
 
 - ```typescript
-  FindMeanForTfmnMinFactor(n: number | BigInt | string, lastFactor: number | BigInt | string): BigInt
-Работает так же, как и `FindMinFactor`, но если не находит делителя _n_ меньше, чем _n^1/4_,
-возвращает _n_.
+  function findMeanForTfmnMinFactor(n: number | BigInt | string, lastFactor: number | BigInt | string): BigInt
+Работает так же, как и `findMinFactor`, но если не находит делителя _n_ меньше, чем _n^1/4_,
+возвращает _n_
 
 Сложность алгоритма - **_O((p - lastFactor))_** если p найдено,
-**_O(n^1/4)_** -- если нет. _p_ -- наименьший простой делитель n
+**_O(n^1/4)_** – если нет. _p_ – наименьший простой делитель n
 
 Примечание: несмотря на название, метод не может быть использован для расчёта tfmn-функции.
 Существуют ситуации, когда n делится на квадрат, натурального и не имеет при этом простых
-множителей меньше, чем _n^1/4_.
+множителей меньше, чем _n^1/4_
 
 - ```typescript
-  reduce(n: number | BigInt | string, k: number | BigInt | string): BigInt
-Делит _n_ на _k_ до тех пор, пока _n_ делится на _k_. Приводит 
-все входные параметры к `BigInt`.
+  function reduce(n: number | BigInt | string, k: number | BigInt | string): BigInt
+Делит _n_ на _k_ до тех пор, пока _n_ делится на _k_. Приводит все входные 
+параметры к `BigInt`
 
 - ```typescript
-  GetPowerIn(n: number | BigInt | string, k: number | BigInt | string): BigInt
-Находит, сколько раз можно поделить _n_ на _k_. Приводит всё к `BigInt`.
+  function getPowerIn(n: number | BigInt | string, k: number | BigInt | string): BigInt
+Находит, сколько раз можно поделить _n_ на _k_. Приводит всё к `BigInt`
+
+- ```typescript
+  function makeSuperscript(n: number | string | BigInt): string
+Приводит _n_ к `BigInt`, полученное число превращает в строку надстрочного текста
+  
+- ```typescript
+   function fmn(a: number | BigInt, b: number | BigInt): number | BigInt
+Считает значение _f(a,b)_ (см. теорию). Возвращает значение того же типа, 
+что и введённые аргументы
+
+- ```typescript
+  function squareSumSquares(a: number | BigInt, b: number | BigInt): number | BigInt
+Возвращает _(a² + b²)²_ того же типа, что и _a_ и _b_
+
+- ```typescript
+  function isSquare(n: number | string | BigInt): boolean
+Проверяет, является ли _n_ полным квадратом. В процессе приводит его к `BigInt`. Сложность
+_**O(log²(n))**_
+
+- ```typescript
+  function getPrimeDividers(n: number | string | BigInt): BigInt[]
+Получает список простых делителей числа _n_. Сложность примерно _**O(sqrt(p)log(n))**_, 
+где _p_ - наибольший простой делитель числа _n_
+
+- ```typescript
+  function getPrimeDividersNotBigint(n: number): number[]
+Работает так же, как и `getPrimeDividers`, но только с типом `number`
+
+- ```typescript
+  function getFactorization(n: number | string | BigInt): BigInt[][]
+Получает факторизацию числа _n_ в виде массива пар чисел: делитель-показатель.  
+Сложность примерно _**O(sqrt(p)log(n))**_, где _p_ - наибольший простой делитель числа _n_
+
+- ```typescript
+  function getMeanForTfmnFactorization(n: number | string | BigInt): BigInt[][]
+Работает так же, как и `getFactorization`, но во внутренней логике вызывает 
+`findMeanForTfmnMinFactor` вместо `findMinFactor`
+
+- ```typescript
+  function getDividers(n: number | string | BigInt): BigInt[]
+Получает список всех делителей числа _n_. Сложность примерно _**O(sqrt(n)log(n))**_
+
+- ```typescript
+  function abs(n: number | BigInt): number | BigInt
+Вычисляет абсолютное значение числа _n_
+
+- ```typescript
+  function min(a: number | BigInt, b: number | BigInt): number | BigInt
+Возвращает меньшее из _a_, _b_
+
+- ```typescript
+  function max(a: number | BigInt, b: number | BigInt): number | BigInt
+Возвращает большее из _a_, _b_
+
+- ```typescript
+  function euler(n: number | string | BigInt): BigInt
+Вычисляет функцию Эйлера для числа _n_. Использует в реализации `getPrimeDividers`,
+сложность совпадает со сложностью этой функции
+
+- ```typescript
+  function eulerForTwoPrime(p: number | string | BigInt, q: number | string | BigInt): BigInt
+Вычисляет функцию Эйлера для числа _pq_. На деле просто возвращает _(p - 1)(q - 1)_.
+Сложность _**O(log(pq))**_
+
+- ```typescript
+  function eulerOfPrimary(p: number | string | BigInt): BigInt
+Вычисляет функцию Эйлера для простого числа. На деле просто возвращает _p-1_
+
+- ```typescript
+  function searchRoot(n: number | string | BigInt, power: number | string | BigInt = 2): [boolean, BigInt]
+Используя бинарный поиск, вычисляет корень из _n_ степени _power_. Если корень найден,
+вернёт `[true, sqrt(n)]`, иначе – `[false, ceil(sqrt(n))]`. Сложность _**O(log²(n))**_
+
+- ```typescript
+  function powerByModal(base: BigInt, power: BigInt, number: BigInt): BigInt
+Находит остаток от деления числа _number ^ power_ на _base_.
+Имеет сложность _**O(log(n)log(p))**_, если _power_ неотрицательно,
+_**O(log²(n)log(p))**_ если _power_ отрицательно (_n, p_ – сокращения от _number, power_).
+
+Примечание: На самом деле, в функцию можно передать параметры типа `string` и `number`, они просто
+будут приведены к `BigInt`
+
+- ```typescript
+  function getInverseByModal(base: BigInt, number: BigInt): BigInt
+Вычисляет обратное к _number_ число по модулю _base_. Использует алгоритм Евклида,
+приблизительная сложность O(log²(number))
+
+Примечание: На самом деле, в функцию можно передать параметры типа `string` и `number`, они просто
+будут приведены к `BigInt`
+
+- ```typescript
+  function chines(values: BigInt[], bases: BigInt[]): BigInt
+Находит наименьшее решение системы сравнений по модулю. _values_ – остатки от деления
+этого решения на _bases_. Сложность сложная. Лучше посмотрите реализацию в файле `math.js`.
+
+- ```typescript
+  function prod(array: BigInt[]): BigInt
+Находит произведение всех элементов _array_.
+
+- ```typescript
+  function calculateContinuedFraction(numerator: BigInt, denominator: BigInt): BigInt[]
+Возвращает дробь _numerator / denominator_ в виде цепной дроби. 
+Примерная сложность _**O(log²(denominator))**_
+
+Примечание: На самом деле, в функцию можно передать параметры типа `string` и `number`, они просто
+будут приведены к `BigInt`
+
+- ```typescript
+  function getApproximationsForContinuedFraction(fraction: BigInt[]): Bigint[][]
+Возвращает список пар числитель-знаменатель, аппроксимирующих цепную дробь _fraction_.
+Пары отсортированы по точности аппроксимации, первая пара всегда _0/1_, последняя - 
+исходная
+
+- ```typescript
+  function quadraticEquation(b: number | string | BigInt, c: number | string | BigInt): [BigInt, BigInt]
+Решает квадратное уравнение `x² + bx + c = 0`. Если уравнение не имеет целочисленных
+решений, возвращает приблизительные
+
+- ```typescript
+  function bezout(a: number | string | BigInt, b: number | string | BigInt): [x: BigInt, y: BigInt, gcd: BigInt]
+Восстанавливает соотношение Безу для чисел _a, b_: `ax + by = gcd`. 
+Использует алгоритм Евклида, имеет сложность _**O(log²(n))**_, где _n_ – большее из _a, b_.

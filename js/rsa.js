@@ -1,5 +1,5 @@
 function searchCloseKeyBySearchMinFactor(n, openKey){
-    return searchCloseKey(n, openKey, FindMinFactor);
+    return searchCloseKey(n, openKey, findMinFactor);
 }
 
 function searchCloseKeyByFermat(n, openKey) {
@@ -11,29 +11,6 @@ function searchCloseKey(n, openKey, firstFactorSearcher) {
     openKey = BigInt(openKey);
     let phi = EulerFromTwoPrime(n, firstFactorSearcher(n));
     return getInverseByModal(phi, openKey);
-}
-
-function getInverseByModal(base, number){
-    base = BigInt(base);
-    number = BigInt(number);
-
-    let t = 0n, r = base, newt = 1n, newr = number, quotient = 0n, temp = 0n;
-    while (newr !== 0n){
-        quotient = r / newr;
-
-        temp = t;
-        t = newt;
-        newt = temp - quotient * newt;
-
-        temp = r;
-        r = newr;
-        newr = temp - quotient * newr;
-    }
-
-    if (r > 1n) return -1n;
-    if (t < 0n) return t + base;
-
-    return t;
 }
 
 function rsaDecode(n, closeKey, message){
@@ -111,12 +88,12 @@ function FranklinReuterDecode(e, base, c_wrong, c_correct, vector){
 }
 
 function HastadDecode(e, bases, messages){
-    return number0xToText(searchRoot(chinesSuperC(messages, bases), e)[1].toString(16));
+    return number0xToText(searchRoot(chines(messages, bases), e)[1].toString(16));
 }
 
 function WienerDecode(n, e, c) {
     n = BigInt(n); e = BigInt(e); c = BigInt(c);
-    let approxes = getApproximations(calculateContinuedFraction(e, n));
+    let approxes = getApproximationsForContinuedFraction(calculateContinuedFraction(e, n));
     for (let i = 1; i < approxes.length; i++){
         let phi = (e * approxes[i][1] - 1n) / approxes[i][0];
         let solves = quadraticEquation(phi - n - 1n, n);
@@ -128,7 +105,7 @@ function WienerDecode(n, e, c) {
 }
 
 function decodeByCommonBase(n, e1, e2, c1, c2){
-    let st = Bezout(e1, e2);
+    let st = bezout(e1, e2);
     let m1 = powerByModal(n, st[0], c1);
     let m2 = powerByModal(n, st[1], c2);
     return number0xToText(((m1 * m2) % n).toString(16));

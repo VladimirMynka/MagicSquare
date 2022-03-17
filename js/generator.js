@@ -9,7 +9,7 @@ function printTfmnsWithPairs(tfmns) {
 }
 
 function strTfmnWithPairs(tfmn) {
-    let str = `${tfmn[0]} = ${Factorization(tfmn[0])}`;
+    let str = `${tfmn[0]} = ${factorization(tfmn[0])}`;
     for (let i = 1; i < tfmn.length; i++)
         str += ` = tfmn(${tfmn[i][0]}, ${tfmn[i][1]})`;
     return str;
@@ -148,7 +148,7 @@ function getAllMAndNForFmn(fmn) {
             if (dividers[ni] > min(maxN, dividers[mi] - 1n)) break;
             if ((dividers[ni] + dividers[mi]) % 2n === 0n) continue;
             if (Math.gcd(dividers[ni], dividers[mi]) !== 1n) continue;
-            let current = Fmn(dividers[mi], dividers[ni]);
+            let current = fmn(dividers[mi], dividers[ni]);
             if (current !== fmn) continue;
             result.push([dividers[mi], dividers[ni]]);
         }
@@ -185,10 +185,10 @@ function getAllFmnForTfmn2(tfmn, maxK = 100n) {
     let max = tfmn * (maxK ** 2n) * (factor ** 2n);
 
     for (let m = 2n; ; m++) {
-        if (Fmn(m, 1n) > max) break;
+        if (fmn(m, 1n) > max) break;
         for (let n = (m % 2n) + 1n; n < m; n += 2n) {
             if (Math.gcd(m, n) !== 1n) continue;
-            let fmn = Fmn(m, n);
+            let fmn = fmn(m, n);
             if (fmn % tfmn !== 0n) continue;
             let c = fmn / tfmn;
             if (searchRoot(c, 2n)[0]) {
@@ -203,14 +203,14 @@ function getAllFmnForTfmn2(tfmn, maxK = 100n) {
 
 function F7(a, b) {
     a = BigInt(a); b = BigInt(b);
-    return [(a ** 2n + b ** 2n) ** 2n, 4n * Fmn(a, b)];
+    return [(a ** 2n + b ** 2n) ** 2n, 4n * fmn(a, b)];
 }
 
 function factorizeAllUntil(n) {
     let factorizations = [];
     factorizations.push([[0n, 1n]], [[1n, 1n]]);
     for (let i = 2n; i <= n; i++){
-        let minFactor = FindMinFactor(i);
+        let minFactor = findMinFactor(i);
         if (minFactor === i)
             factorizations.push([[i, 1n]]);
         else
@@ -310,7 +310,7 @@ function generateUsingUsualFilter(maxM) {
     for (let m = 1; m <= maxM; m++) {
         for (let n = m - 1; n > 0; n -= 2) {
             if (Math.gcd(m, n) !== 1) continue;
-            let tfmn = tOf(Fmn(m, n));
+            let tfmn = tOf(fmn(m, n));
             let index = tfmns.findIndex(elem => elem[0] === tfmn);
             if (index === -1)
                 tfmns.push([tfmn, [m, n]]);
@@ -356,7 +356,7 @@ function binarySearchIndex(array, checker) {
     let start = 0;
     let end = array.length;
     while (end > start + 1) {
-        let middle = Div((start + end), 2);
+        let middle = div((start + end), 2);
         if (checker(array[middle]) === 0)
             return middle;
         if (checker(array[middle]) === 1)
@@ -403,7 +403,7 @@ function F4ForGenerating(m, n) {
 function F7ForGenerating(m, n) {
     m = BigInt(m);
     n = BigInt(n);
-    return [m, n, (m ** 2n + n ** 2n) ** 2n, 4n * Fmn(m, n)];
+    return [m, n, (m ** 2n + n ** 2n) ** 2n, 4n * fmn(m, n)];
 }
 
 function generateForOnlyOne(maxM, string) {
@@ -429,7 +429,7 @@ function generateForOnlyOneF(maxM, method) {
             let all = method(m, n);
             //let gcd = Math.gcd(all[0], all[1]);
             //all = all.map(one => one / gcd);
-            let tfmn = tOf(Fmn(all[0], all[1]));
+            let tfmn = tOf(fmn(all[0], all[1]));
             let index = binarySearchIndex(tfmns, compareTfmn(tfmn));
             if (index < 0)
                 insert([tfmn, [all[0], all[1]], [all[2], all[3]]], ~index, tfmns);
