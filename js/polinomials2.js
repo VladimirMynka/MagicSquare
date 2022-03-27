@@ -229,7 +229,7 @@ function vecCalculate(vector, x){
 function getArrayWithNeededLength(vector, x){
     let array = [];
     for (let i = 0; i <= (vector.length - 1) * (x.length - 1); i++){
-        array.push(0);
+        array.push(0n);
     }
     return array;
 }

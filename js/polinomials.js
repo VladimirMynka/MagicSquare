@@ -452,7 +452,9 @@ function vecPrint(arr, step = 1){
     let str = ``;
     str += nc(arr[0], `x${makeSuperscript(step * (arr.length - 1))}`);
     for (let i = 1; i < arr.length - 1; i++){
-        str += pc(arr[i], `x${makeSuperscript(step * (arr.length - 1 - i))}y${makeSuperscript(step * i)}`);
+        let xPower = step * (arr.length - 1 - i);
+        let yPower = step * i;
+        str += pc(arr[i], `x${xPower === 1 ? '' : makeSuperscript(xPower)}y${yPower === 1 ? '' : makeSuperscript(yPower)}`);
     }
     str += pc(arr[arr.length - 1], `y${makeSuperscript(step * (arr.length - 1))}`);
     console.log(str);

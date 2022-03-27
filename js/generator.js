@@ -15,7 +15,7 @@ function strTfmnWithPairs(tfmn) {
     return str;
 }
 
-function generateUsingGcd(maxM){
+function generateUsingGcd(maxM) {
     let time = performance.now();
     console.log(new Date());
     let fmns = [];
@@ -76,8 +76,8 @@ function tfmnOf(a, b) {
     );
 }
 
-function tfmnByFactorizations(a, b, apb, amb) {
-    let factorization = addFactorization(a, b, apb, amb);
+function tfmnByFactorizations(a, b, aPlusB, aMinusB) {
+    let factorization = addFactorization(a, b, aPlusB, aMinusB);
     return factorization.reduce((prod, elem) => prod * elem[0] ** (elem[1] % 2n), 1n);
 }
 

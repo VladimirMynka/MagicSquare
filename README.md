@@ -6,7 +6,7 @@
    3. [Блок "Решить tfmn-уравнение"](#resolve-tfmn-equation)
 2. [Консоль](#console)
     1. [Полезные математические функции](#useful-math)
-    2. Методы для генерации различных наборов данных
+    2. [Методы для генерации различных наборов данных](#generate)
     3. Методы для работы с векторами
     4. Методы для fmn и tfmn-функций на векторах
     5. Методы для взлома RSA (история о том, как они сюда попали, 
@@ -127,7 +127,7 @@ ctrl+shift+I (для браузера Google Chrome), либо кликните 
 Не исключено, что я упустил в процессе оценки важную деталь или не учёл
 сложность работы с `BigInt`.
 
-#### Полезные математические функции <span id = "useful-math"></span>
+### Полезные математические функции <span id = "useful-math"></span>
 - ```typescript
   Math.gcd(...args: number[] | BigInt[]): number | BigInt
 Принимает любое количество параметров типа `number` или `BigInt`, 
@@ -301,3 +301,146 @@ _**O(log²(n)log(p))**_ если _power_ отрицательно (_n, p_ – с
   function bezout(a: number | string | BigInt, b: number | string | BigInt): [x: BigInt, y: BigInt, gcd: BigInt]
 Восстанавливает соотношение Безу для чисел _a, b_: `ax + by = gcd`. 
 Использует алгоритм Евклида, имеет сложность _**O(log²(n))**_, где _n_ – большее из _a, b_.
+
+
+---
+### Методы для генерации различных наборов данных <span id="generate"></span>
+- ```typescript
+  function printTfmnsWithPairs(tfmns)
+
+- ```typescript
+  function strTfmnWithPairs(tfmn)
+
+- ```typescript
+  function generateUsingGcd(maxM)
+
+- ```typescript
+  function tOf(n)
+
+- ```typescript
+  function tOfBigInt(n)
+
+- ```typescript
+  function tfmnOf(a, b)
+
+- ```typescript
+  function tfmnByFactorizations(a, b, apb, amb)
+
+- ```typescript
+  function getFormattedTime(milliseconds)
+
+- ```typescript
+  function checkSquareExistUseTfmn(m1, n1, tfmn)
+
+- ```typescript
+  function checkSquareExist(m1, n1, m2, n2)
+
+- ```typescript
+  function checkSqrt(n)
+
+- ```typescript
+  function gcdForMultiplies(a, b)
+
+- ```typescript
+  function getAllMAndNForFmn(fmn)
+
+- ```typescript
+  function getAllFmnForTfmn(tfmn, maxK = 100n)
+
+- ```typescript
+  function getAllFmnForTfmn2(tfmn, maxK = 100n)
+
+- ```typescript
+  function F7(a, b)
+
+- ```typescript
+  function factorizeAllUntil(n)
+
+- ```typescript
+  function addFactorToList(list, factor)
+
+- ```typescript
+  function addFactorization()
+
+- ```typescript
+  function generateUsingFactorizationAndBinarySearch(maxM)
+
+- ```typescript
+  function generateUsingUsualFilter(maxM)
+
+- ```typescript
+  function generateUsingUsualFilterAndBinarySearch(maxM)
+
+- ```typescript
+  function binarySearchIndex(array, checker)
+
+- ```typescript
+  function insert(value, index, array)
+
+- ```typescript
+  function F1ForGenerating(m, n)
+
+- ```typescript
+  function F3ForGenerating(m, n)
+
+- ```typescript
+  function F4ForGenerating(m, n)
+
+- ```typescript
+  function F7ForGenerating(m, n)
+
+- ```typescript
+  function generateForOnlyOne(maxM, string)
+
+- ```typescript
+  function generateForOnlyOneF(maxM, method)
+
+- ```typescript
+  function F8NextStep(a, b)
+
+- ```typescript
+  function F8ForGenerate(u, v)
+
+- ```typescript
+  function searchResourceForF8(maxM)
+
+- ```typescript
+  function F8NextSteps(maxLength, startA, startB)
+
+- ```typescript
+  function generateForOnlyF8(maxM, maxLength)
+
+- ```typescript
+  function generateWithPrepareFiltration(maxM)
+
+- ```typescript
+  function generateForPithagorasOf(maxM, type)
+
+- ```typescript
+  function generateForPithagoras(maxM, getter)
+
+- ```typescript
+  function getPithagoras1(m, n)
+
+- ```typescript
+  function getPithagoras2(m, n)
+
+- ```typescript
+  function getPithagoras3(m, n)
+
+- ```typescript
+  function tfmnListMinus(list1, list2)
+
+- ```typescript
+  function tfmnListUnion()
+
+- ```typescript
+  function mergeTfmn(first, second)
+
+- ```typescript
+  function generateForSearch4kPlus3Primes(maxM)
+здесь круто
+
+### Методы для работы с векторами <span id="vector"></span>
+
+
