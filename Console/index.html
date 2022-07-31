@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagicSquare</title>
+    <link rel="stylesheet" href="../bootstrap-5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+
+
+
+    <textarea id = "input">
+    </textarea>
+    <button id = "startButton">
+        Давай
+    </button>
+    <div class="container">
+        <div class="row">
+            <div id = "output" class="col-6 bg-light text-dark">
+
+            </div>
+            <div class="col-6 bg-dark text-light">
+                <pre>
+<code>printTfmnsForMaxM(maxM)
+printTfmnsWithPairs(tfmns)
+strTfmnWithPairs(tfmn)
+generateUsingGcd(maxM)
+tOf(n)
+tOfBigInt(n)
+tfmnOf(a, b)
+tfmnByFactorizations(a, b, aPlusB, aMinusB)
+getFormattedTime(milliseconds)
+checkSquareExistUseTfmn(m1, n1, tfmn)
+checkSquareExist(m1, n1, m2, n2)
+checkSqrt(n)
+gcdForMultiplies(a, b)
+getAllMAndNForFmn(fmn)
+getAllFmnForTfmn(tfmn, maxK = 100n)
+getAllFmnForTfmn2(tfmn, maxK = 100n)
+F7(a, b)
+factorizeAllUntil(n)
+addFactorToList(list, factor)
+addFactorization()
+generateUsingFactorizationAndBinarySearch(maxM)
+generateUsingUsualFilter(maxM)
+generateUsingUsualFilterAndBinarySearch(maxM)
+binarySearchIndex(array, checker)
+insert(value, index, array)
+compareTfmn(value)
+F1ForGenerating(m, n)
+F3ForGenerating(m, n)
+F4ForGenerating(m, n)
+F7ForGenerating(m, n)
+generateForOnlyOne(maxM, string)
+generateForOnlyOneF(maxM, method)
+F8NextStep(a, b)
+F8ForGenerate(u, v)
+searchResourceForF8(maxM)
+F8NextSteps(maxLength, startA, startB)
+generateForOnlyF8(maxM, maxLength)
+generateWithPrepareFiltration(maxM)
+generateForPithagorasOf(maxM, type)
+generateForPithagoras(maxM, getter)
+getPithagoras1(m, n)
+getPithagoras2(m, n)
+getPithagoras3(m, n)
+tfmnListMinus(list1, list2)
+tfmnListUnion()
+mergeTfmn(first, second)
+generateForSearch4kPlus3Primes(maxM)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../jQuery/jQuery.js"></script>
+    <script src="../js/math.js"></script>
+    <script src="../js/polynomials.js"></script>
+    <script src="../js/polynomials2.js"></script>
+    <script src="../js/multiply/square.js"></script>
+    <script src="../js/rsa.js"></script>
+    <script src="../js/generator.js"></script>
+    <script>
+        console.logs = [];
+        const clog = console.log.bind(console);
+        console.log = (...args) => {
+            console.logs.push(args.toString())
+            drawLogs(console.logs)
+            clog(args.toString());
+        }
+
+        document.getElementById("startButton").onclick = () => {
+            let input = document.getElementById("input")
+            let output = document.getElementById("output")
+            let text = input.value
+            input.value = ""
+            let result = eval(text)
+            console.log(result)
+        }
+
+        let drawLogs = (logs) => {
+            let output = document.getElementById("output")
+            output.innerHTML = ""
+            for (let log of logs) {
+                let elem = document.createElement('div')
+                elem.innerText = log
+                elem.style.border = "1px solid #123456"
+                elem.style.margin = "2px"
+                elem.style.padding = "1px"
+                output.prepend(elem)
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key == 'Enter') {
+                document.getElementById("startButton").click()
+                event.preventDefault()
+            }
+        });
+    </script>
+</body>
+
+
+</html>
