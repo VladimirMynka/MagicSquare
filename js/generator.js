@@ -148,7 +148,7 @@ function getAllMAndNForFmn(fmn) {
             if (dividers[ni] > min(maxN, dividers[mi] - 1n)) break;
             if ((dividers[ni] + dividers[mi]) % 2n === 0n) continue;
             if (Math.gcd(dividers[ni], dividers[mi]) !== 1n) continue;
-            let current = fmn(dividers[mi], dividers[ni]);
+            let current = f(dividers[mi], dividers[ni]);
             if (current !== fmn) continue;
             result.push([dividers[mi], dividers[ni]]);
         }
@@ -185,10 +185,10 @@ function getAllFmnForTfmn2(tfmn, maxK = 100n) {
     let max = tfmn * (maxK ** 2n) * (factor ** 2n);
 
     for (let m = 2n; ; m++) {
-        if (fmn(m, 1n) > max) break;
+        if (f(m, 1n) > max) break;
         for (let n = (m % 2n) + 1n; n < m; n += 2n) {
             if (Math.gcd(m, n) !== 1n) continue;
-            let fmn = fmn(m, n);
+            let fmn = f(m, n);
             if (fmn % tfmn !== 0n) continue;
             let c = fmn / tfmn;
             if (searchRoot(c, 2n)[0]) {
@@ -671,4 +671,22 @@ function generateForSearch4kPlus3Primes(maxM) {
     }
     console.log(`Finished, length = ${tfmns.length}, current time: ${getFormattedTime(performance.now() - time)}`);
     return tfmns;
+}
+
+function fmnFmnMultiply(m, n) {
+    let mm = m * m
+    let nn = n * n
+    let mn = m * n
+    let mmpnn = mm + nn
+    let one = 2 * mn + mm - nn
+    let two = 2 * mn - mm + nn
+
+    let _11 = max(abs(one * two), mmpnn * mmpnn)
+    let _12 = min(abs(one * two), mmpnn * mmpnn)
+    let _21 = max(abs(one), mmpnn)
+    let _22 = min(abs(one), mmpnn)
+    let _31 = max(abs(two), mmpnn)
+    let _32 = min(abs(two), mmpnn)
+
+    return `f(${_11}, ${_12}) = f(${_21}, ${_22})⋅f(${_31}, ${_32})\n`
 }

@@ -1,85 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MagicSquare</title>
-        <link rel="stylesheet" href="../bootstrap-5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/main.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagicSquare</title>
+    <link rel="stylesheet" href="../bootstrap-5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
 
-    <body>
+<body>
 
-    <div class="square-wrapper d-none">
-        <div class="square">
-            <div class = "squareLine">
-                <div class = "squareElement Ex"></div>
-                <div class = "squareElement E-xy"></div>
-                <div class = "squareElement E-y"></div>
-            </div>
-            <div class = "squareLine">
-                <div class = "squareElement E-x-y"></div>
-                <div class = "squareElement E"></div>
-                <div class = "squareElement Exy"></div>
-            </div>
-            <div class = "squareLine">
-                <div class = "squareElement Ey"></div>
-                <div class = "squareElement Ex-y"></div>
-                <div class = "squareElement E-x"></div>
-            </div>
+<div class="square-wrapper d-none">
+    <div class="square">
+        <div class="squareLine">
+            <div class="squareElement Ex"></div>
+            <div class="squareElement E-xy"></div>
+            <div class="squareElement E-y"></div>
         </div>
-        <div class="row text-center">
-            <div class="col-12 mt-1">
-                <select class="small-input">
-                    <option>m</option>
-                    <option>c</option>
-                </select>
-                (
-                <input type="number" class="small-input input-E"/>,
-                <input type="number" class="small-input input-x"/>,
-                <input type="number" class="small-input input-y"/>
-                )
-            </div>
-            <div class="col-12 mt-1">
-                <select class="operator-one-select" style="height: 30px">
-                    <option value="0">Повернуть влево</option>
-                    <option value="1">Повернуть вправо</option>
-                    <option value="2">Транспонировать</option>
-                    <option value="3">Минимизировать</option>
-                    <option value="4">Умножить на</option>
-                    <option value="5">Факторизовать</option>
-                </select>
-                <input type="number" class="d-none number-input">
-                <button class="btn btn-dark btn-sm apply-one-operator mx-2">Применить</button>
-            </div>
+        <div class="squareLine">
+            <div class="squareElement E-x-y"></div>
+            <div class="squareElement E"></div>
+            <div class="squareElement Exy"></div>
+        </div>
+        <div class="squareLine">
+            <div class="squareElement Ey"></div>
+            <div class="squareElement Ex-y"></div>
+            <div class="squareElement E-x"></div>
         </div>
     </div>
-
-    <select class="operation-select d-none small-input">
-        <option>+</option>
-        <option>-</option>
-        <option>×</option>
-    </select>
-
-
-    <button id = "add-square-button" class="btn btn-dark small-input">+</button>
-    <div class="square-container">
+    <div class="row text-center">
+        <div class="col-12 mt-1">
+            <select class="small-input">
+                <option>m</option>
+                <option>c</option>
+            </select>
+            (
+            <input type="number" class="small-input input-E"/>,
+            <input type="number" class="small-input input-x"/>,
+            <input type="number" class="small-input input-y"/>
+            )
+        </div>
+        <div class="col-12 mt-1">
+            <select class="operator-one-select" style="height: 30px">
+                <option value="0">Повернуть влево</option>
+                <option value="1">Повернуть вправо</option>
+                <option value="2">Транспонировать</option>
+                <option value="3">Минимизировать</option>
+                <option value="4">Умножить на</option>
+                <option value="5">Факторизовать</option>
+            </select>
+            <input type="number" class="d-none number-input">
+            <button class="btn btn-dark btn-sm apply-one-operator mx-2">Применить</button>
+        </div>
     </div>
-    <button id = "calculate-button" class="btn btn-dark" style="width: 200px">Посчитать</button>
-    <a href="../index.html" class="btn btn-success mt-4" style="width: 400px">Страничка с генераторами</a>
+</div>
+
+<select class="operation-select d-none small-input">
+    <option>+</option>
+    <option>-</option>
+    <option>×</option>
+</select>
 
 
+<button id="add-square-button" class="btn btn-dark small-input">+</button>
+<div class="square-container">
+</div>
+<button id="calculate-button" class="btn btn-dark" style="width: 200px">Посчитать</button>
+<a href="../index.html" class="btn btn-success mt-4" style="width: 400px">Страничка с генераторами</a>
 
-    <script src = "../jQuery/jQuery.js"></script>
-        <script src = "../js/math.js"></script>
-        <script src = "../js/polynomials.js"></script>
-        <script src = "../js/polynomials2.js"></script>
-        <script src = "../js/multiply/square.js"></script>
-        <script src = "../js/multiply/multiplierPage.js"></script>
-        <script src = "../js/rsa.js"></script>
-        <script src = "../js/generator.js"></script>
-    </body>
+
+<script src="../jQuery/jQuery.js"></script>
+<script src="../js/math.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/polynomials.js"></script>
+<script src="../js/polynomials2.js"></script>
+<script src="../js/multiply/square.js"></script>
+<script src="../js/multiply/multiplierPage.js"></script>
+<script src="../js/rsa.js"></script>
+<script src="../js/generator.js"></script>
+</body>
 
 
 </html>

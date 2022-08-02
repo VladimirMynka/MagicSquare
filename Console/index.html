@@ -10,22 +10,38 @@
 </head>
 
 <body>
-
-
-
-    <textarea id = "input">
+<textarea id="input">
     </textarea>
-    <button id = "startButton">
-        Давай
-    </button>
-    <div class="container">
-        <div class="row">
-            <div id = "output" class="col-6 bg-light text-dark">
+<button id="startButton">
+    Давай
+</button>
+<div class="container">
+    <div class="row">
+        <div id="output" class="col-6 bg-light text-dark text-wrap">
 
-            </div>
-            <div class="col-6 bg-dark text-light">
-                <pre>
-<code>printTfmnsForMaxM(maxM)
+        </div>
+        <div class="col-6 bg-dark text-light">
+            <code id="funcs" class="text-light"></code>
+        </div>
+    </div>
+</div>
+
+
+<script src="../jQuery/jQuery.js"></script>
+<script src="../js/math.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/polynomials.js"></script>
+<script src="../js/polynomials2.js"></script>
+<script src="../js/multiply/square.js"></script>
+<script src="../js/rsa.js"></script>
+<script src="../js/generator.js"></script>
+<script>
+    console.logs = [];
+    const clog = console.log.bind(console);
+    const error = console.error.bind(console);
+    const clear = console.clear.bind(console);
+
+    funcs = `printTfmnsForMaxM(maxM)
 printTfmnsWithPairs(tfmns)
 strTfmnWithPairs(tfmn)
 generateUsingGcd(maxM)
@@ -72,58 +88,104 @@ tfmnListMinus(list1, list2)
 tfmnListUnion()
 mergeTfmn(first, second)
 generateForSearch4kPlus3Primes(maxM)
-                    </code>
-                </pre>
-            </div>
-        </div>
-    </div>
+fmnFmnMultiply(m, n)`.split('\n')
 
+    let jsongify = (data) => JSON.stringify(data, (key, value) =>
+        typeof value === "bigint" ? value.toString() + "n" : value
+    )
 
-    <script src="../jQuery/jQuery.js"></script>
-    <script src="../js/math.js"></script>
-    <script src="../js/polynomials.js"></script>
-    <script src="../js/polynomials2.js"></script>
-    <script src="../js/multiply/square.js"></script>
-    <script src="../js/rsa.js"></script>
-    <script src="../js/generator.js"></script>
-    <script>
-        console.logs = [];
-        const clog = console.log.bind(console);
-        console.log = (...args) => {
-            console.logs.push(args.toString())
-            drawLogs(console.logs)
-            clog(args.toString());
-        }
-
-        document.getElementById("startButton").onclick = () => {
+    for (let func of funcs) {
+        let keeper = document.createElement("div")
+        keeper.innerText = func
+        keeper.onclick = () => {
             let input = document.getElementById("input")
-            let output = document.getElementById("output")
-            let text = input.value
-            input.value = ""
-            let result = eval(text)
-            console.log(result)
+            input.value = func
         }
+        document.getElementById("funcs").append(keeper)
+    }
 
-        let drawLogs = (logs) => {
-            let output = document.getElementById("output")
-            output.innerHTML = ""
-            for (let log of logs) {
-                let elem = document.createElement('div')
-                elem.innerText = log
-                elem.style.border = "1px solid #123456"
-                elem.style.margin = "2px"
-                elem.style.padding = "1px"
-                output.prepend(elem)
+    let index = -1;
+
+    console.log = (...args) => {
+        console.logs.push({
+            type: "message",
+            message: args.toString()
+        })
+        drawLogs(console.logs)
+        clog(args.toString());
+    }
+
+    console.error = (...args) => {
+        console.logs.push({
+            type: "error",
+            message: args.toString()
+        })
+        drawLogs(console.logs)
+        error(args.toString());
+    }
+
+    console.clear = (...args) => {
+        console.logs.length = length;
+        drawLogs(console.logs);
+        error(args.toString());
+    }
+
+    console.input = (...args) => {
+        console.logs.push({
+            type: "input",
+            message: args.toString()
+        })
+        drawLogs(console.logs);
+    }
+
+    console.result = (...args) => {
+        console.logs.push({
+            type: "result",
+            message: typeof args[0] == 'object' ? jsongify(args) : args.toString()
+        })
+        drawLogs(console.logs);
+    }
+
+    document.getElementById("startButton").onclick = () => {
+        let input = document.getElementById("input")
+        let text = input.value
+        console.input(text)
+        input.value = ""
+        let result = eval(text)
+        console.result(result)
+    }
+
+    let drawLogs = (logs) => {
+        let output = document.getElementById("output")
+        output.innerHTML = ""
+        for (let log of logs) {
+            let elem = document.createElement('div')
+            elem.innerText = log.message
+            elem.classList.add("text-wrap", "overflow-hidden")
+            if (log.type == "error") {
+                elem.classList.add("bg-danger")
+            } else if (log.type == "input") {
+                elem.classList.add("bg-info")
+                elem.classList.add("fst-italic")
+            } else if (log.type == "input") {
+                elem.classList.add("bg-success")
+                elem.classList.add("fw-bold")
             }
+            output.prepend(elem)
         }
+    }
 
-        document.addEventListener('keydown', function(event) {
-            if (event.key == 'Enter') {
-                document.getElementById("startButton").click()
-                event.preventDefault()
-            }
-        });
-    </script>
+    document.addEventListener('keydown', function (event) {
+        if (event.key == 'Enter' && !event.shiftKey) {
+            document.getElementById("startButton").click()
+            event.preventDefault()
+        }
+        if (event.key == '') {
+            document.getElementById("startButton").click()
+            event.preventDefault()
+        }
+    });
+</script>
 </body>
 
 
