@@ -690,3 +690,10 @@ function fmnFmnMultiply(m, n) {
 
     return `f(${_11}, ${_12}) = f(${_21}, ${_22})⋅f(${_31}, ${_32})\n`
 }
+
+function multiplySumSquares(a, b, c, d) {
+    return [
+        [abs(a * c + b * d), abs(a * d - b * c)],
+        [abs(a * c - b * d), abs(a * d + b * c)]
+    ]
+}

@@ -10,6 +10,13 @@ let rightRotateButton = document.getElementById("rightRotateButton")
 let mirrorButton = document.getElementById("mirrorButton")
 let multiplyButton = document.getElementById("multiplyButton")
 
+let inputM = document.getElementById("inputM")
+let inputN = document.getElementById("inputN")
+let inputL = document.getElementById("inputK")
+let inputK = document.getElementById("inputL")
+let abceButton = document.getElementById("applyButtonABCE")
+let acehButton = document.getElementById("applyButtonACEH")
+
 let inputA1 = document.getElementById("inputA1")
 let inputB1 = document.getElementById("inputB1")
 let inputA2 = document.getElementById("inputA2")
@@ -498,6 +505,33 @@ swapCdButton.onclick = () => {
     inputD.value = z;
 
     lastClickGroup2.onclick()
+}
+
+abceButton.onclick = () => {
+    let m = inputM.value, n = inputN.value, k = inputK.value, l = inputL.value;
+    let mm = m * m, nn = n * n, kk = k * k, ll = l * l;
+    let mn = m * n, mk = m * k, ml = m * l, nk = n * k, nl = n * l, kl = k * l;
+    let a = mm + nn - kk - ll + 2 * (nk + nl + mk - ml);
+    let b = mm - nn + kk - ll + 2 * (nk + kl + ml - mn);
+    let c = mm - nn - kk + ll + 2 * (nl + kl + mn - mk);
+    let d = mm + nn + kk + ll;
+
+    inputE.value = d * d;
+    inputX.value = a * a - d * d;
+    inputY.value = d * d - c * c;
+
+    UpdateSquare();
+}
+
+acehButton.onclick = () => {
+    let m = inputM.value, n = inputN.value, k = inputK.value, l = inputL.value;
+    let vals = multiplySumSquares(m, n, k, l)
+
+    inputE.value = vals[1][0] * vals[1][0];
+    inputX.value = vals[0][0] * vals[0][0] - inputE.value;
+    inputY.value = inputE.value - vals[0][1] * vals[0][1];
+
+    UpdateSquare();
 }
 
 inputA1.onchange = () => {lastClickGroup1.onclick()}
