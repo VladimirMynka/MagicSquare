@@ -128,6 +128,22 @@ function makeSuperscript(n){
     else return "die"
 }
 
+function makeUnderscript(n){
+    n = BigInt(n);
+    if(n > 9n) return makeSuperscript(div(n, 10n)) + makeSuperscript(n % 10n)
+    else if(n == 9n) return "\u2089"
+    else if(n == 8n) return "\u2088"
+    else if(n == 7n) return "\u2087"
+    else if(n == 6n) return "\u2086"
+    else if(n == 5n) return "\u2085"
+    else if(n == 4n) return "\u2084"
+    else if(n == 3n) return "\u2083"
+    else if(n == 2n) return "\u2082"
+    else if(n == 1n) return "\u2081"
+    else if(n == 0n) return "\u2080"
+    else return "die"
+}
+
 function div(n, k) {
     return (n - n % k) / k
 }
@@ -426,4 +442,14 @@ function bezout(a, b) {
         oldY = temp;
     }
     return [oldX, oldY, oldGcd];
+}
+
+function binomialC(n, k) {
+    if (n * k < 0 || k > n) return 0
+    let result = 1
+    for (let i = 0; i < k; i++) {
+        result *= (n - i)
+        result /= (i + 1)
+    }
+    return result
 }

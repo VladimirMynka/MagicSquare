@@ -88,7 +88,8 @@ tfmnListMinus(list1, list2)
 tfmnListUnion()
 mergeTfmn(first, second)
 generateForSearch4kPlus3Primes(maxM)
-fmnFmnMultiply(m, n)`.split('\n')
+fmnFmnMultiply(m, n)
+solutionsToStr(rationalParametrize(factors, solution))`.split('\n')
 
     let jsongify = (data) => JSON.stringify(data, (key, value) =>
         typeof value === "bigint" ? value.toString() + "n" : value
@@ -170,6 +171,10 @@ fmnFmnMultiply(m, n)`.split('\n')
             } else if (log.type == "input") {
                 elem.classList.add("bg-success")
                 elem.classList.add("fw-bold")
+            }
+            elem.onclick = () => {
+                let input = document.getElementById("input")
+                input.value = elem.innerText
             }
             output.prepend(elem)
         }

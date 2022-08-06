@@ -282,3 +282,84 @@ function vecDivide(big, small) {
     }
     return [result, zeroDestuctor(plusToNext)[1]];
 }
+
+function getPlace(n, k1, k2, type = 2) {
+    if (type === 0) return 0;
+    if (type === 1) return 2 * k1 + k2 + 1;
+    if (k2 === k1) return getPlace(n, k1, k1, 1);
+    if (k1 > k2) { let swap = k2; k2 = k1; k1 = swap; }
+    k2 = k2 - k1 - 1;
+    if (k2 > 0) {
+        return getPlace(n, k1, k1 + 1) + k2;
+    }
+    return binomialC(n + 1, 2) - binomialC(n - k1 + 1, 2) + 2 * n + 3;
+}
+
+function rationalParametrize(factors, solution) {
+    let n = factors.length
+    let paramN = factors.length - 2
+    let cutFactors = factors.slice(1, -1)
+    let cutSolve = solution.slice(1, -1)
+    let solution0 = new Array(binomialC(paramN, 2) + 2 * paramN + 1).fill(0)
+    solution0[0] = cutSolve.reduce((res, curr, ind) => res + curr * curr * cutFactors[ind], 0)
+        + factors.at(-1) * solution.at(-1) * solution.at(-1)
+    for (let i = 0; i < paramN; i++) {
+        solution0[getPlace(paramN - 1, i, 0, 1)] = cutFactors[i] * solution[0] * solution[0]
+        solution0[getPlace(paramN - 1, i, 1, 1)] = -2 * cutFactors[i] * solution[0] * cutSolve[i]
+    }
+    let solutions = [solution0]
+
+    for (let k = 1; k < n - 1; k++) {
+        let currSolve = new Array(binomialC(paramN, 2) + 2 * paramN + 1).fill(0)
+        currSolve[0] = factors[0] * solution[0] * solution[k]
+        for (let i = 0; i < paramN; i++) {
+            currSolve[getPlace(paramN - 1, i, 0, 1)] = cutFactors[i] * solution[0] * solution[k]
+            currSolve[getPlace(paramN - 1, k - 1, i, 2)] -= 2 * cutFactors[i] * solution[0] * cutSolve[i]
+        }
+        currSolve[getPlace(paramN - 1, k - 1, 1, 1)] +=
+            cutSolve.reduce((res, curr, ind) => res + curr * curr * cutFactors[ind], 0)
+            + factors.at(-1) * solution.at(-1) * solution.at(-1)
+            - factors.at(0) * solution.at(0) * solution.at(0)
+        solutions.push(currSolve)
+    }
+
+    let lastSolve = new Array(binomialC(paramN, 2) + 2 * paramN + 1).fill(0)
+    lastSolve[0] = factors[0] * solution.at(0) * solution.at(-1)
+    for (let i = 0; i < paramN; i++) {
+        lastSolve[getPlace(paramN - 1, i, 0, 1)] = cutFactors[i] * solution[0] * solution.at(-1)
+    }
+    solutions.push(lastSolve)
+
+    return solutions
+}
+
+function lineToStr(line) {
+    let n = 0;
+    while (binomialC(n, 2) + 2 * n + 1 < line.length)
+        n++;
+    let str = line[0] !== 0 ? `${line[0]}` : ''
+    for (let i = 1; i <= 2 * n; i++) {
+        if (line[i] === 0) continue
+        if (line[i] >= 0 && str !== '') str += '+'
+        if (line[i] !== 1 && line[i] !== -1) str += line[i]
+        if (line[i] === -1) str += '-'
+        str += 't' + makeUnderscript(div(i - 1, 2))
+        if (i % 2 === 1) str += makeSuperscript(2)
+    }
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = i + 1; j <= n - 1; j++) {
+            let ind = getPlace(n - 1, i, j)
+            if (line[ind] === 0) continue
+            if (line[ind] >= 0 && str !== '') str += '+'
+            if (line[ind] !== 1 && line[ind] !== -1) str += line[ind]
+            str += 't' + makeUnderscript(i) + 't' + makeUnderscript(j)
+        }
+    }
+    return str;
+}
+
+function solutionsToStr(lines) {
+    let str = ''
+    for (let i = 0; i < lines.length; i++) str += '\nx' + makeUnderscript(i) + ' = ' + lineToStr(lines[i])
+    return str
+}
