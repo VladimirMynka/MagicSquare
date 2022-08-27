@@ -286,7 +286,7 @@ function vecDivide(big, small) {
 function getPlace(n, k1, k2, type = 2) {
     if (type === 0) return 0;
     if (type === 1) return 2 * k1 + k2 + 1;
-    if (k2 === k1) return getPlace(n, k1, k1, 1);
+    if (k2 === k1) return getPlace(n, k1, 0, 1);
     if (k1 > k2) { let swap = k2; k2 = k1; k1 = swap; }
     k2 = k2 - k1 - 1;
     if (k2 > 0) {

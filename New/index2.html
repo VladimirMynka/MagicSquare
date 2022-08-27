@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagicSquare</title>
+    <link rel="stylesheet" href="../bootstrap-5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+<div class="content user-select-none">
+    <div class="shadup d-flex flex-column flex-shrink-1 p-3 text-white bg-dark d-none">
+        <div role="button" class="toggler text-end fs-5 border-bottom">ᐅ</div>
+    </div>
+    <div class="shadup leftPanel d-flex flex-column flex-shrink-1 p-3 text-white bg-dark">
+        <div class="container border-bottom">
+            <div class="row p-0 m-0">
+                <div class="col fs-5">Магические квадраты - круто</div>
+                <div role="button" class="toggler col-1 text-end fs-5">ᐊ</div>
+            </div>
+        </div>
+
+<!--        Main menu-->
+        <div class="container mt-3"><div class="row">
+            <div role="button" class = "col toggler-main">Главное меню</div>
+            <div role="button" class = "col-1 text-end toggler-main toggler-main-visible">ᐃ</div>
+        </div></div>
+        <div class="container border border-warning rounded-3 p-3 mt-1 main-cont">
+            <div class="step-sm row">
+                <div class = "col btn btn-outline-light">
+                    E = <input class="btn btn-outline-light" type = "number" id = "inputE" value = "5" maxlength = "10" min = "-999999" max = "9999999">
+                </div>
+                <div class = "col btn btn-outline-light">
+                    x = <input class="btn btn-outline-light" type = "number" id = "inputX" value = "3" maxlength = "10" min = "-999999" max = "9999999">
+                </div>
+                <div class = "col btn btn-outline-light">
+                    y = <input class="btn btn-outline-light" type = "number" id = "inputY" value = "1" maxlength = "10" min = "-999999" max = "9999999">
+                </div>
+            </div>
+            <div class="step-sm row">
+                <button id = "applyButton" class="btn btn-light col">Задать</button>
+                <button id = "factorizeButton" class="btn btn-light col">Факторизовать</button>
+                <button id = "minimizeButton" class="btn btn-light col">Минимизировать</button>
+            </div>
+            <div class="step-sm row">
+                <button id = "leftRotateButton" class="btn btn-light col">Повернуть влево</button>
+                <button id = "mirrorButton" class="btn btn-light col">Отразить</button>
+                <button id = "rightRotateButton" class="btn btn-light col">Повернуть вправо</button>
+            </div>
+            <div class="step-sm row">
+                <button id = "interestingButton" class="btn btn-light col">Интересная трансформация</button>
+            </div>
+            <div class="step-sm row">
+                <button id = "multiplyButton" class="btn btn-light col">Умножить на</button>
+                <input class="btn btn-outline-light col" type = "number" id = "inputMultiply" value = "-1" maxlength = "3" min = "-9999" max = "999">
+            </div>
+        </div>
+
+<!--        Params-->
+        <div class="container mt-3"><div class="row">
+            <div role="button" class = "col toggler-param">Параметры</div>
+            <div role="button" class = "col-1 text-end toggler-param toggler-param-visible">ᐃ</div>
+        </div></div>
+        <div class="container border border-warning rounded-3 p-3 mt-1 param-cont">
+            <div class = "step-sm row">
+                <div class = "col btn btn-outline-light">
+                    &#945<sub>1</sub> = <input class="btn btn-outline-light" type = "number" id = "inputA1" value = "1" min = "1" max = "15">
+                    &#946<sub>1</sub> = <input class="btn btn-outline-light" type = "number" id = "inputB1" value = "1" min = "1" max = "15">
+                </div>
+                <div class = "col btn btn-outline-light">
+                    &#945<sub>2</sub> = <input class="btn btn-outline-light" type = "number" id = "inputA2" value = "1" min = "1" max = "15">
+                    &#946<sub>2</sub> = <input class="btn btn-outline-light" type = "number" id = "inputB2" value = "1" min = "1" max = "15">
+                </div>
+            </div>
+            <div class = "step-sm row">
+                <button id = "swapButton1" class="btn btn-light col">Обратить</button>
+                <button id = "swapButton2" class="btn btn-light col">Обратить</button>
+            </div>
+            <div class = "step-sm row">
+                <button id = "bigSwapButton" class="btn btn-light col">Обратить</button>
+            </div>
+            <div class = "step-sm row">
+                <button id = "bigTradeButton" class="btn btn-light col">Обменять</button>
+            </div>
+            <div class = "step-sm row">
+                <div class = "col btn btn-outline-light">
+                    maxRandom = <input class="btn btn-outline-light" type = "number" id = "inputMaxParam" value = "10" maxlength = "3" min = "1" max = "15">
+                </div>
+                <button id = "randomButtonParam" class="btn btn-light col">Зарандомить</button>
+            </div>
+        </div>
+
+<!--        4/9-->
+        <div class="container mt-3"><div class="row">
+            <div role="button" class = "col toggler-four">Генерация 4/9-квадратов</div>
+            <div role="button" class = "col-1 text-end toggler-four toggler-four-visible">ᐃ</div>
+        </div></div>
+        <div class="container border border-warning rounded-3 p-3 mt-1 four-cont">
+            <div class = "step-lg row">
+                <div class="col align-middle lh-lg">Красные (dir-квадраты)</div>
+                <button id = "applyButtonACEG" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+XOO</pre></button>
+                <button id = "applyButtonBDEF" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XXX
+OOO</pre></button>
+                <button id = "applyButtonABEJ" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OXO
+OOX</pre></button>
+                <button id = "applyButtonBDEJ" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XXO
+OOX</pre></button>
+                <button id = "applyButtonABEH" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OXO
+OXO</pre></button>
+                <button id = "applyButtonBDFG" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XOX
+XOO</pre></button>
+                <button id = "applyButtonABDJ" class="btn btn-light col-1 generator-button fw-bold my-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+XOO
+OOX</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Жёлтые (квадраты Брахмагупты)</div>
+                <button id = "applyButtonACEH" class="btn btn-light col-1 generator-button fw-bold my-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+OXO</pre></button>
+                <button id = "applyButtonACDE" class="btn btn-light col-1 generator-button fw-bold my-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+XXO
+OOO</pre></button>
+                <button id = "applyButtonBDFH" class="btn btn-light col-1 generator-button fw-bold my-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XOX
+OXO</pre></button>
+                <button id = "applyButtonACGJ" class="btn btn-light col-1 generator-button fw-bold my-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OOO
+XOX</pre></button>
+                <button id = "applyButtonABFJ" class="btn btn-light col-1 generator-button fw-bold my-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OOX
+OOX</pre></button>
+                <button id = "applyButtonABHJ" class="btn btn-light col-1 generator-button fw-bold my-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OOO
+OXX</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Голубые (квадраты Двахмагупты)</div>
+                <button id = "applyButtonBCDE" class="btn btn-light col-1 generator-button fw-bold my-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXX
+XXO
+OOO</pre></button>
+                <button id = "applyButtonACFG" class="btn btn-light col-1 generator-button fw-bold my-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OOX
+XOO</pre></button>
+                <button id = "applyButtonABDF" class="btn btn-light col-1 generator-button fw-bold my-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+XOX
+OOO</pre></button>
+                <button id = "applyButtonACDF" class="btn btn-light col-1 generator-button fw-bold my-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+XOX
+OOO</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Другие</div>
+                <button id = "applyButtonABCG" class="btn btn-light col-1 generator-button fw-bold my-brown">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
+OOO
+XOO</pre></button>
+                <button id = "applyButtonABCH" class="btn btn-light col-1 generator-button fw-bold my-brown">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
+OOO
+OXO</pre></button>
+                <button id = "applyButtonABCE" class="btn btn-light col-1 generator-button fw-bold my-green">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
+OXO
+OOO</pre></button>
+                <button id = "applyButtonABDE" class="btn btn-light col-1 generator-button fw-bold my-black">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+XXO
+OOO</pre></button>
+                <button id = "applyButtonABCD" class="btn btn-light col-1 generator-button fw-bold my-gray">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
+XOO
+OOO</pre></button>
+            </div>
+        </div>
+
+<!--        5/9-->
+        <div class="container mt-3"><div class="row">
+            <div role="button" class = "col toggler-five">Генерация 5/9-квадратов</div>
+            <div role="button" class = "col-1 text-end toggler-five toggler-five-visible">ᐃ</div>
+        </div></div>
+        <div class="container border border-warning rounded-3 p-3 mt-1 five-cont">
+            <div class = "step-lg row">
+                <div class="col align-middle lh-lg">Красно-красные</div>
+                <button id = "applyButtonACEGJ" class="btn btn-light col-1 generator-button fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+XOX</pre></button>
+                <button id = "applyButtonBDEFH" class="btn btn-light col-1 generator-button fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XXX
+OXO</pre></button>
+                <button id = "applyButtonABEHJ" class="btn btn-light col-1 generator-button fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OXO
+OXX</pre></button>
+                <button id = "applyButtonBDEFJ" class="btn btn-light col-1 generator-button fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XXX
+OOX</pre></button>
+                <button id = "applyButtonBDFGJ" class="btn btn-light col-1 generator-button fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XOX
+XOX</pre></button>
+                <button id = "applyButtonABDEJ" class="btn btn-light col-1 generator-button fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+XXO
+OOX</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Красно-жёлтые</div>
+                <button id = "applyButtonBDFHJ" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XOX
+OXX</pre></button>
+                <button id = "applyButtonABDFJ" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+XOX
+OOX</pre></button>
+                <button id = "applyButtonACEHJ" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+OXX</pre></button>
+                <button id = "applyButtonACDEG" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+XXO
+XOO</pre></button>
+                <button id = "applyButtonABCEH" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
+OXO
+OXO</pre></button>
+                <button id = "applyButtonACDEF" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+XXX
+OOO</pre></button>
+                <button id = "applyButtonABEFJ" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OXX
+OOX</pre></button>
+                <button id = "applyButtonABFGJ" class="btn btn-light col-1 generator-button fw-bold my-red-yellow">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OOX
+XOX</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Красно-голубые</div>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-red-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+OXO</pre></button>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-red-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+XXO
+OOO</pre></button>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-red-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XOX
+OXO</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Жёлто-голубые</div>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-yellow-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+OXO</pre></button>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-yellow-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+XXO
+OOO</pre></button>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-yellow-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+OXO
+XOX
+OXO</pre></button>
+            </div>
+            <div class="row">
+                <div class="col align-middle lh-lg">Другие</div>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-blue-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+OXO</pre></button>
+                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button fw-bold my-yellow-brown">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XOX
+OXO
+OXO</pre></button>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+    <div class="d-flex flex-column flex-shrink-1 position-relative">
+        <div class = "square" id = "square">
+            <div class = "squareLine">
+                <div id = "E+x" class = "squareElement"></div>
+                <div id = "E-x+y" class = "squareElement"></div>
+                <div id = "E-y" class = "squareElement"></div>
+            </div>
+            <div class = "squareLine">
+                <div id = "E-x-y" class = "squareElement"></div>
+                <div id = "E" class = "squareElement"></div>
+                <div id = "E+x+y" class = "squareElement"></div>
+            </div>
+            <div class = "squareLine">
+                <div id = "E+y" class = "squareElement"></div>
+                <div id = "E+x-y" class = "squareElement"></div>
+                <div id = "E-x" class = "squareElement"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/math.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/polynomials.js"></script>
+<script src="../js/polynomials2.js"></script>
+<script src="../js/rsa.js"></script>
+<script src="../js/generator.js"></script>
+<script src="../jQuery/jQuery.js"></script>
+<script src="../js/main2.js"></script>
+
+
+<script>
+    $('.toggler').on('click', () => {
+        $('.shadup').toggleClass('d-none');
+        $('#square').toggleClass('square');
+    });
+    $('.toggler-main').on('click', () => {
+        let $mainCot = $('.main-cont');
+        $mainCot.toggleClass('d-none');
+        console.log($mainCot[0].classList);
+        $('.toggler-main-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
+    });
+    $('.toggler-four').on('click', () => {
+        let $mainCot = $('.four-cont');
+        $mainCot.toggleClass('d-none');
+        console.log($mainCot[0].classList);
+        $('.toggler-four-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
+    });
+    $('.toggler-five').on('click', () => {
+        let $mainCot = $('.five-cont');
+        $mainCot.toggleClass('d-none');
+        console.log($mainCot[0].classList);
+        $('.toggler-five-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
+    });
+    $('.toggler-param').on('click', () => {
+        let $mainCot = $('.param-cont');
+        $mainCot.toggleClass('d-none');
+        console.log($mainCot[0].classList);
+        $('.toggler-param-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
+    });
+</script>
+</body>
+
+</html>

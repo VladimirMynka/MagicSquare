@@ -52,6 +52,7 @@ input:focus {
 
 .leftPanel{
     width: 50%;
+    min-height: 100vh;
 }
 
 .squareLine {
@@ -76,17 +77,22 @@ input:focus {
 
 #square {
     position: fixed;
-    right: 1%;
     top: 10%;
-    align-self: center;
-    width: 50%;
-}
-
-.square {
+    left: 30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.square {
+    position: fixed!important;
+    left: auto!important;
+    right: 1%;
+    top: 10%;
+    align-self: center;
+    width: 50%;
+    z-index: 0;
 }
 
 .red {
@@ -147,4 +153,70 @@ div.btn{
 .small-input {
     width: 60px;
     font-size: 24px;
+}
+
+.my-red {
+    border-color: darkred;
+    background: lightcoral;
+}
+
+.my-yellow {
+    border-color: darkgoldenrod;
+    background: lightgoldenrodyellow;
+}
+
+.my-blue {
+    border-color: darkblue;
+    background: lightskyblue;
+}
+
+.my-brown {
+    border-color: darkolivegreen;
+    background: #c19a6b;
+}
+
+.my-green {
+    border-color: darkgreen;
+    background: lightgreen;
+}
+
+.my-black {
+    border-color: black;
+    background: lightslategray;
+}
+
+.my-gray {
+    border-color: black;
+    background: lightgray;
+}
+
+.my-red-red {
+    border-color: darkred;
+    background: linear-gradient(to right, lightcoral 50%, lightcoral 50%);
+}
+
+.my-red-yellow {
+    border-color: darkorange;
+    background: linear-gradient(to right, lightcoral 50%, lightgoldenrodyellow 50%);
+}
+
+.my-red-blue {
+    border-color: purple;
+    background: linear-gradient(to right, lightcoral 50%, lightskyblue 50%);
+}
+
+.my-yellow-blue {
+    border-color: lightgreen;
+    background: linear-gradient(to right, lightgoldenrodyellow 50%, lightskyblue 50%);
+}
+
+.my-blue-blue {
+    border-color: darkblue;
+    background: linear-gradient(to right, lightskyblue 50%, lightskyblue 50%);
+}
+
+
+.my-yellow-brown {
+    border-color: brown;
+    background: linear-gradient(to right, lightgoldenrodyellow 50%, #c19a6b 50%);
 }
