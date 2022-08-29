@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<div class="content user-select-none">
+<div id="content" class="content user-select-none">
     <div class="shadup d-flex flex-column flex-shrink-1 p-3 text-white bg-dark d-none">
         <div role="button" class="toggler text-end fs-5 border-bottom">ᐅ</div>
     </div>
@@ -390,6 +390,7 @@ OXO</pre></button>
 <script src="../js/generator.js"></script>
 <script src="../jQuery/jQuery.js"></script>
 <script src="../js/main2.js"></script>
+<script src="../html2canvas/html2canvas.js"></script>
 
 
 <script>
@@ -421,6 +422,35 @@ OXO</pre></button>
         console.log($mainCot[0].classList);
         $('.toggler-param-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
     });
+
+
+
+    let counter = (E, x, y) =>
+        placeFormulas.reduce((res, elem) => res + isSquare(elem(E, x, y)), 0)
+
+    let setVals = (a, b, c, d) => {
+        inputA1.value = a;
+        inputB1.value = b;
+        inputA2.value = c;
+        inputB2.value = d;
+        abehjButton.click();
+        minimizeButton.click();
+    }
+
+    let screenshot = () => {
+		
+		return html2canvas(document.getElementById("content")).then(function(canvas) {
+
+			let myScreen = canvas.toDataURL('image/png');
+            let image = document.createElement('img');
+            image.src = myScreen;
+            image.height = 500;
+            image.width = 500;
+
+			document.body.appendChild(image);
+		});	
+	
+	}
 </script>
 </body>
 
