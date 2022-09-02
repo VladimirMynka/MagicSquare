@@ -10,13 +10,31 @@
 </head>
 
 <body>
+<div id="shower" class="card d-none position-absolute">
+    <div class="card-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-10 p-0">Всем привет</div>
+                <div id="close-shower" role="button" class="col-2 font-monospace text-end p-0 user-select-none">X</div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="container px-0 font-monospace">
+            <div class="row px-0 d-none mt-1">
+                <div class="col-5 fw-bold px-0">Уравнение:</div>
+                <div class="col-7 px-0"><pre>x² + y² = w² + z²</pre></div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="content" class="content user-select-none">
     <div class="shadup d-flex flex-column flex-shrink-1 p-3 text-white bg-dark d-none">
         <div role="button" class="toggler text-end fs-5 border-bottom">ᐅ</div>
     </div>
     <div class="shadup leftPanel flex-shrink-0 p-3 text-white bg-dark">
         <div class="container border-bottom">
-            <div class="row p-0 m-0">
+            <div class="row p-0 m-0 d-none">
                 <div class="col fs-5">Магические квадраты - круто</div>
                 <div role="button" class="toggler col-1 text-end fs-5">ᐊ</div>
             </div>
@@ -99,7 +117,7 @@
         </div></div>
         <div class="container border border-warning rounded-3 p-3 mt-1 four-cont">
             <div class = "step-lg row">
-                <div class="col align-middle">Красные (dir-квадраты)</div>
+                <div id="red" class="col align-middle">Красные (dir-квадраты)</div>
                 <button id = "applyButtonACEG" class="btn btn-light col-1 generator-button px-0 fw-bold my-red">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 XOX
@@ -137,7 +155,7 @@ XOO
 OOX</pre></button>
             </div>
             <div class="row">
-                <div class="col align-middle">Жёлтые (квадраты Брахмагупты)</div>
+                <div id="yellow" class="col align-middle">Жёлтые (квадраты Брахмагупты)</div>
                 <button id = "applyButtonACEH" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 XOX
@@ -170,7 +188,7 @@ OOO
 OXX</pre></button>
             </div>
             <div class="row">
-                <div class="col align-middle">Голубые (квадраты Двахмагупты)</div>
+                <div id="blue" class="col align-middle">Голубые (квадраты Двахмагупты)</div>
                 <button id = "applyButtonBCDE" class="btn btn-light col-1 generator-button px-0 fw-bold my-blue">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 OXX
@@ -193,7 +211,7 @@ XOX
 OOO</pre></button>
             </div>
             <div class="row">
-                <div class="col align-middle">Другие</div>
+                <div id="other" class="col align-middle">Другие</div>
                 <button id = "applyButtonABCG" class="btn btn-light col-1 generator-button px-0 fw-bold my-brown">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 XXX
@@ -229,7 +247,7 @@ OOO</pre></button>
         </div></div>
         <div class="container border border-warning rounded-3 p-3 mt-1 five-cont">
             <div class = "step-lg row">
-                <div class="col align-middle">Красно-красные</div>
+                <div id="redred" class="col align-middle">Красно-красные</div>
                 <button id = "applyButtonACEGJ" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-red">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 XOX
@@ -262,7 +280,7 @@ XXO
 OOX</pre></button>
             </div>
             <div class="row">
-                <div class="col align-middle">Красно-жёлтые</div>
+                <div id="redyellow" class="col align-middle">Красно-жёлтые</div>
                 <button id = "applyButtonBDFHJ" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-yellow">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 OXO
@@ -304,54 +322,54 @@ XXO
 OOX
 XOX</pre></button>
             </div>
-            <div class="row">
+            <div id="redblue" class="row">
                 <div class="col align-middle">Красно-голубые</div>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-blue">
+                <button id = "applyButtonABCDH" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-blue">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-XOX
-OXO
+XXX
+XOO
 OXO</pre></button>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-blue">
+                <button id = "applyButtonABCDJ" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-blue">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-XOX
+XXX
+XOO
+OOX</pre></button>
+                <button id = "applyButtonABDEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 XXO
+XXX
 OOO</pre></button>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-blue">
-                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-OXO
-XOX
-OXO</pre></button>
             </div>
-            <div class="row">
+            <div id="yellowblue" class="row">
                 <div class="col align-middle">Жёлто-голубые</div>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-blue">
+                <button id = "applyButtonABCGJ" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-blue">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-XOX
-OXO
-OXO</pre></button>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-blue">
+XXX
+OOO
+XOX</pre></button>
+                <button id = "applyButtonABCGH" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-blue">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-XOX
+XXX
+OOO
+XXO</pre></button>
+                <button id = "applyButtonABCDE" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-blue">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
 XXO
 OOO</pre></button>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-blue">
-                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-OXO
-XOX
-OXO</pre></button>
             </div>
             <div class="row">
                 <div class="col align-middle">Другие</div>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-blue-blue">
+                <button id = "applyButtonABCDF" class="btn btn-light col-1 generator-button px-0 fw-bold my-blue-blue">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXX
 XOX
-OXO
-OXO</pre></button>
-                <button id = "applyButtonABCEF" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-brown">
+OOO</pre></button>
+                <button id = "applyButtonABCDG" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-brown">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
-XOX
-OXO
-OXO</pre></button>
+XXX
+XOO
+XOO</pre></button>
             </div>
 
 
@@ -428,6 +446,9 @@ OXO</pre></button>
     let counter = (E, x, y) =>
         placeFormulas.reduce((res, elem) => res + isSquare(elem(E, x, y)), 0)
 
+    let former = (E, x, y) =>
+        placeFormulas.reduce((res, elem) => res + (isSquare(elem(E, x, y)) ? 'x' : 'o'), '')
+
     let setVals = (a, b, c, d) => {
         inputA1.value = a;
         inputB1.value = b;
@@ -451,6 +472,115 @@ OXO</pre></button>
 		});	
 	
 	}
+
+    let getButton = (id, header, form, system, compressed, exy) => {
+        return {
+            id: id,
+            header: header,
+            titles: ['Form:', 'System:', 'Compressed:', 'Solution:'],
+            values: [form, system, compressed, exy]
+        }
+    }
+
+    let getColor = (id, header, problem, solution, style='') => {
+        return {
+            id: id,
+            header: header,
+            titles: ['Problem:', 'Solution:'],
+            values: [problem, solution],
+            style: style
+        }
+    }
+
+    let data = [
+        getColor(
+            'red',
+            'Красные, или дирные 4/9',
+            'A² + B² = 2C²',
+            'A = 2mn + m² - n²\nB = 2mn - m² + n²\nC = m² + n²',
+            'background: lightcoral;'
+        ),
+        getColor(
+            'yellow',
+            'Жёлтые 4/9',
+            'A² + B² = C² + D²',
+            'A, C = ac ± bd\nB, D = ad ∓ bc',
+            'background: lightgoldenrodyellow;'
+        ),
+        getColor(
+            'blue',
+            'Голубые 4/9',
+            'A² + 2B² = C² + 2D²',
+            'A, C = ac ± 2bd\nB, D = ad ∓ bc',
+            'background: lightskyblue;'
+        ),
+        {
+            id: 'other',
+            header: 'Другие 4/9',
+            titles: ['Коричневые', 'Зелёный', 'Тёмно-серый', 'Светло-серый'],
+            values: [
+`Problem:   2A² + 2B² = 3C² + D²
+-------------------------------
+Solution:   A = -2c²d² + 2a²d² - 4acd² - 3b²c² + 6bcd²
+            B = 2c²d² - 2a²d² - 4acd² - 3b²c² + 6abcd
+            C = 2c²d² + 2a²d² + 3b²c² - 4bcd² - 4abcd
+            D = 2c²d² + 2a²d² - 3b²c²`,
+`Problem:   A² + B² + C² = 3D²
+-------------------------------
+Solution:   a² + b² - c² - d² + 2ac - ad + bc + bd,
+            a² - b² + c² - d² + 2ad - ab + bc + cd,
+            a² - b² - c² + d² + 2ab - ac + bd + cd,
+            a² + b² + c² + d²`,
+`Problem:   2A² + B² + C² = 4D²
+-------------------------------
+Solution:   -2c²d² + a²d² - 2acd² + b²c² - 2bcd²,
+            2c²d² - a²d² - 4acd² + b²c² - 2abcd,
+            2c²d² + a²d² - b²c² - 4bcd² - 2abcd,
+            2c²d² + a²d² + b²c²
+`,
+`Problem:   2A² + 3B² = C² + 4D²
+-------------------------------
+Solution:   -2c²d² + 3a²d² - 6acd² - 4b²c² + 8bcd²,
+            2c²d² - 3a²d² - 4acd² - 4b²c² + 8abcd,
+            2c²d² + 3a²d² + 4b²c² - 4bcd² - 6abcd,
+            2c²d² + 3a²d² - 4b²c²
+`
+            ],
+        }
+
+    ]
+
+    let $shower = $('#shower');
+    for (let one of data) {
+        let oneElem = document.getElementById(one.id);
+        oneElem.oncontextmenu = (e) => {
+            e.preventDefault();
+            let $headerKeeper = $shower.find('.card-header').find('.col-10');
+            $headerKeeper.text(one.header);
+            let $container = $shower.find('.card-body').find('.container');
+            let $row = $container.find('.row.d-none');
+            $container.empty();
+            $container.append($row);
+            let len = one.titles.length;
+            for (let i = 0; i < len; i++) {
+                let $clone = $row.clone();
+                $clone.removeClass('d-none');
+                $clone.find('.col-5').text(one.titles[i]);
+                $clone.find('.col-7').find('pre').text(one.values[i]);
+                $container.append($clone);
+            }
+            $shower.removeClass("d-none");
+            $shower.attr('style', one.style + `width: 20rem; left: ${bounding.x + 16}px; top: ${bounding.y - 16}px;`);
+        }
+        let bounding = oneElem.getBoundingClientRect()
+    }
+    document.getElementById('close-shower').onclick = () => {
+        $shower.addClass('d-none')
+    }
+    document.body.onclick = () => {
+        $shower.addClass('d-none')
+    }
+
 </script>
 </body>
 
