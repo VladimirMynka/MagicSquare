@@ -34,7 +34,7 @@
     </div>
     <div class="shadup leftPanel flex-shrink-0 p-3 text-white bg-dark">
         <div class="container border-bottom">
-            <div class="row p-0 m-0 d-none">
+            <div class="row p-0 m-0">
                 <div class="col fs-5">Магические квадраты - круто</div>
                 <div role="button" class="toggler col-1 text-end fs-5">ᐊ</div>
             </div>
@@ -546,8 +546,84 @@ Solution:   -2c²d² + 3a²d² - 6acd² - 4b²c² + 8bcd²,
             2c²d² + 3a²d² - 4b²c²
 `
             ],
-        }
-
+        },
+        getColor(
+            'redred',
+            'Красно-красные 5/9',
+            '1) A² + J² = 2E²\nB² + H² = 2E²\n' +
+            'или\n2) A² + J² = 2E²\nF² + H² = 2A²\n' +
+            'или\n3) F² + H² = 2A²\nF² + B² = 2G²',
+            '1) A = (2ab + a² - b²)(c² + d²)\n' +
+            'J = (2ab - a² + b²)(c² + d²)\n' +
+            'B = (a² + b²)(2cd + c² - d²)\n' +
+            'H = (a² + b²)(2cd - c² + d²)\n' +
+            'E = (a² + b²)(c² + d²)\n' +
+            'или\n' +
+            '2) E = (a² + b²)(c² + d²)\n' +
+            'J = (2ab - a² + b²)(c² + d²)\n' +
+            'A = (2ab + a² - b²)(c² + d²)\n' +
+            'H = (2ab + a² - b²)(2cd - c² + d²)\n' +
+            'F = (2ab + a² - b²)(2cd + c² - d²)\n' +
+            'или\n' +
+            '3) A = (a² + b²)(2cd - c² + d²)\n' +
+            'H = (2ab + a² - b²)(2cd - c² + d²)\n' +
+            'F = (2ab - a² + b²)(2cd - c² + d²)\n' +
+            'B = (2ab - a² + b²)(2cd + c² - d²)\n' +
+            'G = (2ab - a² + b²)(c² + d²)\n',
+            'background: lightcoral;width: 41rem!important;'
+        ),
+        getColor(
+            'redyellow',
+            'Красно-жёлтые 5/9',
+            '1) \nB² + H² = D² + F²\nF² + H² = 2A²\n' +
+            'или\n2) \nA² + J² = D² + F²\nB² + D² = 2J²\n' +
+            'или\n3) \nA² + C² = E² + H²\nB² + H² = 2E²',
+            '1) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
+            'B, D = ac ± bd\n' +
+            'F, H = ad ± bc\n' +
+            'A = 2ad\n' +
+            'a = 2mnk / d\n' +
+            'b = (m² - n²)k / c\n' +
+            'k = cd / (gcd(2mn, d) * gcd(m² - n², c))\n' +
+            'm, n, c, d – параметры\n' +
+            'или\n' +
+            '2) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
+            'J, D = ac ± bd\n' +
+            'F, A = ad ± bc\n' +
+            'B = ac + 2bd\n' +
+            'a = m(m + n)k / c\n' +
+            'b = n(n - m)k / d\n' +
+            'k = cd / (gcd(m(m + n), c) * gcd(n(n - m), d))\n' +
+            'm, n, c, d – параметры\n' +
+            'или\n' +
+            '3) ***НЕ РЕШЕНО***',
+            'background: linear-gradient(to right, lightcoral 30%, lightgoldenrodyellow 50%); width: 41rem!important; '
+        ),
+        getColor(
+            'redblue',
+            'Красно-голубые 5/9',
+            '1) \nB² - D² = 2H² - 2A²\nD² + H² = 2C²\n' +
+            '1) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
+            'B, D = ac ± bd\n' +
+            'F, H = ad ± bc\n' +
+            'A = 2ad\n' +
+            'a = 2mnk / d\n' +
+            'b = (m² - n²)k / c\n' +
+            'k = cd / (gcd(2mn, d) * gcd(m² - n², c))\n' +
+            'm, n, c, d – параметры\n' +
+            'или\n' +
+            '2) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
+            'J, D = ac ± bd\n' +
+            'F, A = ad ± bc\n' +
+            'B = ac + 2bd\n' +
+            'a = m(m + n)k / c\n' +
+            'b = n(n - m)k / d\n' +
+            'k = cd / (gcd(m(m + n), c) * gcd(n(n - m), d))\n' +
+            'm, n, c, d – параметры\n' +
+            'или\n' +
+            '3) ***НЕ РЕШЕНО***',
+            'background: linear-gradient(to right, lightcoral 30%, lightgoldenrodyellow 50%); width: 41rem!important; '
+        ),
     ]
 
     let $shower = $('#shower');
