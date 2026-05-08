@@ -844,65 +844,83 @@ function abfgj(a, b, c, d) {
     return [(A + J) / 2n, (A - J) / 2n, B - J];
 }
 
-function redBlue(a, b, c, d) {
-    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
-    let r = -a * a + 2n * a * b + b * b;
-    let s = a * a + b * b;
-    let t = a * a + 2n * a * b - b * b;
-    let M = c * c - 2n * d * d;
-    let P = c * c + 2n * d * d;
-    let Q = 2n * c * d;
-    let A = Q * t + P * r;
-    let B = P * t + 2n * Q * r;
-    let C = M * s;
-    let D = M * t;
-    let H = M * r;
-    return [A * A, B * B, C * C, D * D, H * H];
+function toBigInts(values) {
+    return values.map(elem => BigInt(elem));
+}
+
+function squareTuple(values) {
+    return values.map(elem => elem * elem);
+}
+
+function redSeed(a, b) {
+    [a, b] = toBigInts([a, b]);
+    return {
+        r: -a * a + 2n * a * b + b * b,
+        s: a * a + b * b,
+        t: a * a + 2n * a * b - b * b
+    };
+}
+
+function redBlueParams(c, d, sign) {
+    [c, d] = toBigInts([c, d]);
+    return {
+        P: c * c + sign * 2n * d * d,
+        Q: 2n * c * d,
+        M: c * c - sign * 2n * d * d
+    };
+}
+
+function redBlueFromFormula(a, b, c, d, formula, order) {
+    let letters = formula(redSeed(a, b), redBlueParams(c, d, 1n));
+    return squareTuple(order.map(letter => letters[letter]));
+}
+
+function redBlue1(a, b, c, d) {
+    return redBlueFromFormula(a, b, c, d, ({r, s, t}, {P, Q, M}) => ({
+        A: Q * t + P * r,
+        B: P * t + 2n * Q * r,
+        C: M * s,
+        D: M * t,
+        H: M * r
+    }), ["A", "B", "C", "D", "H"]);
 }
 
 function redBlue2(a, b, c, d) {
-    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
-    let r = -a * a + 2n * a * b + b * b;
-    let s = a * a + b * b;
-    let t = a * a + 2n * a * b - b * b;
-    let N = c * c + 2n * d * d;
-    let P = c * c - 2n * d * d;
-    let Q = 2n * c * d;
-    let A = P * r + Q * t;
-    let B = P * t - 2n * Q * r;
-    let D = N * t;
-    let E = N * s;
-    let F = N * r;
-    return [A * A, B * B, D * D, E * E, F * F];
+    return redBlueFromFormula(a, b, c, d, ({r, s, t}, {P: N, Q, M: P}) => ({
+        A: P * r + Q * t,
+        B: P * t - 2n * Q * r,
+        D: N * t,
+        E: N * s,
+        F: N * r
+    }), ["A", "B", "D", "E", "F"]);
 }
 
 function redBlue3(a, b, c, d) {
-    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
-    let r = -a * a + 2n * a * b + b * b;
-    let s = a * a + b * b;
-    let t = a * a + 2n * a * b - b * b;
-    let M = c * c - 2n * d * d;
-    let P = c * c + 2n * d * d;
-    let Q = 2n * c * d;
-    let A = P * s + 2n * Q * t;
-    let B = M * r;
-    let C = Q * s + P * t;
-    let D = M * t;
-    let J = M * s;
-    return [A * A, B * B, C * C, D * D, J * J];
+    return redBlueFromFormula(a, b, c, d, ({r, s, t}, {P, Q, M}) => ({
+        A: P * s + 2n * Q * t,
+        B: M * r,
+        C: Q * s + P * t,
+        D: M * t,
+        J: M * s
+    }), ["A", "B", "C", "D", "J"]);
+}
+
+function ensureSameParity(values, left, right) {
+    if (values[left] % 2n !== values[right] % 2n) {
+        return values.map(elem => elem * 4n);
+    }
+    return values;
 }
 
 //redblue
 function abcdh(a, b, c, d) {
-    let [A, B, C, D, H] = redBlue(a, b, c, d);
+    let [A, B, C, D, H] = redBlue1(a, b, c, d);
     return [A - H + C, H - C, A - H];
 }
 
 function abcdj(a, b, c, d) {
     let [A, B, C, D, J] = redBlue3(a, b, c, d);
-    if (A % 2n !== J % 2n) {
-        [A, B, C, D, J] = [A, B, C, D, J].map(elem => elem * 4n);
-    }
+    [A, B, C, D, J] = ensureSameParity([A, B, C, D, J], 0, 4);
     return [(A + J) / 2n, (A - J) / 2n, J - D];
 }
 
@@ -941,7 +959,7 @@ function divExact(a, b) {
 }
 
 function normParams(a, b, c, d) {
-    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    [a, b, c, d] = toBigInts([a, b, c, d]);
     return {
         P: a * a - b * b,
         Q: 2n * a * b,
@@ -953,6 +971,7 @@ function normParams(a, b, c, d) {
 }
 
 function blueParams(a, b) {
+    [a, b] = toBigInts([a, b]);
     return {
         U: a * a - 2n * b * b,
         V: 2n * a * b,
@@ -960,60 +979,85 @@ function blueParams(a, b) {
     };
 }
 
-function yellowBlueAbcde(a, b, c, d) {
-    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
-    let [C, D, E] = solveTwoLinearWithScale(-Q, N, -P, M, -V, -U);
-    let A = divExact(P * C - Q * E, N);
-    let B = divExact(U * D - 2n * V * E, M);
-    return [A * A, B * B, C * C, D * D, E * E];
+function yellowBlueFromTwoEquations(a, b, c, d, equations, recover, order) {
+    let params = normParams(a, b, c, d);
+    let solved = solveTwoLinearWithScale(...equations(params));
+    let letters = recover(params, solved);
+    return squareTuple(order.map(letter => letters[letter]));
+}
+
+function yellowBlue1(a, b, c, d) {
+    return yellowBlueFromTwoEquations(
+        a,
+        b,
+        c,
+        d,
+        ({P, Q, N, U, V, M}) => [-Q, N, -P, M, -V, -U],
+        ({P, Q, N, U, V, M}, [C, D, E]) => ({
+            A: divExact(P * C - Q * E, N),
+            B: divExact(U * D - 2n * V * E, M),
+            C,
+            D,
+            E
+        }),
+        ["A", "B", "C", "D", "E"]
+    );
 }
 
 function abcde(a, b, c, d) {
-    let [A, B, C, D, E] = yellowBlueAbcde(a, b, c, d);
+    let [A, B, C, D, E] = yellowBlue1(a, b, c, d);
     return [E, A - E, E - C];
 }
 
-function yellowBlueAbcgj(a, b, c, d) {
-    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
-    let [C, J, G] = solveTwoLinearWithScale(
-        -Q,
-        N,
-        -P,
-        M * P,
-        -N * U,
-        -M * Q + 2n * N * V
+function yellowBlue2(a, b, c, d) {
+    return yellowBlueFromTwoEquations(
+        a,
+        b,
+        c,
+        d,
+        ({P, Q, N, U, V, M}) => [-Q, N, -P, M * P, -N * U, -M * Q + 2n * N * V],
+        ({P, Q, N, U, V, M}, [C, J, G]) => ({
+            A: divExact(P * C - Q * G, N),
+            B: divExact(V * J + U * G, M),
+            C,
+            G,
+            J
+        }),
+        ["A", "B", "C", "G", "J"]
     );
-    let A = divExact(P * C - Q * G, N);
-    let B = divExact(V * J + U * G, M);
-    return [A * A, B * B, C * C, G * G, J * J];
 }
 
 function abcgj(a, b, c, d) {
-    let [A, B, C, G, J] = yellowBlueAbcgj(a, b, c, d);
-    if (A % 2n !== J % 2n) {
-        [A, B, C, G, J] = [A, B, C, G, J].map(elem => elem * 4n);
-    }
+    let [A, B, C, G, J] = yellowBlue2(a, b, c, d);
+    [A, B, C, G, J] = ensureSameParity([A, B, C, G, J], 0, 4);
     return [(A + J) / 2n, (A - J) / 2n, (A + J) / 2n - C];
 }
 
-function yellowBlueAbcgh(a, b, c, d) {
-    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
-    let [C, H, G] = solveTwoLinearWithScale(-Q, N, -P, M, 2n * V, -U);
-    let A = divExact(V * G + U * H, M);
-    let B = divExact(P * C - Q * G, N);
-    return [A * A, B * B, C * C, G * G, H * H];
+function yellowBlue3(a, b, c, d) {
+    return yellowBlueFromTwoEquations(
+        a,
+        b,
+        c,
+        d,
+        ({P, Q, N, U, V, M}) => [-Q, N, -P, M, 2n * V, -U],
+        ({P, Q, N, U, V, M}, [C, H, G]) => ({
+            A: divExact(V * G + U * H, M),
+            B: divExact(P * C - Q * G, N),
+            C,
+            G,
+            H
+        }),
+        ["A", "B", "C", "G", "H"]
+    );
 }
 
 function abcgh(a, b, c, d) {
-    let [A, B, C, G, H] = yellowBlueAbcgh(a, b, c, d);
-    if (C % 2n !== G % 2n) {
-        [A, B, C, G, H] = [A, B, C, G, H].map(elem => elem * 4n);
-    }
+    let [A, B, C, G, H] = yellowBlue3(a, b, c, d);
+    [A, B, C, G, H] = ensureSameParity([A, B, C, G, H], 2, 3);
     return [(C + G) / 2n, A - (C + G) / 2n, (G - C) / 2n];
 }
 
-function blueBlueAbcdf(a, b, c, d) {
-    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+function blueBlue(a, b, c, d) {
     let {U: U1, V: V1, M: M1} = blueParams(a, b);
     let {U: U2, V: V2, M: M2} = blueParams(c, d);
     let [A, C, D, F] = solveThreeLinearWithScale(
@@ -1026,9 +1070,7 @@ function blueBlueAbcdf(a, b, c, d) {
 }
 
 function abcdf(a, b, c, d) {
-    let [A, B, C, D, F] = blueBlueAbcdf(a, b, c, d);
-    if (D % 2n !== F % 2n) {
-        [A, B, C, D, F] = [A, B, C, D, F].map(elem => elem * 4n);
-    }
+    let [A, B, C, D, F] = blueBlue(a, b, c, d);
+    [A, B, C, D, F] = ensureSameParity([A, B, C, D, F], 3, 4);
     return [(D + F) / 2n, C - D, F - A];
 }
