@@ -371,11 +371,23 @@ XXX
 XOO
 XOO</pre></button>
             </div>
-
-
-
         </div>
 
+<!--        6/9-->
+        <div class="container mt-3"><div class="row">
+            <div role="button" class = "col toggler-six">Генерация 6/9-квадратов</div>
+            <div role="button" class = "col-1 text-end toggler-six toggler-six-visible">ᐃ</div>
+        </div></div>
+        <div class="container border border-danger rounded-3 p-3 mt-1 six-cont">
+            <div class = "step-lg row">
+                <div id="redredred6" class="col align-middle">Красно-красно-красные</div>
+                <button id = "applyButtonABEFGH" class="btn btn-light col-1 generator-button px-0 fw-bold my-red-red">
+                    <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
+XXO
+OXX
+XXO</pre></button>
+            </div>
+        </div>
     </div>
 
 
@@ -433,6 +445,12 @@ XOO</pre></button>
         $mainCot.toggleClass('d-none');
         console.log($mainCot[0].classList);
         $('.toggler-five-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
+    });
+    $('.toggler-six').on('click', () => {
+        let $mainCot = $('.six-cont');
+        $mainCot.toggleClass('d-none');
+        console.log($mainCot[0].classList);
+        $('.toggler-six-visible').text(($mainCot[0].classList.contains('d-none') ? 'ᐁ' : 'ᐃ'));
     });
     $('.toggler-param').on('click', () => {
         let $mainCot = $('.param-cont');
@@ -623,6 +641,17 @@ Solution:   -2c²d² + 3a²d² - 6acd² - 4b²c² + 8bcd²,
             'или\n' +
             '3) ***НЕ РЕШЕНО***',
             'background: linear-gradient(to right, lightcoral 30%, lightgoldenrodyellow 50%); width: 41rem!important; '
+        ),
+        getColor(
+            'redredred6',
+            'Красно-красно-красные 6/9',
+            'A² = (F² + H²)/2\nE² = (B² + H²)/2\nG² = (B² + F²)/2\n' +
+            'Эквивалентно r(x)r(z)=r(y), где r(t)=(t²-2t-1)/(t²+2t-1).',
+            '2S-семейство:\n' +
+            'z = (x⁴ - 2x³ + 2x² + 2x + 1)/(x⁴ + 2x³ + 2x² - 2x + 1)\n' +
+            'y = (x+1)(x⁴ - 2x³ - 2x² - 2x + 1)/((x-1)(x⁴ + 2x³ - 2x² + 2x + 1))\n' +
+            'В интерфейсе x=a/b, а c,d задают общий масштаб c²+d².',
+            'background: lightcoral; width: 41rem!important;'
         ),
     ]
 

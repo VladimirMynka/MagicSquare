@@ -72,6 +72,8 @@ let abcgjButton = document.getElementById("applyButtonABCGJ")
 let abcghButton = document.getElementById("applyButtonABCGH")
 let abcdfButton = document.getElementById("applyButtonABCDF")
 
+let abefghButton = document.getElementById("applyButtonABEFGH")
+
 let c1Place = document.getElementById("E+x")
 let s1Place = document.getElementById("E-x+y")
 let c2Place = document.getElementById("E-y")
@@ -277,6 +279,8 @@ let buttonGroup1 = [
     abcgjButton,
     abcghButton,
     abcdfButton,
+
+    abefghButton,
 ]
 
 let functionGroup1 = [
@@ -329,7 +333,9 @@ let functionGroup1 = [
     abcde,
     abcgj,
     abcgh,
-    abcdf
+    abcdf,
+
+    abefgh
 ]
 
 for(let i = 0; i < buttonGroup1.length; i++){
@@ -1073,4 +1079,40 @@ function abcdf(a, b, c, d) {
     let [A, B, C, D, F] = blueBlue(a, b, c, d);
     [A, B, C, D, F] = ensureSameParity([A, B, C, D, F], 3, 4);
     return [(D + F) / 2n, C - D, F - A];
+}
+
+// redredred 6/9
+function redRatioParts(p, q) {
+    return {
+        numerator: p * p - 2n * p * q - q * q,
+        denominator: p * p + 2n * p * q - q * q,
+        center: p * p + q * q
+    };
+}
+
+function redRedRed2S(a, b, c, d) {
+    [a, b, c, d] = toBigInts([a, b, c, d]);
+    let zNumerator = a ** 4n - 2n * a ** 3n * b + 2n * a * a * b * b + 2n * a * b ** 3n + b ** 4n;
+    let zDenominator = a ** 4n + 2n * a ** 3n * b + 2n * a * a * b * b - 2n * a * b ** 3n + b ** 4n;
+    let yNumerator = (a + b) * (a ** 4n - 2n * a ** 3n * b - 2n * a * a * b * b - 2n * a * b ** 3n + b ** 4n);
+    let yDenominator = (a - b) * (a ** 4n + 2n * a ** 3n * b - 2n * a * a * b * b + 2n * a * b ** 3n + b ** 4n);
+
+    let xParts = redRatioParts(a, b);
+    let zParts = redRatioParts(zNumerator, zDenominator);
+    let yParts = redRatioParts(yNumerator, yDenominator);
+    let scale = c * c + d * d;
+
+    let B = xParts.denominator * zParts.denominator * yParts.denominator * scale;
+    let F = xParts.numerator * zParts.denominator * yParts.denominator * scale;
+    let H = xParts.numerator * zParts.numerator * yParts.denominator * scale;
+    let G = xParts.center * zParts.denominator * yParts.denominator * scale;
+    let A = zParts.center * xParts.numerator * yParts.denominator * scale;
+    let E = yParts.center * xParts.denominator * zParts.denominator * scale;
+
+    return squareTuple([A, B, E, F, G, H]);
+}
+
+function abefgh(a, b, c, d) {
+    let [A, B, E, F, G, H] = redRedRed2S(a, b, c, d);
+    return [E, A - E, G - E];
 }
