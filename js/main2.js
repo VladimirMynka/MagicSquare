@@ -63,6 +63,15 @@ let acdefButton = document.getElementById("applyButtonACDEF")
 let abefjButton = document.getElementById("applyButtonABEFJ")
 let abfgjButton = document.getElementById("applyButtonABFGJ")
 
+let abcdhButton = document.getElementById("applyButtonABCDH")
+let abcdjButton = document.getElementById("applyButtonABCDJ")
+let abdefFiveButton = document.getElementById("applyButtonABDEF")
+
+let abcdeButton = document.getElementById("applyButtonABCDE")
+let abcgjButton = document.getElementById("applyButtonABCGJ")
+let abcghButton = document.getElementById("applyButtonABCGH")
+let abcdfButton = document.getElementById("applyButtonABCDF")
+
 let c1Place = document.getElementById("E+x")
 let s1Place = document.getElementById("E-x+y")
 let c2Place = document.getElementById("E-y")
@@ -259,6 +268,15 @@ let buttonGroup1 = [
     acdefButton,
     abefjButton,
     abfgjButton,
+
+    abcdhButton,
+    abcdjButton,
+    abdefFiveButton,
+
+    abcdeButton,
+    abcgjButton,
+    abcghButton,
+    abcdfButton,
 ]
 
 let functionGroup1 = [
@@ -302,7 +320,16 @@ let functionGroup1 = [
     abceh,
     acdef,
     abefj,
-    abfgj
+    abfgj,
+
+    abcdh,
+    abcdj,
+    abdefFive,
+
+    abcde,
+    abcgj,
+    abcgh,
+    abcdf
 ]
 
 for(let i = 0; i < buttonGroup1.length; i++){
@@ -375,12 +402,12 @@ function blue(a, b, c, d) {
 
 function brown(a, b, c, d) {
     [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
-    let [A, B, C, D] = [a, b, c, d].map(elem => elem * elem)
+    let [A, B, C] = [a, b, c];
     return [
-        -2n * (C * D) + 2n * (A * D) - 4n * (a * c * D) - 3n * (B * C) + 6n * (b * d * C),
-        2n * (C * D) - 2n * (A * D) - 4n * (a * c * D) - 3n * (B * C) + 6n * (b * d * a * c),
-        2n * (C * D) + 2n * (A * D) + 3n * (B * C) - 4n * (b * d * C) - 4n * (b * d * a * c),
-        2n * (C * D) + 2n * (A * D) - 3n * (B * C)
+        -2n * A * A - 4n * A * B + 2n * A * C + 2n * B * B - C * C,
+        2n * A * A - 4n * A * B - 2n * B * B + 2n * B * C - C * C,
+        2n * A * A + 2n * B * B - C * C,
+        2n * A * A - 4n * A * C + 2n * B * B - 4n * B * C + C * C
     ].map(elem => elem * elem)
 }
 
@@ -397,23 +424,23 @@ function green(a, b, c, d) {
 
 function darkgray(a, b, c, d) {
     [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
-    let [A, B, C, D] = [a, b, c, d].map(elem => elem * elem)
+    let [A, B, C] = [a, b, c];
     return [
-        -2n * (C * D) + (A * D) - 2n * (a * c * D) + (B * C) - 2n * (b * d * C),
-        2n * (C * D) - (A * D) - 4n * (a * c * D) + (B * C) - 2n * (b * d * a * c),
-        2n * (C * D) + (A * D) - (B * C) - 4n * (b * d * C) - 2n * (b * d * a * c),
-        2n * (C * D) + (A * D) + (B * C)
+        -2n * A * A - 2n * A * B - 2n * A * C + B * B + C * C,
+        2n * A * A - 4n * A * B - B * B - 2n * B * C + C * C,
+        2n * A * A - 4n * A * C + B * B - 2n * B * C - C * C,
+        2n * A * A + B * B + C * C
     ].map(elem => elem * elem)
 }
 
 function lightgray(a, b, c, d) {
     [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
-    let [A, B, C, D] = [a, b, c, d].map(elem => elem * elem)
+    let [A, B, C] = [a, b, c];
     return [
-        -2n * (C * D) + 3n * (A * D) - 6n * (a * c * D) - 4n * (B * C) + 8n * (b * d * C),
-        2n * (C * D) - 3n * (A * D) - 4n * (a * c * D) - 4n * (B * C) + 8n * (b * d * a * c),
-        2n * (C * D) + 3n * (A * D) + 4n * (B * C) - 4n * (b * d * C) - 6n * (b * d * a * c),
-        2n * (C * D) + 3n * (A * D) - 4n * (B * C)
+        -2n * A * A + 2n * A * B + 8n * A * C - B * B - 4n * C * C,
+        2n * A * A - B * B - 4n * C * C,
+        2n * A * A - 4n * A * C - B * B + 2n * B * C + 4n * C * C,
+        2n * A * A - 4n * A * B + B * B + 8n * B * C - 4n * C * C
     ].map(elem => elem * elem)
 }
 
@@ -772,11 +799,31 @@ function acehj(a, b, c, d) {
 }
 
 function acdeg(a, b, c, d) {
-    return [1, 0, 0];
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    let r = -a * a + 2n * a * b + b * b;
+    let s = a * a + b * b;
+    let t = a * a + 2n * a * b - b * b;
+    let N = c * c + d * d;
+    let P = d * d - c * c;
+    let Q = 2n * c * d;
+    let A = P * r - Q * s;
+    let E = N * s;
+    let G = N * t;
+    return [E * E, A * A - E * E, G * G - E * E];
 }
 
 function abceh(a, b, c, d) {
-    return [1, 0, 0];
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    let r = -a * a + 2n * a * b + b * b;
+    let s = a * a + b * b;
+    let t = a * a + 2n * a * b - b * b;
+    let N = c * c + d * d;
+    let P = d * d - c * c;
+    let Q = 2n * c * d;
+    let A = P * s - Q * t;
+    let C = Q * s + P * t;
+    let E = N * s;
+    return [E * E, A * A - E * E, E * E - C * C];
 }
 
 function acdef(a, b, c, d) {
@@ -795,4 +842,193 @@ function abfgj(a, b, c, d) {
         [G, B, A, F, J] = [G, B, A, F, J].map(elem => elem * 4n);
     }
     return [(A + J) / 2n, (A - J) / 2n, B - J];
+}
+
+function redBlue(a, b, c, d) {
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    let r = -a * a + 2n * a * b + b * b;
+    let s = a * a + b * b;
+    let t = a * a + 2n * a * b - b * b;
+    let M = c * c - 2n * d * d;
+    let P = c * c + 2n * d * d;
+    let Q = 2n * c * d;
+    let A = Q * t + P * r;
+    let B = P * t + 2n * Q * r;
+    let C = M * s;
+    let D = M * t;
+    let H = M * r;
+    return [A * A, B * B, C * C, D * D, H * H];
+}
+
+function redBlue2(a, b, c, d) {
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    let r = -a * a + 2n * a * b + b * b;
+    let s = a * a + b * b;
+    let t = a * a + 2n * a * b - b * b;
+    let N = c * c + 2n * d * d;
+    let P = c * c - 2n * d * d;
+    let Q = 2n * c * d;
+    let A = P * r + Q * t;
+    let B = P * t - 2n * Q * r;
+    let D = N * t;
+    let E = N * s;
+    let F = N * r;
+    return [A * A, B * B, D * D, E * E, F * F];
+}
+
+function redBlue3(a, b, c, d) {
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    let r = -a * a + 2n * a * b + b * b;
+    let s = a * a + b * b;
+    let t = a * a + 2n * a * b - b * b;
+    let M = c * c - 2n * d * d;
+    let P = c * c + 2n * d * d;
+    let Q = 2n * c * d;
+    let A = P * s + 2n * Q * t;
+    let B = M * r;
+    let C = Q * s + P * t;
+    let D = M * t;
+    let J = M * s;
+    return [A * A, B * B, C * C, D * D, J * J];
+}
+
+//redblue
+function abcdh(a, b, c, d) {
+    let [A, B, C, D, H] = redBlue(a, b, c, d);
+    return [A - H + C, H - C, A - H];
+}
+
+function abcdj(a, b, c, d) {
+    let [A, B, C, D, J] = redBlue3(a, b, c, d);
+    if (A % 2n !== J % 2n) {
+        [A, B, C, D, J] = [A, B, C, D, J].map(elem => elem * 4n);
+    }
+    return [(A + J) / 2n, (A - J) / 2n, J - D];
+}
+
+function abdefFive(a, b, c, d) {
+    let [A, B, D, E, F] = redBlue2(a, b, c, d);
+    return [E, A - E, F - A];
+}
+
+//yellowblue
+function solveTwoLinearWithScale(a1, b1, c1, a2, b2, c2) {
+    return [
+        b1 * c2 - c1 * b2,
+        c1 * a2 - a1 * c2,
+        a1 * b2 - b1 * a2
+    ];
+}
+
+function det3(a, b, c, d, e, f, g, h, i) {
+    return a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+}
+
+function solveThreeLinearWithScale(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3) {
+    return [
+        det3(b1, c1, d1, b2, c2, d2, b3, c3, d3),
+        -det3(a1, c1, d1, a2, c2, d2, a3, c3, d3),
+        det3(a1, b1, d1, a2, b2, d2, a3, b3, d3),
+        -det3(a1, b1, c1, a2, b2, c2, a3, b3, c3)
+    ];
+}
+
+function divExact(a, b) {
+    if (a % b !== 0n) {
+        throw new Error("Non-exact division in a parametric generator");
+    }
+    return a / b;
+}
+
+function normParams(a, b, c, d) {
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    return {
+        P: a * a - b * b,
+        Q: 2n * a * b,
+        N: a * a + b * b,
+        U: c * c - 2n * d * d,
+        V: 2n * c * d,
+        M: c * c + 2n * d * d
+    };
+}
+
+function blueParams(a, b) {
+    return {
+        U: a * a - 2n * b * b,
+        V: 2n * a * b,
+        M: a * a + 2n * b * b
+    };
+}
+
+function yellowBlueAbcde(a, b, c, d) {
+    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
+    let [C, D, E] = solveTwoLinearWithScale(-Q, N, -P, M, -V, -U);
+    let A = divExact(P * C - Q * E, N);
+    let B = divExact(U * D - 2n * V * E, M);
+    return [A * A, B * B, C * C, D * D, E * E];
+}
+
+function abcde(a, b, c, d) {
+    let [A, B, C, D, E] = yellowBlueAbcde(a, b, c, d);
+    return [E, A - E, E - C];
+}
+
+function yellowBlueAbcgj(a, b, c, d) {
+    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
+    let [C, J, G] = solveTwoLinearWithScale(
+        -Q,
+        N,
+        -P,
+        M * P,
+        -N * U,
+        -M * Q + 2n * N * V
+    );
+    let A = divExact(P * C - Q * G, N);
+    let B = divExact(V * J + U * G, M);
+    return [A * A, B * B, C * C, G * G, J * J];
+}
+
+function abcgj(a, b, c, d) {
+    let [A, B, C, G, J] = yellowBlueAbcgj(a, b, c, d);
+    if (A % 2n !== J % 2n) {
+        [A, B, C, G, J] = [A, B, C, G, J].map(elem => elem * 4n);
+    }
+    return [(A + J) / 2n, (A - J) / 2n, (A + J) / 2n - C];
+}
+
+function yellowBlueAbcgh(a, b, c, d) {
+    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
+    let [C, H, G] = solveTwoLinearWithScale(-Q, N, -P, M, 2n * V, -U);
+    let A = divExact(V * G + U * H, M);
+    let B = divExact(P * C - Q * G, N);
+    return [A * A, B * B, C * C, G * G, H * H];
+}
+
+function abcgh(a, b, c, d) {
+    let [A, B, C, G, H] = yellowBlueAbcgh(a, b, c, d);
+    if (C % 2n !== G % 2n) {
+        [A, B, C, G, H] = [A, B, C, G, H].map(elem => elem * 4n);
+    }
+    return [(C + G) / 2n, A - (C + G) / 2n, (G - C) / 2n];
+}
+
+function blueBlueAbcdf(a, b, c, d) {
+    [a, b, c, d] = [a, b, c, d].map(elem => BigInt(elem));
+    let {U: U1, V: V1, M: M1} = blueParams(a, b);
+    let {U: U2, V: V2, M: M2} = blueParams(c, d);
+    let [A, C, D, F] = solveThreeLinearWithScale(
+        M1, 0n, -V1, -U1,
+        M2, -U2, 0n, -V2,
+        0n, 2n * V2, M2, -U2
+    );
+    let B = divExact(U1 * D - 2n * V1 * F, M1);
+    return [A * A, B * B, C * C, D * D, F * F];
+}
+
+function abcdf(a, b, c, d) {
+    let [A, B, C, D, F] = blueBlueAbcdf(a, b, c, d);
+    if (D % 2n !== F % 2n) {
+        [A, B, C, D, F] = [A, B, C, D, F].map(elem => elem * 4n);
+    }
+    return [(D + F) / 2n, C - D, F - A];
 }
