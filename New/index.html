@@ -365,7 +365,7 @@ OOO</pre></button>
 XXX
 XOX
 OOO</pre></button>
-                <button id = "applyButtonABCDG" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-brown">
+                <button id = "applyButtonABCDG" class="btn btn-light col-1 generator-button px-0 fw-bold my-yellow-brown" aria-label="Сгенерировать 5/9-квадрат с квадратными клетками A, B, C, D, G">
                     <pre class="font-monospace m-0 overflow-hidden" style="line-height: 1.01em">
 XXX
 XOO
@@ -419,7 +419,7 @@ XXO</pre></button>
 <script src="../js/rsa.js"></script>
 <script src="../js/generator.js"></script>
 <script src="../jQuery/jQuery.js"></script>
-<script src="../js/main2.js?v=red-red-red-6of9"></script>
+<script src="../js/main2.js?v=yellow-brown-abcdg-5of9"></script>
 <script src="../html2canvas/html2canvas.js"></script>
 
 
@@ -514,8 +514,11 @@ XXO</pre></button>
         getColor(
             'red',
             'Красные, или дирные 4/9',
-            'A² + B² = 2C²',
-            'A = 2mn + m² - n²\nB = 2mn - m² + n²\nC = m² + n²',
+            'R₁² + R₃² = 2R₂²',
+            'R₁ = (2ab - a² + b²)c\n' +
+            'R₂ = (a² + b²)c\n' +
+            'R₃ = (2ab + a² - b²)c\n' +
+            'четвёртый корень свободен: R₄ = d',
             'background: lightcoral;'
         ),
         getColor(
@@ -528,8 +531,9 @@ XXO</pre></button>
         getColor(
             'blue',
             'Голубые 4/9',
-            'A² + 2B² = C² + 2D²',
-            'A, C = ac ± 2bd\nB, D = ad ∓ bc',
+            'R₁² + 2R₄² = R₂² + 2R₃²',
+            'R₁ = ac + bd\nR₂ = ac - bd\n' +
+            'R₃ = ad + 2bc\nR₄ = ad - 2bc',
             'background: lightskyblue;'
         ),
         {
@@ -539,29 +543,29 @@ XXO</pre></button>
             values: [
 `Problem:   2A² + 2B² = 3C² + D²
 -------------------------------
-Solution:   A = -2c²d² + 2a²d² - 4acd² - 3b²c² + 6bcd²
-            B = 2c²d² - 2a²d² - 4acd² - 3b²c² + 6abcd
-            C = 2c²d² + 2a²d² + 3b²c² - 4bcd² - 4abcd
-            D = 2c²d² + 2a²d² - 3b²c²`,
+Solution:   A = -2a² - 4ab + 2ac + 2b² - c²
+            B =  2a² - 4ab - 2b² + 2bc - c²
+            C =  2a² + 2b² - c²
+            D =  2a² - 4ac + 2b² - 4bc + c²`,
 `Problem:   A² + B² + C² = 3D²
 -------------------------------
-Solution:   a² + b² - c² - d² + 2ac - ad + bc + bd,
-            a² - b² + c² - d² + 2ad - ab + bc + cd,
-            a² - b² - c² + d² + 2ab - ac + bd + cd,
-            a² + b² + c² + d²`,
+Solution:   A = a² + b² - c² - d² + 2(ac - ad + bc + bd)
+            B = a² - b² + c² - d² + 2(ad - ab + bc + cd)
+            C = a² - b² - c² + d² + 2(ab - ac + bd + cd)
+            D = a² + b² + c² + d²`,
 `Problem:   2A² + B² + C² = 4D²
 -------------------------------
-Solution:   -2c²d² + a²d² - 2acd² + b²c² - 2bcd²,
-            2c²d² - a²d² - 4acd² + b²c² - 2abcd,
-            2c²d² + a²d² - b²c² - 4bcd² - 2abcd,
-            2c²d² + a²d² + b²c²
+Solution:   A = -2a² - 2ab - 2ac + b² + c²
+            B =  2a² - 4ab - b² - 2bc + c²
+            C =  2a² - 4ac + b² - 2bc - c²
+            D =  2a² + b² + c²
 `,
-`Problem:   2A² + 3B² = C² + 4D²
+`Problem:   2A² + 3B² = 4C² + D²
 -------------------------------
-Solution:   -2c²d² + 3a²d² - 6acd² - 4b²c² + 8bcd²,
-            2c²d² - 3a²d² - 4acd² - 4b²c² + 8abcd,
-            2c²d² + 3a²d² + 4b²c² - 4bcd² - 6abcd,
-            2c²d² + 3a²d² - 4b²c²
+Solution:   A = -2a² + 2ab + 8ac - b² - 4c²
+            B =  2a² - b² - 4c²
+            C =  2a² - 4ac - b² + 2bc + 4c²
+            D =  2a² - 4ab + b² + 8bc - 4c²
 `
             ],
         },
@@ -593,54 +597,55 @@ Solution:   -2c²d² + 3a²d² - 6acd² - 4b²c² + 8bcd²,
         getColor(
             'redyellow',
             'Красно-жёлтые 5/9',
-            '1) \nB² + H² = D² + F²\nF² + H² = 2A²\n' +
-            'или\n2) \nA² + J² = D² + F²\nB² + D² = 2J²\n' +
-            'или\n3) \nA² + C² = E² + H²\nB² + H² = 2E²',
-            '1) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
-            'B, D = ac ± bd\n' +
-            'F, H = ad ± bc\n' +
-            'A = 2ad\n' +
-            'a = 2mnk / d\n' +
-            'b = (m² - n²)k / c\n' +
-            'k = cd / (gcd(2mn, d) * gcd(m² - n², c))\n' +
-            'm, n, c, d – параметры\n' +
-            'или\n' +
-            '2) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
-            'J, D = ac ± bd\n' +
-            'F, A = ad ± bc\n' +
-            'B = ac + 2bd\n' +
-            'a = m(m + n)k / c\n' +
-            'b = n(n - m)k / d\n' +
-            'k = cd / (gcd(m(m + n), c) * gcd(n(n - m), d))\n' +
-            'm, n, c, d – параметры\n' +
-            'или\n' +
-            '3) ***НЕ РЕШЕНО***',
+            'Маски: BDFHJ, ABDFJ, ACEHJ, ACDEG, ABCEH, ACDEF, ABEFJ, ABFGJ.\n' +
+            'Каждая совмещает равенство двух гауссовых норм с AP-тройкой квадратов.',
+            'Используются явные семейства redYellow/redYellow2 и полиномиальная ' +
+            'склейка AP + гауссов поворот для ACDEG и ABCEH.\n' +
+            'Это достаточные параметризации; полнота всех примитивных целых точек не заявляется.',
             'background: linear-gradient(to right, lightcoral 30%, lightgoldenrodyellow 50%); width: 41rem!important; '
         ),
         getColor(
             'redblue',
             'Красно-голубые 5/9',
-            '1) \nB² - D² = 2H² - 2A²\nD² + H² = 2C²\n' +
-            '1) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
-            'B, D = ac ± bd\n' +
-            'F, H = ad ± bc\n' +
-            'A = 2ad\n' +
-            'a = 2mnk / d\n' +
-            'b = (m² - n²)k / c\n' +
-            'k = cd / (gcd(2mn, d) * gcd(m² - n², c))\n' +
-            'm, n, c, d – параметры\n' +
-            'или\n' +
-            '2) ***НЕ ДОКАЗАНА ПОЛНОЦЕННОСТЬ РЕШЕНИЯ***\n' +
-            'J, D = ac ± bd\n' +
-            'F, A = ad ± bc\n' +
-            'B = ac + 2bd\n' +
-            'a = m(m + n)k / c\n' +
-            'b = n(n - m)k / d\n' +
-            'k = cd / (gcd(m(m + n), c) * gcd(n(n - m), d))\n' +
-            'm, n, c, d – параметры\n' +
-            'или\n' +
-            '3) ***НЕ РЕШЕНО***',
-            'background: linear-gradient(to right, lightcoral 30%, lightgoldenrodyellow 50%); width: 41rem!important; '
+            'Маски: ABCDH, ABCDJ, ABDEF.\n' +
+            'Красная часть задаёт AP-тройку; голубая часть — равенство норм x² − 2y².',
+            'Пусть r²+t²=2s² и U=p²+2q², P=p²−2q², Q=2pq.\n' +
+            'Умножение в Z[√2] согласует общие корни; функции redBlue1/2/3 ' +
+            'дают целые корни, после чего клетки равны их квадратам.',
+            'background: linear-gradient(to right, lightcoral 30%, lightskyblue 60%); width: 41rem!important; '
+        ),
+        getColor(
+            'yellowblue',
+            'Жёлто-голубые 5/9',
+            'Маски: ABCDE, ABCGJ, ABCGH.\n' +
+            'Совмещаются гауссова норма x²+y² и норма x²+2y².',
+            'Параметры двух норм дают две линейные связи для общих корней.\n' +
+            'solveTwoLinearWithScale берёт их векторное произведение; ' +
+            'yellowBlue1/2/3 восстанавливают остальные корни точным делением.',
+            'background: linear-gradient(to right, lightgoldenrodyellow 30%, lightskyblue 60%); width: 41rem!important; '
+        ),
+        getColor(
+            'applyButtonABCDF',
+            'Голубо-голубой ABCDF 5/9',
+            'Две совместные связи нормы x²+2y² на корнях A,B,C,D,F.',
+            'Два голубых поворота дают три однородные линейные связи.\n' +
+            'solveThreeLinearWithScale строит ненулевой вектор миноров 3×3; ' +
+            'blueBlue затем возводит пять корней в квадрат.',
+            'background: lightskyblue; width: 41rem!important;'
+        ),
+        getColor(
+            'applyButtonABCDG',
+            'Жёлто-коричневый ABCDG 5/9',
+            'b²+c²=d²+g²\n2a²+2b²=c²+3g²',
+            'r = −m²+2mn+n², s = m²+n², u = m²+2mn−n²\n' +
+            'K = 2r²−s², P = Kμ²−ν², Q = 2uμν\n' +
+            'a = u(Kμ²+ν²)\n' +
+            'b = Pr−Qs, c = Ps+Qr, d = Pr+Qs, g = Qr−Ps\n' +
+            'E = P²s²+Q²r², x = a²−E, y = g²−E\n\n' +
+            'Точный 5/9-сертификат при (m,n,μ,ν)=(2,1,1,2):\n' +
+            '17689  27889  11449\n12769  19009  25249\n26569  10129  20329\n' +
+            'Все 9 клеток положительны и различны; квадраты ровно A,B,C,D,G. Закрыто 22/22.',
+            'background: linear-gradient(to right, lightgoldenrodyellow 30%, #c8a27a 70%); width: 45rem!important;'
         ),
         getColor(
             'redredred6',

@@ -71,6 +71,7 @@ let abcdeButton = document.getElementById("applyButtonABCDE")
 let abcgjButton = document.getElementById("applyButtonABCGJ")
 let abcghButton = document.getElementById("applyButtonABCGH")
 let abcdfButton = document.getElementById("applyButtonABCDF")
+let abcdgButton = document.getElementById("applyButtonABCDG")
 
 let abefghButton = document.getElementById("applyButtonABEFGH")
 
@@ -279,6 +280,7 @@ let buttonGroup1 = [
     abcgjButton,
     abcghButton,
     abcdfButton,
+    abcdgButton,
 
     abefghButton,
 ]
@@ -334,6 +336,7 @@ let functionGroup1 = [
     abcgj,
     abcgh,
     abcdf,
+    abcdg,
 
     abefgh
 ]
@@ -1080,6 +1083,37 @@ function abcdf(a, b, c, d) {
     [A, B, C, D, F] = ensureSameParity([A, B, C, D, F], 3, 4);
     return [(D + F) / 2n, C - D, F - A];
 }
+
+// START_FUNCTION abcdg
+// START_CONTRACT
+// PURPOSE
+// Generate the yellow-brown `A,B,C,D,G` five-square family without division.
+//
+// CONTRACT
+// - Inputs `(m,n,mu,nu)` are integer parameters accepted by `BigInt`.
+// - Output is the canonical `(E,x,y)` tuple for the ordinary magic square.
+// - Positions `A,B,C,D,G` are squares by the polynomial identities mirrored
+//   in `magic-squares-core/src/magic_squares_core/colored.py`.
+//
+// FAILURE_MEANING
+// A mismatch with the proof-core formula invalidates the UI generator.
+// END_CONTRACT
+function abcdg(m, n, mu, nu) {
+    [m, n, mu, nu] = toBigInts([m, n, mu, nu]);
+    let r = -m * m + 2n * m * n + n * n;
+    let s = m * m + n * n;
+    let u = m * m + 2n * m * n - n * n;
+    let K = 2n * r * r - s * s;
+    let P = K * mu * mu - nu * nu;
+    let Q = 2n * u * mu * nu;
+    let aRoot = u * (K * mu * mu + nu * nu);
+    let gRoot = Q * r - P * s;
+    let E = P * P * s * s + Q * Q * r * r;
+    let A = aRoot * aRoot;
+    let G = gRoot * gRoot;
+    return [E, A - E, G - E];
+}
+// END_FUNCTION abcdg
 
 // redredred 6/9
 function redRatioParts(p, q) {
