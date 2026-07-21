@@ -31,9 +31,10 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   between their two supporting identities.
 - Every default family preset has nine positive pairwise-distinct entries and
   exactly the declared five square-valued positions.
-- Family pages contain a sequential proof text: assumptions, explicit roots,
-  algebraic identities, Magic3 reconstruction, parity clearance, and the
-  conclusion. They are not abbreviated proof-summary cards.
+- The selected family's sequential proof text is rendered directly below the
+  laboratory: assumptions, explicit roots, algebraic identities, Magic3
+  reconstruction, parity clearance, and the conclusion. It is not an
+  abbreviated proof-summary card or a separate family page.
 
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,

@@ -801,6 +801,12 @@ main {
   box-shadow: var(--shadow);
 }
 
+.inline-family-proof {
+  max-width: 1120px;
+  margin: 36px auto 0;
+  scroll-margin-top: 18px;
+}
+
 .family-panel {
   min-width: 0;
   max-height: calc(100vh - 20px);
@@ -1728,76 +1734,12 @@ main {
   padding: 7px;
 }
 
-.family-proof-layout {
-  max-width: 1120px;
-  margin: 0 auto;
-}
-
-.embedded-square,
 .latex-card,
 .proof-document,
 .lemma-families {
   border: 1px solid var(--line-strong);
   background: var(--paper);
   box-shadow: var(--shadow);
-}
-
-.embedded-square {
-  max-width: 780px;
-  margin: 0 auto 24px;
-}
-
-.embedded-square-heading {
-  min-height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 15px 18px;
-  border-bottom: 1px solid var(--line-strong);
-  background: var(--paper-muted);
-}
-
-.embedded-square-heading > div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.embedded-square-heading > div > span {
-  color: var(--graphite);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.embedded-square-heading small {
-  max-width: 330px;
-  color: var(--muted);
-  font-size: 9px;
-  line-height: 1.4;
-}
-
-.embedded-square-heading .text-link {
-  flex: 0 0 auto;
-  font-size: 10px;
-}
-
-.embedded-grid-wrap {
-  padding: clamp(20px, 3vw, 38px);
-  background: var(--paper-strong);
-}
-
-.embedded-square .result-cell {
-  aspect-ratio: 1;
-}
-
-.default-audit {
-  max-width: 710px;
-  margin: 12px auto 0;
-  color: var(--graphite-soft);
-  font: 9px var(--mono);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .proof-document {
@@ -2203,12 +2145,10 @@ main {
     grid-template-columns: minmax(285px, 0.66fr) minmax(420px, 1.34fr);
   }
 
-  .family-proof-layout,
   .common-proof-layout {
     grid-template-columns: 1fr;
   }
 
-  .embedded-square,
   .lemma-families {
     max-height: none;
     position: static;
@@ -2426,7 +2366,6 @@ main {
     height: 88px;
   }
 
-  .embedded-square-heading,
   .latex-card > header {
     align-items: start;
     flex-direction: column;
@@ -2538,10 +2477,6 @@ main {
     overflow-wrap: anywhere;
   }
 
-  .embedded-square-heading {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

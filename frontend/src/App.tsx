@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import katex from "katex";
 import {
   Link,
@@ -81,7 +81,7 @@ function AppShell() {
           <NavLink to="/about">О проекте</NavLink>
         </nav>
         <span className="release-pill">
-          <i /> alpha · 0.3.1
+          <i /> alpha · 0.3.2
         </span>
       </header>
 
@@ -89,7 +89,7 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/lab" element={<LabPage />} />
-          <Route path="/families/:familyId" element={<FamilyPage />} />
+          <Route path="/families/:familyId" element={<FamilyRedirect />} />
           <Route path="/proofs/:proofId" element={<CommonProofPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:slug" element={<NewsArticlePage />} />
@@ -160,7 +160,7 @@ function HomePage() {
           {["abehj", "abcdh", "abcdg"].map(familyById).map((family, index) => (
             <Link
               className={`feature-card tone-${family.group}`}
-              to={`/families/${family.id}`}
+              to={`/lab?family=${family.id}#family-proof`}
               key={family.id}
             >
               <span className="feature-index">0{index + 1}</span>
@@ -292,6 +292,14 @@ function LabPage() {
         snapshot.squarePositions.includes(position),
       )
     : null;
+
+  useEffect(() => {
+    if (!family || window.location.hash !== "#family-proof") return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById("family-proof")?.scrollIntoView();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [family]);
 
   function persistFamily(
     nextFamily: FamilyDefinition,
@@ -691,12 +699,9 @@ function LabPage() {
                       : "Специальная квадратная маска не заявляется: исследуется произвольная целочисленная тройка."}
                   </p>
                   {family && (
-                    <Link
-                      className="source-proof-link"
-                      to={`/families/${family.id}`}
-                    >
-                      Полный текст доказательства →
-                    </Link>
+                    <a className="source-proof-link" href="#family-proof">
+                      Полный текст доказательства ↓
+                    </a>
                   )}
                 </div>
               </section>
@@ -783,6 +788,12 @@ function LabPage() {
           </div>
         </section>
       </div>
+
+      {family && (
+        <section className="inline-family-proof" id="family-proof">
+          <FamilyProofDocument family={family} />
+        </section>
+      )}
     </div>
   );
 }
@@ -869,74 +880,11 @@ function Pattern({ family, compact = false }: { family: FamilyDefinition; compac
   );
 }
 
-function FamilyPage() {
+function FamilyRedirect() {
   const { familyId } = useParams();
   const family = findFamilyById(familyId);
   if (!family) return <Navigate to="/lab" replace />;
-
-  const coordinates = family.generate(family.defaults);
-  const snapshot = createSnapshot(coordinates);
-
-  return (
-    <div className="page proof-page family-page">
-      <Link className="back-link" to="/lab">
-        ← К лаборатории
-      </Link>
-      <header className="proof-page-header">
-        <div>
-          <p className="eyebrow">Семейство 5/9 · полное доказательство</p>
-          <h1>{family.title}</h1>
-          <p>{family.summary}</p>
-        </div>
-        <Pattern family={family} />
-      </header>
-
-      <div className="family-proof-layout">
-        <section className="embedded-square" aria-label={`Квадрат ${family.title}`}>
-          <div className="embedded-square-heading">
-            <div>
-              <span>Калькулятор · параметры по умолчанию</span>
-              <small>большой квадрат окрашен только по фактическим квадратным значениям</small>
-            </div>
-            <Link className="text-link" to={`/lab?family=${family.id}`}>
-              Открыть инструмент <span>↗</span>
-            </Link>
-          </div>
-          <div className="coordinate-ledger">
-            {(["E", "x", "y"] as const).map((name, index) => (
-              <span key={name}>
-                <small>{name}</small>
-                <strong>{formatInteger(coordinates[index])}</strong>
-              </span>
-            ))}
-          </div>
-          <div className="embedded-grid-wrap">
-            <div className="result-grid">
-              {snapshot.cells.map((cell) => (
-                <ResultCell
-                  cell={cell}
-                  declared={family.positions.includes(cell.position)}
-                  factorized={false}
-                  key={cell.position}
-                />
-              ))}
-            </div>
-            <p className="square-legend">
-              <i /> кирпичная рамка означает фактический полный квадрат;
-              пунктир — заявленную маску
-            </p>
-            <p className="default-audit">
-              Пресет: {snapshot.entriesDistinct ? "9 различных клеток" : "вырожден"}
-              {" · "}
-              {snapshot.squarePositions.length}/9 квадратов
-            </p>
-          </div>
-        </section>
-
-        <FamilyProofDocument family={family} />
-      </div>
-    </div>
-  );
+  return <Navigate to={`/lab?family=${family.id}#family-proof`} replace />;
 }
 
 function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
@@ -1068,7 +1016,7 @@ function CommonProofPage() {
           {families.map((family) => (
             <Link
               className={`lemma-family tone-${family.group}`}
-              to={`/families/${family.id}`}
+              to={`/lab?family=${family.id}#family-proof`}
               key={family.id}
             >
               <Pattern family={family} compact />
