@@ -16,8 +16,6 @@ export interface SquareSnapshot {
   lineSumsAgree: boolean;
 }
 
-export const FACTORIZATION_LIMIT = 1_000_000_000_000n;
-
 export function valuesFromCoordinates([
   center,
   x,
@@ -84,60 +82,4 @@ export function formatInteger(value: bigint): string {
   const sign = value < 0n ? "−" : "";
   const digits = (value < 0n ? -value : value).toString();
   return `${sign}${digits.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202f")}`;
-}
-
-export function greatestCommonDivisor(...values: readonly bigint[]): bigint {
-  let divisor = 0n;
-
-  for (const value of values) {
-    let remainder = value < 0n ? -value : value;
-    while (remainder !== 0n) {
-      const next = divisor % remainder;
-      divisor = remainder;
-      remainder = next;
-    }
-  }
-
-  return divisor;
-}
-
-export function minimizeCoordinates(coordinates: Coordinates): Coordinates {
-  const divisor = greatestCommonDivisor(...coordinates);
-  if (divisor === 0n || divisor === 1n) return coordinates;
-  return coordinates.map((value) => value / divisor) as unknown as Coordinates;
-}
-
-const SUPERSCRIPT = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"] as const;
-
-function superscript(value: number): string {
-  return String(value)
-    .split("")
-    .map((digit) => SUPERSCRIPT[Number(digit)])
-    .join("");
-}
-
-export function factorInteger(value: bigint): string | null {
-  if (value === 0n) return "0";
-  if (value === 1n) return "1";
-  if (value === -1n) return "−1";
-
-  let remainder = value < 0n ? -value : value;
-  if (remainder > FACTORIZATION_LIMIT) return null;
-
-  const factors: string[] = [];
-  let candidate = 2n;
-  while (candidate * candidate <= remainder) {
-    let power = 0;
-    while (remainder % candidate === 0n) {
-      remainder /= candidate;
-      power += 1;
-    }
-    if (power > 0) {
-      factors.push(`${candidate}${power > 1 ? superscript(power) : ""}`);
-    }
-    candidate = candidate === 2n ? 3n : candidate + 2n;
-  }
-  if (remainder > 1n) factors.push(remainder.toString());
-
-  return `${value < 0n ? "−" : ""}${factors.join(" · ")}`;
 }

@@ -17,9 +17,7 @@ import {
 } from "./lib/families";
 import {
   createSnapshot,
-  factorInteger,
   formatInteger,
-  minimizeCoordinates,
   type Coordinates,
   type SquareCell,
 } from "./lib/magicSquare";
@@ -53,7 +51,7 @@ function AppShell() {
           <NavLink to="/about">О проекте</NavLink>
         </nav>
         <span className="release-pill">
-          <i /> alpha · 0.2
+          <i /> alpha · 0.1
         </span>
       </header>
 
@@ -198,17 +196,6 @@ function HeroSquare() {
           </div>
         ))}
       </div>
-      <div className="hero-coordinates">
-        <span>
-          <small>E</small>19 009
-        </span>
-        <span>
-          <small>x</small>−1 320
-        </span>
-        <span>
-          <small>y</small>7 560
-        </span>
-      </div>
       <div className="proof-stamp">
         <span>✓</span> proof-core
       </div>
@@ -218,53 +205,24 @@ function HeroSquare() {
 
 function LabPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const requestedFamily = searchParams.get("family");
-  const initialFamily = requestedFamily ? familyById(requestedFamily) : null;
-  let initialParameters = PARAMETER_KEYS.map(
-    (key, index) =>
-      searchParams.get(key) ?? (initialFamily ?? FAMILIES[0]).defaults[index],
+  const initialFamily = familyById(searchParams.get("family"));
+  const initialParameters = PARAMETER_KEYS.map(
+    (key, index) => searchParams.get(key) ?? initialFamily.defaults[index],
   ) as unknown as ParameterStrings;
-  let initialCoordinates: Coordinates;
-
-  try {
-    initialCoordinates = initialFamily
-      ? initialFamily.generate(initialParameters)
-      : [
-          BigInt(searchParams.get("e") ?? "5"),
-          BigInt(searchParams.get("x") ?? "3"),
-          BigInt(searchParams.get("y") ?? "1"),
-        ];
-  } catch {
-    initialParameters = (initialFamily ?? FAMILIES[0]).defaults;
-    initialCoordinates = initialFamily
-      ? initialFamily.generate(initialParameters)
-      : [5n, 3n, 1n];
-  }
-
-  const [family, setFamily] = useState<FamilyDefinition | null>(initialFamily);
+  const [family, setFamily] = useState<FamilyDefinition>(initialFamily);
   const [parameters, setParameters] =
     useState<ParameterStrings>(initialParameters);
-  const [coordinates, setCoordinates] =
-    useState<Coordinates>(initialCoordinates);
-  const [coordinateInputs, setCoordinateInputs] = useState<
-    [string, string, string]
-  >([
-    initialCoordinates[0].toString(),
-    initialCoordinates[1].toString(),
-    initialCoordinates[2].toString(),
-  ]);
-  const [scale, setScale] = useState("−1");
-  const [factorized, setFactorized] = useState(false);
+  const [coordinates, setCoordinates] = useState<Coordinates>(() =>
+    initialFamily.generate(initialParameters),
+  );
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const snapshot = useMemo(() => createSnapshot(coordinates), [coordinates]);
-  const declaredMaskHolds = family
-    ? family.positions.every((position) =>
-        snapshot.squarePositions.includes(position),
-      )
-    : null;
+  const declaredMaskHolds = family.positions.every((position) =>
+    snapshot.squarePositions.includes(position),
+  );
 
-  function persistFamily(
+  function persist(
     nextFamily: FamilyDefinition,
     nextParameters: ParameterStrings,
   ) {
@@ -276,84 +234,39 @@ function LabPage() {
     });
   }
 
-  function persistManual(nextCoordinates: Coordinates) {
-    setSearchParams({
-      e: nextCoordinates[0].toString(),
-      x: nextCoordinates[1].toString(),
-      y: nextCoordinates[2].toString(),
-    });
-  }
-
-  function setCurrentCoordinates(
-    nextCoordinates: Coordinates,
-    nextFamily: FamilyDefinition | null,
-  ) {
-    setCoordinates(nextCoordinates);
-    setCoordinateInputs([
-      nextCoordinates[0].toString(),
-      nextCoordinates[1].toString(),
-      nextCoordinates[2].toString(),
-    ]);
-    setFamily(nextFamily);
-    setFactorized(false);
-    setError("");
-  }
-
-  function generateFamily(nextParameters = parameters, nextFamily = family) {
-    if (!nextFamily) return;
+  function generate(nextParameters = parameters, nextFamily = family) {
     try {
       const nextCoordinates = nextFamily.generate(nextParameters);
-      setCurrentCoordinates(nextCoordinates, nextFamily);
-      persistFamily(nextFamily, nextParameters);
+      setCoordinates(nextCoordinates);
+      setError("");
+      persist(nextFamily, nextParameters);
     } catch {
-      setError("Параметры семейства должны быть целыми числами.");
+      setError("Параметры должны быть целыми числами.");
     }
   }
 
   function selectFamily(nextFamily: FamilyDefinition) {
+    setFamily(nextFamily);
     setParameters(nextFamily.defaults);
-    generateFamily(nextFamily.defaults, nextFamily);
+    generate(nextFamily.defaults, nextFamily);
   }
 
-  function selectManual() {
-    setFamily(null);
-    setFactorized(false);
-    persistManual(coordinates);
-  }
-
-  function submitFamily(event: FormEvent) {
+  function submit(event: FormEvent) {
     event.preventDefault();
-    generateFamily();
-  }
-
-  function submitCoordinates(event: FormEvent) {
-    event.preventDefault();
-    try {
-      const nextCoordinates: Coordinates = [
-        BigInt(coordinateInputs[0]),
-        BigInt(coordinateInputs[1]),
-        BigInt(coordinateInputs[2]),
-      ];
-      setCurrentCoordinates(nextCoordinates, null);
-      persistManual(nextCoordinates);
-    } catch {
-      setError("E, x и y должны быть целыми числами.");
-    }
+    generate();
   }
 
   function randomize() {
-    if (!family) return;
     const data = new Uint32Array(4);
     crypto.getRandomValues(data);
     const next = Array.from(data, (value) =>
       String((value % 9) + 1),
     ) as unknown as ParameterStrings;
     setParameters(next);
-    generateFamily(next);
+    generate(next);
   }
 
   function swapPairs() {
-    if (!family) return;
     const next: ParameterStrings = [
       parameters[2],
       parameters[3],
@@ -361,32 +274,7 @@ function LabPage() {
       parameters[1],
     ];
     setParameters(next);
-    generateFamily(next);
-  }
-
-  function transformCoordinates(
-    transform: (current: Coordinates) => Coordinates,
-  ) {
-    const nextCoordinates = transform(coordinates);
-    setCurrentCoordinates(nextCoordinates, null);
-    persistManual(nextCoordinates);
-  }
-
-  function minimize() {
-    transformCoordinates(minimizeCoordinates);
-  }
-
-  function multiply() {
-    try {
-      const factor = BigInt(scale.replace("−", "-"));
-      transformCoordinates(([center, x, y]) => [
-        center * factor,
-        x * factor,
-        y * factor,
-      ]);
-    } catch {
-      setError("Множитель должен быть целым числом.");
-    }
+    generate(next);
   }
 
   async function copyLink() {
@@ -400,38 +288,24 @@ function LabPage() {
       <div className="lab-heading">
         <div>
           <p className="eyebrow">Интерактивный proof atlas</p>
-          <h1>Лаборатория квадратов</h1>
+          <h1>Лаборатория 5/9</h1>
         </div>
         <p>
-          Начните с произвольных E, x, y или получите их из параметрического
-          семейства. Все инструменты работают с текущим квадратом.
+          Выберите семейство, задайте четыре целых параметра и исследуйте точную
+          квадратную маску.
         </p>
       </div>
 
       <div className="lab-layout">
         <aside className="family-panel">
           <div className="panel-label">
-            <span>Режим и семейства</span>
+            <span>Семейства</span>
             <small>{FAMILIES.length} certified</small>
           </div>
           <div className="family-list">
-            <button
-              className={`family-button manual-family ${family === null ? "active" : ""}`}
-              onClick={selectManual}
-              type="button"
-            >
-              <span className="manual-pattern">
-                E<br />x · y
-              </span>
-              <span>
-                <strong>Свободный квадрат</strong>
-                <small>прямое управление E, x, y</small>
-              </span>
-              <i>→</i>
-            </button>
             {FAMILIES.map((candidate) => (
               <button
-                className={`family-button tone-${candidate.group} ${candidate.id === family?.id ? "active" : ""}`}
+                className={`family-button tone-${candidate.group} ${candidate.id === family.id ? "active" : ""}`}
                 onClick={() => selectFamily(candidate)}
                 type="button"
                 key={candidate.id}
@@ -450,108 +324,64 @@ function LabPage() {
         <section className="workspace">
           <div className="workspace-toolbar">
             <div>
-              {family ? (
-                <span className={`family-chip tone-${family.group}`}>
-                  {family.groupLabel}
-                </span>
-              ) : (
-                <span className="family-chip manual-chip">ручной режим</span>
-              )}
-              <h2>{family ? family.title : "Magic3(E, x, y)"}</h2>
+              <span className={`family-chip tone-${family.group}`}>
+                {family.groupLabel}
+              </span>
+              <h2>{family.title}</h2>
             </div>
             <button className="icon-button" type="button" onClick={copyLink}>
               {copied ? "Скопировано" : "Поделиться ↗"}
             </button>
           </div>
 
-          <section className="coordinate-console">
-            <div className="coordinate-heading">
-              <div>
-                <span>Координаты текущего квадрата</span>
-                <small>
-                  Эти три числа однозначно определяют все девять клеток
-                </small>
-              </div>
-              <code>Magic3(E, x, y)</code>
-            </div>
-            <form className="coordinate-form" onSubmit={submitCoordinates}>
-              {(["E", "x", "y"] as const).map((name, index) => (
-                <label
-                  className={`coordinate-${name.toLowerCase()}`}
-                  key={name}
-                >
-                  <span>{name}</span>
+          <form className="parameter-form" onSubmit={submit}>
+            <div className="parameter-row">
+              {PARAMETER_KEYS.map((key, index) => (
+                <label key={key}>
+                  <span>
+                    {index < 2
+                      ? index === 0
+                        ? "α₁"
+                        : "β₁"
+                      : index === 2
+                        ? "α₂"
+                        : "β₂"}
+                  </span>
                   <input
-                    aria-label={`Координата ${name}`}
+                    aria-label={`Параметр ${key}`}
                     inputMode="numeric"
-                    value={coordinateInputs[index]}
+                    value={parameters[index]}
                     onChange={(event) => {
-                      const next = [...coordinateInputs] as [
+                      const next = [...parameters] as [
+                        string,
                         string,
                         string,
                         string,
                       ];
                       next[index] = event.target.value;
-                      setCoordinateInputs(next);
+                      setParameters(next);
                     }}
                   />
-                  <small>
-                    {index === 0 ? "центр" : index === 1 ? "ось ↔" : "ось ↕"}
-                  </small>
                 </label>
               ))}
-              <div className="coordinate-actions">
-                <button className="button button-primary" type="submit">
-                  Задать
-                </button>
-                <button
-                  className="button button-ghost"
-                  type="button"
-                  onClick={() => setFactorized((value) => !value)}
-                >
-                  {factorized ? "Показать числа" : "Факторизовать"}
-                </button>
-                <button
-                  className="button button-ghost"
-                  type="button"
-                  onClick={minimize}
-                >
-                  Минимизировать
-                </button>
-              </div>
-            </form>
-            <div
-              className="square-tools"
-              aria-label="Преобразования текущего квадрата"
-            >
-              <button
-                type="button"
-                onClick={() => transformCoordinates(([e, x, y]) => [e, -y, x])}
-              >
-                ↺ Влево
+            </div>
+            <div className="parameter-actions">
+              <button className="button button-primary" type="submit">
+                Построить квадрат
               </button>
               <button
+                className="button button-ghost"
                 type="button"
-                onClick={() => transformCoordinates(([e, x, y]) => [e, y, x])}
+                onClick={randomize}
               >
-                Отразить
+                Случайные
               </button>
               <button
+                className="button button-ghost"
                 type="button"
-                onClick={() => transformCoordinates(([e, x, y]) => [e, y, -x])}
+                onClick={swapPairs}
               >
-                Вправо ↻
-              </button>
-              <label>
-                <span>Умножить на</span>
-                <input
-                  aria-label="Множитель"
-                  value={scale}
-                  onChange={(event) => setScale(event.target.value)}
-                />
-              </label>
-              <button type="button" onClick={multiply}>
-                Умножить
+                Поменять пары
               </button>
             </div>
             {error && (
@@ -559,90 +389,38 @@ function LabPage() {
                 {error}
               </p>
             )}
-          </section>
-
-          {family && (
-            <form
-              className="parameter-form family-parameter-form"
-              onSubmit={submitFamily}
-            >
-              <div className="parameter-title">
-                <span>Параметры пресета {family.title}</span>
-                <small>пересчитывают E, x, y</small>
-              </div>
-              <div className="parameter-row">
-                {PARAMETER_KEYS.map((key, index) => (
-                  <label key={key}>
-                    <span>
-                      {index < 2
-                        ? index === 0
-                          ? "α₁"
-                          : "β₁"
-                        : index === 2
-                          ? "α₂"
-                          : "β₂"}
-                    </span>
-                    <input
-                      aria-label={`Параметр ${key}`}
-                      inputMode="numeric"
-                      value={parameters[index]}
-                      onChange={(event) => {
-                        const next = [...parameters] as [
-                          string,
-                          string,
-                          string,
-                          string,
-                        ];
-                        next[index] = event.target.value;
-                        setParameters(next);
-                      }}
-                    />
-                  </label>
-                ))}
-              </div>
-              <div className="parameter-actions">
-                <button className="button button-secondary" type="submit">
-                  Применить пресет
-                </button>
-                <button
-                  className="button button-ghost"
-                  type="button"
-                  onClick={randomize}
-                >
-                  Случайные
-                </button>
-                <button
-                  className="button button-ghost"
-                  type="button"
-                  onClick={swapPairs}
-                >
-                  Поменять пары
-                </button>
-              </div>
-            </form>
-          )}
+          </form>
 
           <div className="square-stage">
             <div className="stage-meta">
-              <span>
-                Матрица 3 × 3 · {factorized ? "факторизации" : "целые значения"}
-              </span>
-              <strong>
-                E = {formatInteger(coordinates[0])} · x ={" "}
-                {formatInteger(coordinates[1])} · y ={" "}
-                {formatInteger(coordinates[2])}
-              </strong>
+              <span>Матрица 3 × 3</span>
               <span>Σ = {formatInteger(snapshot.magicSum)}</span>
             </div>
             <div className="result-grid">
               {snapshot.cells.map((cell) => (
                 <ResultCell
                   cell={cell}
-                  declared={family?.positions.includes(cell.position) ?? false}
-                  factorized={factorized}
+                  declared={family.positions.includes(cell.position)}
                   key={cell.position}
                 />
               ))}
+            </div>
+            <div className="transform-row">
+              <button
+                type="button"
+                onClick={() => setCoordinates(([e, x, y]) => [e, -y, x])}
+              >
+                ↺ Повернуть
+              </button>
+              <button
+                type="button"
+                onClick={() => setCoordinates(([e, x, y]) => [e, y, x])}
+              >
+                ↔ Отразить
+              </button>
+              <button type="button" onClick={() => generate()}>
+                ↻ Сбросить
+              </button>
             </div>
           </div>
 
@@ -654,13 +432,8 @@ function LabPage() {
             />
             <StatusCard
               label="Заявленная маска"
-              value={
-                family
-                  ? `${family.mask} · ${declaredMaskHolds ? "подтверждена" : "нарушена"}`
-                  : "свободная конфигурация"
-              }
-              ok={declaredMaskHolds ?? true}
-              neutral={!family}
+              value={`${family.mask} · ${declaredMaskHolds ? "подтверждена" : "нарушена"}`}
+              ok={declaredMaskHolds}
             />
             <StatusCard
               label="Фактический результат"
@@ -671,23 +444,13 @@ function LabPage() {
 
           <div className="family-note">
             <div>
-              <span className="proof-icon">{family ? "✓" : "E"}</span>
+              <span className="proof-icon">✓</span>
               <div>
-                <strong>
-                  {family
-                    ? "Символьный сертификат"
-                    : "Свободный координатный режим"}
-                </strong>
-                <code>
-                  {family ? family.theorem : "square = Magic3(E, x, y)"}
-                </code>
+                <strong>Символьный сертификат</strong>
+                <code>{family.theorem}</code>
               </div>
             </div>
-            <p>
-              {family
-                ? family.summary
-                : "Квадрат задан непосредственно тремя целыми числами. Утверждение о специальной квадратной маске не заявляется."}
-            </p>
+            <p>{family.summary}</p>
           </div>
         </section>
       </div>
@@ -698,29 +461,18 @@ function LabPage() {
 function ResultCell({
   cell,
   declared,
-  factorized,
 }: {
   cell: SquareCell;
   declared: boolean;
-  factorized: boolean;
 }) {
-  const factorization = factorized ? factorInteger(cell.value) : undefined;
-  const display = factorized
-    ? (factorization ?? "слишком большое")
-    : formatInteger(cell.value);
-  const digits = display.length;
+  const digits = cell.value.toString().length;
   return (
     <div
       className={`result-cell ${cell.isSquare ? "is-square" : ""} ${declared ? "is-declared" : ""}`}
-      title={
-        factorized && factorization === null
-          ? `Факторизация ограничена числами до 10¹². Значение: ${cell.value}`
-          : undefined
-      }
     >
       <span className="cell-position">{cell.position}</span>
       <strong className={digits > 18 ? "tiny" : digits > 11 ? "small" : ""}>
-        {display}
+        {formatInteger(cell.value)}
       </strong>
       {cell.isSquare && (
         <span className="square-marker" title="Полный квадрат">
@@ -735,18 +487,14 @@ function StatusCard({
   label,
   value,
   ok,
-  neutral = false,
 }: {
   label: string;
   value: string;
   ok: boolean;
-  neutral?: boolean;
 }) {
   return (
     <div className="status-card">
-      <span className={neutral ? "neutral" : ok ? "ok" : "bad"}>
-        {neutral ? "•" : ok ? "✓" : "!"}
-      </span>
+      <span className={ok ? "ok" : "bad"}>{ok ? "✓" : "!"}</span>
       <div>
         <small>{label}</small>
         <strong>{value}</strong>

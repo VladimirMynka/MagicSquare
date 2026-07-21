@@ -11,21 +11,6 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 - The first migration slice exposes only families with a symbolic certificate
   in `magic-squares-core`.
 
-## UI state contract
-
-The primary application state is always the coordinate triple `(E, x, y)`.
-It determines the canonical square as
-
-```text
-E+x      E-x+y    E-y
-E-x-y    E        E+x+y
-E+y      E+x-y    E-x
-```
-
-Parametric families are presets that calculate this triple; they do not own a
-separate square state. Direct editing, minimization, multiplication, rotation,
-reflection, and factorization all operate on the same current triple.
-
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,
 comments, dynamic search, or queued research jobs become product requirements.
