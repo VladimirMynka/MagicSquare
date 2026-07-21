@@ -42,7 +42,7 @@ export const COMMON_PROOFS: readonly CommonProof[] = [
       String.raw`(U,V,W,Z)=(u^2,v^2,w^2,z^2)\Longrightarrow U+V=W+Z`,
     ],
     conclusion:
-      "Конкретная перестановка U, V, W, Z указана в карточке семейства; цветом отмечены ровно участвующие клетки.",
+      "Конкретная перестановка U, V, W, Z указана в доказательстве семейства; цветом отмечены ровно участвующие клетки.",
   },
   {
     id: "sqrt-minus-two-norm",

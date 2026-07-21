@@ -14,6 +14,7 @@ export interface SquareSnapshot {
   magicSum: bigint;
   squarePositions: readonly Position[];
   lineSumsAgree: boolean;
+  entriesDistinct: boolean;
 }
 
 export const FACTORIZATION_LIMIT = 1_000_000_000_000n;
@@ -34,6 +35,23 @@ export function valuesFromCoordinates([
     center + x - y,
     center - x,
   ];
+}
+
+export function isNondegenerateCoordinates([
+  ,
+  x,
+  y,
+]: Coordinates): boolean {
+  return [
+    x,
+    y,
+    x - y,
+    x + y,
+    x - 2n * y,
+    x + 2n * y,
+    2n * x - y,
+    2n * x + y,
+  ].every((factor) => factor !== 0n);
 }
 
 export function isPerfectSquare(value: bigint): boolean {
@@ -77,6 +95,7 @@ export function createSnapshot(coordinates: Coordinates): SquareSnapshot {
       .filter((cell) => cell.isSquare)
       .map((cell) => cell.position),
     lineSumsAgree: sums.every((sum) => sum === sums[0]),
+    entriesDistinct: isNondegenerateCoordinates(coordinates),
   };
 }
 

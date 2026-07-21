@@ -10,6 +10,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { NEWS, newsBySlug } from "./content/news";
+import { familyProofById } from "./content/familyProofs";
 import {
   COMMON_PROOFS,
   MAGIC3_LATEX,
@@ -80,7 +81,7 @@ function AppShell() {
           <NavLink to="/about">О проекте</NavLink>
         </nav>
         <span className="release-pill">
-          <i /> alpha · 0.3
+          <i /> alpha · 0.3.1
         </span>
       </header>
 
@@ -116,7 +117,7 @@ function HomePage() {
           <h1>Магические квадраты, которые можно не только увидеть.</h1>
           <p className="hero-lead">
             Интерактивный атлас связывает каждый генератор с его квадратной
-            маской, формулой, локальной LaTeX-карточкой и честным статусом
+            маской, формулой, полным LaTeX-доказательством и честным статусом
             формализации.
           </p>
           <div className="hero-actions">
@@ -694,7 +695,7 @@ function LabPage() {
                       className="source-proof-link"
                       to={`/families/${family.id}`}
                     >
-                      LaTeX-карточка доказательства →
+                      Полный текст доказательства →
                     </Link>
                   )}
                 </div>
@@ -767,6 +768,15 @@ function LabPage() {
                   value={`${snapshot.squarePositions.length}/9 квадратов`}
                   ok={snapshot.squarePositions.length >= 5}
                   neutral={!family}
+                />
+                <StatusCard
+                  label="Невырожденность"
+                  value={
+                    snapshot.entriesDistinct
+                      ? "9 попарно различных"
+                      : "Есть равные клетки"
+                  }
+                  ok={snapshot.entriesDistinct}
                 />
               </div>
             </div>
@@ -874,7 +884,7 @@ function FamilyPage() {
       </Link>
       <header className="proof-page-header">
         <div>
-          <p className="eyebrow">Семейство 5/9 · доказательная карточка</p>
+          <p className="eyebrow">Семейство 5/9 · полное доказательство</p>
           <h1>{family.title}</h1>
           <p>{family.summary}</p>
         </div>
@@ -915,67 +925,108 @@ function FamilyPage() {
               <i /> кирпичная рамка означает фактический полный квадрат;
               пунктир — заявленную маску
             </p>
+            <p className="default-audit">
+              Пресет: {snapshot.entriesDistinct ? "9 различных клеток" : "вырожден"}
+              {" · "}
+              {snapshot.squarePositions.length}/9 квадратов
+            </p>
           </div>
         </section>
 
-        <FamilyProofCard family={family} />
+        <FamilyProofDocument family={family} />
       </div>
     </div>
   );
 }
 
-function FamilyProofCard({ family }: { family: FamilyDefinition }) {
+function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
+  const proof = familyProofById(family.id);
   const squareStatement = String.raw`\{${family.positions.join(",")}\}\subseteq\{P:\mathcal M_P(E,x,y)=r_P^2\}`;
+  const projection = String.raw`\pi_{${family.mask}}\!\left(\mathcal M(E,x,y)\right)=(${family.positions.join(",")})\in\{n^2:n\in\mathbb Z\}^{5}`;
   return (
-    <article className="latex-card">
+    <article className="proof-document">
       <header>
-        <div>
-          <span>LaTeX · {family.mask}</span>
-          <h2>Локальная схема доказательства</h2>
-        </div>
-        <span
-          className={`proof-status ${family.proofStatus === "proof-core" ? "certified" : "legacy"}`}
-        >
-          {family.proofStatus === "proof-core"
-            ? "proof-core"
-            : "legacy · formalization pending"}
-        </span>
+        <p>Семейство {family.mask}</p>
+        <h2>Теорема и полное доказательство</h2>
       </header>
 
-      <section className="latex-step">
-        <span>01 · координатная модель</span>
-        <Latex display>{MAGIC3_LATEX}</Latex>
+      <section>
+        <h3>Утверждение</h3>
+        <p>
+          При указанных ниже условиях формулы задают целочисленный магический
+          квадрат порядка 3, в котором все клетки маски {family.mask} являются
+          квадратами целых чисел.
+        </p>
+        <Latex display>{squareStatement}</Latex>
       </section>
-      <section className="latex-step">
-        <span>02 · восстановление семейства</span>
-        <Latex display>{family.reconstructionLatex}</Latex>
-      </section>
-      <section className="latex-step proof-supports">
-        <span>03 · цветовые опоры</span>
-        {family.justifications.map((item) => (
-          <div className="proof-support" key={item.id}>
-            <i className={`proof-swatch ${item.color}`} />
-            <div>
-              <strong>{item.label}</strong>
-              <Latex display>{item.relationLatex}</Latex>
-              <Link to={`/proofs/${item.commonProofId}`}>
-                Общая часть доказательства →
-              </Link>
-            </div>
-          </div>
+
+      <section>
+        <h3>Доказательство</h3>
+        <p>{proof.assumptions}</p>
+        <p>Введём следующие вспомогательные целые величины:</p>
+        {proof.definitions.map((formula) => (
+          <Latex display key={formula}>{formula}</Latex>
+        ))}
+        <p>Значения заявленных клеток определим как явные квадраты:</p>
+        <Latex display>{proof.squareValues}</Latex>
+        <p>{proof.identityDerivation}</p>
+        {proof.identities.map((identity) => (
+          <Latex display key={identity}>{identity}</Latex>
         ))}
       </section>
-      <section className="latex-step conclusion-step">
-        <span>04 · вывод</span>
-        <Latex display>{squareStatement}</Latex>
+
+      <section>
+        <h3>Восстановление магического квадрата</h3>
+        <p>Используем стандартную трёхкоординатную форму:</p>
+        <Latex display>{MAGIC3_LATEX}</Latex>
         <p>
-          Подстановка координат в Magic3 и указанные линейные тождества
-          восстанавливают все клетки маски. Миниатюра показывает, какое именно
-          тождество отвечает за каждую клетку.
+          Положим координаты равными следующей линейной комбинации уже
+          построенных квадратных значений:
+        </p>
+        <Latex display>{family.reconstructionLatex}</Latex>
+        {proof.parityClearance && (
+          <>
+            <p>
+              Если одно из делений на 2 нецелое, умножим каждый выписанный
+              корень на 2. Тогда все значения клеток умножатся на 4, все
+              однородные тождества сохранятся, а числители станут чётными.
+              Именно эту нормализацию выполняет генератор.
+            </p>
+            <Latex display>{String.raw`q_P\mapsto2q_P,\qquad P=q_P^2\mapsto4P`}</Latex>
+          </>
+        )}
+        <p>
+          Теперь подставляем координаты в девять линейных форм Magic3.
+          Выписанные цветовые тождества заменяют все оставшиеся клетки маски на
+          соответствующие квадраты. Поэтому
+        </p>
+        <Latex display>{projection}</Latex>
+        <p>
+          Каждая строка, каждый столбец и обе диагонали имеют сумму 3E по самой
+          форме Magic3. Следовательно, получена требуемая семья магических
+          квадратов с квадратной маской {family.mask}. Что и требовалось
+          доказать.
         </p>
       </section>
+
+      <section className="proof-references">
+        <h3>Использованные общие леммы</h3>
+        <ul>
+          {family.justifications.map((item) => (
+            <li key={item.id}>
+              <Latex>{item.relationLatex}</Latex>{" — "}
+              <Link to={`/proofs/${item.commonProofId}`}>{item.label}</Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <footer>
-        <span>Идентификатор</span>
+        <span>
+          {family.proofStatus === "proof-core"
+            ? "Текст согласован с универсальным полиномиальным сертификатом proof-core."
+            : "Текст восстанавливает legacy-параметризацию; перенос машинного сертификата в proof-core ещё не завершён."}
+        </span>
         <code>{family.theorem}</code>
       </footer>
     </article>
@@ -1157,7 +1208,7 @@ function AboutPage() {
           <p className="eyebrow">Общие леммы</p>
           <h2>Цвет — это ссылка на причину</h2>
           <p>
-            Одна лемма используется несколькими масками. В карточке семейства
+            Одна лемма используется несколькими масками. В тексте доказательства
             остаётся конкретное клеточное тождество, а общий вывод вынесен сюда.
           </p>
         </div>

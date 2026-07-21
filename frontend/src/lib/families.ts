@@ -395,8 +395,6 @@ function yellowBrownAbcdg(parameters: ParameterStrings): Coordinates {
   return [center, A - center, G - center];
 }
 
-const commonDefaults: ParameterStrings = ["2", "1", "3", "1"];
-
 function support(
   id: string,
   label: string,
@@ -437,7 +435,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "acegj", title: "ACEGJ", positions: ["A", "C", "E", "G", "J"], group: "red-red",
     summary: "Две арифметические прогрессии квадратов пересекаются в центре E.", theorem: "legacy_red_red_acegj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,G-E)`, defaults: commonDefaults, generate: redRedAcegj,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,G-E)`, defaults: ["3", "4", "4", "5"], generate: redRedAcegj,
     justifications: [
       support("aej", RED, "red-light", ["A", "E", "J"], "A+J=2E", "arithmetic-progression"),
       support("ceg", RED, "red-dark", ["C", "E", "G"], "C+G=2E", "arithmetic-progression"),
@@ -446,7 +444,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "bdefh", title: "BDEFH", positions: ["B", "D", "E", "F", "H"], group: "red-red",
     summary: "Горизонтальная и вертикальная прогрессии квадратов с общим центром E.", theorem: "legacy_red_red_bdefh", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=\left(E,\,\frac{F-B}{2},\,\frac{B-D}{2}\right)`, defaults: commonDefaults, generate: redRedBdefh,
+    reconstructionLatex: String.raw`(E,x,y)=\left(E,\,\frac{F-B}{2},\,\frac{B-D}{2}\right)`, defaults: ["1", "2", "2", "3"], generate: redRedBdefh,
     justifications: [
       support("def", RED, "red-light", ["D", "E", "F"], "D+F=2E", "arithmetic-progression"),
       support("beh", RED, "red-dark", ["B", "E", "H"], "B+H=2E", "arithmetic-progression"),
@@ -455,7 +453,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abehj", title: "ABEHJ", positions: ["A", "B", "E", "H", "J"], group: "red-red",
     summary: "Две красные прогрессии AEJ и BEH; семейство содержит известные усиления 6/9 и 7/9.", theorem: "legacy_red_red_abehj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,A-H)`, defaults: ["9", "2", "3", "4"], generate: redRedAbehj,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,A-H)`, defaults: ["2", "3", "1", "2"], generate: redRedAbehj,
     justifications: [
       support("aej", RED, "red-light", ["A", "E", "J"], "A+J=2E", "arithmetic-progression"),
       support("beh", RED, "red-dark", ["B", "E", "H"], "B+H=2E", "arithmetic-progression"),
@@ -464,7 +462,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "bdefj", title: "BDEFJ", positions: ["B", "D", "E", "F", "J"], group: "red-red",
     summary: "Прогрессии DEF и BDJ согласованы одним четырёхпараметрическим генератором.", theorem: "legacy_red_red_bdefj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,E-J,\,B-J)`, defaults: commonDefaults, generate: redRedBdefj,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,E-J,\,B-J)`, defaults: ["1", "2", "2", "5"], generate: redRedBdefj,
     justifications: [
       support("def", RED, "red-light", ["D", "E", "F"], "D+F=2E", "arithmetic-progression"),
       support("bdj", RED, "red-dark", ["B", "D", "J"], "B+D=2J", "arithmetic-progression"),
@@ -473,7 +471,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "bdfgj", title: "BDFGJ", positions: ["B", "D", "F", "G", "J"], group: "red-red",
     summary: "Две смещённые прогрессии BDJ и BGF пересекаются в клетке B.", theorem: "legacy_red_red_bdfgj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,G-B,\,B-J\right)`, defaults: commonDefaults, generate: redRedBdfgj,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,G-B,\,B-J\right)`, defaults: ["1", "2", "2", "5"], generate: redRedBdfgj,
     justifications: [
       support("bdj", RED, "red-light", ["B", "D", "J"], "B+D=2J", "arithmetic-progression"),
       support("bgf", RED, "red-dark", ["B", "G", "F"], "B+F=2G", "arithmetic-progression"),
@@ -482,7 +480,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abdej", title: "ABDEJ", positions: ["A", "B", "D", "E", "J"], group: "red-red",
     summary: "Прогрессии AEJ и BDJ имеют общую нижнюю угловую клетку J.", theorem: "legacy_red_red_abdej", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,E-J,\,B-J)`, defaults: commonDefaults, generate: redRedAbdej,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,E-J,\,B-J)`, defaults: ["1", "2", "1", "2"], generate: redRedAbdej,
     justifications: [
       support("aej", RED, "red-light", ["A", "E", "J"], "A+J=2E", "arithmetic-progression"),
       support("bdj", RED, "red-dark", ["B", "D", "J"], "B+D=2J", "arithmetic-progression"),
@@ -491,7 +489,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "bdfhj", title: "BDFHJ", positions: ["B", "D", "F", "H", "J"], group: "red-yellow",
     summary: "Красная прогрессия BDJ и жёлтый прямоугольник BDFH.", theorem: "legacy_red_yellow_bdfhj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,\frac{F-B}{2},\,B-J\right)`, defaults: commonDefaults, generate: redYellowBdfhj,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,\frac{F-B}{2},\,B-J\right)`, defaults: ["1", "2", "1", "3"], generate: redYellowBdfhj,
     justifications: [
       support("bdj", RED, "red-light", ["B", "D", "J"], "B+D=2J", "arithmetic-progression"),
       support("bdfh", YELLOW, "yellow", ["B", "D", "F", "H"], "B+H=D+F", "two-square-norm"),
@@ -500,7 +498,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abdfj", title: "ABDFJ", positions: ["A", "B", "D", "F", "J"], group: "red-yellow",
     summary: "Прогрессия BDJ пересекает равенство A+B=F+J.", theorem: "legacy_red_yellow_abdfj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,\frac{F-B}{2},\,B-J\right)`, defaults: commonDefaults, generate: redYellowAbdfj,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,\frac{F-B}{2},\,B-J\right)`, defaults: ["1", "4", "1", "3"], generate: redYellowAbdfj,
     justifications: [
       support("bdj", RED, "red-light", ["B", "D", "J"], "B+D=2J", "arithmetic-progression"),
       support("abfj", YELLOW, "yellow", ["A", "B", "F", "J"], "A+B=F+J", "two-square-norm"),
@@ -509,7 +507,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "acehj", title: "ACEHJ", positions: ["A", "C", "E", "H", "J"], group: "red-yellow",
     summary: "Прогрессия AEJ согласована с равенством C+E=H+J.", theorem: "legacy_red_yellow_acehj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: commonDefaults, generate: redYellowAcehj,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: ["3", "2", "3", "1"], generate: redYellowAcehj,
     justifications: [
       support("aej", RED, "red-light", ["A", "E", "J"], "A+J=2E", "arithmetic-progression"),
       support("cehj", YELLOW, "yellow", ["C", "E", "H", "J"], "C+E=H+J", "two-square-norm"),
@@ -518,7 +516,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "acdeg", title: "ACDEG", positions: ["A", "C", "D", "E", "G"], group: "red-yellow",
     summary: "Прогрессия CEG и жёлтое равенство A+D=C+E.", theorem: "legacy_red_yellow_acdeg", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,G-E)`, defaults: commonDefaults, generate: redYellowAcdeg,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,G-E)`, defaults: ["3", "2", "2", "1"], generate: redYellowAcdeg,
     justifications: [
       support("ceg", RED, "red-light", ["C", "E", "G"], "C+G=2E", "arithmetic-progression"),
       support("acde", YELLOW, "yellow", ["A", "C", "D", "E"], "A+D=C+E", "two-square-norm"),
@@ -527,7 +525,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abceh", title: "ABCEH", positions: ["A", "B", "C", "E", "H"], group: "red-yellow",
     summary: "Прогрессия BEH и равенство A+C=E+H делят две клетки.", theorem: "legacy_red_yellow_abceh", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: commonDefaults, generate: redYellowAbceh,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: ["1", "2", "1", "2"], generate: redYellowAbceh,
     justifications: [
       support("beh", RED, "red-light", ["B", "E", "H"], "B+H=2E", "arithmetic-progression"),
       support("aceh", YELLOW, "yellow", ["A", "C", "E", "H"], "A+C=E+H", "two-square-norm"),
@@ -536,7 +534,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "acdef", title: "ACDEF", positions: ["A", "C", "D", "E", "F"], group: "red-yellow",
     summary: "Прогрессия DEF соединена с жёлтым равенством ACDE.", theorem: "legacy_red_yellow_acdef", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: commonDefaults, generate: redYellowAcdef,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: ["1", "3", "1", "2"], generate: redYellowAcdef,
     justifications: [
       support("def", RED, "red-light", ["D", "E", "F"], "D+F=2E", "arithmetic-progression"),
       support("acde", YELLOW, "yellow", ["A", "C", "D", "E"], "A+D=C+E", "two-square-norm"),
@@ -545,7 +543,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abefj", title: "ABEFJ", positions: ["A", "B", "E", "F", "J"], group: "red-yellow",
     summary: "Прогрессия AEJ пересекает жёлтую четвёрку ABFJ.", theorem: "legacy_red_yellow_abefj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,B-J)`, defaults: commonDefaults, generate: redYellowAbefj,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,B-J)`, defaults: ["2", "3", "2", "1"], generate: redYellowAbefj,
     justifications: [
       support("aej", RED, "red-light", ["A", "E", "J"], "A+J=2E", "arithmetic-progression"),
       support("abfj", YELLOW, "yellow", ["A", "B", "F", "J"], "A+B=F+J", "two-square-norm"),
@@ -554,7 +552,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abfgj", title: "ABFGJ", positions: ["A", "B", "F", "G", "J"], group: "red-yellow",
     summary: "Прогрессия BGF и равенство A+B=F+J образуют маску ABFGJ.", theorem: "legacy_red_yellow_abfgj", proofStatus: "legacy-formula",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{A+J}{2},\,\frac{A-J}{2},\,B-J\right)`, defaults: commonDefaults, generate: redYellowAbfgj,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{A+J}{2},\,\frac{A-J}{2},\,B-J\right)`, defaults: ["1", "2", "2", "1"], generate: redYellowAbfgj,
     justifications: [
       support("bgf", RED, "red-light", ["B", "G", "F"], "B+F=2G", "arithmetic-progression"),
       support("abfj", YELLOW, "yellow", ["A", "B", "F", "J"], "A+B=F+J", "two-square-norm"),
@@ -563,7 +561,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abcdh", title: "ABCDH", positions: ["A", "B", "C", "D", "H"], group: "red-blue",
     summary: "AP-тройка CDH, согласованная с нормой x² + 2y² на ABDH.", theorem: "red_blue_five_square_masks", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=(A-H+C,\,H-C,\,A-H)`, defaults: commonDefaults, generate: redBlueAbcdh,
+    reconstructionLatex: String.raw`(E,x,y)=(A-H+C,\,H-C,\,A-H)`, defaults: ["2", "1", "1", "1"], generate: redBlueAbcdh,
     justifications: [
       support("cdh", RED, "red-light", ["C", "D", "H"], "D+H=2C", "arithmetic-progression"),
       support("abdh", BLUE, "blue-light", ["A", "B", "D", "H"], "B+2H=D+2A", "sqrt-minus-two-norm"),
@@ -572,7 +570,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abcdj", title: "ABCDJ", positions: ["A", "B", "C", "D", "J"], group: "red-blue",
     summary: "Прогрессия BDJ и голубая четвёрка ACDJ с целочисленным центром.", theorem: "red_blue_five_square_masks", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{A+J}{2},\,\frac{A-J}{2},\,J-D\right)`, defaults: commonDefaults, generate: redBlueAbcdj,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{A+J}{2},\,\frac{A-J}{2},\,J-D\right)`, defaults: ["1", "2", "1", "1"], generate: redBlueAbcdj,
     justifications: [
       support("bdj", RED, "red-light", ["B", "D", "J"], "B+D=2J", "arithmetic-progression"),
       support("acdj", BLUE, "blue-light", ["A", "C", "D", "J"], "A+2D=J+2C", "sqrt-minus-two-norm"),
@@ -581,7 +579,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abdef", title: "ABDEF", positions: ["A", "B", "D", "E", "F"], group: "red-blue",
     summary: "Прогрессия DEF и голубая норма на клетках ABDF.", theorem: "red_blue_five_square_masks", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,F-A)`, defaults: commonDefaults, generate: redBlueAbdef,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,F-A)`, defaults: ["2", "1", "1", "1"], generate: redBlueAbdef,
     justifications: [
       support("def", RED, "red-light", ["D", "E", "F"], "D+F=2E", "arithmetic-progression"),
       support("abdf", BLUE, "blue-light", ["A", "B", "D", "F"], "B+2A=D+2F", "sqrt-minus-two-norm"),
@@ -590,7 +588,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abcgj", title: "ABCGJ", positions: ["A", "B", "C", "G", "J"], group: "yellow-blue",
     summary: "Равенство A+J=C+G согласовано с голубой нормой BCGJ.", theorem: "yellow_blue_five_square_masks", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{A+J}{2},\,\frac{A-J}{2},\,\frac{A+J}{2}-C\right)`, defaults: ["1", "2", "1", "2"], generate: yellowBlueAbcgj,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{A+J}{2},\,\frac{A-J}{2},\,\frac{A+J}{2}-C\right)`, defaults: ["1", "2", "1", "3"], generate: yellowBlueAbcgj,
     justifications: [
       support("acgj", YELLOW, "yellow", ["A", "C", "G", "J"], "A+J=C+G", "two-square-norm"),
       support("bcgj", BLUE, "blue-light", ["B", "C", "G", "J"], "C+2B=G+2J", "sqrt-minus-two-norm"),
@@ -599,7 +597,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abcgh", title: "ABCGH", positions: ["A", "B", "C", "G", "H"], group: "yellow-blue",
     summary: "Жёлтая четвёрка BCGH и голубая четвёрка ACGH.", theorem: "yellow_blue_five_square_masks", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{C+G}{2},\,A-\frac{C+G}{2},\,\frac{G-C}{2}\right)`, defaults: commonDefaults, generate: yellowBlueAbcgh,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{C+G}{2},\,A-\frac{C+G}{2},\,\frac{G-C}{2}\right)`, defaults: ["1", "3", "1", "1"], generate: yellowBlueAbcgh,
     justifications: [
       support("bcgh", YELLOW, "yellow", ["B", "C", "G", "H"], "B+H=C+G", "two-square-norm"),
       support("acgh", BLUE, "blue-light", ["A", "C", "G", "H"], "G+2H=C+2A", "sqrt-minus-two-norm"),
@@ -608,7 +606,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abcde", title: "ABCDE", positions: ["A", "B", "C", "D", "E"], group: "yellow-blue",
     summary: "Гауссова норма и норма x² + 2y² без делений во время исполнения.", theorem: "yellow_blue_five_square_masks", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: commonDefaults, generate: yellowBlueAbcde,
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,E-C)`, defaults: ["4", "3", "1", "1"], generate: yellowBlueAbcde,
     justifications: [
       support("acde", YELLOW, "yellow", ["A", "C", "D", "E"], "A+D=C+E", "two-square-norm"),
       support("bcde", BLUE, "blue-light", ["B", "C", "D", "E"], "B+2C=D+2E", "sqrt-minus-two-norm"),
@@ -617,7 +615,7 @@ export const FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "abcdf", title: "ABCDF", positions: ["A", "B", "C", "D", "F"], group: "blue-blue",
     summary: "Две независимые голубые нормы на ABDF и ACDF.", theorem: "blue_blue_abcdf_square_mask", proofStatus: "proof-core",
-    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,C-D,\,F-A\right)`, defaults: commonDefaults, generate: blueBlueAbcdf,
+    reconstructionLatex: String.raw`(E,x,y)=\left(\frac{D+F}{2},\,C-D,\,F-A\right)`, defaults: ["3", "2", "1", "1"], generate: blueBlueAbcdf,
     justifications: [
       support("abdf", BLUE, "blue-light", ["A", "B", "D", "F"], "B+2A=D+2F", "sqrt-minus-two-norm"),
       support("acdf", BLUE, "blue-dark", ["A", "C", "D", "F"], "D+2A=F+2C", "sqrt-minus-two-norm"),

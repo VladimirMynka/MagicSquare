@@ -29,6 +29,11 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 - Large squares color only values that are actually perfect squares. Family
   miniatures instead color the exact proof supports and split intersections
   between their two supporting identities.
+- Every default family preset has nine positive pairwise-distinct entries and
+  exactly the declared five square-valued positions.
+- Family pages contain a sequential proof text: assumptions, explicit roots,
+  algebraic identities, Magic3 reconstruction, parity clearance, and the
+  conclusion. They are not abbreviated proof-summary cards.
 
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,
