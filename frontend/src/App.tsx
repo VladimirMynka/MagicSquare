@@ -43,6 +43,7 @@ import {
   formatInteger,
   minimizeCoordinates,
   type Coordinates,
+  type Position,
   type SquareCell,
 } from "./lib/magicSquare";
 import {
@@ -1387,42 +1388,146 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
   );
 }
 
-function OrbitTable({
+function atlasSourceSystem(family: FamilyDefinition): string {
+  const equations = family.positions
+    .map(
+      (position) =>
+        `${CELL_FORM_LATEX[position]}&=${position.toLowerCase()}^2`,
+    )
+    .join(String.raw`\\`);
+  return String.raw`\left\{\begin{aligned}${equations}\end{aligned}\right.`;
+}
+
+function atlasQuadric(relation: string): string {
+  return relation.replace(
+    /[ABCDEFGHJ]/g,
+    (position) => `${position.toLowerCase()}^2`,
+  );
+}
+
+const ATLAS_POSITIONS = Array.from("ABCDEFGHJ") as Position[];
+
+function transformAtlasPosition(
+  position: Position,
+  rotation: number,
+  reflected: boolean,
+): Position {
+  const index = ATLAS_POSITIONS.indexOf(position);
+  let row = Math.floor(index / 3);
+  let column = index % 3;
+  if (reflected) column = 2 - column;
+  for (let turn = 0; turn < rotation; turn += 1) {
+    [row, column] = [column, 2 - row];
+  }
+  return ATLAS_POSITIONS[row * 3 + column];
+}
+
+function canonicalAtlasMask(positions: readonly Position[]): string {
+  const images: string[] = [];
+  for (const reflected of [false, true]) {
+    for (let rotation = 0; rotation < 4; rotation += 1) {
+      images.push(
+        positions
+          .map((position) =>
+            transformAtlasPosition(position, rotation, reflected),
+          )
+          .sort()
+          .join(""),
+      );
+    }
+  }
+  return images.sort()[0];
+}
+
+const FOUR_ORBITS_BY_CANONICAL_MASK = new Map(
+  FOUR_FAMILIES.map((family) => [canonicalAtlasMask(family.positions), family]),
+);
+
+function complementaryFourOrbit(
+  family: FamilyDefinition,
+): FamilyDefinition | undefined {
+  const complement = ATLAS_POSITIONS.filter(
+    (position) => !family.positions.includes(position),
+  );
+  return FOUR_ORBITS_BY_CANONICAL_MASK.get(canonicalAtlasMask(complement));
+}
+
+function OrbitAtlas({
   title,
   families,
 }: {
   title: string;
   families: readonly FamilyDefinition[];
 }) {
-  const { locale } = useLocale();
+  const { locale, text } = useLocale();
   return (
-    <section className="orbit-catalog">
-      <h3>{title}</h3>
-      <div className="orbit-table" role="table" aria-label={title}>
-        {families.map((family, index) => (
-          <Link
-            className={`orbit-row tone-${family.group}`}
-            to={`/lab?family=${family.id}#family-proof`}
-            role="row"
-            key={family.id}
-          >
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <Pattern family={family} compact />
-            <span>
-              <strong>{family.title}</strong>
-              <small>
-                {familyOrbitDescription(family, locale) ??
-                  familyGroupLabel(family, locale)}
-              </small>
-            </span>
-            <span className="orbit-relations">
-              {family.justifications.map((item) => (
-                <Latex key={item.id}>{item.relationLatex}</Latex>
-              ))}
-            </span>
-            <i>→</i>
-          </Link>
-        ))}
+    <section className={`orbit-atlas orbit-atlas-${families[0]?.level ?? 4}`}>
+      <header className="orbit-atlas-header">
+        <div>
+          <p className="eyebrow">{text("Доказательная таблица", "Proof table")}</p>
+          <h4>{title}</h4>
+        </div>
+        <p>
+          {text(
+            "Цвет клетки совпадает с цветом квадрики, в которую входит её квадратное значение. Пересечение двух опор делится между двумя цветами.",
+            "Each cell uses the color of the quadric containing its square value. An intersection of two supports is split between both colors.",
+          )}
+        </p>
+      </header>
+      <div className="orbit-atlas-grid" role="list" aria-label={title}>
+        {families.map((family, index) => {
+          const complement =
+            family.level === 5 ? complementaryFourOrbit(family) : undefined;
+          const description = complement
+            ? text(
+                `Дополнение к типу 4/9 «${familyOrbitDescription(complement, locale)}»`,
+                `Complement of the 4/9 type “${familyOrbitDescription(complement, locale)}”`,
+              )
+            : familyOrbitDescription(family, locale) ??
+              familyGroupLabel(family, locale);
+          return (
+            <article
+              className={`orbit-atlas-entry tone-${family.group}`}
+              role="listitem"
+              key={family.id}
+            >
+              <header className="orbit-atlas-entry-header">
+                <span className="orbit-atlas-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <Pattern family={family} />
+                <div>
+                  <strong>{family.title}</strong>
+                  <p>{description}</p>
+                </div>
+              </header>
+
+              <div className="orbit-atlas-system">
+                <small>{text("Исходная система", "Original system")}</small>
+                <Latex display>{atlasSourceSystem(family)}</Latex>
+              </div>
+
+              <div className="orbit-atlas-quadrics">
+                {family.justifications.map((item) => (
+                  <div
+                    className={`orbit-atlas-relation ${item.color}`}
+                    key={item.id}
+                  >
+                    <small>{justificationLabel(item, locale)}</small>
+                    <Latex display>{atlasQuadric(item.relationLatex)}</Latex>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                className="orbit-atlas-link"
+                to={`/lab?family=${family.id}#family-proof`}
+              >
+                {text("Формулы и доказательство", "Formulas and proof")} →
+              </Link>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
@@ -1534,6 +1639,13 @@ function GeneralTheoryPage() {
               "Taking the complement of a mask commutes with D₄ and gives a bijection between the 4/9 and 5/9 orbits. The original PDF omitted ACDH and, consequently, its complementary mask BEFGJ.",
             )}
           </p>
+          <OrbitAtlas
+            title={text(
+              "Все 23 орбиты и квадрики 4/9",
+              "All 23 orbits and quadrics for 4/9",
+            )}
+            families={FOUR_FAMILIES}
+          />
         </section>
 
         <section>
@@ -1596,6 +1708,13 @@ function GeneralTheoryPage() {
             )}
           </p>
           <Latex display>{String.raw`\ker L_S^T=\langle R_{\mathrm{color}_1},R_{\mathrm{color}_2}\rangle\quad\Longrightarrow\quad \{R_1(q^2)=R_2(q^2)=0\}\Longleftrightarrow\exists!\,(E,x,y)`}</Latex>
+          <OrbitAtlas
+            title={text(
+              "Все 23 орбиты и пары квадрик 5/9",
+              "All 23 orbits and pairs of quadrics for 5/9",
+            )}
+            families={FIVE_FAMILIES}
+          />
           <p>
             {text(
               "Индивидуальное доказательство обязано не только проверить эти две квадрики, но и вывести совместную параметризацию корней. Полнота указывается отдельно: доказанная, алгоритмически восстанавливаемая через НОД и знаки либо пока неизвестная. Проверка тождества сама по себе полноты не доказывает.",
@@ -1603,15 +1722,6 @@ function GeneralTheoryPage() {
             )}
           </p>
         </section>
-
-        <OrbitTable
-          title={text("Все 23 орбиты 4/9", "All 23 orbits of 4/9 masks")}
-          families={FOUR_FAMILIES}
-        />
-        <OrbitTable
-          title={text("Все 23 орбиты 5/9", "All 23 orbits of 5/9 masks")}
-          families={FIVE_FAMILIES}
-        />
       </div>
     </article>
   );

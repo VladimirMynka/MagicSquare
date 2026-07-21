@@ -1963,68 +1963,203 @@ main {
   background: var(--paper);
 }
 
-.orbit-catalog {
-  padding-bottom: 42px !important;
-}
-
-.orbit-catalog > h3 {
-  margin-bottom: 24px;
-}
-
-.orbit-table {
-  border-top: 1px solid var(--line-strong);
-}
-
-.orbit-row {
-  min-height: 76px;
-  display: grid;
-  grid-template-columns: 32px 46px minmax(180px, 0.8fr) minmax(260px, 1.2fr) 18px;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--line);
-  border-left: 4px solid var(--tone-a, var(--line-strong));
-}
-
-.orbit-row:hover {
+.orbit-atlas {
+  margin-top: 38px;
+  border: 1px solid var(--line-strong);
   background: var(--paper);
 }
 
-.orbit-row > span:first-child {
-  color: var(--muted);
-  font: 9px var(--mono);
+.orbit-atlas-header {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+  align-items: end;
+  gap: 34px;
+  padding: 24px 26px;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--paper-muted);
 }
 
-.orbit-row > span:nth-child(3) {
+.orbit-atlas-header .eyebrow {
+  margin: 0 0 7px;
+}
+
+.orbit-atlas-header h4 {
+  margin: 0;
+  color: var(--graphite);
+  font: 500 25px/1.1 var(--serif);
+}
+
+.orbit-atlas-header > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.orbit-atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.orbit-atlas-entry {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, var(--tone-a), var(--tone-b)) top left / 100% 3px no-repeat,
+    var(--paper-strong);
 }
 
-.orbit-row strong {
-  color: var(--graphite);
-  font: 13px var(--mono);
+.orbit-atlas-entry:nth-child(4n) {
+  border-right: 0;
 }
 
-.orbit-row small {
+.orbit-atlas-entry-header {
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 22px 64px minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+}
+
+.orbit-atlas-number {
+  padding-top: 3px;
   color: var(--muted);
-  font-size: 10px;
+  font: 8px var(--mono);
+}
+
+.orbit-atlas-entry-header > div {
+  min-width: 0;
+}
+
+.orbit-atlas-entry-header strong {
+  display: block;
+  margin: 1px 0 6px;
+  color: var(--graphite);
+  font: 700 12px var(--mono);
+  letter-spacing: 0.04em;
+}
+
+.orbit-atlas-entry-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
   line-height: 1.4;
 }
 
-.orbit-relations {
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
-  color: var(--graphite-soft);
-  font-size: 12px;
+.orbit-atlas-system {
+  min-height: 132px;
+  margin-top: 14px;
+  padding: 11px 8px 9px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
-.orbit-row > i {
+.orbit-atlas-5 .orbit-atlas-system {
+  min-height: 151px;
+}
+
+.orbit-atlas-system > small,
+.orbit-atlas-relation > small {
+  display: block;
   color: var(--muted);
-  font-style: normal;
+  font: 7px var(--mono);
+  line-height: 1.35;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.orbit-atlas-system .latex.display {
+  margin: 8px 0 0;
+  font-size: 10px;
+  text-align: left;
+}
+
+.orbit-atlas-system .katex-display,
+.orbit-atlas-relation .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
+.orbit-atlas-quadrics {
+  min-height: 68px;
+  display: flex;
+  flex-direction: column;
+}
+
+.orbit-atlas-5 .orbit-atlas-quadrics {
+  min-height: 136px;
+}
+
+.orbit-atlas-relation {
+  --relation-ink: var(--graphite-soft);
+  flex: 1;
+  padding: 10px 8px 9px 10px;
+  border-left: 3px solid var(--relation-ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.orbit-atlas-relation.red-light {
+  --relation-ink: #a74e48;
+}
+
+.orbit-atlas-relation.red-dark {
+  --relation-ink: #773a36;
+}
+
+.orbit-atlas-relation.yellow {
+  --relation-ink: #8a6b20;
+}
+
+.orbit-atlas-relation.blue-light {
+  --relation-ink: #4c7182;
+}
+
+.orbit-atlas-relation.blue-dark {
+  --relation-ink: #31586c;
+}
+
+.orbit-atlas-relation.green {
+  --relation-ink: #5f755c;
+}
+
+.orbit-atlas-relation.brown {
+  --relation-ink: #8a6047;
+}
+
+.orbit-atlas-relation.gray-dark {
+  --relation-ink: #686a65;
+}
+
+.orbit-atlas-relation.gray-light {
+  --relation-ink: #8f8e87;
+}
+
+.orbit-atlas-relation .latex.display {
+  margin: 7px 0 0;
+  color: var(--relation-ink);
+  font-size: 11px;
+  text-align: left;
+}
+
+.orbit-atlas-link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 12px 0 2px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--graphite-soft);
+  font: 8px var(--mono);
+  letter-spacing: 0.035em;
+}
+
+.orbit-atlas-link:hover {
+  color: var(--brick);
+  border-color: var(--brick);
 }
 
 .proof-document > footer {
@@ -2327,6 +2462,18 @@ main {
 }
 
 @media (max-width: 980px) {
+  .orbit-atlas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .orbit-atlas-entry:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  .orbit-atlas-entry:nth-child(even) {
+    border-right: 0;
+  }
+
   .feature-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -2382,12 +2529,15 @@ main {
 }
 
 @media (max-width: 780px) {
-  .orbit-row {
-    grid-template-columns: 26px 44px minmax(0, 1fr) 14px;
+  .orbit-atlas-header {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 14px;
+    padding: 20px;
   }
 
-  .orbit-relations {
-    grid-column: 3 / -1;
+  .orbit-atlas-header h4 {
+    font-size: 22px;
   }
 
   .site-header {
@@ -2626,6 +2776,32 @@ main {
     padding: 31px 23px;
     grid-template-columns: 1fr;
     gap: 34px;
+  }
+}
+
+@media (max-width: 620px) {
+  .orbit-atlas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .orbit-atlas-entry:nth-child(n) {
+    border-right: 0;
+  }
+
+  .orbit-atlas-entry-header {
+    grid-template-columns: 24px 64px minmax(0, 1fr);
+  }
+
+  .orbit-atlas-system,
+  .orbit-atlas-5 .orbit-atlas-system,
+  .orbit-atlas-quadrics,
+  .orbit-atlas-5 .orbit-atlas-quadrics {
+    min-height: 0;
+  }
+
+  .orbit-atlas-system .latex.display,
+  .orbit-atlas-relation .latex.display {
+    font-size: 12px;
   }
 }
 
