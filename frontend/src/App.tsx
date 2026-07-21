@@ -1721,6 +1721,19 @@ function GeneralTheoryPage() {
               "A color belongs to a particular left-kernel equation, not to a fixed cell position. In the large matrix, color marks only values that are actually perfect squares; in a miniature, it marks the supports of the selected equations. A cell shared by two supports is split between their colors.",
             )}
           </p>
+          <p>
+            {text(
+              "Цвета упорядочены по предпочтительности. При построении цветового базиса сначала выбирается доступное отношение наиболее предпочтительного типа:",
+              "Colors are ordered by preference. When a colored basis is constructed, the available relation of the most preferred type is selected first:",
+            )}
+          </p>
+          <Latex display>{String.raw`\mathrm{red}>\mathrm{yellow}>\mathrm{blue}>\mathrm{green}>\mathrm{brown}>\mathrm{dark\ gray}>\mathrm{light\ gray}`}</Latex>
+          <p>
+            {text(
+              "Для маски 5/9 после первого отношения выбирается наиболее предпочтительное отношение, линейно независимое от него. При одинаковом цветовом приоритете дополнительная математическая иерархия не вводится. Разные оттенки одного цвета нужны только для визуального разделения равноправных групп и не несут отдельной семантики.",
+              "For a 5/9 mask, the first relation is followed by the most preferred relation linearly independent of it. Equal color priority introduces no further mathematical hierarchy. Different shades of one color serve only to distinguish equal-status groups visually and carry no separate semantics.",
+            )}
+          </p>
           {proofs.map((proof) => (
             <section className="general-color-proof" key={proof.id}>
               <h4>{proof.title}</h4>
@@ -1737,8 +1750,8 @@ function GeneralTheoryPage() {
           <h3>{text("6. Переход от 4/9 к 5/9", "6. From 4/9 to 5/9")}</h3>
           <p>
             {text(
-              "Пять клеток дают две независимые квадрики. Канонический цветовой базис выбирается среди 4/9-подмасок так, чтобы отношения имели простейшие коэффициенты и минимальные опоры. Любой другой базис того же двумерного левого ядра эквивалентен, но не меняет ни множество решений, ни достаточность системы.",
-              "Five cells give two independent quadrics. The canonical colored basis is selected among the 4/9 submasks so that its relations have the simplest coefficients and smallest supports. Any other basis of the same two-dimensional left kernel is equivalent and changes neither the solution set nor sufficiency of the system.",
+              "Пять клеток дают две независимые квадрики. Канонический цветовой базис выбирается среди отношений 4/9-подмасок по установленному выше цветовому приоритету: сначала лучшее доступное отношение, затем лучшее независимое от него. Любой другой базис того же двумерного левого ядра эквивалентен и не меняет ни множество решений, ни достаточность системы.",
+              "Five cells give two independent quadrics. The canonical colored basis is selected among relations of the 4/9 submasks according to the color priority fixed above: first the best available relation, then the best one independent of it. Any other basis of the same two-dimensional left kernel is equivalent and changes neither the solution set nor sufficiency of the system.",
             )}
           </p>
           <Latex display>{String.raw`\ker L_S^T=\langle R_{\mathrm{color}_1},R_{\mathrm{color}_2}\rangle\quad\Longrightarrow\quad \{R_1(q^2)=R_2(q^2)=0\}\Longleftrightarrow\exists!\,(E,x,y)`}</Latex>
