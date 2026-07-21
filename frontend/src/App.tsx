@@ -1460,6 +1460,13 @@ function OrbitAtlas({
   families: readonly FamilyDefinition[];
 }) {
   const { locale, text } = useLocale();
+  const legendItems = Array.from(
+    new Map(
+      families.flatMap((family) =>
+        family.justifications.map((item) => [item.color, item] as const),
+      ),
+    ).values(),
+  );
   return (
     <section className={`orbit-atlas orbit-atlas-${families[0]?.level ?? 4}`}>
       <header className="orbit-atlas-header">
@@ -1473,61 +1480,88 @@ function OrbitAtlas({
             "Each cell uses the color of the quadric containing its square value. An intersection of two supports is split between both colors.",
           )}
         </p>
+        <div className="orbit-atlas-legend">
+          <span>
+            {text(
+              "Верхний блок — исходная система; цветные полосы — квадрики:",
+              "Upper block: original system; colored bars: quadrics:",
+            )}
+          </span>
+          {legendItems.map((item) => (
+            <span key={item.color}>
+              <i className={`proof-swatch ${item.color}`} />
+              {justificationLabel(item, locale)}
+            </span>
+          ))}
+        </div>
       </header>
-      <div className="orbit-atlas-grid" role="list" aria-label={title}>
-        {families.map((family, index) => {
-          const complement =
-            family.level === 5 ? complementaryFourOrbit(family) : undefined;
-          const description = complement
-            ? text(
-                `Дополнение к типу 4/9 «${familyOrbitDescription(complement, locale)}»`,
-                `Complement of the 4/9 type “${familyOrbitDescription(complement, locale)}”`,
-              )
-            : familyOrbitDescription(family, locale) ??
-              familyGroupLabel(family, locale);
-          return (
-            <article
-              className={`orbit-atlas-entry tone-${family.group}`}
-              role="listitem"
-              key={family.id}
-            >
-              <header className="orbit-atlas-entry-header">
-                <span className="orbit-atlas-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <Pattern family={family} />
-                <div>
-                  <strong>{family.title}</strong>
-                  <p>{description}</p>
-                </div>
-              </header>
+      <div className="orbit-atlas-scroll-shell">
+        <div
+          className="orbit-atlas-scroll"
+          role="region"
+          aria-label={text(
+            `${title}: горизонтальная прокрутка`,
+            `${title}: horizontally scrollable sheet`,
+          )}
+          tabIndex={0}
+        >
+          <div className="orbit-atlas-grid" role="list" aria-label={title}>
+            {families.map((family, index) => {
+              const complement =
+                family.level === 5 ? complementaryFourOrbit(family) : undefined;
+              const description = complement
+                ? text(
+                    `Дополнение к типу 4/9 «${familyOrbitDescription(complement, locale)}»`,
+                    `Complement of the 4/9 type “${familyOrbitDescription(complement, locale)}”`,
+                  )
+                : familyOrbitDescription(family, locale) ??
+                  familyGroupLabel(family, locale);
+              return (
+                <article
+                  className={`orbit-atlas-entry tone-${family.group}`}
+                  role="listitem"
+                  key={family.id}
+                >
+                  <header className="orbit-atlas-entry-header">
+                    <span className="orbit-atlas-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <Pattern family={family} />
+                    <div>
+                      <Link
+                        className="orbit-atlas-title"
+                        to={`/lab?family=${family.id}#family-proof`}
+                      >
+                        {family.title} →
+                      </Link>
+                      <p>{description}</p>
+                    </div>
+                  </header>
 
-              <div className="orbit-atlas-system">
-                <small>{text("Исходная система", "Original system")}</small>
-                <Latex display>{atlasSourceSystem(family)}</Latex>
-              </div>
-
-              <div className="orbit-atlas-quadrics">
-                {family.justifications.map((item) => (
-                  <div
-                    className={`orbit-atlas-relation ${item.color}`}
-                    key={item.id}
-                  >
-                    <small>{justificationLabel(item, locale)}</small>
-                    <Latex display>{atlasQuadric(item.relationLatex)}</Latex>
+                  <div className="orbit-atlas-system">
+                    <Latex display>{atlasSourceSystem(family)}</Latex>
                   </div>
-                ))}
-              </div>
 
-              <Link
-                className="orbit-atlas-link"
-                to={`/lab?family=${family.id}#family-proof`}
-              >
-                {text("Формулы и доказательство", "Formulas and proof")} →
-              </Link>
-            </article>
-          );
-        })}
+                  <div className="orbit-atlas-quadrics">
+                    {family.justifications.map((item) => {
+                      const label = justificationLabel(item, locale);
+                      return (
+                        <div
+                          aria-label={label}
+                          className={`orbit-atlas-relation ${item.color}`}
+                          key={item.id}
+                          title={label}
+                        >
+                          <Latex display>{atlasQuadric(item.relationLatex)}</Latex>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );
