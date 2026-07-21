@@ -1,27 +1,38 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import katex from "katex";
 import {
-  Link,
-  NavLink,
-  Navigate,
+  Link as RouterLink,
+  NavLink as RouterNavLink,
+  Navigate as RouterNavigate,
+  Outlet,
   Route,
   Routes,
+  useLocation,
   useParams,
   useSearchParams,
+  type LinkProps,
+  type NavLinkProps,
+  type NavigateProps,
+  type To,
 } from "react-router-dom";
-import { NEWS, newsBySlug } from "./content/news";
+import { news, newsBySlug, type NewsArticle } from "./content/news";
 import { familyProof } from "./content/familyProofs";
 import {
   COMMON_PROOFS,
   MAGIC3_LATEX,
   commonProofById,
+  commonProofs,
 } from "./content/proofs";
 import {
   FAMILIES,
   FIVE_FAMILIES,
   FOUR_FAMILIES,
   familyById,
+  familyGroupLabel,
+  familyOrbitDescription,
+  familySummary,
   findFamilyById,
+  justificationLabel,
   type FamilyDefinition,
   type FamilyLevel,
   type ParameterStrings,
@@ -34,6 +45,15 @@ import {
   type Coordinates,
   type SquareCell,
 } from "./lib/magicSquare";
+import {
+  LocaleProvider,
+  isLocale,
+  localePath,
+  preferredLocale,
+  switchLocalePath,
+  useLocale,
+  type Locale,
+} from "./i18n";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
 
@@ -48,6 +68,29 @@ const CELL_FORM_LATEX: Readonly<Record<string, string>> = {
   H: "E+x-y",
   J: "E-x",
 };
+
+function localizeTo(locale: Locale, to: To): To {
+  if (typeof to === "string") return localePath(locale, to);
+  return {
+    ...to,
+    pathname: to.pathname ? localePath(locale, to.pathname) : to.pathname,
+  };
+}
+
+function Link({ to, ...props }: LinkProps) {
+  const { locale } = useLocale();
+  return <RouterLink to={localizeTo(locale, to)} {...props} />;
+}
+
+function NavLink({ to, ...props }: NavLinkProps) {
+  const { locale } = useLocale();
+  return <RouterNavLink to={localizeTo(locale, to)} {...props} />;
+}
+
+function Navigate({ to, ...props }: NavigateProps) {
+  const { locale } = useLocale();
+  return <RouterNavigate to={localizeTo(locale, to)} {...props} />;
+}
 
 function Latex({
   children,
@@ -79,83 +122,165 @@ function AppMark() {
   );
 }
 
+function localeRedirectTarget(locale: Locale, pathname: string): string {
+  return `${localePath(locale, pathname)}${window.location.search}${window.location.hash}`;
+}
+
+function LocaleLayout() {
+  const { locale: rawLocale } = useParams();
+  const location = useLocation();
+  if (!isLocale(rawLocale)) {
+    const locale = preferredLocale();
+    return (
+      <RouterNavigate
+        replace
+        to={localeRedirectTarget(locale, location.pathname)}
+      />
+    );
+  }
+  return (
+    <LocaleProvider locale={rawLocale}>
+      <AppShell />
+    </LocaleProvider>
+  );
+}
+
+function LegacyLocaleRedirect() {
+  const location = useLocation();
+  const locale = preferredLocale();
+  return (
+    <RouterNavigate
+      replace
+      to={localeRedirectTarget(locale, location.pathname)}
+    />
+  );
+}
+
+function LanguageSwitcher() {
+  const { locale, text } = useLocale();
+  const location = useLocation();
+  return (
+    <nav className="language-switcher" aria-label={text("Язык", "Language")}>
+      {(["ru", "en"] as const).map((candidate) => (
+        <RouterLink
+          aria-current={candidate === locale ? "page" : undefined}
+          className={candidate === locale ? "active" : ""}
+          key={candidate}
+          lang={candidate}
+          onClick={() =>
+            window.localStorage.setItem("magic-squares-locale", candidate)
+          }
+          to={`${switchLocalePath(location.pathname, candidate)}${location.search}${location.hash}`}
+        >
+          {candidate.toUpperCase()}
+        </RouterLink>
+      ))}
+    </nav>
+  );
+}
+
 function AppShell() {
+  const { text } = useLocale();
   return (
     <div className="app-shell">
       <header className="site-header">
-        <Link className="brand" to="/" aria-label="Magic Squares — на главную">
+        <Link
+          className="brand"
+          to="/"
+          aria-label={text("Magic Squares — на главную", "Magic Squares — home")}
+        >
           <AppMark />
           <span>
             <strong>Magic Squares</strong>
             <small>proof atlas</small>
           </span>
         </Link>
-        <nav className="main-nav" aria-label="Основная навигация">
-          <NavLink to="/lab">Лаборатория</NavLink>
-          <NavLink to="/news">Новости</NavLink>
-          <NavLink to="/about">О проекте</NavLink>
+        <nav
+          className="main-nav"
+          aria-label={text("Основная навигация", "Primary navigation")}
+        >
+          <NavLink to="/lab">{text("Лаборатория", "Laboratory")}</NavLink>
+          <NavLink to="/news">{text("Новости", "News")}</NavLink>
+          <NavLink to="/about">{text("О проекте", "About")}</NavLink>
         </nav>
-        <span className="release-pill">
-          <i /> alpha · 0.4.0
-        </span>
+        <div className="header-meta">
+          <LanguageSwitcher />
+          <span className="release-pill">
+            <i /> alpha · 0.5.0
+          </span>
+        </div>
       </header>
 
       <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/lab" element={<LabPage />} />
-          <Route path="/families/:familyId" element={<FamilyRedirect />} />
-          <Route path="/proofs/general" element={<GeneralTheoryPage />} />
-          <Route path="/proofs/:proofId" element={<CommonProofPage />} />
-          <Route path="/news" element={<NewsPage />} />
-          <Route path="/news/:slug" element={<NewsArticlePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Outlet />
       </main>
 
       <footer className="site-footer">
-        <span>Magic Squares · открытая исследовательская среда</span>
-        <span>Точные формулы · воспроизводимые сертификаты</span>
+        <span>
+          {text(
+            "Magic Squares · открытая исследовательская среда",
+            "Magic Squares · open research environment",
+          )}
+        </span>
+        <span>
+          {text(
+            "Точные формулы · воспроизводимые сертификаты",
+            "Exact formulas · reproducible certificates",
+          )}
+        </span>
       </footer>
     </div>
   );
 }
 
 function HomePage() {
+  const { locale, text } = useLocale();
+  const articles = news(locale);
   return (
     <div className="page home-page">
       <section className="hero">
         <div className="hero-copy">
           <p className="eyebrow">
-            Параметрические семейства · карта доказательств
+            {text(
+              "Параметрические семейства · карта доказательств",
+              "Parametric families · proof map",
+            )}
           </p>
-          <h1>Магические квадраты, которые можно не только увидеть.</h1>
+          <h1>
+            {text(
+              "Магические квадраты, которые можно не только увидеть.",
+              "Magic squares you can do more than look at.",
+            )}
+          </h1>
           <p className="hero-lead">
-            Интерактивный атлас связывает каждый генератор с его квадратной
-            маской, формулой, полным LaTeX-доказательством и честным статусом
-            формализации.
+            {text(
+              "Интерактивный атлас связывает каждый генератор с его квадратной маской, формулой, полным LaTeX-доказательством и честным статусом формализации.",
+              "The interactive atlas connects every generator to its square-valued mask, formulas, complete LaTeX proof, and an honest formalization status.",
+            )}
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" to="/lab">
-              Открыть лабораторию <span>↗</span>
+              {text("Открыть лабораторию", "Open the laboratory")} <span>↗</span>
             </Link>
             <Link className="button button-ghost" to="/about">
-              Как устроены доказательства
+              {text("Как устроены доказательства", "How the proofs work")}
             </Link>
           </div>
-          <div className="hero-stats" aria-label="Статистика проекта">
+          <div
+            className="hero-stats"
+            aria-label={text("Статистика проекта", "Project statistics")}
+          >
             <div>
               <strong>23 + 23</strong>
-              <span>орбиты 4/9 и 5/9</span>
+              <span>{text("орбиты 4/9 и 5/9", "4/9 and 5/9 orbits")}</span>
             </div>
             <div>
               <strong>5/9</strong>
-              <span>квадратная маска</span>
+              <span>{text("квадратная маска", "square-valued mask")}</span>
             </div>
             <div>
               <strong>{COMMON_PROOFS.length}</strong>
-              <span>общие леммы</span>
+              <span>{text("общие леммы", "shared lemmas")}</span>
             </div>
           </div>
         </div>
@@ -166,10 +291,15 @@ function HomePage() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">Proof-backed catalog</p>
-            <h2>От формулы к квадрату — без разрыва</h2>
+            <h2>
+              {text(
+                "От формулы к квадрату — без разрыва",
+                "From formula to square, without a gap",
+              )}
+            </h2>
           </div>
           <Link className="text-link" to="/lab">
-            Все семейства <span>→</span>
+            {text("Все семейства", "All families")} <span>→</span>
           </Link>
         </div>
         <div className="feature-grid">
@@ -182,9 +312,11 @@ function HomePage() {
               <span className="feature-index">0{index + 1}</span>
               <Pattern family={family} />
               <div>
-                <span className="family-kind">{family.groupLabel}</span>
+                <span className="family-kind">
+                  {familyGroupLabel(family, locale)}
+                </span>
                 <h3>{family.title}</h3>
-                <p>{family.summary}</p>
+                <p>{familySummary(family, locale)}</p>
               </div>
               <span className="feature-arrow">↗</span>
             </Link>
@@ -193,44 +325,53 @@ function HomePage() {
       </section>
 
       <section className="manifesto">
-        <p className="eyebrow">Исследовательский принцип</p>
+        <p className="eyebrow">
+          {text("Исследовательский принцип", "Research principle")}
+        </p>
         <blockquote>
-          «Если символического доказательства ещё нет, это пробел, а не
-          результат».
+          {text(
+            "«Если символического доказательства ещё нет, это пробел, а не результат».",
+            "“If a symbolic proof does not exist yet, that is a gap—not a result.”",
+          )}
         </blockquote>
         <p>
-          Интерфейс показывает вычисление. Proof-core отвечает за утверждение.
-          Поэтому красивые примеры не подменяют тождества, а статус каждой
-          конструкции виден пользователю.
+          {text(
+            "Интерфейс показывает вычисление. Proof-core отвечает за утверждение. Поэтому красивые примеры не подменяют тождества, а статус каждой конструкции виден пользователю.",
+            "The interface displays computations; proof-core is responsible for claims. Attractive examples never substitute for identities, and every construction exposes its status.",
+          )}
         </p>
       </section>
 
       <section className="section-block latest-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Журнал проекта</p>
-            <h2>Последнее обновление</h2>
+            <p className="eyebrow">{text("Журнал проекта", "Project journal")}</p>
+            <h2>{text("Последнее обновление", "Latest update")}</h2>
           </div>
           <Link className="text-link" to="/news">
-            Все новости <span>→</span>
+            {text("Все новости", "All news")} <span>→</span>
           </Link>
         </div>
-        <NewsCard article={NEWS[0]} featured />
+        <NewsCard article={articles[0]} featured />
       </section>
     </div>
   );
 }
 
 function HeroSquare() {
+  const { text } = useLocale();
   const values = [
     17689, 27889, 11449, 12769, 19009, 25249, 26569, 10129, 20329,
   ];
   const squareIndexes = new Set([0, 1, 2, 3, 6]);
   return (
-    <div className="hero-visual" aria-label="Точный квадрат ABCDG">
+    <div
+      className="hero-visual"
+      aria-label={text("Точный квадрат ABCDG", "Exact ABCDG square")}
+    >
       <div className="hero-square-label">
         <span>ABCDG</span>
-        <small>точный сертификат</small>
+        <small>{text("точный сертификат", "exact certificate")}</small>
       </div>
       <div className="hero-square-grid">
         {values.map((value, index) => (
@@ -243,7 +384,10 @@ function HeroSquare() {
           </div>
         ))}
       </div>
-      <div className="hero-coordinates" aria-label="Координаты квадрата">
+      <div
+        className="hero-coordinates"
+        aria-label={text("Координаты квадрата", "Square coordinates")}
+      >
         <span>
           <small>E</small>19 009
         </span>
@@ -262,6 +406,7 @@ function HeroSquare() {
 }
 
 function LabPage() {
+  const { locale, text } = useLocale();
   const [searchParams, setSearchParams] = useSearchParams();
   const requestedFamily = searchParams.get("family");
   const initialFamily = requestedFamily ? familyById(requestedFamily) : null;
@@ -362,7 +507,12 @@ function LabPage() {
       setCurrentCoordinates(nextCoordinates, nextFamily);
       persistFamily(nextFamily, nextParameters);
     } catch {
-      setError("Параметры семейства должны быть целыми числами.");
+      setError(
+        text(
+          "Параметры семейства должны быть целыми числами.",
+          "Family parameters must be integers.",
+        ),
+      );
     }
   }
 
@@ -393,7 +543,12 @@ function LabPage() {
       setCurrentCoordinates(nextCoordinates, null);
       persistManual(nextCoordinates);
     } catch {
-      setError("E, x и y должны быть целыми числами.");
+      setError(
+        text(
+          "E, x и y должны быть целыми числами.",
+          "E, x, and y must be integers.",
+        ),
+      );
     }
   }
 
@@ -441,7 +596,12 @@ function LabPage() {
         y * factor,
       ]);
     } catch {
-      setError("Множитель должен быть целым числом.");
+      setError(
+        text(
+          "Множитель должен быть целым числом.",
+          "The multiplier must be an integer.",
+        ),
+      );
     }
   }
 
@@ -455,22 +615,31 @@ function LabPage() {
     <div className="page lab-page">
       <div className="lab-heading">
         <div>
-          <p className="eyebrow">Математическая мастерская</p>
-          <h1>Лаборатория квадратов</h1>
+          <p className="eyebrow">
+            {text("Математическая мастерская", "Mathematical workbench")}
+          </p>
+          <h1>{text("Лаборатория квадратов", "Square laboratory")}</h1>
         </div>
         <p>
-          Управляйте произвольным квадратом через E, x, y или получите эти
-          координаты из параметрического семейства.
+          {text(
+            "Управляйте произвольным квадратом через E, x, y или получите эти координаты из параметрического семейства.",
+            "Control an arbitrary square through E, x, and y, or obtain these coordinates from a parametric family.",
+          )}
         </p>
       </div>
 
       <div className="lab-layout">
         <aside className="family-panel">
           <div className="panel-label">
-            <span>Режим и семейства</span>
-            <small>{catalogFamilies.length} орбиты</small>
+            <span>{text("Режим и семейства", "Mode and families")}</span>
+            <small>
+              {catalogFamilies.length} {text("орбиты", "orbits")}
+            </small>
           </div>
-          <div className="family-level-tabs" aria-label="Уровень квадратной маски">
+          <div
+            className="family-level-tabs"
+            aria-label={text("Уровень квадратной маски", "Square-mask level")}
+          >
             {([4, 5] as const).map((level) => (
               <button
                 className={catalogLevel === level ? "active" : ""}
@@ -494,8 +663,10 @@ function LabPage() {
                 <i>y</i>
               </span>
               <span>
-                <strong>Свободный квадрат</strong>
-                <small>прямое управление E, x, y</small>
+                <strong>{text("Свободный квадрат", "Free square")}</strong>
+                <small>
+                  {text("прямое управление E, x, y", "direct E, x, y control")}
+                </small>
               </span>
               <i>→</i>
             </button>
@@ -509,7 +680,7 @@ function LabPage() {
                 <Pattern family={candidate} compact />
                 <span>
                   <strong>{candidate.title}</strong>
-                  <small>{candidate.groupLabel}</small>
+                  <small>{familyGroupLabel(candidate, locale)}</small>
                 </span>
                 <i>→</i>
               </button>
@@ -522,15 +693,19 @@ function LabPage() {
             <div>
               {family ? (
                 <span className={`family-chip tone-${family.group}`}>
-                  {family.groupLabel}
+                  {familyGroupLabel(family, locale)}
                 </span>
               ) : (
-                <span className="family-chip manual-chip">свободный режим</span>
+                <span className="family-chip manual-chip">
+                  {text("свободный режим", "free mode")}
+                </span>
               )}
               <h2>{family ? family.title : "Magic3(E, x, y)"}</h2>
             </div>
             <button className="icon-button" type="button" onClick={copyLink}>
-              {copied ? "Скопировано" : "Поделиться ↗"}
+              {copied
+                ? text("Скопировано", "Copied")
+                : text("Поделиться ↗", "Share ↗")}
             </button>
           </div>
 
@@ -539,8 +714,13 @@ function LabPage() {
               <section className="tool-section coordinate-section">
                 <div className="tool-section-heading">
                   <div>
-                    <span>Текущий квадрат</span>
-                    <small>три координаты определяют девять клеток</small>
+                    <span>{text("Текущий квадрат", "Current square")}</span>
+                    <small>
+                      {text(
+                        "три координаты определяют девять клеток",
+                        "three coordinates determine all nine cells",
+                      )}
+                    </small>
                   </div>
                   <code>Magic3</code>
                 </div>
@@ -550,7 +730,7 @@ function LabPage() {
                       <label key={name}>
                         <span>{name}</span>
                         <input
-                          aria-label={`Координата ${name}`}
+                          aria-label={`${text("Координата", "Coordinate")} ${name}`}
                           inputMode="numeric"
                           value={coordinateInputs[index]}
                           onChange={(event) => {
@@ -565,45 +745,47 @@ function LabPage() {
                         />
                         <small>
                           {index === 0
-                            ? "центр"
+                            ? text("центр", "center")
                             : index === 1
-                              ? "ось x"
-                              : "ось y"}
+                              ? text("ось x", "x axis")
+                              : text("ось y", "y axis")}
                         </small>
                       </label>
                     ))}
                   </div>
                   <div className="tool-actions primary-actions">
                     <button className="button button-primary" type="submit">
-                      Задать
+                      {text("Задать", "Set")}
                     </button>
                     <button
                       className="button button-quiet"
                       type="button"
                       onClick={() => setFactorized((value) => !value)}
                     >
-                      {factorized ? "Показать числа" : "Факторизовать"}
+                      {factorized
+                        ? text("Показать числа", "Show values")
+                        : text("Факторизовать", "Factor")}
                     </button>
                     <button
                       className="button button-quiet"
                       type="button"
                       onClick={minimize}
                     >
-                      Минимизировать
+                      {text("Минимизировать", "Minimize")}
                     </button>
                   </div>
                 </form>
                 <div className="transform-tools">
-                  <span>Преобразования</span>
+                  <span>{text("Преобразования", "Transformations")}</span>
                   <div>
                     <button
                       type="button"
-                      aria-label="Повернуть влево"
+                      aria-label={text("Повернуть влево", "Rotate left")}
                       onClick={() =>
                         transformCoordinates(([e, x, y]) => [e, -y, x])
                       }
                     >
-                      ↺ Влево
+                      ↺ {text("Влево", "Left")}
                     </button>
                     <button
                       type="button"
@@ -611,30 +793,30 @@ function LabPage() {
                         transformCoordinates(([e, x, y]) => [e, y, x])
                       }
                     >
-                      ↔ Отразить
+                      ↔ {text("Отразить", "Reflect")}
                     </button>
                     <button
                       type="button"
-                      aria-label="Повернуть вправо"
+                      aria-label={text("Повернуть вправо", "Rotate right")}
                       onClick={() =>
                         transformCoordinates(([e, x, y]) => [e, y, -x])
                       }
                     >
-                      Вправо ↻
+                      {text("Вправо", "Right")} ↻
                     </button>
                   </div>
                   <div className="multiply-tool">
                     <label>
-                      <span>Умножить на</span>
+                      <span>{text("Умножить на", "Multiply by")}</span>
                       <input
-                        aria-label="Множитель"
+                        aria-label={text("Множитель", "Multiplier")}
                         inputMode="numeric"
                         value={scale}
                         onChange={(event) => setScale(event.target.value)}
                       />
                     </label>
                     <button type="button" onClick={multiply}>
-                      Применить
+                      {text("Применить", "Apply")}
                     </button>
                   </div>
                 </div>
@@ -644,8 +826,15 @@ function LabPage() {
                 <section className="tool-section family-parameter-section">
                   <div className="tool-section-heading">
                     <div>
-                      <span>Параметры {family.title}</span>
-                      <small>пресет пересчитывает E, x, y</small>
+                      <span>
+                        {text("Параметры", "Parameters")} {family.title}
+                      </span>
+                      <small>
+                        {text(
+                          "пресет пересчитывает E, x, y",
+                          "the preset recomputes E, x, and y",
+                        )}
+                      </small>
                     </div>
                     <Pattern family={family} compact />
                   </div>
@@ -655,7 +844,7 @@ function LabPage() {
                         <label key={key}>
                           <span>{key}</span>
                           <input
-                            aria-label={`Параметр ${key}`}
+                            aria-label={`${text("Параметр", "Parameter")} ${key}`}
                             inputMode="numeric"
                             value={parameters[index]}
                             onChange={(event) => {
@@ -674,21 +863,21 @@ function LabPage() {
                     </div>
                     <div className="tool-actions">
                       <button className="button button-secondary" type="submit">
-                        Применить семейство
+                        {text("Применить семейство", "Apply family")}
                       </button>
                       <button
                         className="button button-quiet"
                         type="button"
                         onClick={randomize}
                       >
-                        Случайные
+                        {text("Случайные", "Randomize")}
                       </button>
                       <button
                         className="button button-quiet"
                         type="button"
                         onClick={swapPairs}
                       >
-                        Поменять пары
+                        {text("Поменять пары", "Swap pairs")}
                       </button>
                     </div>
                   </form>
@@ -711,23 +900,35 @@ function LabPage() {
                   <strong>
                     {family
                       ? family.proofStatus === "proof-core"
-                        ? "Символьный сертификат"
+                        ? text("Символьный сертификат", "Symbolic certificate")
                         : family.proofStatus === "browser-certificate"
-                          ? "Точный алгебраический сертификат"
-                          : "Legacy-формула · формализация ожидается"
-                      : "Свободный координатный режим"}
+                          ? text(
+                              "Точный алгебраический сертификат",
+                              "Exact algebraic certificate",
+                            )
+                          : text(
+                              "Legacy-формула · формализация ожидается",
+                              "Legacy formula · formalization pending",
+                            )
+                      : text(
+                          "Свободный координатный режим",
+                          "Free coordinate mode",
+                        )}
                   </strong>
                   <code>
                     {family ? family.theorem : "square = Magic3(E, x, y)"}
                   </code>
                   <p>
                     {family
-                      ? family.summary
-                      : "Специальная квадратная маска не заявляется: исследуется произвольная целочисленная тройка."}
+                      ? familySummary(family, locale)
+                      : text(
+                          "Специальная квадратная маска не заявляется: исследуется произвольная целочисленная тройка.",
+                          "No special square-valued mask is claimed: this mode explores an arbitrary integral triple.",
+                        )}
                   </p>
                   {family && (
                     <a className="source-proof-link" href="#family-proof">
-                      Полный текст доказательства ↓
+                      {text("Полный текст доказательства", "Full proof text")} ↓
                     </a>
                   )}
                 </div>
@@ -743,7 +944,7 @@ function LabPage() {
             <div className="square-desk">
               <div
                 className="coordinate-ledger"
-                aria-label="Координаты квадрата"
+                aria-label={text("Координаты квадрата", "Square coordinates")}
               >
                 {(["E", "x", "y"] as const).map((name, index) => (
                   <span key={name}>
@@ -756,7 +957,10 @@ function LabPage() {
               <div className="square-stage">
                 <div className="stage-meta">
                   <span>
-                    Матрица 3 × 3 · {factorized ? "факторизации" : "значения"}
+                    {text("Матрица", "Matrix")} 3 × 3 ·{" "}
+                    {factorized
+                      ? text("факторизации", "factorizations")
+                      : text("значения", "values")}
                   </span>
                   <span>Σ = {formatInteger(snapshot.magicSum)}</span>
                 </div>
@@ -773,31 +977,37 @@ function LabPage() {
                   ))}
                 </div>
                 <p className="square-legend">
-                  <i /> кирпичная рамка отмечает значение — полный квадрат
+                  <i />{" "}
+                  {text(
+                    "кирпичная рамка отмечает значение — полный квадрат",
+                    "a brick-red frame marks a value that is a perfect square",
+                  )}
                 </p>
               </div>
 
               <div className="verification-grid">
                 <StatusCard
-                  label="Магический инвариант"
+                  label={text("Магический инвариант", "Magic invariant")}
                   value={
-                    snapshot.lineSumsAgree ? "8 линий совпадают" : "Нарушен"
+                    snapshot.lineSumsAgree
+                      ? text("8 линий совпадают", "all 8 line sums agree")
+                      : text("Нарушен", "Violated")
                   }
                   ok={snapshot.lineSumsAgree}
                 />
                 <StatusCard
-                  label="Заявленная маска"
+                  label={text("Заявленная маска", "Declared mask")}
                   value={
                     family
-                      ? `${family.mask} · ${declaredMaskHolds ? "подтверждена" : "нарушена"}`
-                      : "свободная конфигурация"
+                      ? `${family.mask} · ${declaredMaskHolds ? text("подтверждена", "confirmed") : text("нарушена", "violated")}`
+                      : text("свободная конфигурация", "free configuration")
                   }
                   ok={declaredMaskHolds ?? true}
                   neutral={!family}
                 />
                 <StatusCard
-                  label="Фактический результат"
-                  value={`${snapshot.squarePositions.length}/9 квадратов`}
+                  label={text("Фактический результат", "Actual result")}
+                  value={`${snapshot.squarePositions.length}/9 ${text("квадратов", "squares")}`}
                   ok={
                     family
                       ? snapshot.squarePositions.length >= family.level
@@ -806,11 +1016,11 @@ function LabPage() {
                   neutral={!family}
                 />
                 <StatusCard
-                  label="Невырожденность"
+                  label={text("Невырожденность", "Nondegeneracy")}
                   value={
                     snapshot.entriesDistinct
-                      ? "9 попарно различных"
-                      : "Есть равные клетки"
+                      ? text("9 попарно различных", "9 pairwise-distinct entries")
+                      : text("Есть равные клетки", "Some cell values coincide")
                   }
                   ok={snapshot.entriesDistinct}
                 />
@@ -838,9 +1048,10 @@ function ResultCell({
   declared: boolean;
   factorized: boolean;
 }) {
+  const { text } = useLocale();
   const factorization = factorized ? factorInteger(cell.value) : undefined;
   const display = factorized
-    ? (factorization ?? "слишком большое")
+    ? (factorization ?? text("слишком большое", "too large"))
     : formatInteger(cell.value);
   const digits = display.length;
   return (
@@ -848,7 +1059,10 @@ function ResultCell({
       className={`result-cell ${cell.isSquare ? "is-square" : ""} ${declared ? "is-declared" : ""}`}
       title={
         factorized && factorization === null
-          ? `Факторизация ограничена числами до 10¹². Значение: ${cell.value}`
+          ? `${text(
+              "Факторизация ограничена числами до 10¹². Значение:",
+              "Factorization is limited to values up to 10¹². Value:",
+            )} ${cell.value}`
           : undefined
       }
     >
@@ -885,11 +1099,12 @@ function StatusCard({
 }
 
 function Pattern({ family, compact = false }: { family: FamilyDefinition; compact?: boolean }) {
+  const { locale, text } = useLocale();
   const positions = "ABCDEFGHJ";
   return (
     <span
       className={`pattern ${compact ? "compact" : ""}`}
-      aria-label={`Доказательные опоры маски ${family.mask}`}
+      aria-label={`${text("Доказательные опоры маски", "Proof supports for mask")} ${family.mask}`}
     >
       {Array.from(positions, (position) => {
         const supports = family.justifications.filter((item) =>
@@ -899,7 +1114,11 @@ function Pattern({ family, compact = false }: { family: FamilyDefinition; compac
           <i
             className={family.mask.includes(position) ? "on" : ""}
             key={position}
-            title={supports.map((item) => item.label).join(" + ") || undefined}
+            title={
+              supports
+                .map((item) => justificationLabel(item, locale))
+                .join(" + ") || undefined
+            }
           >
             {supports.map((item) => (
               <span className={`proof-color ${item.color}`} key={item.id} />
@@ -919,7 +1138,8 @@ function FamilyRedirect() {
 }
 
 function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
-  const proof = familyProof(family);
+  const { locale, text } = useLocale();
+  const proof = familyProof(family, locale);
   const squareStatement = String.raw`\{${family.positions.join(",")}\}\subseteq\{P:\mathcal M_P(E,x,y)=r_P^2\}`;
   const projection = String.raw`\pi_{${family.mask}}\!\left(\mathcal M(E,x,y)\right)=(${family.positions.join(",")})\in\{n^2:n\in\mathbb Z\}^{${family.level}}`;
   const cellSystem =
@@ -930,47 +1150,70 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
   return (
     <article className="proof-document">
       <header>
-        <p>Семейство {family.mask}</p>
-        <h2>Теорема и полное доказательство</h2>
+        <p>{text("Семейство", "Family")} {family.mask}</p>
+        <h2>
+          {text("Теорема и полное доказательство", "Theorem and complete proof")}
+        </h2>
         <Link className="general-proof-link" to="/proofs/general">
-          Общая теория орбит 4/9 и 5/9 →
+          {text(
+            "Общая теория орбит 4/9 и 5/9",
+            "General theory of the 4/9 and 5/9 orbits",
+          )}{" "}
+          →
         </Link>
       </header>
 
       <section>
-        <h3>Утверждение</h3>
+        <h3>{text("Утверждение", "Statement")}</h3>
         <p>
-          При указанных ниже условиях формулы задают целочисленный магический
-          квадрат порядка 3, в котором как минимум все {family.level} клетки
-          маски {family.mask} являются квадратами целых чисел. Квадратность
-          остальных клеток не запрещается.
+          {text(
+            `При указанных ниже условиях формулы задают целочисленный магический квадрат порядка 3, в котором как минимум все ${family.level} клетки маски ${family.mask} являются квадратами целых чисел. Квадратность остальных клеток не запрещается.`,
+            `Under the assumptions below, the formulas define an integral magic square of order 3 in which at least all ${family.level} cells of the ${family.mask} mask are squares of integers. Other cells are allowed to be squares as well.`,
+          )}
         </p>
         <Latex display>{squareStatement}</Latex>
         <p>{proof.assumptions}</p>
       </section>
 
       <section>
-        <h3>Исходная система и исключение E, x, y</h3>
+        <h3>
+          {text(
+            "Исходная система и исключение E, x, y",
+            "Initial system and elimination of E, x, y",
+          )}
+        </h3>
         <p>
-          Для каждой отмеченной клетки вводим целый корень и подставляем
-          соответствующую линейную форму Magic3. Получаем систему:
+          {text(
+            "Для каждой отмеченной клетки вводим целый корень и подставляем соответствующую линейную форму Magic3. Получаем систему:",
+            "For every marked cell, introduce an integral root and substitute the corresponding Magic3 linear form. This gives the system:",
+          )}
         </p>
         <Latex display>{cellSystem}</Latex>
         <p>
-          Матрица коэффициентов при E, x, y имеет ранг 3. Поэтому после их
-          исключения остаётся {family.level - 3} независимых однородных
-          квадратичных {family.level === 4 ? "уравнение" : "уравнения"} на
-          корнях. Ниже они выводятся и одновременно параметризуются.
+          {text(
+            `Матрица коэффициентов при E, x, y имеет ранг 3. Поэтому после их исключения остаётся ${family.level - 3} независимых однородных квадратичных ${family.level === 4 ? "уравнение" : "уравнения"} на корнях. Ниже они выводятся и одновременно параметризуются.`,
+            `The coefficient matrix of E, x, and y has rank 3. Eliminating them therefore leaves ${family.level - 3} independent homogeneous quadratic ${family.level === 4 ? "equation" : "equations"} in the roots. The equations are derived and parametrized below.`,
+          )}
         </p>
       </section>
 
       <section>
-        <h3>Вывод параметризации корней</h3>
-        <p>Введём следующие вспомогательные целые величины:</p>
+        <h3>{text("Вывод параметризации корней", "Derivation of the root parametrization")}</h3>
+        <p>
+          {text(
+            "Введём следующие вспомогательные целые величины:",
+            "Introduce the following auxiliary integers:",
+          )}
+        </p>
         {proof.definitions.map((formula) => (
           <Latex display key={formula}>{formula}</Latex>
         ))}
-        <p>Значения заявленных клеток определим как явные квадраты:</p>
+        <p>
+          {text(
+            "Значения заявленных клеток определим как явные квадраты:",
+            "Define the declared cell values as the following explicit squares:",
+          )}
+        </p>
         <Latex display>{proof.squareValues}</Latex>
         <p>{proof.identityDerivation}</p>
         {proof.identities.map((identity) => (
@@ -980,67 +1223,85 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
       </section>
 
       <section>
-        <h3>Восстановление магического квадрата</h3>
-        <p>Используем стандартную трёхкоординатную форму:</p>
+        <h3>{text("Восстановление магического квадрата", "Reconstruction of the magic square")}</h3>
+        <p>
+          {text(
+            "Используем стандартную трёхкоординатную форму:",
+            "Use the standard three-coordinate form:",
+          )}
+        </p>
         <Latex display>{MAGIC3_LATEX}</Latex>
         <p>
-          Положим координаты равными следующей линейной комбинации уже
-          построенных квадратных значений:
+          {text(
+            "Положим координаты равными следующей линейной комбинации уже построенных квадратных значений:",
+            "Set the coordinates equal to the following linear combination of the square values already constructed:",
+          )}
         </p>
         <Latex display>{family.reconstructionLatex}</Latex>
         {proof.parityClearance && (
           <>
             <p>
-              Если одно из делений на 2 нецелое, умножим каждый выписанный
-              корень на 2. Тогда все значения клеток умножатся на 4, все
-              однородные тождества сохранятся, а числители станут чётными.
-              Именно эту нормализацию выполняет генератор.
+              {text(
+                "Если одно из делений на 2 нецелое, умножим каждый выписанный корень на 2. Тогда все значения клеток умножатся на 4, все однородные тождества сохранятся, а числители станут чётными. Именно эту нормализацию выполняет генератор.",
+                "If a division by 2 is not integral, multiply every displayed root by 2. All cell values are then multiplied by 4, every homogeneous identity is preserved, and the numerators become even. This is exactly the normalization performed by the generator.",
+              )}
             </p>
             <Latex display>{String.raw`q_P\mapsto2q_P,\qquad P=q_P^2\mapsto4P`}</Latex>
           </>
         )}
         {proof.integralityClearance && <p>{proof.integralityClearance}</p>}
         <p>
-          Общая линейная лемма используется здесь прямо: если матрица выбранных
-          клеточных форм имеет ранг 3, то вектор их значений принадлежит её
-          образу тогда и только тогда, когда обращаются в нуль все элементы
-          левого ядра. Для четырёх клеток левое ядро одномерно, для пяти —
-          двумерно. Выписанные выше цветовые тождества образуют именно этот
-          базис, а указанные формулы E, x, y дают единственный прообраз.
+          {text(
+            "Общая линейная лемма используется здесь прямо: если матрица выбранных клеточных форм имеет ранг 3, то вектор их значений принадлежит её образу тогда и только тогда, когда обращаются в нуль все элементы левого ядра. Для четырёх клеток левое ядро одномерно, для пяти — двумерно. Выписанные выше цветовые тождества образуют именно этот базис, а указанные формулы E, x, y дают единственный прообраз.",
+            "The general linear lemma is applied directly: when the selected cell-form matrix has rank 3, its value vector lies in the image exactly when every vector in the left kernel annihilates it. The left kernel has dimension one for four cells and two for five cells. The colored identities above form precisely such a basis, while the displayed formulas for E, x, and y give the unique preimage.",
+          )}
         </p>
         <Latex display>{String.raw`L_S(E,x,y)^T=(q_P^2)_{P\in S},\qquad \ker L_S^T=\langle R_1,\ldots,R_{${family.level - 3}}\rangle`}</Latex>
         <p>
-          Теперь подставляем координаты в девять линейных форм Magic3. Поэтому
+          {text(
+            "Теперь подставляем координаты в девять линейных форм Magic3. Поэтому",
+            "Now substitute the coordinates into the nine Magic3 linear forms. Therefore",
+          )}
         </p>
         <Latex display>{projection}</Latex>
         <p>
-          Каждая строка, каждый столбец и обе диагонали имеют сумму 3E по самой
-          форме Magic3. Следовательно, получена требуемая семья магических
-          квадратов с квадратной маской {family.mask}. Что и требовалось
-          доказать.
+          {text(
+            `Каждая строка, каждый столбец и обе диагонали имеют сумму 3E по самой форме Magic3. Следовательно, получена требуемая семья магических квадратов с квадратной маской ${family.mask}. Что и требовалось доказать.`,
+            `By the Magic3 form itself, every row, every column, and both diagonals sum to 3E. We have therefore obtained the required family of magic squares with square-valued mask ${family.mask}. This proves the claim.`,
+          )}
         </p>
       </section>
 
       <section className="proof-references">
-        <h3>Цветовые леммы, применённые в этом доказательстве</h3>
+        <h3>
+          {text(
+            "Цветовые леммы, применённые в этом доказательстве",
+            "Color lemmas used in this proof",
+          )}
+        </h3>
         {family.justifications.map((item) => {
-          const common = commonProofById(item.commonProofId);
+          const common = commonProofById(item.commonProofId, locale);
           if (!common) return null;
           return (
             <section className="inline-lemma" key={item.id}>
-              <h4>{item.label}</h4>
+              <h4>{justificationLabel(item, locale)}</h4>
               <Latex display>{item.relationLatex}</Latex>
               <p>{common.summary}</p>
               {common.formulas.map((formula) => (
                 <Latex display key={formula}>{formula}</Latex>
               ))}
               <p>
-                В текущей маске переменные леммы заменяются клетками
-                {` ${item.positions.join(", ")}`}; её заключение — именно
-                выписанное выше клеточное равенство.
+                {text(
+                  `В текущей маске переменные леммы заменяются клетками ${item.positions.join(", ")}; её заключение — именно выписанное выше клеточное равенство.`,
+                  `In this mask, the lemma variables are replaced by cells ${item.positions.join(", ")}; its conclusion is exactly the cell relation displayed above.`,
+                )}
               </p>
               <Link to={`/proofs/${item.commonProofId}`}>
-                Общая формулировка и доказательство →
+                {text(
+                  "Общая формулировка и доказательство",
+                  "General statement and proof",
+                )}{" "}
+                →
               </Link>
             </section>
           );
@@ -1048,20 +1309,32 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
       </section>
 
       <section>
-        <h3>Полнота покрытия</h3>
+        <h3>{text("Полнота покрытия", "Coverage completeness")}</h3>
         <p>
           {proof.coverageText ??
-            "Данная формула задаёт доказанное параметрическое подсемейство. Полнота по всем рациональным или примитивным целым решениям для этой склейки пока не доказана и не предполагается автоматически из проверки тождеств."}
+            text(
+              "Данная формула задаёт доказанное параметрическое подсемейство. Полнота по всем рациональным или примитивным целым решениям для этой склейки пока не доказана и не предполагается автоматически из проверки тождеств.",
+              "This formula defines a proved parametric subfamily. Exhaustion of every rational or primitive integral solution of this gluing has not yet been proved and does not follow automatically from checking the identities.",
+            )}
         </p>
       </section>
 
       <footer>
         <span>
           {family.proofStatus === "proof-core"
-            ? "Текст согласован с универсальным полиномиальным сертификатом proof-core."
+            ? text(
+                "Текст согласован с универсальным полиномиальным сертификатом proof-core.",
+                "This text agrees with a universal polynomial certificate in proof-core.",
+              )
             : family.proofStatus === "browser-certificate"
-              ? "Формулы проверяются точным целочисленным сертификатом браузерного генератора; перенос в proof-core ещё не завершён."
-              : "Текст восстанавливает legacy-параметризацию; перенос машинного сертификата в proof-core ещё не завершён."}
+              ? text(
+                  "Формулы проверяются точным целочисленным сертификатом браузерного генератора; перенос в proof-core ещё не завершён.",
+                  "The formulas are checked by an exact integral certificate in the browser generator; migration to proof-core is not complete yet.",
+                )
+              : text(
+                  "Текст восстанавливает legacy-параметризацию; перенос машинного сертификата в proof-core ещё не завершён.",
+                  "The text reconstructs a legacy parametrization; its machine certificate has not yet been migrated to proof-core.",
+                )}
         </span>
         <code>{family.theorem}</code>
       </footer>
@@ -1076,6 +1349,7 @@ function OrbitTable({
   title: string;
   families: readonly FamilyDefinition[];
 }) {
+  const { locale } = useLocale();
   return (
     <section className="orbit-catalog">
       <h3>{title}</h3>
@@ -1091,7 +1365,10 @@ function OrbitTable({
             <Pattern family={family} compact />
             <span>
               <strong>{family.title}</strong>
-              <small>{family.orbitDescription ?? family.groupLabel}</small>
+              <small>
+                {familyOrbitDescription(family, locale) ??
+                  familyGroupLabel(family, locale)}
+              </small>
             </span>
             <span className="orbit-relations">
               {family.justifications.map((item) => (
@@ -1107,130 +1384,153 @@ function OrbitTable({
 }
 
 function GeneralTheoryPage() {
+  const { locale, text } = useLocale();
+  const proofs = commonProofs(locale);
   return (
     <article className="page proof-page general-theory-page">
       <Link className="back-link" to="/lab">
-        ← К лаборатории
+        ← {text("К лаборатории", "Back to the laboratory")}
       </Link>
       <header className="proof-page-header">
         <div>
-          <p className="eyebrow">Общая часть доказательства</p>
-          <h1>Орбиты и квадрики 4/9 → 5/9</h1>
+          <p className="eyebrow">
+            {text("Общая часть доказательства", "General proof chapter")}
+          </p>
+          <h1>{text("Орбиты и квадрики 4/9 → 5/9", "Orbits and quadrics: 4/9 → 5/9")}</h1>
           <p>
-            Классификация масок, исключение E, x, y, доказательство
-            достаточности цветовых уравнений и общий механизм параметризации.
+            {text(
+              "Классификация масок, исключение E, x, y, доказательство достаточности цветовых уравнений и общий механизм параметризации.",
+              "Classification of masks, elimination of E, x, and y, sufficiency of the colored equations, and the common parametrization mechanism.",
+            )}
           </p>
         </div>
       </header>
 
       <div className="proof-document general-proof-document">
         <section>
-          <h3>1. Координатная модель</h3>
+          <h3>{text("1. Координатная модель", "1. Coordinate model")}</h3>
           <p>
-            Любой обычный магический квадрат порядка 3 над коммутативным
-            кольцом записывается в трёх координатах E, x, y:
+            {text(
+              "Любой обычный магический квадрат порядка 3 над коммутативным кольцом записывается в трёх координатах E, x, y:",
+              "Every ordinary magic square of order 3 over a commutative ring can be written in the three coordinates E, x, and y:",
+            )}
           </p>
           <Latex display>{MAGIC3_LATEX}</Latex>
-          <p>Одновременно девять клеточных форм образуют матрицу</p>
+          <p>
+            {text(
+              "Одновременно девять клеточных форм образуют матрицу",
+              "Equivalently, the nine cell forms make up the matrix equation",
+            )}
+          </p>
           <Latex display>{String.raw`\begin{pmatrix}A\\B\\C\\D\\E\\F\\G\\H\\J\end{pmatrix}=L\begin{pmatrix}E\\x\\y\end{pmatrix},\qquad L=\begin{pmatrix}1&1&0\\1&-1&1\\1&0&-1\\1&-1&-1\\1&0&0\\1&1&1\\1&0&1\\1&1&-1\\1&-1&0\end{pmatrix}`}</Latex>
           <p>
-            Для маски S вводим независимые целые корни q<sub>P</sub> и
-            записываем исходную систему без сокращений:
+            {text(
+              "Для маски S вводим независимые целые корни qₚ и записываем исходную систему без сокращений:",
+              "For a mask S, introduce independent integral roots qₚ and write the original system without abbreviation:",
+            )}
           </p>
           <Latex display>{String.raw`L_S\begin{pmatrix}E\\x\\y\end{pmatrix}=q_S^{[2]},\qquad q_S^{[2]}=(q_P^2)_{P\in S}`}</Latex>
           <p>
-            Здесь утверждается квадратность всех клеток S, но не
-            неквадратность дополнения. Поэтому термин k/9 далее означает «как
-            минимум эти k клеток являются квадратами».
+            {text(
+              "Здесь утверждается квадратность всех клеток S, но не неквадратность дополнения. Поэтому термин k/9 далее означает «как минимум эти k клеток являются квадратами».",
+              "This asserts that every cell in S is a square, but does not assert that cells outside S are nonsquares. Thus k/9 means “at least these k cells are perfect squares.”",
+            )}
           </p>
         </section>
 
         <section>
-          <h3>2. Теорема исключения и достаточности</h3>
+          <h3>
+            {text(
+              "2. Теорема исключения и достаточности",
+              "2. Elimination and sufficiency theorem",
+            )}
+          </h3>
           <p>
-            Коэффициентные пары (x,y) девяти клеток образуют решётку 3×3.
-            Четыре различные точки этой решётки не лежат на одной прямой;
-            следовательно, для любой маски из четырёх или пяти клеток матрица
-            L<sub>S</sub> имеет ранг 3.
+            {text(
+              "Коэффициентные пары (x,y) девяти клеток образуют решётку 3×3. Четыре различные точки этой решётки не лежат на одной прямой; следовательно, для любой маски из четырёх или пяти клеток матрица Lₛ имеет ранг 3.",
+              "The (x,y) coefficient pairs of the nine cells form a 3×3 grid. No four distinct points of this grid are collinear; therefore Lₛ has rank 3 for every four- or five-cell mask.",
+            )}
           </p>
           <Latex display>{String.raw`\dim\ker L_S^T=|S|-3=\begin{cases}1,&|S|=4,\\2,&|S|=5.\end{cases}`}</Latex>
           <p>
-            Пусть R₁,…,R<sub>|S|−3</sub> — базис левого ядра. Необходимость
-            уравнений Rᵢ(q²)=0 получается умножением исходной системы слева.
-            Обратно, над Q ортогональное дополнение левого ядра совпадает с
-            образом L<sub>S</sub>. Поэтому эти уравнения достаточны и дают
-            единственную тройку E, x, y.
+            {text(
+              "Пусть R₁,…,R|S|−3 — базис левого ядра. Необходимость уравнений Rᵢ(q²)=0 получается умножением исходной системы слева. Обратно, над Q ортогональное дополнение левого ядра совпадает с образом Lₛ. Поэтому эти уравнения достаточны и дают единственную тройку E, x, y.",
+              "Let R₁,…,R|S|−3 be a basis of the left kernel. Multiplying the original system on the left proves the necessity of Rᵢ(q²)=0. Conversely, over Q the orthogonal complement of the left kernel equals the image of Lₛ. Hence these equations are sufficient and determine a unique triple E, x, y.",
+            )}
           </p>
           <Latex display>{String.raw`q_S^{[2]}\in\operatorname{im}L_S\quad\Longleftrightarrow\quad R_i(q_S^{[2]})=0\quad(1\le i\le |S|-3)`}</Latex>
           <p>
-            Для целочисленности выбираем ненулевой минор δ порядка 3. Формулы
-            Крамера имеют знаменатель δ. Замена каждого корня q<sub>P</sub> на
-            δq<sub>P</sub> умножает правую часть на δ² и превращает координаты
-            в целые:
+            {text(
+              "Для целочисленности выбираем ненулевой минор δ порядка 3. Формулы Крамера имеют знаменатель δ. Замена каждого корня qₚ на δqₚ умножает правую часть на δ² и превращает координаты в целые:",
+              "To obtain integral coordinates, choose a nonzero 3×3 minor δ. Cramer's formulas have denominator δ. Replacing every root qₚ by δqₚ multiplies the right-hand side by δ² and makes the coordinates integral:",
+            )}
           </p>
           <Latex display>{String.raw`q_P\mapsto\delta q_P,\qquad q_P^2\mapsto\delta^2q_P^2,\qquad (E,x,y)\mapsto\delta^2(E,x,y)\in\mathbb Z^3`}</Latex>
         </section>
 
         <section>
-          <h3>3. Почему орбит ровно 23</h3>
+          <h3>{text("3. Почему орбит ровно 23", "3. Why there are exactly 23 orbits")}</h3>
           <p>
-            Группа D₄ действует вращениями и отражениями, сохраняя центр,
-            множество четырёх углов и множество четырёх сторон. По лемме
-            Бёрнсайда числа неподвижных пятиэлементных масок равны 126 для
-            тождества, 2 для каждого поворота на ±90°, 6 для поворота на 180°
-            и 12 для каждого из четырёх отражений. Поэтому
+            {text(
+              "Группа D₄ действует вращениями и отражениями, сохраняя центр, множество четырёх углов и множество четырёх сторон. По лемме Бёрнсайда числа неподвижных пятиэлементных масок равны 126 для тождества, 2 для каждого поворота на ±90°, 6 для поворота на 180° и 12 для каждого из четырёх отражений. Поэтому",
+              "The group D₄ acts by rotations and reflections, preserving the center, the set of four corners, and the set of four edge cells. By Burnside's lemma, the numbers of fixed five-cell masks are 126 for the identity, 2 for each ±90° rotation, 6 for the 180° rotation, and 12 for each of the four reflections. Therefore",
+            )}
           </p>
           <Latex display>{String.raw`N_{5/9}=\frac{126+2+6+2+4\cdot12}{8}=23`}</Latex>
           <p>
-            Тот же результат получается топологически для четырёх клеток. Без
-            центра выбираются четыре клетки периметра: случаи 0 или 4 угла
-            дают 2 орбиты, случаи 1 или 3 угла — 4, а случай 2+2 распадается на
-            7; итого 13. С центром выбираются три клетки периметра: крайние
-            случаи дают 2, а типы 1+2 и 2+1 — по 4; итого 10. Сумма 13+10=23.
+            {text(
+              "Тот же результат получается топологически для четырёх клеток. Без центра выбираются четыре клетки периметра: случаи 0 или 4 угла дают 2 орбиты, случаи 1 или 3 угла — 4, а случай 2+2 распадается на 7; итого 13. С центром выбираются три клетки периметра: крайние случаи дают 2, а типы 1+2 и 2+1 — по 4; итого 10. Сумма 13+10=23.",
+              "The same result follows from the corner/edge topology for four cells. Without the center, choose four perimeter cells: 0 or 4 corners give 2 orbits, 1 or 3 corners give 4, and the 2+2 case splits into 7, for a total of 13. With the center, choose three perimeter cells: the extreme cases give 2, while the 1+2 and 2+1 types give 4 each, for a total of 10. Thus 13+10=23.",
+            )}
           </p>
           <p>
-            Дополнение маски коммутирует с D₄ и задаёт биекцию между орбитами
-            4/9 и 5/9. Именно здесь исходный PDF пропустил ACDH, а вслед за ним
-            дополнительную маску BEFGJ.
+            {text(
+              "Дополнение маски коммутирует с D₄ и задаёт биекцию между орбитами 4/9 и 5/9. Именно здесь исходный PDF пропустил ACDH, а вслед за ним дополнительную маску BEFGJ.",
+              "Taking the complement of a mask commutes with D₄ and gives a bijection between the 4/9 and 5/9 orbits. The original PDF omitted ACDH and, consequently, its complementary mask BEFGJ.",
+            )}
           </p>
         </section>
 
         <section>
-          <h3>4. Общая параметризация квадрик 4/9</h3>
+          <h3>
+            {text(
+              "4. Общая параметризация квадрик 4/9",
+              "4. Common parametrization of the 4/9 quadrics",
+            )}
+          </h3>
           <p>
-            Для четырёх клеток исключение оставляет одну диагональную квадрику
-            Σkᵢqᵢ²=0. Поскольку Σkᵢ=0, любая знаковая точка ε с координатами
-            ±1 лежит на ней. Для направления u прямая через ε даёт
-            универсальную проекционную формулу:
+            {text(
+              "Для четырёх клеток исключение оставляет одну диагональную квадрику Σkᵢqᵢ²=0. Поскольку Σkᵢ=0, любая знаковая точка ε с координатами ±1 лежит на ней. Для направления u прямая через ε даёт универсальную проекционную формулу:",
+              "For four cells, elimination leaves one diagonal quadric Σkᵢqᵢ²=0. Since Σkᵢ=0, every sign point ε with coordinates ±1 lies on it. For a direction u, the line through ε gives the universal projection formula:",
+            )}
           </p>
           <Latex display>{String.raw`D=\sum_{i=1}^4k_iu_i^2,\quad L_\varepsilon=\sum_{i=1}^4k_i\varepsilon_i u_i,\quad q_i=D\varepsilon_i-2L_\varepsilon u_i`}</Latex>
           <Latex display>{String.raw`\sum k_iq_i^2=D^2\sum k_i\varepsilon_i^2-4DL_\varepsilon^2+4L_\varepsilon^2D=0`}</Latex>
           <p>
-            Для полноты достаточно четырёх строк матрицы Адамара H. Если все
-            kᵢ ненулевые и q* — ненулевая рациональная точка квадрики, то из
-            det H=−16 следует, что хотя бы одно спаривание Lε(q*) ненулевое.
-            В соответствующей карте подстановка u=q* даёт D=0 и
-            q=−2Lε(q*)q*: получена та же проективная точка. После очистки
-            знаменателей это даёт алгоритмическое покрытие целых решений.
+            {text(
+              "Для полноты достаточно четырёх строк матрицы Адамара H. Если все kᵢ ненулевые и q* — ненулевая рациональная точка квадрики, то из det H=−16 следует, что хотя бы одно спаривание Lε(q*) ненулевое. В соответствующей карте подстановка u=q* даёт D=0 и q=−2Lε(q*)q*: получена та же проективная точка. После очистки знаменателей это даёт алгоритмическое покрытие целых решений.",
+              "For completeness, the four rows of the Hadamard matrix H suffice. If every kᵢ is nonzero and q* is a nonzero rational point of the quadric, det H=−16 implies that at least one pairing Lε(q*) is nonzero. In that chart, setting u=q* gives D=0 and q=−2Lε(q*)q*, the same projective point. Clearing denominators gives algorithmic coverage of integral solutions.",
+            )}
           </p>
           <Latex display>{String.raw`H=\begin{pmatrix}1&1&1&1\\1&1&-1&-1\\1&-1&1&-1\\1&-1&-1&1\end{pmatrix},\qquad \det H=-16`}</Latex>
           <p>
-            Красная вырожденная квадрика имеет один нулевой коэффициент:
-            соответствующий четвёртый корень свободен, а нетривиальная коника
-            параметризуется отдельно и полностью:
+            {text(
+              "Красная вырожденная квадрика имеет один нулевой коэффициент: соответствующий четвёртый корень свободен, а нетривиальная коника параметризуется отдельно и полностью:",
+              "The degenerate red quadric has one zero coefficient: the corresponding fourth root is free, while the nontrivial conic is parametrized separately and completely:",
+            )}
           </p>
           <Latex display>{String.raw`r=-a^2+2ab+b^2,\quad s=a^2+b^2,\quad t=a^2+2ab-b^2,\quad r^2+t^2=2s^2`}</Latex>
         </section>
 
         <section>
-          <h3>5. Цветовая дифференциация</h3>
+          <h3>{text("5. Цветовая дифференциация", "5. Color differentiation")}</h3>
           <p>
-            Цвет закрепляется не за позицией клетки, а за конкретным
-            уравнением левого ядра. В большой матрице цветом отмечаются только
-            фактические квадратные значения; в миниатюре — опоры выбранных
-            уравнений. Пересечение двух опор делит миниатюру на два цвета.
+            {text(
+              "Цвет закрепляется не за позицией клетки, а за конкретным уравнением левого ядра. В большой матрице цветом отмечаются только фактические квадратные значения; в миниатюре — опоры выбранных уравнений. Пересечение двух опор делит миниатюру на два цвета.",
+              "A color belongs to a particular left-kernel equation, not to a fixed cell position. In the large matrix, color marks only values that are actually perfect squares; in a miniature, it marks the supports of the selected equations. A cell shared by two supports is split between their colors.",
+            )}
           </p>
-          {COMMON_PROOFS.map((proof) => (
+          {proofs.map((proof) => (
             <section className="general-color-proof" key={proof.id}>
               <h4>{proof.title}</h4>
               <p>{proof.summary}</p>
@@ -1243,34 +1543,39 @@ function GeneralTheoryPage() {
         </section>
 
         <section>
-          <h3>6. Переход от 4/9 к 5/9</h3>
+          <h3>{text("6. Переход от 4/9 к 5/9", "6. From 4/9 to 5/9")}</h3>
           <p>
-            Пять клеток дают две независимые квадрики. Канонический цветовой
-            базис выбирается среди 4/9-подмасок так, чтобы отношения имели
-            простейшие коэффициенты и минимальные опоры. Любой другой базис
-            того же двумерного левого ядра эквивалентен, но не меняет ни
-            множество решений, ни достаточность системы.
+            {text(
+              "Пять клеток дают две независимые квадрики. Канонический цветовой базис выбирается среди 4/9-подмасок так, чтобы отношения имели простейшие коэффициенты и минимальные опоры. Любой другой базис того же двумерного левого ядра эквивалентен, но не меняет ни множество решений, ни достаточность системы.",
+              "Five cells give two independent quadrics. The canonical colored basis is selected among the 4/9 submasks so that its relations have the simplest coefficients and smallest supports. Any other basis of the same two-dimensional left kernel is equivalent and changes neither the solution set nor sufficiency of the system.",
+            )}
           </p>
           <Latex display>{String.raw`\ker L_S^T=\langle R_{\mathrm{color}_1},R_{\mathrm{color}_2}\rangle\quad\Longrightarrow\quad \{R_1(q^2)=R_2(q^2)=0\}\Longleftrightarrow\exists!\,(E,x,y)`}</Latex>
           <p>
-            Индивидуальное доказательство обязано не только проверить эти две
-            квадрики, но и вывести совместную параметризацию корней. Полнота
-            указывается отдельно: доказанная, алгоритмически восстанавливаемая
-            через НОД и знаки либо пока неизвестная. Проверка тождества сама по
-            себе полноты не доказывает.
+            {text(
+              "Индивидуальное доказательство обязано не только проверить эти две квадрики, но и вывести совместную параметризацию корней. Полнота указывается отдельно: доказанная, алгоритмически восстанавливаемая через НОД и знаки либо пока неизвестная. Проверка тождества сама по себе полноты не доказывает.",
+              "An individual proof must do more than verify the two quadrics: it must derive their joint root parametrization. Coverage is reported separately as proved, algorithmically recoverable through gcds and signs, or still unknown. Verifying an identity alone does not prove completeness.",
+            )}
           </p>
         </section>
 
-        <OrbitTable title="Все 23 орбиты 4/9" families={FOUR_FAMILIES} />
-        <OrbitTable title="Все 23 орбиты 5/9" families={FIVE_FAMILIES} />
+        <OrbitTable
+          title={text("Все 23 орбиты 4/9", "All 23 orbits of 4/9 masks")}
+          families={FOUR_FAMILIES}
+        />
+        <OrbitTable
+          title={text("Все 23 орбиты 5/9", "All 23 orbits of 5/9 masks")}
+          families={FIVE_FAMILIES}
+        />
       </div>
     </article>
   );
 }
 
 function CommonProofPage() {
+  const { locale, text } = useLocale();
   const { proofId } = useParams();
-  const proof = commonProofById(proofId);
+  const proof = commonProofById(proofId, locale);
   if (!proof) return <Navigate to="/about" replace />;
   const families = FAMILIES.filter((family) =>
     family.justifications.some((item) => item.commonProofId === proof.id),
@@ -1279,11 +1584,13 @@ function CommonProofPage() {
   return (
     <article className="page proof-page common-proof-page">
       <Link className="back-link" to="/lab">
-        ← К атласу
+        ← {text("К атласу", "Back to the atlas")}
       </Link>
       <header className="proof-page-header">
         <div>
-          <p className="eyebrow">Общая часть доказательства</p>
+          <p className="eyebrow">
+            {text("Общая часть доказательства", "General proof chapter")}
+          </p>
           <h1>{proof.title}</h1>
           <p>{proof.summary}</p>
         </div>
@@ -1299,7 +1606,10 @@ function CommonProofPage() {
           <div className="lemma-conclusion">{proof.conclusion}</div>
         </section>
         <aside className="lemma-families">
-          <span>Используют эту лемму · {families.length}</span>
+          <span>
+            {text("Используют эту лемму", "Families using this lemma")} ·{" "}
+            {families.length}
+          </span>
           {families.map((family) => (
             <Link
               className={`lemma-family tone-${family.group}`}
@@ -1318,18 +1628,22 @@ function CommonProofPage() {
 }
 
 function NewsPage() {
+  const { locale, text } = useLocale();
+  const articles = news(locale);
   return (
     <div className="page text-page">
       <header className="editorial-header">
-        <p className="eyebrow">Журнал проекта</p>
-        <h1>Новости и заметки</h1>
+        <p className="eyebrow">{text("Журнал проекта", "Project journal")}</p>
+        <h1>{text("Новости и заметки", "News and notes")}</h1>
         <p>
-          Релизы proof-core, новые семейства и объяснения исследовательских
-          решений.
+          {text(
+            "Релизы proof-core, новые семейства и объяснения исследовательских решений.",
+            "Proof-core releases, new families, and explanations of research decisions.",
+          )}
         </p>
       </header>
       <div className="news-list">
-        {NEWS.map((article, index) => (
+        {articles.map((article, index) => (
           <NewsCard
             article={article}
             featured={index === 0}
@@ -1345,14 +1659,15 @@ function NewsCard({
   article,
   featured = false,
 }: {
-  article: (typeof NEWS)[number];
+  article: NewsArticle;
   featured?: boolean;
 }) {
+  const { locale, text } = useLocale();
   return (
     <article className={`news-card ${featured ? "featured" : ""}`}>
       <div className="news-meta">
         <time dateTime={article.date}>
-          {new Date(`${article.date}T00:00:00Z`).toLocaleDateString("ru-RU", {
+          {new Date(`${article.date}T00:00:00Z`).toLocaleDateString(locale === "ru" ? "ru-RU" : "en-US", {
             day: "numeric",
             month: "long",
             year: "numeric",
@@ -1366,20 +1681,21 @@ function NewsCard({
       </h3>
       <p>{article.summary}</p>
       <Link className="text-link" to={`/news/${article.slug}`}>
-        Читать заметку <span>→</span>
+        {text("Читать заметку", "Read article")} <span>→</span>
       </Link>
     </article>
   );
 }
 
 function NewsArticlePage() {
+  const { locale, text } = useLocale();
   const { slug } = useParams();
-  const article = newsBySlug(slug);
+  const article = newsBySlug(slug, locale);
   if (!article) return <Navigate to="/news" replace />;
   return (
     <article className="page article-page">
       <Link className="back-link" to="/news">
-        ← Все новости
+        ← {text("Все новости", "All news")}
       </Link>
       <header>
         <div className="news-meta">
@@ -1399,61 +1715,80 @@ function NewsArticlePage() {
 }
 
 function AboutPage() {
+  const { locale, text } = useLocale();
+  const proofs = commonProofs(locale);
   return (
     <div className="page text-page about-page">
       <header className="editorial-header">
-        <p className="eyebrow">Архитектура проекта</p>
+        <p className="eyebrow">
+          {text("Архитектура проекта", "Project architecture")}
+        </p>
         <h1>
-          Интерфейс — не доказательство.
+          {text("Интерфейс — не доказательство.", "The interface is not a proof.")}
           <br />
-          Но он знает, где доказательство лежит.
+          {text(
+            "Но он знает, где доказательство лежит.",
+            "But it knows where the proof lives.",
+          )}
         </h1>
       </header>
       <div className="about-grid">
         <section>
           <span>01</span>
-          <h2>Статическая SPA</h2>
+          <h2>{text("Статическая SPA", "Static SPA")}</h2>
           <p>
-            React отвечает за исследовательский интерфейс, маршруты и
-            визуализацию. nginx раздаёт неизменяемые assets и возвращает
-            index.html для клиентских маршрутов.
+            {text(
+              "React отвечает за исследовательский интерфейс, маршруты и визуализацию. nginx раздаёт неизменяемые assets и возвращает index.html для клиентских маршрутов.",
+              "React provides the research interface, routing, and visualization. nginx serves immutable assets and falls back to index.html for client-side routes.",
+            )}
           </p>
         </section>
         <section>
           <span>02</span>
           <h2>Proof-core</h2>
           <p>
-            Математические утверждения живут отдельно от браузера и проверяются
-            точными полиномиальными тождествами. SPA различает сертификаты
-            proof-core и перенесённые legacy-формулы, не выдавая одно за другое.
+            {text(
+              "Математические утверждения живут отдельно от браузера и проверяются точными полиномиальными тождествами. SPA различает сертификаты proof-core и перенесённые legacy-формулы, не выдавая одно за другое.",
+              "Mathematical claims live outside the browser and are checked by exact polynomial identities. The SPA distinguishes proof-core certificates from migrated legacy formulas and never presents one as the other.",
+            )}
           </p>
         </section>
         <section>
           <span>03</span>
-          <h2>Новости без backend</h2>
+          <h2>{text("Новости без backend", "News without a backend")}</h2>
           <p>
-            Пока публикации меняются вместе с кодом, сервер не нужен: контент
-            версионируется и попадает в атомарную сборку. Это меньше
-            инфраструктуры и меньше источников несогласованности.
+            {text(
+              "Пока публикации меняются вместе с кодом, сервер не нужен: контент версионируется и попадает в атомарную сборку. Это меньше инфраструктуры и меньше источников несогласованности.",
+              "While publications change together with the code, no server is needed: content is versioned and shipped in an atomic build. This means less infrastructure and fewer sources of inconsistency.",
+            )}
           </p>
         </section>
       </div>
       <section className="proof-index">
         <div>
-          <p className="eyebrow">Общие леммы</p>
-          <h2>Цвет — это ссылка на причину</h2>
+          <p className="eyebrow">{text("Общие леммы", "Shared lemmas")}</p>
+          <h2>
+            {text("Цвет — это ссылка на причину", "Color points to a reason")}
+          </h2>
           <p>
-            Одна лемма используется несколькими масками. В тексте доказательства
-            остаётся конкретное клеточное тождество, а общий вывод вынесен сюда.
+            {text(
+              "Одна лемма используется несколькими масками. В тексте доказательства остаётся конкретное клеточное тождество, а общий вывод вынесен сюда.",
+              "One lemma can serve several masks. Each family proof retains the concrete cell identity, while the reusable argument is collected here.",
+            )}
           </p>
         </div>
         <div className="proof-index-links">
           <Link to="/proofs/general">
             <span>00</span>
-            <strong>Общая теория орбит 4/9 и 5/9</strong>
+            <strong>
+              {text(
+                "Общая теория орбит 4/9 и 5/9",
+                "General theory of the 4/9 and 5/9 orbits",
+              )}
+            </strong>
             <i>→</i>
           </Link>
-          {COMMON_PROOFS.map((proof, index) => (
+          {proofs.map((proof, index) => (
             <Link to={`/proofs/${proof.id}`} key={proof.id}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{proof.title}</strong>
@@ -1464,14 +1799,19 @@ function AboutPage() {
       </section>
       <section className="backend-callout">
         <div>
-          <p className="eyebrow">Когда появится API</p>
-          <h2>Backend добавим по фактической потребности</h2>
+          <p className="eyebrow">{text("Когда появится API", "When an API becomes necessary")}</p>
+          <h2>
+            {text(
+              "Backend добавим по фактической потребности",
+              "A backend will be added when there is a concrete need",
+            )}
+          </h2>
         </div>
         <ul>
-          <li>редакторы публикуют без Git и deploy;</li>
-          <li>появляются аккаунты, комментарии или подписки;</li>
-          <li>нужны полнотекстовый поиск и динамические подборки;</li>
-          <li>исследовательские вычисления запускаются как задания.</li>
+          <li>{text("редакторы публикуют без Git и deploy;", "editors must publish without Git or a deployment;")}</li>
+          <li>{text("появляются аккаунты, комментарии или подписки;", "accounts, comments, or subscriptions are introduced;")}</li>
+          <li>{text("нужны полнотекстовый поиск и динамические подборки;", "full-text search or dynamic collections are required;")}</li>
+          <li>{text("исследовательские вычисления запускаются как задания.", "research computations must run as queued jobs.")}</li>
         </ul>
       </section>
     </div>
@@ -1479,5 +1819,20 @@ function AboutPage() {
 }
 
 export function App() {
-  return <AppShell />;
+  return (
+    <Routes>
+      <Route path="/:locale" element={<LocaleLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="lab" element={<LabPage />} />
+        <Route path="families/:familyId" element={<FamilyRedirect />} />
+        <Route path="proofs/general" element={<GeneralTheoryPage />} />
+        <Route path="proofs/:proofId" element={<CommonProofPage />} />
+        <Route path="news" element={<NewsPage />} />
+        <Route path="news/:slug" element={<NewsArticlePage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+      <Route path="*" element={<LegacyLocaleRedirect />} />
+    </Routes>
+  );
 }

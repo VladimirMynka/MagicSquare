@@ -6,6 +6,10 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 
 - Vite builds a static bundle in `dist/`.
 - React Router owns the public routes; nginx falls back to `index.html`.
+- Russian and English editions use stable `/ru/...` and `/en/...` routes. The
+  language switch preserves the current path, query, and hash; legacy
+  unprefixed links redirect according to the saved preference or browser
+  language.
 - News content lives in `src/content/news.ts` and is versioned with the UI.
 - KaTeX renders local proof cards and shared lemmas without a server runtime.
 - Exact integer calculations use native `BigInt` in the browser.
@@ -35,6 +39,10 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   laboratory: assumptions, explicit roots, algebraic identities, Magic3
   reconstruction, parity clearance, and the conclusion. It is not an
   abbreviated proof-summary card or a separate family page.
+- English coverage is validated across interface literals, all 46 family
+  descriptions and proofs, all shared lemmas, and every news article. Runtime
+  metadata sets `lang`, canonical, `hreflang=ru`, `hreflang=en`, and
+  `hreflang=x-default` for the current localized route.
 
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,
@@ -45,6 +53,7 @@ comments, dynamic search, or queued research jobs become product requirements.
 ```bash
 npm install
 npm run dev
+npm run verify:i18n
 ```
 
 The development server binds to `127.0.0.1:17601`.
@@ -57,7 +66,7 @@ nginx -p "$PWD/" -c nginx/local.conf
 ```
 
 The local nginx configuration serves `dist/` at `http://127.0.0.1:17601/` and
-keeps client-side routes such as `/lab` and `/news/...` reload-safe.
+keeps client-side routes such as `/en/lab` and `/ru/news/...` reload-safe.
 
 For a durable project preview, link `systemd/magic-squares-spa.service` into the
 user systemd manager and enable it. The unit runs nginx in the foreground and

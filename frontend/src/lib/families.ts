@@ -1,4 +1,5 @@
 import type { Coordinates, Position } from "./magicSquare";
+import type { Locale } from "../i18n";
 
 export type ParameterStrings = readonly [string, string, string, string];
 export type FamilyLevel = 4 | 5;
@@ -991,4 +992,130 @@ export function familyById(id: string | null): FamilyDefinition {
 
 export function findFamilyById(id: string | undefined): FamilyDefinition | undefined {
   return FAMILIES.find((candidate) => candidate.id === id);
+}
+
+const GROUP_LABELS_EN: Readonly<Record<FamilyGroup, string>> = {
+  red: "Red 4/9",
+  yellow: "Yellow 4/9",
+  blue: "Blue 4/9",
+  green: "Green 4/9",
+  brown: "Brown 4/9",
+  "dark-gray": "Dark-gray 4/9",
+  "light-gray": "Light-gray 4/9",
+  "red-red": "Red–red",
+  "red-yellow": "Red–yellow",
+  "red-blue": "Red–blue",
+  "yellow-blue": "Yellow–blue",
+  "blue-blue": "Blue–blue",
+  "yellow-brown": "Yellow–brown",
+};
+
+const FOUR_ORBIT_DESCRIPTIONS_EN: Readonly<Record<string, string>> = {
+  aceg: "The center and three corners",
+  bdef: "The center and three edge cells",
+  abce: "The center, two adjacent corners, and the edge between them",
+  aceh: "The center, two adjacent corners, and the opposite edge",
+  acde: "The center, two adjacent corners, and an edge incident to one of them",
+  abej: "The center, two opposite corners, and one edge",
+  abde: "The center, two adjacent edges, and the corner between them",
+  bdej: "The center, two adjacent edges, and the opposite corner",
+  bcde: "The center, two adjacent edges, and a corner incident to one of them",
+  abeh: "The center, two opposite edges, and one corner",
+  bdfh: "All four edge cells",
+  acgj: "All four corners",
+  bdfg: "Three edge cells and an outer corner",
+  abcg: "Three corners and the inner edge",
+  acfg: "Three corners and the outer edge",
+  abdf: "Three edge cells and the inner corner",
+  acdf: "Two adjacent corners and the two noncommon incident edges",
+  abch: "Two adjacent corners, their common edge, and the opposite edge",
+  abcd: "Two adjacent corners and two edges incident to one corner",
+  abdj: "Two opposite corners and two edges incident to one of them",
+  abfj: "Two opposite corners and adjacent edges incident to them",
+  abhj: "Two opposite corners and two opposite edges",
+  acdh: "Two adjacent corners and two adjacent edges at the unselected corner",
+};
+
+const FIVE_SUMMARIES_EN: Readonly<Record<string, string>> = {
+  acegj: "Two arithmetic progressions of squares meet at the center E.",
+  bdefh: "Horizontal and vertical progressions of squares share the center E.",
+  abehj: "The red progressions AEJ and BEH; this family contains known 6/9 and 7/9 enhancements.",
+  bdefj: "The progressions DEF and BDJ are coordinated by one four-parameter generator.",
+  bdfgj: "Two shifted progressions, BDJ and BGF, meet at cell B.",
+  abdej: "The progressions AEJ and BDJ share the lower corner J.",
+  bdfhj: "The red progression BDJ and the yellow rectangle BDFH.",
+  abdfj: "The progression BDJ meets the equality A+B=F+J.",
+  acehj: "The progression AEJ is compatible with C+E=H+J.",
+  acdeg: "The progression CEG and the yellow equality A+D=C+E.",
+  abceh: "The progression BEH and the equality A+C=E+H share two cells.",
+  acdef: "The progression DEF joined to the yellow relation ACDE.",
+  abefj: "The progression AEJ meets the yellow four-cell support ABFJ.",
+  abfgj: "The progression BGF and A+B=F+J form the ABFGJ mask.",
+  befgj: "The orbit omitted from the original PDF: progression BGF together with B+E=G+J.",
+  abcdh: "The arithmetic-progression triple CDH, compatible with an x²+2y² norm on ABDH.",
+  abcdj: "The progression BDJ and the blue support ACDJ, with an integral center.",
+  abdef: "The progression DEF and the blue norm on ABDF.",
+  abcgj: "The equality A+J=C+G is compatible with the blue norm on BCGJ.",
+  abcgh: "The yellow support BCGH and the blue support ACGH.",
+  abcde: "A Gaussian norm and an x²+2y² norm, with no runtime division.",
+  abcdf: "Two independent blue norms on ABDF and ACDF.",
+  abcdg: "The yellow support BCDG and the weighted brown conic ABCG.",
+};
+
+export function familyGroupLabel(
+  family: FamilyDefinition,
+  locale: Locale,
+): string {
+  return locale === "ru" ? family.groupLabel : GROUP_LABELS_EN[family.group];
+}
+
+export function familyOrbitDescription(
+  family: FamilyDefinition,
+  locale: Locale,
+): string | undefined {
+  if (locale === "ru") return family.orbitDescription;
+  return FOUR_ORBIT_DESCRIPTIONS_EN[family.id];
+}
+
+export function familySummary(
+  family: FamilyDefinition,
+  locale: Locale,
+): string {
+  if (locale === "ru") return family.summary;
+  if (family.level === 4) {
+    const description = FOUR_ORBIT_DESCRIPTIONS_EN[family.id];
+    const relation = family.justifications[0]?.relationLatex;
+    return `${description}. The unique compatibility relation after eliminating E, x, and y is ${relation}.`;
+  }
+  return FIVE_SUMMARIES_EN[family.id];
+}
+
+export function justificationLabel(
+  justification: ProofJustification,
+  locale: Locale,
+): string {
+  if (locale === "ru") return justification.label;
+  if (justification.commonProofId === "arithmetic-progression") {
+    return justification.color === "red-dark"
+      ? "Dark-red arithmetic progression"
+      : "Light-red arithmetic progression";
+  }
+  if (justification.commonProofId === "two-square-norm") {
+    return "Yellow equality of two sums of squares";
+  }
+  if (justification.commonProofId === "sqrt-minus-two-norm") {
+    return "Blue x² + 2y² norm";
+  }
+  if (justification.commonProofId === "weighted-conic") {
+    return "Weighted brown conic";
+  }
+  const colorNames: Partial<Record<ProofColor, string>> = {
+    green: "Green",
+    brown: "Brown",
+    "gray-dark": "Dark-gray",
+    "gray-light": "Light-gray",
+    yellow: "Yellow",
+    "blue-light": "Blue",
+  };
+  return `${colorNames[justification.color] ?? "Diagonal"} quadric relation`;
 }
