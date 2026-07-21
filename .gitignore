@@ -3,3 +3,7 @@
 /tfmns2870.json
 /pretty.json
 /.txt
+/frontend/node_modules/
+/frontend/dist/
+/frontend/runtime/*
+!/frontend/runtime/.gitkeep

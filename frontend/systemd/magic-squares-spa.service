@@ -1,0 +1,15 @@
+[Unit]
+Description=Magic Squares React SPA served by nginx
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/codex/work/magic-squares/repos/MagicSquare/frontend
+ExecStart=/usr/sbin/nginx -p /home/codex/work/magic-squares/repos/MagicSquare/frontend/ -c nginx/local.conf
+ExecReload=/usr/sbin/nginx -p /home/codex/work/magic-squares/repos/MagicSquare/frontend/ -c nginx/local.conf -s reload
+ExecStop=/usr/sbin/nginx -p /home/codex/work/magic-squares/repos/MagicSquare/frontend/ -c nginx/local.conf -s quit
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
