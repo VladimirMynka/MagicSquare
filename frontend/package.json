@@ -1,7 +1,7 @@
 {
   "name": "magic-squares-web",
   "private": true,
-  "version": "0.5.0",
+  "version": "0.5.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit --pretty false",
     "verify:atlas": "tsx scripts/verify-atlas.ts",
+    "verify:coverage": "tsx scripts/verify-coverage.ts",
     "verify:i18n": "tsx scripts/verify-i18n.ts"
   },
   "dependencies": {

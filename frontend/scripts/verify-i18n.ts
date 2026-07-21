@@ -97,12 +97,29 @@ function verifyContent() {
       Boolean(proof.coverageText),
       `${family.id} has no English coverage status`,
     );
+    invariant(Boolean(proof.coverage), `${family.id} has no coverage theorem`);
+    invariant(
+      Boolean(proof.coverage?.guaranteedSubset),
+      `${family.id} has no guaranteed coverage subset`,
+    );
+    invariant(
+      Boolean(proof.coverage?.inverseArgument),
+      `${family.id} has no inverse coverage argument`,
+    );
+    invariant(
+      Boolean(proof.coverage?.exceptionalLocus),
+      `${family.id} has no exceptional-locus statement`,
+    );
     assertEnglish(`${family.id} proof`, [
       proof.assumptions,
       proof.identityDerivation,
       proof.integralityClearance,
       proof.parameterDerivation,
       proof.coverageText,
+      proof.coverage?.guaranteedSubset,
+      proof.coverage?.inverseArgument,
+      proof.coverage?.exceptionalLocus,
+      proof.coverage?.conclusion,
     ]);
   }
 

@@ -206,7 +206,7 @@ function AppShell() {
         <div className="header-meta">
           <LanguageSwitcher />
           <span className="release-pill">
-            <i /> alpha · 0.5.0
+            <i /> alpha · 0.5.1
           </span>
         </div>
       </header>
@@ -1310,13 +1310,58 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
 
       <section>
         <h3>{text("Полнота покрытия", "Coverage completeness")}</h3>
-        <p>
-          {proof.coverageText ??
-            text(
-              "Данная формула задаёт доказанное параметрическое подсемейство. Полнота по всем рациональным или примитивным целым решениям для этой склейки пока не доказана и не предполагается автоматически из проверки тождеств.",
-              "This formula defines a proved parametric subfamily. Exhaustion of every rational or primitive integral solution of this gluing has not yet been proved and does not follow automatically from checking the identities.",
-            )}
-        </p>
+        {proof.coverage ? (
+          <>
+            <p>
+              <strong>
+                {proof.coverage.status === "complete"
+                  ? text("Статус: полное покрытие.", "Status: complete coverage.")
+                  : text(
+                      "Статус: точное условное покрытие.",
+                      "Status: exact conditional coverage.",
+                    )}
+              </strong>{" "}
+              {text(
+                "Здесь полнота относится к рациональным векторам корней; целые представители получаются очисткой знаменателей и общим масштабированием.",
+                "Completeness here refers to rational root vectors; integral representatives are obtained by clearing denominators and applying a common scale.",
+              )}
+            </p>
+
+            <h4>
+              {text(
+                "Максимально широкое гарантированное подмножество",
+                "Broadest guaranteed subset",
+              )}
+            </h4>
+            <p>{proof.coverage.guaranteedSubset}</p>
+            {proof.coverage.conditions.map((condition) => (
+              <Latex display key={condition}>{condition}</Latex>
+            ))}
+
+            <h4>{text("Обратный ход", "Inverse construction")}</h4>
+            <p>{proof.coverage.inverseArgument}</p>
+
+            <h4>
+              {text(
+                "Что остаётся вне гарантии",
+                "What remains outside the guarantee",
+              )}
+            </h4>
+            <p>{proof.coverage.exceptionalLocus}</p>
+            {proof.coverage.exceptionalConditions.map((condition) => (
+              <Latex display key={condition}>{condition}</Latex>
+            ))}
+            <p>{proof.coverage.conclusion}</p>
+          </>
+        ) : (
+          <p>
+            {proof.coverageText ??
+              text(
+                "Данная формула задаёт доказанное параметрическое подсемейство. Точная область обратимости ещё не зафиксирована.",
+                "This formula defines a proved parametric subfamily. Its exact inverse domain has not yet been recorded.",
+              )}
+          </p>
+        )}
       </section>
 
       <footer>

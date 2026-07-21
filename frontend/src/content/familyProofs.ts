@@ -12,6 +12,17 @@ export interface FamilyProofText {
   integralityClearance?: string;
   parameterDerivation?: string;
   coverageText?: string;
+  coverage?: FamilyCoverageText;
+}
+
+export interface FamilyCoverageText {
+  status: "complete" | "conditional";
+  guaranteedSubset: string;
+  conditions: readonly string[];
+  inverseArgument: string;
+  exceptionalLocus: string;
+  exceptionalConditions: readonly string[];
+  conclusion: string;
 }
 
 function proof(
@@ -133,6 +144,40 @@ function fourFamilyProof(
       `The factor δ=${delta} is the absolute value of a nonzero minor of the selected cell-form matrix. Multiplying every root by δ multiplies every cell value by δ², so Cramer's formulas for E, x, and y become integral.`,
     ),
     parameterDerivation,
+    coverage: {
+      status: "complete",
+      guaranteedSubset: choose(
+        locale,
+        "Все рациональные решения единственной квадрики данной маски, включая нулевое решение. После очистки знаменателей это означает все целые проективные классы с точностью до знаков корней, общего масштаба, общего НОД и симметрий D₄.",
+        "Every rational solution of the single quadric for this mask, including the zero solution. After clearing denominators, this means every integral projective class up to root signs, common scale, common gcd, and D₄ symmetries.",
+      ),
+      conditions: [
+        String.raw`(q_P)_{P\in S}\in V_S(\mathbb Q),\qquad R_S(q)=0`,
+      ],
+      inverseArgument:
+        family.parametrizationKind === "red-conic"
+          ? choose(
+              locale,
+              "Красная коника имеет рациональную точку (1,1,1), поэтому проекция прямыми даёт все её рациональные точки; четвёртый корень свободен.",
+              "The red conic has the rational point (1,1,1), so projection by lines gives all of its rational points; the fourth root is free.",
+            )
+          : choose(
+              locale,
+              "Четыре знаковые карты — строки матрицы Адамара. Для любого ненулевого вектора корней хотя бы одно спаривание Lε ненулевое, поскольку det H=−16; соответствующая карта возвращает ту же проективную точку.",
+              "The four signed charts are the rows of the Hadamard matrix. For every nonzero root vector at least one pairing Lε is nonzero because det H=−16; that chart returns the same projective point.",
+            ),
+      exceptionalLocus: choose(
+        locale,
+        "Исключительного множества у объединения карт нет. Исключительная образующая одной аффинной карты закрывается одной из трёх остальных знаковых карт.",
+        "The union of the charts has no exceptional locus. An exceptional ruling of one affine chart is covered by one of the other three signed charts.",
+      ),
+      exceptionalConditions: [String.raw`\operatorname{Exc}(\Phi_S)=\varnothing`],
+      conclusion: choose(
+        locale,
+        "Параметризация полна над рациональными точками и алгоритмически полна после очистки знаменателей.",
+        "The parametrization is complete over rational points and algorithmically complete after denominators are cleared.",
+      ),
+    },
     coverageText:
       family.coverageStatus === "complete-up-to-equivalence"
         ? choose(
@@ -362,9 +407,7 @@ export const FAMILY_PROOFS: Readonly<Record<string, FamilyProofText>> = {
       String.raw`B+E=G+J`,
     ],
     parameterDerivation:
-      "Обратный алгоритм сначала параметризует красную конику B+F=2G. Затем равенство E−J=F−G на уровне значений переписывается как (e₀−j₀)(e₀+j₀)=(f₀−g₀)(f₀+g₀). Разнесение двух множителей по НОД и возможная смена знака одного корня дают отношение c:d; общий знаменатель поглощается масштабом λ. Исключительные нулевые множители разбираются тем же равенством непосредственно.",
-    coverageText:
-      "Так получается алгоритмическое покрытие рациональных решений с точностью до знаков корней и общего масштаба; целые представители восстанавливаются очисткой знаменателей и делением общего НОД.",
+      "Обратный алгоритм сначала параметризует красную конику B+F=2G. Затем равенство E−J=F−G на уровне значений переписывается как (e₀−j₀)(e₀+j₀)=(f₀−g₀)(f₀+g₀). Если хотя бы одна из клеток E,J ненулевая, знаки корней можно выбрать так, чтобы e₀−j₀≠0; после общего масштабирования два множителя дают рациональные c,d. Ветвь E=J=0 разбирается отдельно в разделе полноты.",
   },
   abcdh: proof(
     unrestricted,
@@ -529,14 +572,234 @@ const GCD_RED_YELLOW_IDS = new Set([
   "abfgj",
 ]);
 
-function fiveCoverageText(id: string): string {
+const RED_RED_SHARED_ROOT: Readonly<Record<string, string>> = {
+  acegj: "E",
+  bdefh: "E",
+  abehj: "E",
+  bdefj: "D",
+  bdfgj: "B",
+  abdej: "J",
+};
+
+const GCD_COVERAGE_CELLS: Readonly<
+  Record<string, readonly [string, string]>
+> = {
+  bdfhj: ["B", "D"],
+  abdfj: ["J", "B"],
+  acehj: ["E", "J"],
+  acdef: ["E", "D"],
+  abefj: ["A", "J"],
+  abfgj: ["B", "F"],
+};
+
+const GAUSSIAN_RED_YELLOW_IDS = new Set(["acdeg", "abceh"]);
+const RED_BLUE_IDS = new Set(["abcdh", "abcdj", "abdef"]);
+const YELLOW_BLUE_DETERMINANTS: Readonly<Record<string, string>> = {
+  abcde: String.raw`\Delta=N(3N^2-2Q^2)=N(3P^2+Q^2)`,
+  abcgj: String.raw`\Delta=N(3N^2-4Q^2)=N(3P^2-Q^2)`,
+  abcgh: String.raw`\Delta=N(3N^2-4Q^2)=N(3P^2-Q^2)`,
+};
+
+function completeCoverage(
+  locale: Locale,
+  inverseArgument: string,
+  conditions: readonly string[] = [
+    String.raw`(q_P)_{P\in S}\in V_S(\mathbb Q)`,
+  ],
+): FamilyCoverageText {
+  return {
+    status: "complete",
+    guaranteedSubset: choose(
+      locale,
+      "Всё множество рациональных векторов корней, удовлетворяющих двум квадрикам этой маски, включая нулевой вектор. Целые решения понимаются проективно: после очистки знаменателей, с точностью до знаков корней и общего масштаба.",
+      "The entire set of rational root vectors satisfying the two quadrics for this mask, including the zero vector. Integral solutions are understood projectively: after clearing denominators, up to root signs and common scale.",
+    ),
+    conditions,
+    inverseArgument,
+    exceptionalLocus: choose(
+      locale,
+      "Непокрытых рациональных ветвей нет. Возможные нулевые знаменатели обратной карты либо устраняются сменой знаков корней, либо вынуждают весь вектор корней быть нулевым; нулевой вектор формула также получает.",
+      "There are no uncovered rational branches. A possible zero denominator in the inverse chart is removed by changing root signs or forces the entire root vector to be zero; the formula also produces the zero vector.",
+    ),
+    exceptionalConditions: [String.raw`\operatorname{Exc}(\Phi_S)=\varnothing`],
+    conclusion: choose(
+      locale,
+      "Полнота доказана над рациональными решениями обеих квадрик.",
+      "Completeness is proved over the rational solutions of both quadrics.",
+    ),
+  };
+}
+
+function fiveCoverage(id: string, locale: Locale): FamilyCoverageText {
   if (RED_RED_IDS.has(id)) {
-    return "Обе красные коники покрываются полностью, а перекрёстная склейка покрывает ветвь с ненулевым общим корнем. Нулевые общие корни требуют отдельного разбиения на случаи; до него глобальная полнота этой четырёхпараметрической формулы не заявляется.";
+    const shared = RED_RED_SHARED_ROOT[id];
+    return completeCoverage(
+      locale,
+      choose(
+        locale,
+        `При q_${shared}≠0 обе красные коники обращаются стандартной полной параметризацией, а перекрёстные множители выравнивают их масштабы по общему корню. При q_${shared}=0 соответствующая красная связь над Q вынуждает соседние корни обратиться в нуль: для среднего корня используется сумма двух квадратов, для крайнего — иррациональность √2. Вторая красная связь затем также даёт нулевой вектор.`,
+        `When q_${shared}≠0, invert both red conics by their standard complete parametrization and use the cross-multipliers to align their scales at the shared root. When q_${shared}=0, the corresponding red relation over Q forces the adjacent roots to vanish: a shared middle root uses a sum of two squares, while a shared endpoint uses the irrationality of √2. The second red relation then also gives the zero vector.`,
+      ),
+      [
+        String.raw`(q_P)_{P\in S}\in V_S(\mathbb Q),\qquad q_${shared}\ne0`,
+        String.raw`q_${shared}=0\Longrightarrow(q_P)_{P\in S}=0`,
+      ],
+    );
   }
   if (GCD_RED_YELLOW_IDS.has(id)) {
-    return "Разнесение ненулевых множителей через НОД даёт обратный алгоритм на заявленной ветви g₁g₂ ≠ 0. Нулевые ветви исключены условиями теоремы и должны параметризоваться отдельно, поэтому глобальная полнота пока не заявляется.";
+    const [left, right] = GCD_COVERAGE_CELLS[id];
+    return {
+      status: "conditional",
+      guaranteedSubset: choose(
+        locale,
+        `Все рациональные решения двух квадрик на открытой ветви ${left}≠${right}. Это в точности ветвь u²−w²≠0; после очистки знаменателей она покрывается целочисленной НОД-формулой.`,
+        `Every rational solution of the two quadrics on the open branch ${left}≠${right}. This is exactly the branch u²−w²≠0; after denominators are cleared, it is covered by the integral gcd formula.`,
+      ),
+      conditions: [
+        String.raw`${left}-${right}=u^2-w^2\ne0`,
+        String.raw`(u-w)(u+w)=(z-v)(z+v)\ne0`,
+      ],
+      inverseArgument: choose(
+        locale,
+        "Красная коника сначала обращается полностью. Затем ненулевые множители u−w и u+w разносятся между p,q,g₁,g₂; рациональные знаменатели очищаются общим масштабом, после чего НОД даёт целые представители. Формулы v=pg₂−qg₁ и z=pg₂+qg₁ возвращают исходную точку с точностью до знаков.",
+        "First invert the red conic completely. Then distribute the nonzero factors u−w and u+w among p,q,g₁,g₂; a common scale clears rational denominators, and gcds give integral representatives. The formulas v=pg₂−qg₁ and z=pg₂+qg₁ recover the original point up to signs.",
+      ),
+      exceptionalLocus: choose(
+        locale,
+        `Вне гарантии остаются нулевые ветви ${left}=${right}: там u=±w и одновременно z=±v. Текущая формула делит на один из нулевых множителей; эти компоненты требуют отдельных карт и не объявляются покрытыми.`,
+        `The zero branches ${left}=${right} remain outside the guarantee: there u=±w and simultaneously z=±v. The current formula divides by one of the zero factors; these components require separate charts and are not claimed to be covered.`,
+      ),
+      exceptionalConditions: [
+        String.raw`\operatorname{Exc}(\Phi_S)\subseteq\{${left}=${right}\}=\{u^2=w^2\}`,
+      ],
+      conclusion: choose(
+        locale,
+        `Полнота доказана ровно на ветви ${left}≠${right}; глобальная полнота до добавления нулевых карт не заявляется.`,
+        `Completeness is proved exactly on the branch ${left}≠${right}; global completeness is not claimed until the zero charts are added.`,
+      ),
+    };
   }
-  return "Формула полностью доказана как полиномиальная карта в данное семейство. Обратная классификация всех рациональных решений совместной пары квадрик, включая исключительные ранговые ветви, пока не завершена; поэтому полнота этой параметризации не заявляется.";
+
+  if (GAUSSIAN_RED_YELLOW_IDS.has(id)) {
+    return completeCoverage(
+      locale,
+      choose(
+        locale,
+        "Красная AP-тройка обращается полной параметризацией. Оставшаяся пара имеет ту же ненулевую сумму квадратов, поэтому между двумя её рациональными представлениями существует рациональный гауссов поворот. Тройка P²+Q²=N² параметризует все такие повороты. Если эта норма равна нулю, обе квадрики вынуждают нулевой вектор.",
+        "Invert the red arithmetic-progression triple by its complete parametrization. The remaining pair has the same nonzero sum of squares, so a rational Gaussian rotation relates its two rational representations. The triple P²+Q²=N² parametrizes every such rotation. If that norm is zero, the two quadrics force the zero vector.",
+      ),
+    );
+  }
+
+  if (id === "befgj") {
+    return {
+      status: "conditional",
+      guaranteedSubset: choose(
+        locale,
+        "Все рациональные решения, для которых хотя бы одна из клеток E,J ненулевая, а также нулевое решение. Иными словами, покрывается всё семейство, кроме явно указанной ниже ненулевой прямой.",
+        "Every rational solution for which at least one of E and J is nonzero, together with the zero solution. Equivalently, the whole family is covered except for the explicit nonzero line below.",
+      ),
+      conditions: [
+        String.raw`(E,J)\ne(0,0)\quad\text{or}\quad(B,E,F,G,J)=(0,0,0,0,0)`,
+      ],
+      inverseArgument: choose(
+        locale,
+        "После полного обращения красной коники выбираем знаки корней e,j так, чтобы e−j≠0. Для целевой точки можно взять общий масштаб L=2(e−j), затем c=e−j и d, определённый равенством Kd²=L(e+j)/2. Равенство (e−j)(e+j)=f²−g² делает d рациональным и возвращает все пять корней с общим множителем L.",
+        "After completely inverting the red conic, choose the signs of e and j so that e−j≠0. For the target point take the common scale L=2(e−j), then c=e−j and define d by Kd²=L(e+j)/2. The identity (e−j)(e+j)=f²−g² makes d rational and recovers all five roots with the common factor L.",
+      ),
+      exceptionalLocus: choose(
+        locale,
+        "Единственная непокрытая компонента текущей карты: E=J=0 и B=F=G≠0. На ней обе связи выполняются, но формулы e₀=Kd²+c² и j₀=Kd²−c² вынуждают c=0, затем λ=2cd=0, поэтому ненулевую постоянную красную тройку получить нельзя.",
+        "The only component missed by the current chart is E=J=0 and B=F=G≠0. Both relations hold there, but e₀=Kd²+c² and j₀=Kd²−c² force c=0 and then λ=2cd=0, so a nonzero constant red triple cannot be produced.",
+      ),
+      exceptionalConditions: [
+        String.raw`\operatorname{Exc}(\Phi_{BEFGJ})=\{E=J=0,\ B=F=G\ne0\}`,
+      ],
+      conclusion: choose(
+        locale,
+        "Полнота доказана на дополнении к одной ненулевой рациональной прямой и в нулевой точке; сама прямая этой формулой не покрывается.",
+        "Completeness is proved off one nonzero rational line and at the zero point; the line itself is not covered by this formula.",
+      ),
+    };
+  }
+
+  if (RED_BLUE_IDS.has(id)) {
+    return completeCoverage(
+      locale,
+      choose(
+        locale,
+        "Красная коника обращается полностью. Два представления одной формы X²−2Y² отличаются рациональным элементом нормы-квадрата в Q(√2); коника P²−2Q²=M² параметризует все такие элементы. Нулевая норма над Q не создаёт отдельной ветви, поскольку 2 не является рациональным квадратом.",
+        "Invert the red conic completely. Two representations of the same form X²−2Y² differ by a rational element of square norm in Q(√2), and the conic P²−2Q²=M² parametrizes every such element. Zero norm creates no separate rational branch because 2 is not a rational square.",
+      ),
+    );
+  }
+
+  if (id in YELLOW_BLUE_DETERMINANTS) {
+    const determinant = YELLOW_BLUE_DETERMINANTS[id];
+    return completeCoverage(
+      locale,
+      choose(
+        locale,
+        `Сначала по жёлтой паре восстанавливается рациональный поворот P²+Q²=N². После этого общие корни дают линейную систему для U,V,M. Указанный минор ${determinant} ненулевой у каждой ненулевой рациональной точки: в ABCDE остаётся сумма 3P²+Q², а в двух других масках равенство Q²=3P² над Q возможно только при P=Q=0. Поэтому система обращается, а U²+2V²=M² затем полностью параметризуется второй парой параметров.`,
+        `First recover the rational rotation P²+Q²=N² from the yellow pair. The shared roots then give a linear system for U,V,M. Its displayed minor ${determinant} is nonzero at every nonzero rational point: for ABCDE the remaining factor is 3P²+Q², while in the other two masks Q²=3P² over Q forces P=Q=0. Thus the system is invertible, and U²+2V²=M² is then completely parametrized by the second parameter pair.`,
+      ),
+      [
+        String.raw`P^2+Q^2=N^2,\qquad ${determinant}\ne0`,
+        String.raw`U^2+2V^2=M^2`,
+      ],
+    );
+  }
+
+  if (id === "abcdf") {
+    return completeCoverage(
+      locale,
+      choose(
+        locale,
+        "Из двух голубых равенств восстанавливаются два рациональных поворота нормы X²+2Y². Матрица совместимости имеет ненулевой минор Δ=M₁(M₁²−6V₁²). Его зануление у ненулевой рациональной нормовой тройки потребовало бы M₁/V₁=√6; следовательно, ранг равен трём и вектор миноров возвращает единственную проективную линию совместимых корней.",
+        "Recover two rational rotations of the norm X²+2Y² from the two blue equalities. The compatibility matrix has the nonzero minor Δ=M₁(M₁²−6V₁²). Vanishing at a nonzero rational norm triple would require M₁/V₁=√6; hence the rank is three and the vector of minors recovers the unique projective line of compatible roots.",
+      ),
+      [
+        String.raw`U_i^2+2V_i^2=M_i^2\quad(i=1,2)`,
+        String.raw`\Delta=M_1(M_1^2-6V_1^2)\ne0`,
+      ],
+    );
+  }
+
+  if (id === "abcdg") {
+    return {
+      status: "conditional",
+      guaranteedSubset: choose(
+        locale,
+        "Все рациональные решения, для которых после выбора знаков корней жёлтая матрица ранга один допускает факторизацию ниже с рациональным квадратом 2s²−r²=u², а также нулевое решение. Это точный полный образ доказанной двухступенчатой карты, а не только произвольно выбранная невырожденная часть.",
+        "Every rational solution for which, after choosing root signs, the rank-one yellow matrix admits the factorization below with 2s²−r²=u² a rational square, together with the zero solution. This is the exact full image of the proved two-stage chart, not merely an arbitrarily chosen nondegenerate portion.",
+      ),
+      conditions: [
+        String.raw`\begin{pmatrix}b+d&c+g\\c-g&d-b\end{pmatrix}=2\begin{pmatrix}rP&rQ\\sP&sQ\end{pmatrix}`,
+        String.raw`2s^2-r^2=u^2\in\mathbb Q^2,\qquad K=2r^2-s^2`,
+        String.raw`a^2=u^2P^2+KQ^2`,
+      ],
+      inverseArgument: choose(
+        locale,
+        "Жёлтая квадрика равносильна нулю определителя показанной матрицы, поэтому всякая ненулевая жёлтая точка имеет рациональную факторизацию ранга один. Если её квадратный класс 2s²−r² тривиален, берём рациональный u. Коричневая квадрика тогда становится коникой a²=u²P²+KQ², и формулы P=Kμ²−ν², Q=2uμν, a=u(Kμ²+ν²) дают все её рациональные точки. Для ненулевой точки u и K автоматически ненулевые, иначе возникло бы рациональное √2.",
+        "The yellow quadric is equivalent to vanishing of the displayed determinant, so every nonzero yellow point has a rational rank-one factorization. If the square class of 2s²−r² is trivial, choose rational u. The brown quadric then becomes the conic a²=u²P²+KQ², and P=Kμ²−ν², Q=2uμν, a=u(Kμ²+ν²) gives all of its rational points. For a nonzero point both u and K are automatically nonzero, or else a rational √2 would result.",
+      ),
+      exceptionalLocus: choose(
+        locale,
+        "Вне доказанного образа остаются те рациональные решения, для которых при всех допустимых выборах знаков квадратный класс 2s²−r² нетривиален. Это арифметическое, а не ранговое исключение. Не доказано ни отсутствие таких точек, ни их покрытие текущей формулой.",
+        "Outside the proved image are rational solutions for which every admissible choice of root signs leaves the square class of 2s²−r² nontrivial. This is an arithmetic rather than a rank exception. Neither the absence of such points nor their coverage by the current formula has been proved.",
+      ),
+      exceptionalConditions: [
+        String.raw`\operatorname{Exc}(\Phi_{ABCDG})\subseteq\{[2s^2-r^2]\ne1\text{ in }\mathbb Q^\times/(\mathbb Q^\times)^2\}`,
+      ],
+      conclusion: choose(
+        locale,
+        "Полнота доказана для всего подмножества с тривиальным указанным квадратным классом; глобальная полнота ABCDG остаётся отдельной задачей.",
+        "Completeness is proved for the entire subset with the indicated trivial square class; global completeness of ABCDG remains a separate problem.",
+      ),
+    };
+  }
+
+  throw new Error(`No coverage theorem for 5/9 family ${id}`);
 }
 
 const unrestrictedEn =
@@ -558,7 +821,7 @@ const redRedParameterDerivationEn =
 const gcdRedYellowParameterDerivationEn =
   "First parametrize the red quadric by ρ, σ, τ. After rearrangement, the yellow quadric is z²−v²=u²−w²=(u−w)(u+w). For the displayed red roots, the factors on the right are, up to powers of 2, products of 2αβ and α²−β². Distribute them among p, q, g₁, g₂ using gcds and set v=pg₂−qg₁, z=pg₂+qg₁. Then z²−v²=4pqg₁g₂ exactly matches u²−w². Thus the formulas are derived from the two quadrics rather than merely verified after the fact.";
 const gaussianRedYellowParameterDerivationEn =
-  "First parametrize the red quadric by r, s, t. The yellow quadric then asks for preservation of the sum of squares of one pair. Up to scale and an exceptional chart, every rational point of the corresponding circle comes from P=d²−c², Q=2cd, N=c²+d². Multiplying the pair by ((P,−Q),(Q,P)) gives the displayed roots, while P²+Q²=N² enforces compatibility with the chosen red triple.";
+  "First parametrize the red quadric by r, s, t. The yellow quadric then asks for preservation of the sum of squares of one pair. Up to scale, every rational point of the corresponding circle comes from P=d²−c², Q=2cd, N=c²+d², including the second projection point. Multiplying the pair by ((P,−Q),(Q,P)) gives the displayed roots, while P²+Q²=N² enforces compatibility with the chosen red triple.";
 const redBlueParameterDerivationEn =
   "The red quadric gives r, s, t. The remaining blue quadric is an equality of values of X²−2Y². Its rational conic is parametrized by P=c²+2d², Q=2cd, M=c²−2d²; multiplication in Q(√2) then gives the linear transformation T(P,Q). Solving the two cell quadrics for the remaining roots gives exactly the displayed components of T, and the factor M attaches them to the red triple.";
 const yellowBlueParameterDerivationEn =
@@ -567,97 +830,80 @@ const blueBlueParameterDerivationEn =
   "Reduce the two blue quadrics to two copies of Uᵢ²+2Vᵢ²=Mᵢ². Eliminating the shared cell roots gives a compatibility matrix of rank four; the five displayed expressions are its maximal minors. The common factor M₂ clears the only denominator, and the two norm identities reduce both original residuals to zero.";
 const yellowBrownParameterDerivationEn =
   "An auxiliary red conic introduces r, s, u. After substitution into the brown quadric, the coefficient of the second pair becomes K=2r²−s². The pair P=Kc²−d², Q=2ucd parametrizes the resulting weighted conic; two Gaussian rotations then give β, γ, δ, η. The displayed chain of equalities solves both quadrics and reconstructs E without division.";
-const redRedCoverageEn =
-  "Both red conics are covered completely, and the cross-multiplication glue covers the branch with a nonzero shared root. Zero shared roots require a separate case split; until that is supplied, global completeness of this four-parameter formula is not claimed.";
-const gcdCoverageEn =
-  "Splitting nonzero factors through gcds gives an inverse algorithm on the declared branch g₁g₂ ≠ 0. The theorem excludes zero branches, which need separate parametrizations, so global completeness is not yet claimed.";
-const polynomialCoverageEn =
-  "The formula is fully proved as a polynomial map into this family. The inverse classification of every rational solution of the joint pair of quadrics, including exceptional rank branches, is not yet complete; consequently this parametrization is not claimed to be exhaustive.";
 
 interface EnglishProofCopy {
   assumptions: string;
   identityDerivation: string;
   parameterDerivation: string;
-  coverageText: string;
 }
 
 function englishProofCopy(
   assumptions: string,
   identityDerivation: string,
   parameterDerivation: string,
-  coverageText: string,
 ): EnglishProofCopy {
   return {
     assumptions,
     identityDerivation,
     parameterDerivation,
-    coverageText,
   };
 }
 
 const FIVE_PROOF_COPY_EN: Readonly<Record<string, EnglishProofCopy>> = {
-  acegj: englishProofCopy(unrestrictedEn, redRedOneDerivationEn, redRedParameterDerivationEn, redRedCoverageEn),
-  bdefh: englishProofCopy(unrestrictedEn, redRedOneDerivationEn, redRedParameterDerivationEn, redRedCoverageEn),
-  abehj: englishProofCopy(unrestrictedEn, redRedOneDerivationEn, redRedParameterDerivationEn, redRedCoverageEn),
-  bdefj: englishProofCopy(unrestrictedEn, redRedTwoDerivationEn, redRedParameterDerivationEn, redRedCoverageEn),
-  bdfgj: englishProofCopy(unrestrictedEn, redRedTwoDerivationEn, redRedParameterDerivationEn, redRedCoverageEn),
-  abdej: englishProofCopy(unrestrictedEn, redRedThreeDerivationEn, redRedParameterDerivationEn, redRedCoverageEn),
-  bdfhj: englishProofCopy(gcdRestrictedEn, redYellowOneDerivationEn, gcdRedYellowParameterDerivationEn, gcdCoverageEn),
-  abdfj: englishProofCopy(gcdRestrictedEn, redYellowTwoDerivationEn, gcdRedYellowParameterDerivationEn, gcdCoverageEn),
-  acehj: englishProofCopy(gcdRestrictedEn, redYellowTwoDerivationEn, gcdRedYellowParameterDerivationEn, gcdCoverageEn),
+  acegj: englishProofCopy(unrestrictedEn, redRedOneDerivationEn, redRedParameterDerivationEn),
+  bdefh: englishProofCopy(unrestrictedEn, redRedOneDerivationEn, redRedParameterDerivationEn),
+  abehj: englishProofCopy(unrestrictedEn, redRedOneDerivationEn, redRedParameterDerivationEn),
+  bdefj: englishProofCopy(unrestrictedEn, redRedTwoDerivationEn, redRedParameterDerivationEn),
+  bdfgj: englishProofCopy(unrestrictedEn, redRedTwoDerivationEn, redRedParameterDerivationEn),
+  abdej: englishProofCopy(unrestrictedEn, redRedThreeDerivationEn, redRedParameterDerivationEn),
+  bdfhj: englishProofCopy(gcdRestrictedEn, redYellowOneDerivationEn, gcdRedYellowParameterDerivationEn),
+  abdfj: englishProofCopy(gcdRestrictedEn, redYellowTwoDerivationEn, gcdRedYellowParameterDerivationEn),
+  acehj: englishProofCopy(gcdRestrictedEn, redYellowTwoDerivationEn, gcdRedYellowParameterDerivationEn),
   acdeg: englishProofCopy(
     unrestrictedEn,
     "The red relation follows from r²+t²=2s². For the yellow relation, expand the two sums of squares: the mixed terms cancel, and P²+Q² is replaced by N².",
     gaussianRedYellowParameterDerivationEn,
-    polynomialCoverageEn,
   ),
   abceh: englishProofCopy(
     unrestrictedEn,
     "The Gaussian rotation of (s,t) preserves its sum of squares up to the factor N². The red relation for B,E,H is the original arithmetic-progression triple multiplied by N².",
     gaussianRedYellowParameterDerivationEn,
-    polynomialCoverageEn,
   ),
-  acdef: englishProofCopy(gcdRestrictedEn, redYellowTwoDerivationEn, gcdRedYellowParameterDerivationEn, gcdCoverageEn),
-  abefj: englishProofCopy(gcdRestrictedEn, redYellowOneDerivationEn, gcdRedYellowParameterDerivationEn, gcdCoverageEn),
-  abfgj: englishProofCopy(gcdRestrictedEn, redYellowOneDerivationEn, gcdRedYellowParameterDerivationEn, gcdCoverageEn),
+  acdef: englishProofCopy(gcdRestrictedEn, redYellowTwoDerivationEn, gcdRedYellowParameterDerivationEn),
+  abefj: englishProofCopy(gcdRestrictedEn, redYellowOneDerivationEn, gcdRedYellowParameterDerivationEn),
+  abfgj: englishProofCopy(gcdRestrictedEn, redYellowOneDerivationEn, gcdRedYellowParameterDerivationEn),
   befgj: englishProofCopy(
     "The parameters a, b, c, and d are arbitrary integers. The theorem guarantees that B, E, F, G, and J are squares, but allows additional cells to become squares as well.",
     "The red quadric is parametrized by r, s, t. For the second quadric, use a difference of squares: choose (e₀−j₀)(e₀+j₀)=λ²(t²−s²). This is the rational parametrization of the compatibility hyperbola after denominators are cleared.",
-    "The inverse algorithm first parametrizes B+F=2G. Next, at the root level, E−J=F−G becomes (e₀−j₀)(e₀+j₀)=(f₀−g₀)(f₀+g₀). Splitting the two factors by gcds and, when needed, changing one root sign gives the ratio c:d; a common denominator is absorbed into λ. Exceptional zero factors are handled directly by the same equality.",
-    "This gives algorithmic coverage of rational solutions up to root signs and common scale; integral representatives follow by clearing denominators and dividing the common gcd.",
+    "The inverse algorithm first parametrizes B+F=2G. Next, at the root level, E−J=F−G becomes (e₀−j₀)(e₀+j₀)=(f₀−g₀)(f₀+g₀). If at least one of E and J is nonzero, choose root signs with e₀−j₀≠0; after a common rescaling, the two factors give rational c and d. The branch E=J=0 is handled separately in the coverage section.",
   ),
   abcdh: englishProofCopy(
     unrestrictedEn,
     "The red relation is the arithmetic-progression triple scaled by M². The blue relation is preservation of X²−2Y² by T on the pair (t,r).",
     redBlueParameterDerivationEn,
-    polynomialCoverageEn,
   ),
   abcdj: englishProofCopy(
     unrestrictedEn,
     "The red relation is the scaled triple (r,s,t). The blue relation follows by applying T to (s,t).",
     redBlueParameterDerivationEn,
-    polynomialCoverageEn,
   ),
   abdef: englishProofCopy(
     unrestrictedEn,
     "The red relation follows from the arithmetic-progression identity. In the blue relation, the mixed terms in B+2A cancel; then use M²+2Q²=P², equivalently P²−2Q²=M².",
     redBlueParameterDerivationEn,
-    polynomialCoverageEn,
   ),
-  abcgj: englishProofCopy(unrestrictedEn, "Substitute the displayed polynomial roots into both quadrics. Mixed terms cancel in pairs; the remaining terms vanish by P²+Q²=N² and U²+2V²=M². The root formulas contain no division.", yellowBlueParameterDerivationEn, polynomialCoverageEn),
-  abcgh: englishProofCopy(unrestrictedEn, "Substitute the displayed polynomial roots into both quadrics. Mixed terms cancel in pairs; the remaining terms vanish by P²+Q²=N² and U²+2V²=M². The root formulas contain no division.", yellowBlueParameterDerivationEn, polynomialCoverageEn),
-  abcde: englishProofCopy(unrestrictedEn, "Substitute the displayed polynomial roots into both quadrics. Mixed terms cancel in pairs; the remaining terms vanish by P²+Q²=N² and U²+2V²=M². The root formulas contain no division.", yellowBlueParameterDerivationEn, polynomialCoverageEn),
+  abcgj: englishProofCopy(unrestrictedEn, "Substitute the displayed polynomial roots into both quadrics. Mixed terms cancel in pairs; the remaining terms vanish by P²+Q²=N² and U²+2V²=M². The root formulas contain no division.", yellowBlueParameterDerivationEn),
+  abcgh: englishProofCopy(unrestrictedEn, "Substitute the displayed polynomial roots into both quadrics. Mixed terms cancel in pairs; the remaining terms vanish by P²+Q²=N² and U²+2V²=M². The root formulas contain no division.", yellowBlueParameterDerivationEn),
+  abcde: englishProofCopy(unrestrictedEn, "Substitute the displayed polynomial roots into both quadrics. Mixed terms cancel in pairs; the remaining terms vanish by P²+Q²=N² and U²+2V²=M². The root formulas contain no division.", yellowBlueParameterDerivationEn),
   abcdf: englishProofCopy(
     unrestrictedEn,
     "Substitution of these five minors into the two blue quadrics leaves only multiples of U₁²+2V₁²−M₁² and U₂²+2V₂²−M₂²; both are zero. Hence both compatible norm relations hold.",
     blueBlueParameterDerivationEn,
-    polynomialCoverageEn,
   ),
   abcdg: englishProofCopy(
     unrestrictedEn,
     "The yellow relation comes from two Gaussian rotations. For the brown relation, the quadric residual is reduced step by step to α² as displayed below. The final formula also proves that the chosen E reconstructs C and G without division.",
     yellowBrownParameterDerivationEn,
-    polynomialCoverageEn,
   ),
 };
 
@@ -667,16 +913,23 @@ export function familyProofById(
 ): FamilyProofText {
   const result = FAMILY_PROOFS[id];
   if (!result) throw new Error(`No exhaustive proof text for family ${id}`);
+  const coverage = fiveCoverage(id, locale);
   const localized = {
     ...result,
     parameterDerivation:
       result.parameterDerivation ?? FIVE_PARAMETER_DERIVATIONS[id],
-    coverageText: result.coverageText ?? fiveCoverageText(id),
+    coverage,
+    coverageText: coverage.conclusion,
   };
   if (locale === "ru") return localized;
   const english = FIVE_PROOF_COPY_EN[id];
   if (!english) throw new Error(`No English proof text for family ${id}`);
-  return { ...localized, ...english };
+  return {
+    ...localized,
+    ...english,
+    coverage,
+    coverageText: coverage.conclusion,
+  };
 }
 
 export function familyProof(
