@@ -81,7 +81,7 @@ function AppShell() {
           <NavLink to="/about">О проекте</NavLink>
         </nav>
         <span className="release-pill">
-          <i /> alpha · 0.3.2
+          <i /> alpha · 0.3.3
         </span>
       </header>
 
@@ -332,7 +332,6 @@ function LabPage() {
       nextCoordinates[2].toString(),
     ]);
     setFamily(nextFamily);
-    setFactorized(false);
     setError("");
   }
 
@@ -354,7 +353,6 @@ function LabPage() {
 
   function selectManual() {
     setFamily(null);
-    setFactorized(false);
     persistManual(coordinates);
   }
 
