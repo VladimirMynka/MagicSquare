@@ -10,6 +10,20 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 - Exact integer calculations use native `BigInt` in the browser.
 - The first migration slice exposes only families with a symbolic certificate
   in `magic-squares-core`.
+- The laboratory state is the canonical integer triple `(E, x, y)`:
+
+  ```text
+  E+x      E-x+y    E-y
+  E-x-y    E        E+x+y
+  E+y      E+x-y    E-x
+  ```
+
+  Families are certified presets that calculate this triple. Direct edits,
+  rotations, reflection, minimization, scaling, and factorization operate on
+  the same current square and do not retain an inapplicable family claim.
+
+- The visual system is a warm academic workbench: paper and graphite neutrals,
+  muted family colors, and brick red reserved for perfect-square values.
 
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,
