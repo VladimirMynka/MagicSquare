@@ -566,6 +566,16 @@ main {
   --tone-b: var(--blue);
 }
 
+.tone-red-red {
+  --tone-a: var(--brick-soft);
+  --tone-b: var(--brick);
+}
+
+.tone-red-yellow {
+  --tone-a: var(--brick-soft);
+  --tone-b: var(--wheat);
+}
+
 .tone-yellow-blue {
   --tone-a: var(--wheat);
   --tone-b: var(--blue);
@@ -593,18 +603,57 @@ main {
 }
 
 .pattern i {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--line);
   background: var(--paper-muted);
 }
 
 .pattern i.on {
-  border-color: var(--tone-a, var(--brick-soft));
-  background: var(--tone-a, var(--brick-soft));
+  border-color: var(--line-strong);
 }
 
-.pattern i.on:nth-child(even) {
-  border-color: var(--tone-b, var(--blue));
-  background: var(--tone-b, var(--blue));
+.pattern .proof-color {
+  position: absolute;
+  inset: 0 50% 0 0;
+}
+
+.pattern .proof-color:only-child {
+  inset: 0;
+}
+
+.pattern .proof-color + .proof-color {
+  inset: 0 0 0 50%;
+}
+
+.proof-color.red-light,
+.proof-swatch.red-light {
+  background: var(--brick-soft);
+}
+
+.proof-color.red-dark,
+.proof-swatch.red-dark {
+  background: var(--brick);
+}
+
+.proof-color.yellow,
+.proof-swatch.yellow {
+  background: var(--wheat);
+}
+
+.proof-color.blue-light,
+.proof-swatch.blue-light {
+  background: var(--blue);
+}
+
+.proof-color.blue-dark,
+.proof-swatch.blue-dark {
+  background: var(--blue-deep);
+}
+
+.proof-color.brown,
+.proof-swatch.brown {
+  background: var(--clay);
 }
 
 .pattern.compact {
@@ -754,6 +803,7 @@ main {
 
 .family-panel {
   min-width: 0;
+  max-height: calc(100vh - 20px);
   position: sticky;
   top: 10px;
   border-right: 1px solid var(--line-strong);
@@ -780,7 +830,10 @@ main {
 }
 
 .family-list {
+  max-height: calc(100vh - 83px);
+  overflow-y: auto;
   padding: 7px;
+  scrollbar-width: thin;
 }
 
 .family-button {
@@ -1162,6 +1215,12 @@ main {
   font: 12px var(--mono);
 }
 
+.proof-icon.legacy {
+  border-color: var(--wheat);
+  color: #6f6030;
+  background: #eee7cb;
+}
+
 .source-note strong {
   color: var(--graphite);
   font-size: 11px;
@@ -1180,6 +1239,20 @@ main {
   color: var(--graphite-soft);
   font-size: 11px;
   line-height: 1.5;
+}
+
+.source-proof-link {
+  width: max-content;
+  max-width: 100%;
+  margin-top: 7px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--brick);
+  font-size: 10px;
+}
+
+.source-proof-link:hover {
+  border-color: var(--brick);
 }
 
 .form-error {
@@ -1308,14 +1381,6 @@ main {
 
 .result-cell strong.tiny {
   font-size: clamp(7px, 0.78vw, 10px);
-}
-
-.square-marker {
-  position: absolute;
-  top: 7px;
-  right: 8px;
-  color: var(--brick);
-  font: 11px var(--mono);
 }
 
 .square-legend {
@@ -1530,6 +1595,70 @@ main {
   background: #e5e6db;
 }
 
+.proof-index {
+  margin-top: 58px;
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.proof-index > div {
+  padding: 34px;
+  background: var(--paper);
+}
+
+.proof-index h2 {
+  margin: 0;
+  color: var(--graphite);
+  font: 500 38px/1.05 var(--serif);
+  letter-spacing: -0.03em;
+}
+
+.proof-index > div:first-child > p:last-child {
+  margin: 20px 0 0;
+  color: var(--graphite-soft);
+  line-height: 1.65;
+}
+
+.proof-index-links {
+  padding: 9px !important;
+}
+
+.proof-index-links a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 13px;
+  min-height: 67px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.proof-index-links a:last-child {
+  border-bottom: 0;
+}
+
+.proof-index-links a:hover {
+  background: var(--paper-strong);
+}
+
+.proof-index-links span {
+  color: var(--brick);
+  font: 9px var(--mono);
+}
+
+.proof-index-links strong {
+  color: var(--graphite);
+  font: 500 18px/1.2 var(--serif);
+}
+
+.proof-index-links i {
+  color: var(--muted);
+  font-style: normal;
+}
+
 .backend-callout h2 {
   margin: 0;
   color: var(--graphite);
@@ -1551,6 +1680,337 @@ main {
   border-bottom: 1px solid var(--line);
   color: var(--graphite-soft);
   line-height: 1.5;
+}
+
+.proof-page {
+  padding-top: 64px;
+  padding-bottom: 110px;
+}
+
+.proof-page .back-link {
+  margin-bottom: 42px;
+}
+
+.proof-page-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 38px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+.proof-page-header > div {
+  max-width: 920px;
+}
+
+.proof-page-header h1 {
+  margin: 0;
+  color: var(--graphite);
+  font: 500 clamp(52px, 7vw, 96px)/0.92 var(--serif);
+  letter-spacing: -0.05em;
+}
+
+.proof-page-header > div > p:last-child {
+  max-width: 720px;
+  margin: 23px 0 0;
+  color: var(--graphite-soft);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.proof-page-header > .pattern {
+  width: 108px;
+  height: 108px;
+  flex: 0 0 auto;
+  gap: 4px;
+  padding: 7px;
+}
+
+.family-proof-layout {
+  display: grid;
+  grid-template-columns: minmax(430px, 0.88fr) minmax(540px, 1.12fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.embedded-square,
+.latex-card,
+.lemma-families {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.embedded-square {
+  position: sticky;
+  top: 18px;
+}
+
+.embedded-square-heading {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--paper-muted);
+}
+
+.embedded-square-heading > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.embedded-square-heading > div > span {
+  color: var(--graphite);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.embedded-square-heading small {
+  max-width: 330px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.embedded-square-heading .text-link {
+  flex: 0 0 auto;
+  font-size: 10px;
+}
+
+.embedded-grid-wrap {
+  padding: clamp(20px, 3vw, 38px);
+  background: var(--paper-strong);
+}
+
+.embedded-square .result-cell {
+  aspect-ratio: 1;
+}
+
+.latex-card {
+  min-width: 0;
+  box-shadow: none;
+}
+
+.latex-card > header {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line-strong);
+  background: #e8e2d7;
+}
+
+.latex-card > header > div > span,
+.latex-step > span,
+.lemma-families > span {
+  color: var(--brick);
+  font: 9px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.latex-card h2 {
+  margin: 7px 0 0;
+  color: var(--graphite);
+  font: 500 28px/1.08 var(--serif);
+}
+
+.proof-status {
+  max-width: 180px;
+  padding: 7px 9px;
+  border: 1px solid;
+  font: 8px/1.3 var(--mono);
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.proof-status.certified {
+  border-color: #7e997a;
+  color: #40523e;
+  background: #dfe8dc;
+}
+
+.proof-status.legacy {
+  border-color: var(--wheat);
+  color: #6f6030;
+  background: #eee7cb;
+}
+
+.latex-step {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.latex {
+  min-width: 0;
+}
+
+.latex.display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px 0;
+  color: var(--graphite);
+  scrollbar-width: thin;
+}
+
+.latex .katex-display {
+  margin: 0.65em 0;
+}
+
+.latex-step > .latex.display {
+  margin-top: 12px;
+}
+
+.proof-supports {
+  padding-bottom: 12px;
+}
+
+.proof-support {
+  display: grid;
+  grid-template-columns: 15px minmax(0, 1fr);
+  gap: 13px;
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper-strong);
+}
+
+.proof-swatch {
+  width: 15px;
+  min-height: 100%;
+  display: block;
+}
+
+.proof-support > div {
+  min-width: 0;
+}
+
+.proof-support strong {
+  color: var(--graphite);
+  font-size: 12px;
+}
+
+.proof-support .latex.display {
+  margin: 6px 0;
+  padding: 0;
+  text-align: left;
+}
+
+.proof-support .katex-display > .katex {
+  text-align: left;
+}
+
+.proof-support a {
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--blue-deep);
+  font-size: 10px;
+}
+
+.proof-support a:hover {
+  border-color: var(--blue-deep);
+}
+
+.conclusion-step p {
+  margin: 13px 0 0;
+  color: var(--graphite-soft);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.latex-card > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 24px;
+  color: var(--muted);
+  background: var(--paper-muted);
+  font-size: 9px;
+}
+
+.latex-card > footer code {
+  overflow: hidden;
+  color: var(--blue-deep);
+  font: 9px var(--mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.common-proof-page {
+  max-width: 1320px;
+}
+
+.common-proof-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  align-items: start;
+  gap: 18px;
+}
+
+.common-lemma-card .latex-step {
+  min-height: 130px;
+}
+
+.common-lemma-card .latex.display {
+  font-size: 18px;
+}
+
+.lemma-conclusion {
+  padding: 24px;
+  border-left: 6px solid var(--sage);
+  color: var(--graphite-soft);
+  background: #e5e6db;
+  line-height: 1.65;
+}
+
+.lemma-families {
+  max-height: calc(100vh - 36px);
+  position: sticky;
+  top: 18px;
+  overflow-y: auto;
+  padding: 8px;
+  box-shadow: none;
+  scrollbar-width: thin;
+}
+
+.lemma-families > span {
+  display: block;
+  padding: 12px 10px 16px;
+}
+
+.lemma-family {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid transparent;
+}
+
+.lemma-family:hover {
+  border-color: var(--line-strong);
+  background: var(--paper-strong);
+}
+
+.lemma-family strong {
+  font: 12px var(--mono);
+}
+
+.lemma-family > i {
+  color: var(--muted);
+  font-style: normal;
 }
 
 @media (max-width: 1220px) {
@@ -1624,14 +2084,17 @@ main {
   }
 
   .family-panel {
+    max-height: none;
     position: static;
     border-right: 0;
     border-bottom: 1px solid var(--line-strong);
   }
 
   .family-list {
+    max-height: none;
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: thin;
   }
 
@@ -1641,6 +2104,26 @@ main {
 
   .workbench-grid {
     grid-template-columns: minmax(285px, 0.66fr) minmax(420px, 1.34fr);
+  }
+
+  .family-proof-layout,
+  .common-proof-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .embedded-square,
+  .lemma-families {
+    max-height: none;
+    position: static;
+  }
+
+  .lemma-families {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lemma-families > span {
+    grid-column: 1 / -1;
   }
 }
 
@@ -1828,7 +2311,43 @@ main {
     font-size: 46px;
   }
 
+  .proof-page {
+    padding-top: 82px;
+  }
+
+  .proof-page-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .proof-page-header h1 {
+    font-size: 58px;
+  }
+
+  .proof-page-header > .pattern {
+    width: 88px;
+    height: 88px;
+  }
+
+  .embedded-square-heading,
+  .latex-card > header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .proof-status {
+    max-width: none;
+  }
+
+  .common-lemma-card .latex.display {
+    font-size: 14px;
+  }
+
   .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-index {
     grid-template-columns: 1fr;
   }
 
@@ -1887,6 +2406,26 @@ main {
     align-items: start;
     flex-direction: column;
     gap: 5px;
+  }
+
+  .lemma-families {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-page-header h1 {
+    font-size: 48px;
+  }
+
+  .latex-step,
+  .latex-card > header,
+  .latex-card > footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .embedded-square-heading {
+    padding-left: 14px;
+    padding-right: 14px;
   }
 }
 

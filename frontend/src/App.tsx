@@ -1,4 +1,5 @@
 import { useMemo, useState, type FormEvent } from "react";
+import katex from "katex";
 import {
   Link,
   NavLink,
@@ -10,8 +11,14 @@ import {
 } from "react-router-dom";
 import { NEWS, newsBySlug } from "./content/news";
 import {
+  COMMON_PROOFS,
+  MAGIC3_LATEX,
+  commonProofById,
+} from "./content/proofs";
+import {
   FAMILIES,
   familyById,
+  findFamilyById,
   type FamilyDefinition,
   type ParameterStrings,
 } from "./lib/families";
@@ -25,6 +32,26 @@ import {
 } from "./lib/magicSquare";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
+
+function Latex({
+  children,
+  display = false,
+}: {
+  children: string;
+  display?: boolean;
+}) {
+  const html = katex.renderToString(children, {
+    displayMode: display,
+    throwOnError: false,
+    strict: "warn",
+  });
+  return (
+    <span
+      className={`latex ${display ? "display" : "inline"}`}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
 
 function AppMark() {
   return (
@@ -53,7 +80,7 @@ function AppShell() {
           <NavLink to="/about">О проекте</NavLink>
         </nav>
         <span className="release-pill">
-          <i /> alpha · 0.2
+          <i /> alpha · 0.3
         </span>
       </header>
 
@@ -61,6 +88,8 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/lab" element={<LabPage />} />
+          <Route path="/families/:familyId" element={<FamilyPage />} />
+          <Route path="/proofs/:proofId" element={<CommonProofPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:slug" element={<NewsArticlePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -82,12 +111,13 @@ function HomePage() {
       <section className="hero">
         <div className="hero-copy">
           <p className="eyebrow">
-            Параметрические семейства · точные доказательства
+            Параметрические семейства · карта доказательств
           </p>
           <h1>Магические квадраты, которые можно не только увидеть.</h1>
           <p className="hero-lead">
             Интерактивный атлас связывает каждый генератор с его квадратной
-            маской, формулой и машинно проверяемым сертификатом.
+            маской, формулой, локальной LaTeX-карточкой и честным статусом
+            формализации.
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" to="/lab">
@@ -99,7 +129,7 @@ function HomePage() {
           </div>
           <div className="hero-stats" aria-label="Статистика проекта">
             <div>
-              <strong>8</strong>
+              <strong>22</strong>
               <span>семейств в атласе</span>
             </div>
             <div>
@@ -107,8 +137,8 @@ function HomePage() {
               <span>квадратная маска</span>
             </div>
             <div>
-              <strong>0</strong>
-              <span>делений в формулах</span>
+              <strong>4</strong>
+              <span>общие леммы</span>
             </div>
           </div>
         </div>
@@ -126,14 +156,14 @@ function HomePage() {
           </Link>
         </div>
         <div className="feature-grid">
-          {FAMILIES.slice(0, 3).map((family, index) => (
+          {["abehj", "abcdh", "abcdg"].map(familyById).map((family, index) => (
             <Link
               className={`feature-card tone-${family.group}`}
-              to={`/lab?family=${family.id}`}
+              to={`/families/${family.id}`}
               key={family.id}
             >
               <span className="feature-index">0{index + 1}</span>
-              <Pattern mask={family.mask} />
+              <Pattern family={family} />
               <div>
                 <span className="family-kind">{family.groupLabel}</span>
                 <h3>{family.title}</h3>
@@ -402,7 +432,7 @@ function LabPage() {
         </div>
         <p>
           Управляйте произвольным квадратом через E, x, y или получите эти
-          координаты из сертифицированного семейства.
+          координаты из параметрического семейства.
         </p>
       </div>
 
@@ -410,7 +440,7 @@ function LabPage() {
         <aside className="family-panel">
           <div className="panel-label">
             <span>Режим и семейства</span>
-            <small>{FAMILIES.length} доказано</small>
+            <small>{FAMILIES.length} в атласе</small>
           </div>
           <div className="family-list">
             <button
@@ -436,7 +466,7 @@ function LabPage() {
                 type="button"
                 key={candidate.id}
               >
-                <Pattern mask={candidate.mask} compact />
+                <Pattern family={candidate} compact />
                 <span>
                   <strong>{candidate.title}</strong>
                   <small>{candidate.groupLabel}</small>
@@ -577,7 +607,7 @@ function LabPage() {
                       <span>Параметры {family.title}</span>
                       <small>пресет пересчитывает E, x, y</small>
                     </div>
-                    <Pattern mask={family.mask} compact />
+                    <Pattern family={family} compact />
                   </div>
                   <form className="parameter-form" onSubmit={submitFamily}>
                     <div className="parameter-row">
@@ -634,11 +664,21 @@ function LabPage() {
               )}
 
               <section className="source-note">
-                <span className="proof-icon">{family ? "✓" : "E"}</span>
+                <span
+                  className={`proof-icon ${family?.proofStatus === "legacy-formula" ? "legacy" : ""}`}
+                >
+                  {family
+                    ? family.proofStatus === "proof-core"
+                      ? "✓"
+                      : "∑"
+                    : "E"}
+                </span>
                 <div>
                   <strong>
                     {family
-                      ? "Символьный сертификат"
+                      ? family.proofStatus === "proof-core"
+                        ? "Символьный сертификат"
+                        : "Legacy-формула · формализация ожидается"
                       : "Свободный координатный режим"}
                   </strong>
                   <code>
@@ -649,6 +689,14 @@ function LabPage() {
                       ? family.summary
                       : "Специальная квадратная маска не заявляется: исследуется произвольная целочисленная тройка."}
                   </p>
+                  {family && (
+                    <Link
+                      className="source-proof-link"
+                      to={`/families/${family.id}`}
+                    >
+                      LaTeX-карточка доказательства →
+                    </Link>
+                  )}
                 </div>
               </section>
 
@@ -756,11 +804,6 @@ function ResultCell({
       <strong className={digits > 18 ? "tiny" : digits > 11 ? "small" : ""}>
         {display}
       </strong>
-      {cell.isSquare && (
-        <span className="square-marker" title="Полный квадрат">
-          □
-        </span>
-      )}
     </div>
   );
 }
@@ -789,23 +832,202 @@ function StatusCard({
   );
 }
 
-function Pattern({
-  mask,
-  compact = false,
-}: {
-  mask: string;
-  compact?: boolean;
-}) {
+function Pattern({ family, compact = false }: { family: FamilyDefinition; compact?: boolean }) {
   const positions = "ABCDEFGHJ";
   return (
     <span
       className={`pattern ${compact ? "compact" : ""}`}
-      aria-label={`Маска ${mask}`}
+      aria-label={`Доказательные опоры маски ${family.mask}`}
     >
-      {Array.from(positions, (position) => (
-        <i className={mask.includes(position) ? "on" : ""} key={position} />
-      ))}
+      {Array.from(positions, (position) => {
+        const supports = family.justifications.filter((item) =>
+          item.positions.some((candidate) => candidate === position),
+        );
+        return (
+          <i
+            className={family.mask.includes(position) ? "on" : ""}
+            key={position}
+            title={supports.map((item) => item.label).join(" + ") || undefined}
+          >
+            {supports.map((item) => (
+              <span className={`proof-color ${item.color}`} key={item.id} />
+            ))}
+          </i>
+        );
+      })}
     </span>
+  );
+}
+
+function FamilyPage() {
+  const { familyId } = useParams();
+  const family = findFamilyById(familyId);
+  if (!family) return <Navigate to="/lab" replace />;
+
+  const coordinates = family.generate(family.defaults);
+  const snapshot = createSnapshot(coordinates);
+
+  return (
+    <div className="page proof-page family-page">
+      <Link className="back-link" to="/lab">
+        ← К лаборатории
+      </Link>
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">Семейство 5/9 · доказательная карточка</p>
+          <h1>{family.title}</h1>
+          <p>{family.summary}</p>
+        </div>
+        <Pattern family={family} />
+      </header>
+
+      <div className="family-proof-layout">
+        <section className="embedded-square" aria-label={`Квадрат ${family.title}`}>
+          <div className="embedded-square-heading">
+            <div>
+              <span>Калькулятор · параметры по умолчанию</span>
+              <small>большой квадрат окрашен только по фактическим квадратным значениям</small>
+            </div>
+            <Link className="text-link" to={`/lab?family=${family.id}`}>
+              Открыть инструмент <span>↗</span>
+            </Link>
+          </div>
+          <div className="coordinate-ledger">
+            {(["E", "x", "y"] as const).map((name, index) => (
+              <span key={name}>
+                <small>{name}</small>
+                <strong>{formatInteger(coordinates[index])}</strong>
+              </span>
+            ))}
+          </div>
+          <div className="embedded-grid-wrap">
+            <div className="result-grid">
+              {snapshot.cells.map((cell) => (
+                <ResultCell
+                  cell={cell}
+                  declared={family.positions.includes(cell.position)}
+                  factorized={false}
+                  key={cell.position}
+                />
+              ))}
+            </div>
+            <p className="square-legend">
+              <i /> кирпичная рамка означает фактический полный квадрат;
+              пунктир — заявленную маску
+            </p>
+          </div>
+        </section>
+
+        <FamilyProofCard family={family} />
+      </div>
+    </div>
+  );
+}
+
+function FamilyProofCard({ family }: { family: FamilyDefinition }) {
+  const squareStatement = String.raw`\{${family.positions.join(",")}\}\subseteq\{P:\mathcal M_P(E,x,y)=r_P^2\}`;
+  return (
+    <article className="latex-card">
+      <header>
+        <div>
+          <span>LaTeX · {family.mask}</span>
+          <h2>Локальная схема доказательства</h2>
+        </div>
+        <span
+          className={`proof-status ${family.proofStatus === "proof-core" ? "certified" : "legacy"}`}
+        >
+          {family.proofStatus === "proof-core"
+            ? "proof-core"
+            : "legacy · formalization pending"}
+        </span>
+      </header>
+
+      <section className="latex-step">
+        <span>01 · координатная модель</span>
+        <Latex display>{MAGIC3_LATEX}</Latex>
+      </section>
+      <section className="latex-step">
+        <span>02 · восстановление семейства</span>
+        <Latex display>{family.reconstructionLatex}</Latex>
+      </section>
+      <section className="latex-step proof-supports">
+        <span>03 · цветовые опоры</span>
+        {family.justifications.map((item) => (
+          <div className="proof-support" key={item.id}>
+            <i className={`proof-swatch ${item.color}`} />
+            <div>
+              <strong>{item.label}</strong>
+              <Latex display>{item.relationLatex}</Latex>
+              <Link to={`/proofs/${item.commonProofId}`}>
+                Общая часть доказательства →
+              </Link>
+            </div>
+          </div>
+        ))}
+      </section>
+      <section className="latex-step conclusion-step">
+        <span>04 · вывод</span>
+        <Latex display>{squareStatement}</Latex>
+        <p>
+          Подстановка координат в Magic3 и указанные линейные тождества
+          восстанавливают все клетки маски. Миниатюра показывает, какое именно
+          тождество отвечает за каждую клетку.
+        </p>
+      </section>
+      <footer>
+        <span>Идентификатор</span>
+        <code>{family.theorem}</code>
+      </footer>
+    </article>
+  );
+}
+
+function CommonProofPage() {
+  const { proofId } = useParams();
+  const proof = commonProofById(proofId);
+  if (!proof) return <Navigate to="/about" replace />;
+  const families = FAMILIES.filter((family) =>
+    family.justifications.some((item) => item.commonProofId === proof.id),
+  );
+
+  return (
+    <article className="page proof-page common-proof-page">
+      <Link className="back-link" to="/lab">
+        ← К атласу
+      </Link>
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">Общая часть доказательства</p>
+          <h1>{proof.title}</h1>
+          <p>{proof.summary}</p>
+        </div>
+      </header>
+      <div className="common-proof-layout">
+        <section className="latex-card common-lemma-card">
+          {proof.formulas.map((formula, index) => (
+            <section className="latex-step" key={formula}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <Latex display>{formula}</Latex>
+            </section>
+          ))}
+          <div className="lemma-conclusion">{proof.conclusion}</div>
+        </section>
+        <aside className="lemma-families">
+          <span>Используют эту лемму · {families.length}</span>
+          {families.map((family) => (
+            <Link
+              className={`lemma-family tone-${family.group}`}
+              to={`/families/${family.id}`}
+              key={family.id}
+            >
+              <Pattern family={family} compact />
+              <strong>{family.title}</strong>
+              <i>→</i>
+            </Link>
+          ))}
+        </aside>
+      </div>
+    </article>
   );
 }
 
@@ -916,8 +1138,8 @@ function AboutPage() {
           <h2>Proof-core</h2>
           <p>
             Математические утверждения живут отдельно от браузера и проверяются
-            точными полиномиальными тождествами. SPA переносит сертифицированные
-            формулы, но не заменяет их доказательства.
+            точными полиномиальными тождествами. SPA различает сертификаты
+            proof-core и перенесённые legacy-формулы, не выдавая одно за другое.
           </p>
         </section>
         <section>
@@ -930,6 +1152,25 @@ function AboutPage() {
           </p>
         </section>
       </div>
+      <section className="proof-index">
+        <div>
+          <p className="eyebrow">Общие леммы</p>
+          <h2>Цвет — это ссылка на причину</h2>
+          <p>
+            Одна лемма используется несколькими масками. В карточке семейства
+            остаётся конкретное клеточное тождество, а общий вывод вынесен сюда.
+          </p>
+        </div>
+        <div className="proof-index-links">
+          {COMMON_PROOFS.map((proof, index) => (
+            <Link to={`/proofs/${proof.id}`} key={proof.id}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{proof.title}</strong>
+              <i>→</i>
+            </Link>
+          ))}
+        </div>
+      </section>
       <section className="backend-callout">
         <div>
           <p className="eyebrow">Когда появится API</p>

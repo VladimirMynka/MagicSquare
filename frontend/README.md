@@ -7,9 +7,11 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 - Vite builds a static bundle in `dist/`.
 - React Router owns the public routes; nginx falls back to `index.html`.
 - News content lives in `src/content/news.ts` and is versioned with the UI.
+- KaTeX renders local proof cards and shared lemmas without a server runtime.
 - Exact integer calculations use native `BigInt` in the browser.
-- The first migration slice exposes only families with a symbolic certificate
-  in `magic-squares-core`.
+- The atlas exposes all 22 known `5/9` families. Eight link to symbolic
+  certificates in `magic-squares-core`; legacy ports remain explicitly marked
+  as awaiting formalization.
 - The laboratory state is the canonical integer triple `(E, x, y)`:
 
   ```text
@@ -18,12 +20,15 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   E+y      E+x-y    E-x
   ```
 
-  Families are certified presets that calculate this triple. Direct edits,
-  rotations, reflection, minimization, scaling, and factorization operate on
-  the same current square and do not retain an inapplicable family claim.
+  Families are presets that calculate this triple. Direct edits, rotations,
+  reflection, minimization, scaling, and factorization operate on the same
+  current square and do not retain an inapplicable family claim.
 
 - The visual system is a warm academic workbench: paper and graphite neutrals,
   muted family colors, and brick red reserved for perfect-square values.
+- Large squares color only values that are actually perfect squares. Family
+  miniatures instead color the exact proof supports and split intersections
+  between their two supporting identities.
 
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,

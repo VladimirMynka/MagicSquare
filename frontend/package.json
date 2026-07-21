@@ -1,7 +1,7 @@
 {
   "name": "magic-squares-web",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {
+    "katex": "0.16.22",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-router-dom": "7.18.1"
