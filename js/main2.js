@@ -914,12 +914,23 @@ function redBlue3(a, b, c, d) {
     }), ["A", "B", "C", "D", "J"]);
 }
 
+// START_FUNCTION ensureSameParity
+// START_CONTRACT
+// PURPOSE
+// Clear a possible factor `1/2` in opposite-cell center reconstruction.
+//
+// CONTRACT
+// - If the selected square values have different parity, scale every square
+//   value by `4`, equivalently scaling every root by `2`.
+// - Parity comparison is sign-independent.
+// END_CONTRACT
 function ensureSameParity(values, left, right) {
-    if (values[left] % 2n !== values[right] % 2n) {
+    if ((values[left] - values[right]) % 2n !== 0n) {
         return values.map(elem => elem * 4n);
     }
     return values;
 }
+// END_FUNCTION ensureSameParity
 
 //redblue
 function abcdh(a, b, c, d) {
@@ -936,35 +947,6 @@ function abcdj(a, b, c, d) {
 function abdefFive(a, b, c, d) {
     let [A, B, D, E, F] = redBlue2(a, b, c, d);
     return [E, A - E, F - A];
-}
-
-//yellowblue
-function solveTwoLinearWithScale(a1, b1, c1, a2, b2, c2) {
-    return [
-        b1 * c2 - c1 * b2,
-        c1 * a2 - a1 * c2,
-        a1 * b2 - b1 * a2
-    ];
-}
-
-function det3(a, b, c, d, e, f, g, h, i) {
-    return a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
-}
-
-function solveThreeLinearWithScale(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3) {
-    return [
-        det3(b1, c1, d1, b2, c2, d2, b3, c3, d3),
-        -det3(a1, c1, d1, a2, c2, d2, a3, c3, d3),
-        det3(a1, b1, d1, a2, b2, d2, a3, b3, d3),
-        -det3(a1, b1, c1, a2, b2, c2, a3, b3, c3)
-    ];
-}
-
-function divExact(a, b) {
-    if (a % b !== 0n) {
-        throw new Error("Non-exact division in a parametric generator");
-    }
-    return a / b;
 }
 
 function normParams(a, b, c, d) {
@@ -988,53 +970,54 @@ function blueParams(a, b) {
     };
 }
 
-function yellowBlueFromTwoEquations(a, b, c, d, equations, recover, order) {
-    let params = normParams(a, b, c, d);
-    let solved = solveTwoLinearWithScale(...equations(params));
-    let letters = recover(params, solved);
-    return squareTuple(order.map(letter => letters[letter]));
-}
-
+//yellowblue
+// START_FUNCTION yellowBlue1
+// START_CONTRACT
+// PURPOSE
+// Generate the yellow-blue `A,B,C,D,E` roots without runtime division.
+//
+// CONTRACT
+// - Uses `P²+Q²=N²` and `U²+2V²=M²` to cancel the two formal norm
+//   denominators symbolically.
+// - Returns square values in `A,B,C,D,E` order.
+// END_CONTRACT
 function yellowBlue1(a, b, c, d) {
-    return yellowBlueFromTwoEquations(
-        a,
-        b,
-        c,
-        d,
-        ({P, Q, N, U, V, M}) => [-Q, N, -P, M, -V, -U],
-        ({P, Q, N, U, V, M}, [C, D, E]) => ({
-            A: divExact(P * C - Q * E, N),
-            B: divExact(U * D - 2n * V * E, M),
-            C,
-            D,
-            E
-        }),
-        ["A", "B", "C", "D", "E"]
-    );
+    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
+    return squareTuple([
+        -P * U + Q * M - N * V,
+        -P * U + 2n * N * V - Q * M,
+        -N * U - P * V,
+        -P * M - Q * U,
+        Q * V - N * M
+    ]);
 }
+// END_FUNCTION yellowBlue1
 
 function abcde(a, b, c, d) {
     let [A, B, C, D, E] = yellowBlue1(a, b, c, d);
     return [E, A - E, E - C];
 }
 
+// START_FUNCTION yellowBlue2
+// START_CONTRACT
+// PURPOSE
+// Generate the yellow-blue `A,B,C,G,J` roots without runtime division.
+//
+// CONTRACT
+// - Uses the two norm identities to return closed polynomial roots.
+// - Returns square values in `A,B,C,G,J` order.
+// END_CONTRACT
 function yellowBlue2(a, b, c, d) {
-    return yellowBlueFromTwoEquations(
-        a,
-        b,
-        c,
-        d,
-        ({P, Q, N, U, V, M}) => [-Q, N, -P, M * P, -N * U, -M * Q + 2n * N * V],
-        ({P, Q, N, U, V, M}, [C, J, G]) => ({
-            A: divExact(P * C - Q * G, N),
-            B: divExact(V * J + U * G, M),
-            C,
-            G,
-            J
-        }),
-        ["A", "B", "C", "G", "J"]
-    );
+    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
+    return squareTuple([
+        N * (2n * P * V - N * U),
+        N * (Q * M - N * V - P * U),
+        N * (-M * Q + 2n * N * V - P * U),
+        N * (Q * U - M * P),
+        N * (-M * N + 2n * Q * V)
+    ]);
 }
+// END_FUNCTION yellowBlue2
 
 function abcgj(a, b, c, d) {
     let [A, B, C, G, J] = yellowBlue2(a, b, c, d);
@@ -1042,23 +1025,26 @@ function abcgj(a, b, c, d) {
     return [(A + J) / 2n, (A - J) / 2n, (A + J) / 2n - C];
 }
 
+// START_FUNCTION yellowBlue3
+// START_CONTRACT
+// PURPOSE
+// Generate the yellow-blue `A,B,C,G,H` roots without runtime division.
+//
+// CONTRACT
+// - Uses the two norm identities to return closed polynomial roots.
+// - Returns square values in `A,B,C,G,H` order.
+// END_CONTRACT
 function yellowBlue3(a, b, c, d) {
-    return yellowBlueFromTwoEquations(
-        a,
-        b,
-        c,
-        d,
-        ({P, Q, N, U, V, M}) => [-Q, N, -P, M, 2n * V, -U],
-        ({P, Q, N, U, V, M}, [C, H, G]) => ({
-            A: divExact(V * G + U * H, M),
-            B: divExact(P * C - Q * G, N),
-            C,
-            G,
-            H
-        }),
-        ["A", "B", "C", "G", "H"]
-    );
+    let {P, Q, N, U, V, M} = normParams(a, b, c, d);
+    return squareTuple([
+        -Q * M - N * V - P * U,
+        Q * M + 2n * N * V - P * U,
+        2n * P * V - N * U,
+        -2n * Q * V - N * M,
+        -P * M - Q * U
+    ]);
 }
+// END_FUNCTION yellowBlue3
 
 function abcgh(a, b, c, d) {
     let [A, B, C, G, H] = yellowBlue3(a, b, c, d);
@@ -1066,17 +1052,28 @@ function abcgh(a, b, c, d) {
     return [(C + G) / 2n, A - (C + G) / 2n, (G - C) / 2n];
 }
 
+// START_FUNCTION blueBlue
+// START_CONTRACT
+// PURPOSE
+// Generate the blue-blue `A,B,C,D,F` roots in closed polynomial form.
+//
+// CONTRACT
+// - Uses simplified compatibility minors and `Uᵢ²+2Vᵢ²=Mᵢ²`.
+// - Performs no runtime division, including at degenerate parameter tuples.
+// - Returns square values in `A,B,C,D,F` order.
+// END_CONTRACT
 function blueBlue(a, b, c, d) {
     let {U: U1, V: V1, M: M1} = blueParams(a, b);
     let {U: U2, V: V2, M: M2} = blueParams(c, d);
-    let [A, C, D, F] = solveThreeLinearWithScale(
-        M1, 0n, -V1, -U1,
-        M2, -U2, 0n, -V2,
-        0n, 2n * V2, M2, -U2
-    );
-    let B = divExact(U1 * D - 2n * V1 * F, M1);
-    return [A * A, B * B, C * C, D * D, F * F];
+    return squareTuple([
+        M2 * (U1 * U2 + V1 * M2),
+        M2 * (U1 * M2 - 2n * U2 * V1 - 2n * M1 * V2),
+        M2 * (M2 * U1 + U2 * V1 - M1 * V2),
+        M2 * (M1 * M2 - 2n * U1 * V2),
+        M2 * (M1 * U2 + 2n * V1 * V2)
+    ]);
 }
+// END_FUNCTION blueBlue
 
 function abcdf(a, b, c, d) {
     let [A, B, C, D, F] = blueBlue(a, b, c, d);
