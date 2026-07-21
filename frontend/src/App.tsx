@@ -10,7 +10,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { NEWS, newsBySlug } from "./content/news";
-import { familyProofById } from "./content/familyProofs";
+import { familyProof } from "./content/familyProofs";
 import {
   COMMON_PROOFS,
   MAGIC3_LATEX,
@@ -18,9 +18,12 @@ import {
 } from "./content/proofs";
 import {
   FAMILIES,
+  FIVE_FAMILIES,
+  FOUR_FAMILIES,
   familyById,
   findFamilyById,
   type FamilyDefinition,
+  type FamilyLevel,
   type ParameterStrings,
 } from "./lib/families";
 import {
@@ -33,6 +36,18 @@ import {
 } from "./lib/magicSquare";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
+
+const CELL_FORM_LATEX: Readonly<Record<string, string>> = {
+  A: "E+x",
+  B: "E-x+y",
+  C: "E-y",
+  D: "E-x-y",
+  E: "E",
+  F: "E+x+y",
+  G: "E+y",
+  H: "E+x-y",
+  J: "E-x",
+};
 
 function Latex({
   children,
@@ -81,7 +96,7 @@ function AppShell() {
           <NavLink to="/about">О проекте</NavLink>
         </nav>
         <span className="release-pill">
-          <i /> alpha · 0.3.3
+          <i /> alpha · 0.4.0
         </span>
       </header>
 
@@ -90,6 +105,7 @@ function AppShell() {
           <Route path="/" element={<HomePage />} />
           <Route path="/lab" element={<LabPage />} />
           <Route path="/families/:familyId" element={<FamilyRedirect />} />
+          <Route path="/proofs/general" element={<GeneralTheoryPage />} />
           <Route path="/proofs/:proofId" element={<CommonProofPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:slug" element={<NewsArticlePage />} />
@@ -130,15 +146,15 @@ function HomePage() {
           </div>
           <div className="hero-stats" aria-label="Статистика проекта">
             <div>
-              <strong>22</strong>
-              <span>семейств в атласе</span>
+              <strong>23 + 23</strong>
+              <span>орбиты 4/9 и 5/9</span>
             </div>
             <div>
               <strong>5/9</strong>
               <span>квадратная маска</span>
             </div>
             <div>
-              <strong>4</strong>
+              <strong>{COMMON_PROOFS.length}</strong>
               <span>общие леммы</span>
             </div>
           </div>
@@ -271,6 +287,9 @@ function LabPage() {
   }
 
   const [family, setFamily] = useState<FamilyDefinition | null>(initialFamily);
+  const [catalogLevel, setCatalogLevel] = useState<FamilyLevel>(
+    initialFamily?.level ?? 5,
+  );
   const [parameters, setParameters] =
     useState<ParameterStrings>(initialParameters);
   const [coordinates, setCoordinates] =
@@ -292,6 +311,7 @@ function LabPage() {
         snapshot.squarePositions.includes(position),
       )
     : null;
+  const catalogFamilies = catalogLevel === 4 ? FOUR_FAMILIES : FIVE_FAMILIES;
 
   useEffect(() => {
     if (!family || window.location.hash !== "#family-proof") return;
@@ -347,6 +367,7 @@ function LabPage() {
   }
 
   function selectFamily(nextFamily: FamilyDefinition) {
+    setCatalogLevel(nextFamily.level);
     setParameters(nextFamily.defaults);
     generateFamily(nextFamily.defaults, nextFamily);
   }
@@ -447,7 +468,19 @@ function LabPage() {
         <aside className="family-panel">
           <div className="panel-label">
             <span>Режим и семейства</span>
-            <small>{FAMILIES.length} в атласе</small>
+            <small>{catalogFamilies.length} орбиты</small>
+          </div>
+          <div className="family-level-tabs" aria-label="Уровень квадратной маски">
+            {([4, 5] as const).map((level) => (
+              <button
+                className={catalogLevel === level ? "active" : ""}
+                type="button"
+                onClick={() => setCatalogLevel(level)}
+                key={level}
+              >
+                {level}/9 · 23
+              </button>
+            ))}
           </div>
           <div className="family-list">
             <button
@@ -466,7 +499,7 @@ function LabPage() {
               </span>
               <i>→</i>
             </button>
-            {FAMILIES.map((candidate) => (
+            {catalogFamilies.map((candidate) => (
               <button
                 className={`family-button tone-${candidate.group} ${candidate.id === family?.id ? "active" : ""}`}
                 onClick={() => selectFamily(candidate)}
@@ -620,15 +653,7 @@ function LabPage() {
                     <div className="parameter-row">
                       {PARAMETER_KEYS.map((key, index) => (
                         <label key={key}>
-                          <span>
-                            {index < 2
-                              ? index === 0
-                                ? "α₁"
-                                : "β₁"
-                              : index === 2
-                                ? "α₂"
-                                : "β₂"}
-                          </span>
+                          <span>{key}</span>
                           <input
                             aria-label={`Параметр ${key}`}
                             inputMode="numeric"
@@ -677,6 +702,8 @@ function LabPage() {
                   {family
                     ? family.proofStatus === "proof-core"
                       ? "✓"
+                      : family.proofStatus === "browser-certificate"
+                        ? "✓"
                       : "∑"
                     : "E"}
                 </span>
@@ -685,7 +712,9 @@ function LabPage() {
                     {family
                       ? family.proofStatus === "proof-core"
                         ? "Символьный сертификат"
-                        : "Legacy-формула · формализация ожидается"
+                        : family.proofStatus === "browser-certificate"
+                          ? "Точный алгебраический сертификат"
+                          : "Legacy-формула · формализация ожидается"
                       : "Свободный координатный режим"}
                   </strong>
                   <code>
@@ -769,7 +798,11 @@ function LabPage() {
                 <StatusCard
                   label="Фактический результат"
                   value={`${snapshot.squarePositions.length}/9 квадратов`}
-                  ok={snapshot.squarePositions.length >= 5}
+                  ok={
+                    family
+                      ? snapshot.squarePositions.length >= family.level
+                      : snapshot.squarePositions.length >= 4
+                  }
                   neutral={!family}
                 />
                 <StatusCard
@@ -886,29 +919,53 @@ function FamilyRedirect() {
 }
 
 function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
-  const proof = familyProofById(family.id);
+  const proof = familyProof(family);
   const squareStatement = String.raw`\{${family.positions.join(",")}\}\subseteq\{P:\mathcal M_P(E,x,y)=r_P^2\}`;
-  const projection = String.raw`\pi_{${family.mask}}\!\left(\mathcal M(E,x,y)\right)=(${family.positions.join(",")})\in\{n^2:n\in\mathbb Z\}^{5}`;
+  const projection = String.raw`\pi_{${family.mask}}\!\left(\mathcal M(E,x,y)\right)=(${family.positions.join(",")})\in\{n^2:n\in\mathbb Z\}^{${family.level}}`;
+  const cellSystem =
+    proof.cellSystem ??
+    String.raw`\left\{\begin{aligned}${family.positions
+      .map((position) => `${CELL_FORM_LATEX[position]}&=q_${position}^2`)
+      .join(String.raw`,\\`)}.\end{aligned}\right.`;
   return (
     <article className="proof-document">
       <header>
         <p>Семейство {family.mask}</p>
         <h2>Теорема и полное доказательство</h2>
+        <Link className="general-proof-link" to="/proofs/general">
+          Общая теория орбит 4/9 и 5/9 →
+        </Link>
       </header>
 
       <section>
         <h3>Утверждение</h3>
         <p>
           При указанных ниже условиях формулы задают целочисленный магический
-          квадрат порядка 3, в котором все клетки маски {family.mask} являются
-          квадратами целых чисел.
+          квадрат порядка 3, в котором как минимум все {family.level} клетки
+          маски {family.mask} являются квадратами целых чисел. Квадратность
+          остальных клеток не запрещается.
         </p>
         <Latex display>{squareStatement}</Latex>
+        <p>{proof.assumptions}</p>
       </section>
 
       <section>
-        <h3>Доказательство</h3>
-        <p>{proof.assumptions}</p>
+        <h3>Исходная система и исключение E, x, y</h3>
+        <p>
+          Для каждой отмеченной клетки вводим целый корень и подставляем
+          соответствующую линейную форму Magic3. Получаем систему:
+        </p>
+        <Latex display>{cellSystem}</Latex>
+        <p>
+          Матрица коэффициентов при E, x, y имеет ранг 3. Поэтому после их
+          исключения остаётся {family.level - 3} независимых однородных
+          квадратичных {family.level === 4 ? "уравнение" : "уравнения"} на
+          корнях. Ниже они выводятся и одновременно параметризуются.
+        </p>
+      </section>
+
+      <section>
+        <h3>Вывод параметризации корней</h3>
         <p>Введём следующие вспомогательные целые величины:</p>
         {proof.definitions.map((formula) => (
           <Latex display key={formula}>{formula}</Latex>
@@ -919,6 +976,7 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
         {proof.identities.map((identity) => (
           <Latex display key={identity}>{identity}</Latex>
         ))}
+        {proof.parameterDerivation && <p>{proof.parameterDerivation}</p>}
       </section>
 
       <section>
@@ -941,10 +999,18 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
             <Latex display>{String.raw`q_P\mapsto2q_P,\qquad P=q_P^2\mapsto4P`}</Latex>
           </>
         )}
+        {proof.integralityClearance && <p>{proof.integralityClearance}</p>}
         <p>
-          Теперь подставляем координаты в девять линейных форм Magic3.
-          Выписанные цветовые тождества заменяют все оставшиеся клетки маски на
-          соответствующие квадраты. Поэтому
+          Общая линейная лемма используется здесь прямо: если матрица выбранных
+          клеточных форм имеет ранг 3, то вектор их значений принадлежит её
+          образу тогда и только тогда, когда обращаются в нуль все элементы
+          левого ядра. Для четырёх клеток левое ядро одномерно, для пяти —
+          двумерно. Выписанные выше цветовые тождества образуют именно этот
+          базис, а указанные формулы E, x, y дают единственный прообраз.
+        </p>
+        <Latex display>{String.raw`L_S(E,x,y)^T=(q_P^2)_{P\in S},\qquad \ker L_S^T=\langle R_1,\ldots,R_{${family.level - 3}}\rangle`}</Latex>
+        <p>
+          Теперь подставляем координаты в девять линейных форм Magic3. Поэтому
         </p>
         <Latex display>{projection}</Latex>
         <p>
@@ -956,25 +1022,248 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
       </section>
 
       <section className="proof-references">
-        <h3>Использованные общие леммы</h3>
-        <ul>
-          {family.justifications.map((item) => (
-            <li key={item.id}>
-              <Latex>{item.relationLatex}</Latex>{" — "}
-              <Link to={`/proofs/${item.commonProofId}`}>{item.label}</Link>
-            </li>
-          ))}
-        </ul>
+        <h3>Цветовые леммы, применённые в этом доказательстве</h3>
+        {family.justifications.map((item) => {
+          const common = commonProofById(item.commonProofId);
+          if (!common) return null;
+          return (
+            <section className="inline-lemma" key={item.id}>
+              <h4>{item.label}</h4>
+              <Latex display>{item.relationLatex}</Latex>
+              <p>{common.summary}</p>
+              {common.formulas.map((formula) => (
+                <Latex display key={formula}>{formula}</Latex>
+              ))}
+              <p>
+                В текущей маске переменные леммы заменяются клетками
+                {` ${item.positions.join(", ")}`}; её заключение — именно
+                выписанное выше клеточное равенство.
+              </p>
+              <Link to={`/proofs/${item.commonProofId}`}>
+                Общая формулировка и доказательство →
+              </Link>
+            </section>
+          );
+        })}
+      </section>
+
+      <section>
+        <h3>Полнота покрытия</h3>
+        <p>
+          {proof.coverageText ??
+            "Данная формула задаёт доказанное параметрическое подсемейство. Полнота по всем рациональным или примитивным целым решениям для этой склейки пока не доказана и не предполагается автоматически из проверки тождеств."}
+        </p>
       </section>
 
       <footer>
         <span>
           {family.proofStatus === "proof-core"
             ? "Текст согласован с универсальным полиномиальным сертификатом proof-core."
-            : "Текст восстанавливает legacy-параметризацию; перенос машинного сертификата в proof-core ещё не завершён."}
+            : family.proofStatus === "browser-certificate"
+              ? "Формулы проверяются точным целочисленным сертификатом браузерного генератора; перенос в proof-core ещё не завершён."
+              : "Текст восстанавливает legacy-параметризацию; перенос машинного сертификата в proof-core ещё не завершён."}
         </span>
         <code>{family.theorem}</code>
       </footer>
+    </article>
+  );
+}
+
+function OrbitTable({
+  title,
+  families,
+}: {
+  title: string;
+  families: readonly FamilyDefinition[];
+}) {
+  return (
+    <section className="orbit-catalog">
+      <h3>{title}</h3>
+      <div className="orbit-table" role="table" aria-label={title}>
+        {families.map((family, index) => (
+          <Link
+            className={`orbit-row tone-${family.group}`}
+            to={`/lab?family=${family.id}#family-proof`}
+            role="row"
+            key={family.id}
+          >
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <Pattern family={family} compact />
+            <span>
+              <strong>{family.title}</strong>
+              <small>{family.orbitDescription ?? family.groupLabel}</small>
+            </span>
+            <span className="orbit-relations">
+              {family.justifications.map((item) => (
+                <Latex key={item.id}>{item.relationLatex}</Latex>
+              ))}
+            </span>
+            <i>→</i>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function GeneralTheoryPage() {
+  return (
+    <article className="page proof-page general-theory-page">
+      <Link className="back-link" to="/lab">
+        ← К лаборатории
+      </Link>
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">Общая часть доказательства</p>
+          <h1>Орбиты и квадрики 4/9 → 5/9</h1>
+          <p>
+            Классификация масок, исключение E, x, y, доказательство
+            достаточности цветовых уравнений и общий механизм параметризации.
+          </p>
+        </div>
+      </header>
+
+      <div className="proof-document general-proof-document">
+        <section>
+          <h3>1. Координатная модель</h3>
+          <p>
+            Любой обычный магический квадрат порядка 3 над коммутативным
+            кольцом записывается в трёх координатах E, x, y:
+          </p>
+          <Latex display>{MAGIC3_LATEX}</Latex>
+          <p>Одновременно девять клеточных форм образуют матрицу</p>
+          <Latex display>{String.raw`\begin{pmatrix}A\\B\\C\\D\\E\\F\\G\\H\\J\end{pmatrix}=L\begin{pmatrix}E\\x\\y\end{pmatrix},\qquad L=\begin{pmatrix}1&1&0\\1&-1&1\\1&0&-1\\1&-1&-1\\1&0&0\\1&1&1\\1&0&1\\1&1&-1\\1&-1&0\end{pmatrix}`}</Latex>
+          <p>
+            Для маски S вводим независимые целые корни q<sub>P</sub> и
+            записываем исходную систему без сокращений:
+          </p>
+          <Latex display>{String.raw`L_S\begin{pmatrix}E\\x\\y\end{pmatrix}=q_S^{[2]},\qquad q_S^{[2]}=(q_P^2)_{P\in S}`}</Latex>
+          <p>
+            Здесь утверждается квадратность всех клеток S, но не
+            неквадратность дополнения. Поэтому термин k/9 далее означает «как
+            минимум эти k клеток являются квадратами».
+          </p>
+        </section>
+
+        <section>
+          <h3>2. Теорема исключения и достаточности</h3>
+          <p>
+            Коэффициентные пары (x,y) девяти клеток образуют решётку 3×3.
+            Четыре различные точки этой решётки не лежат на одной прямой;
+            следовательно, для любой маски из четырёх или пяти клеток матрица
+            L<sub>S</sub> имеет ранг 3.
+          </p>
+          <Latex display>{String.raw`\dim\ker L_S^T=|S|-3=\begin{cases}1,&|S|=4,\\2,&|S|=5.\end{cases}`}</Latex>
+          <p>
+            Пусть R₁,…,R<sub>|S|−3</sub> — базис левого ядра. Необходимость
+            уравнений Rᵢ(q²)=0 получается умножением исходной системы слева.
+            Обратно, над Q ортогональное дополнение левого ядра совпадает с
+            образом L<sub>S</sub>. Поэтому эти уравнения достаточны и дают
+            единственную тройку E, x, y.
+          </p>
+          <Latex display>{String.raw`q_S^{[2]}\in\operatorname{im}L_S\quad\Longleftrightarrow\quad R_i(q_S^{[2]})=0\quad(1\le i\le |S|-3)`}</Latex>
+          <p>
+            Для целочисленности выбираем ненулевой минор δ порядка 3. Формулы
+            Крамера имеют знаменатель δ. Замена каждого корня q<sub>P</sub> на
+            δq<sub>P</sub> умножает правую часть на δ² и превращает координаты
+            в целые:
+          </p>
+          <Latex display>{String.raw`q_P\mapsto\delta q_P,\qquad q_P^2\mapsto\delta^2q_P^2,\qquad (E,x,y)\mapsto\delta^2(E,x,y)\in\mathbb Z^3`}</Latex>
+        </section>
+
+        <section>
+          <h3>3. Почему орбит ровно 23</h3>
+          <p>
+            Группа D₄ действует вращениями и отражениями, сохраняя центр,
+            множество четырёх углов и множество четырёх сторон. По лемме
+            Бёрнсайда числа неподвижных пятиэлементных масок равны 126 для
+            тождества, 2 для каждого поворота на ±90°, 6 для поворота на 180°
+            и 12 для каждого из четырёх отражений. Поэтому
+          </p>
+          <Latex display>{String.raw`N_{5/9}=\frac{126+2+6+2+4\cdot12}{8}=23`}</Latex>
+          <p>
+            Тот же результат получается топологически для четырёх клеток. Без
+            центра выбираются четыре клетки периметра: случаи 0 или 4 угла
+            дают 2 орбиты, случаи 1 или 3 угла — 4, а случай 2+2 распадается на
+            7; итого 13. С центром выбираются три клетки периметра: крайние
+            случаи дают 2, а типы 1+2 и 2+1 — по 4; итого 10. Сумма 13+10=23.
+          </p>
+          <p>
+            Дополнение маски коммутирует с D₄ и задаёт биекцию между орбитами
+            4/9 и 5/9. Именно здесь исходный PDF пропустил ACDH, а вслед за ним
+            дополнительную маску BEFGJ.
+          </p>
+        </section>
+
+        <section>
+          <h3>4. Общая параметризация квадрик 4/9</h3>
+          <p>
+            Для четырёх клеток исключение оставляет одну диагональную квадрику
+            Σkᵢqᵢ²=0. Поскольку Σkᵢ=0, любая знаковая точка ε с координатами
+            ±1 лежит на ней. Для направления u прямая через ε даёт
+            универсальную проекционную формулу:
+          </p>
+          <Latex display>{String.raw`D=\sum_{i=1}^4k_iu_i^2,\quad L_\varepsilon=\sum_{i=1}^4k_i\varepsilon_i u_i,\quad q_i=D\varepsilon_i-2L_\varepsilon u_i`}</Latex>
+          <Latex display>{String.raw`\sum k_iq_i^2=D^2\sum k_i\varepsilon_i^2-4DL_\varepsilon^2+4L_\varepsilon^2D=0`}</Latex>
+          <p>
+            Для полноты достаточно четырёх строк матрицы Адамара H. Если все
+            kᵢ ненулевые и q* — ненулевая рациональная точка квадрики, то из
+            det H=−16 следует, что хотя бы одно спаривание Lε(q*) ненулевое.
+            В соответствующей карте подстановка u=q* даёт D=0 и
+            q=−2Lε(q*)q*: получена та же проективная точка. После очистки
+            знаменателей это даёт алгоритмическое покрытие целых решений.
+          </p>
+          <Latex display>{String.raw`H=\begin{pmatrix}1&1&1&1\\1&1&-1&-1\\1&-1&1&-1\\1&-1&-1&1\end{pmatrix},\qquad \det H=-16`}</Latex>
+          <p>
+            Красная вырожденная квадрика имеет один нулевой коэффициент:
+            соответствующий четвёртый корень свободен, а нетривиальная коника
+            параметризуется отдельно и полностью:
+          </p>
+          <Latex display>{String.raw`r=-a^2+2ab+b^2,\quad s=a^2+b^2,\quad t=a^2+2ab-b^2,\quad r^2+t^2=2s^2`}</Latex>
+        </section>
+
+        <section>
+          <h3>5. Цветовая дифференциация</h3>
+          <p>
+            Цвет закрепляется не за позицией клетки, а за конкретным
+            уравнением левого ядра. В большой матрице цветом отмечаются только
+            фактические квадратные значения; в миниатюре — опоры выбранных
+            уравнений. Пересечение двух опор делит миниатюру на два цвета.
+          </p>
+          {COMMON_PROOFS.map((proof) => (
+            <section className="general-color-proof" key={proof.id}>
+              <h4>{proof.title}</h4>
+              <p>{proof.summary}</p>
+              {proof.formulas.map((formula) => (
+                <Latex display key={formula}>{formula}</Latex>
+              ))}
+              <p>{proof.conclusion}</p>
+            </section>
+          ))}
+        </section>
+
+        <section>
+          <h3>6. Переход от 4/9 к 5/9</h3>
+          <p>
+            Пять клеток дают две независимые квадрики. Канонический цветовой
+            базис выбирается среди 4/9-подмасок так, чтобы отношения имели
+            простейшие коэффициенты и минимальные опоры. Любой другой базис
+            того же двумерного левого ядра эквивалентен, но не меняет ни
+            множество решений, ни достаточность системы.
+          </p>
+          <Latex display>{String.raw`\ker L_S^T=\langle R_{\mathrm{color}_1},R_{\mathrm{color}_2}\rangle\quad\Longrightarrow\quad \{R_1(q^2)=R_2(q^2)=0\}\Longleftrightarrow\exists!\,(E,x,y)`}</Latex>
+          <p>
+            Индивидуальное доказательство обязано не только проверить эти две
+            квадрики, но и вывести совместную параметризацию корней. Полнота
+            указывается отдельно: доказанная, алгоритмически восстанавливаемая
+            через НОД и знаки либо пока неизвестная. Проверка тождества сама по
+            себе полноты не доказывает.
+          </p>
+        </section>
+
+        <OrbitTable title="Все 23 орбиты 4/9" families={FOUR_FAMILIES} />
+        <OrbitTable title="Все 23 орбиты 5/9" families={FIVE_FAMILIES} />
+      </div>
     </article>
   );
 }
@@ -1159,6 +1448,11 @@ function AboutPage() {
           </p>
         </div>
         <div className="proof-index-links">
+          <Link to="/proofs/general">
+            <span>00</span>
+            <strong>Общая теория орбит 4/9 и 5/9</strong>
+            <i>→</i>
+          </Link>
           {COMMON_PROOFS.map((proof, index) => (
             <Link to={`/proofs/${proof.id}`} key={proof.id}>
               <span>{String(index + 1).padStart(2, "0")}</span>

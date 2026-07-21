@@ -566,6 +566,41 @@ main {
   --tone-b: var(--blue);
 }
 
+.tone-red {
+  --tone-a: var(--brick-soft);
+  --tone-b: var(--brick-soft);
+}
+
+.tone-yellow {
+  --tone-a: var(--wheat);
+  --tone-b: var(--wheat);
+}
+
+.tone-blue {
+  --tone-a: var(--blue);
+  --tone-b: var(--blue);
+}
+
+.tone-green {
+  --tone-a: var(--sage);
+  --tone-b: var(--sage);
+}
+
+.tone-brown {
+  --tone-a: var(--clay);
+  --tone-b: var(--clay);
+}
+
+.tone-dark-gray {
+  --tone-a: #777973;
+  --tone-b: #777973;
+}
+
+.tone-light-gray {
+  --tone-a: #aaa9a1;
+  --tone-b: #aaa9a1;
+}
+
 .tone-red-red {
   --tone-a: var(--brick-soft);
   --tone-b: var(--brick);
@@ -654,6 +689,21 @@ main {
 .proof-color.brown,
 .proof-swatch.brown {
   background: var(--clay);
+}
+
+.proof-color.green,
+.proof-swatch.green {
+  background: var(--sage);
+}
+
+.proof-color.gray-dark,
+.proof-swatch.gray-dark {
+  background: #777973;
+}
+
+.proof-color.gray-light,
+.proof-swatch.gray-light {
+  background: #aaa9a1;
 }
 
 .pattern.compact {
@@ -835,8 +885,31 @@ main {
   font-size: 8px;
 }
 
+.family-level-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 7px;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--panel-deep);
+}
+
+.family-level-tabs button {
+  min-height: 31px;
+  border: 1px solid transparent;
+  color: var(--graphite-soft);
+  background: transparent;
+  cursor: pointer;
+  font: 9px var(--mono);
+}
+
+.family-level-tabs button.active {
+  border-color: var(--line-strong);
+  color: var(--graphite);
+  background: var(--paper-strong);
+}
+
 .family-list {
-  max-height: calc(100vh - 83px);
+  max-height: calc(100vh - 132px);
   overflow-y: auto;
   padding: 7px;
   scrollbar-width: thin;
@@ -1761,6 +1834,17 @@ main {
   text-transform: uppercase;
 }
 
+.general-proof-link {
+  width: max-content;
+  max-width: 100%;
+  display: inline-block;
+  margin-top: 18px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--blue-deep);
+  font-size: 11px;
+}
+
 .proof-document h2 {
   margin: 0;
   color: var(--graphite);
@@ -1812,6 +1896,102 @@ main {
 .proof-references a {
   color: var(--blue-deep);
   border-bottom: 1px solid var(--line-strong);
+}
+
+.inline-lemma {
+  margin-top: 22px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.inline-lemma h4,
+.general-color-proof h4 {
+  margin: 0 0 14px;
+  color: var(--graphite);
+  font: 600 19px var(--serif);
+}
+
+.inline-lemma > a {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.general-proof-document {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.general-color-proof {
+  margin-top: 24px;
+  padding: 24px;
+  border-left: 4px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.orbit-catalog {
+  padding-bottom: 42px !important;
+}
+
+.orbit-catalog > h3 {
+  margin-bottom: 24px;
+}
+
+.orbit-table {
+  border-top: 1px solid var(--line-strong);
+}
+
+.orbit-row {
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 32px 46px minmax(180px, 0.8fr) minmax(260px, 1.2fr) 18px;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  border-left: 4px solid var(--tone-a, var(--line-strong));
+}
+
+.orbit-row:hover {
+  background: var(--paper);
+}
+
+.orbit-row > span:first-child {
+  color: var(--muted);
+  font: 9px var(--mono);
+}
+
+.orbit-row > span:nth-child(3) {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.orbit-row strong {
+  color: var(--graphite);
+  font: 13px var(--mono);
+}
+
+.orbit-row small {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.orbit-relations {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  color: var(--graphite-soft);
+  font-size: 12px;
+}
+
+.orbit-row > i {
+  color: var(--muted);
+  font-style: normal;
 }
 
 .proof-document > footer {
@@ -2165,6 +2345,14 @@ main {
 }
 
 @media (max-width: 780px) {
+  .orbit-row {
+    grid-template-columns: 26px 44px minmax(0, 1fr) 14px;
+  }
+
+  .orbit-relations {
+    grid-column: 3 / -1;
+  }
+
   .site-header {
     min-height: 70px;
     padding: 0 18px;

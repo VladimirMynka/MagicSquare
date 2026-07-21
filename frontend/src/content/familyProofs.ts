@@ -1,10 +1,16 @@
+import type { FamilyDefinition } from "../lib/families";
+
 export interface FamilyProofText {
   assumptions: string;
+  cellSystem?: string;
   definitions: readonly string[];
   squareValues: string;
   identityDerivation: string;
   identities: readonly string[];
   parityClearance?: boolean;
+  integralityClearance?: string;
+  parameterDerivation?: string;
+  coverageText?: string;
 }
 
 function proof(
@@ -25,10 +31,87 @@ function proof(
   };
 }
 
+function quadraticRelation(
+  positions: readonly string[],
+  coefficients: readonly number[],
+): string {
+  const term = (position: string, coefficient: number) => {
+    const absolute = Math.abs(coefficient);
+    return `${absolute === 1 ? "" : absolute}q_${position}^2`;
+  };
+  const side = (positive: boolean) =>
+    positions
+      .map((position, index) => ({ position, coefficient: coefficients[index] }))
+      .filter(({ coefficient }) => (positive ? coefficient > 0 : coefficient < 0))
+      .map(({ position, coefficient }) => term(position, coefficient))
+      .join("+");
+  return `${side(true)}=${side(false)}`;
+}
+
+function fourFamilyProof(family: FamilyDefinition): FamilyProofText {
+  const positions = family.positions;
+  const coefficients = family.relationCoefficients;
+  if (!coefficients || !family.parametrizationKind) {
+    throw new Error(`No structured 4/9 proof data for ${family.id}`);
+  }
+  const roots = positions.map((position) => `q_${position}`);
+  const delta = family.integralityScale ?? 1;
+  const relation = quadraticRelation(positions, coefficients);
+  let definitions: readonly string[];
+  let identityDerivation: string;
+  let parameterDerivation: string;
+
+  if (family.parametrizationKind === "red-conic") {
+    const zeroIndex = coefficients.findIndex((coefficient) => coefficient === 0);
+    const middleIndex = coefficients.findIndex(
+      (coefficient) => Math.abs(coefficient) === 2,
+    );
+    const ends = coefficients
+      .map((coefficient, index) => ({ coefficient, index }))
+      .filter(({ coefficient }) => Math.abs(coefficient) === 1)
+      .map(({ index }) => index);
+    definitions = [
+      String.raw`r=-a^2+2ab+b^2,\qquad s=a^2+b^2,\qquad t=a^2+2ab-b^2`,
+      String.raw`r^2+t^2=2s^2`,
+      String.raw`q_${positions[ends[0]]}=${delta}dr,\quad q_${positions[middleIndex]}=${delta}ds,\quad q_${positions[ends[1]]}=${delta}dt,\quad q_${positions[zeroIndex]}=${delta}cd`,
+    ];
+    identityDerivation =
+      "Раскрытие скобок в первой строке даёт полную рациональную параметризацию коники трёх квадратов в арифметической прогрессии. Четвёртый корень не входит в единственную связь и потому остаётся свободным.";
+    parameterDerivation =
+      "Обратно, рациональную точку красной коники соединяем прямой с точкой (1,1,1). Наклон прямой даёт отношение a:b, общий множитель переходит в d, а свободный четвёртый корень — в c. После очистки знаменателей получаются именно выписанные r, s, t. Поэтому параметризация полна с точностью до знаков корней и общего масштаба.";
+  } else {
+    const [k1, k2, k3, k4] = coefficients;
+    definitions = [
+      String.raw`(k_1,k_2,k_3,k_4)=(${k1},${k2},${k3},${k4}),\qquad k_1+k_2+k_3+k_4=0`,
+      String.raw`D=k_1a^2+k_2b^2+k_3c^2,\qquad L=k_1a+k_2b+k_3c`,
+      String.raw`(${roots.join(",")})=${delta}d\,(D-2La,\,D-2Lb,\,D-2Lc,\,D)`,
+    ];
+    identityDerivation =
+      "Это проекция диагональной квадрики из рациональной точки (1,1,1,1). Подстановка корней сокращается тождественно: член D² исчезает по сумме коэффициентов, смешанный член равен −4DL², а квадратичный — +4L²D.";
+    parameterDerivation =
+      "Для полноты берём четыре строки ε матрицы Адамара H из общей леммы и однородную знаковую формулу qᵢ=Dεᵢ−2Lεuᵢ. Все kᵢ здесь ненулевые. Для ненулевой рациональной точки q* вектор (kᵢqᵢ*) ненулевой, а det H=−16, поэтому хотя бы для одной строки Lε(q*)≠0. Подстановка u=q* даёт D=0 и новый вектор корней −2Lε(q*)q*, то есть ту же проективную точку. Отображаемая формула — аффинная карта ε=(1,1,1,1), u₄=0; остальные три знаковые карты закрывают её исключительные образующие. Знаменатели очищаются общим множителем d.";
+  }
+
+  return {
+    assumptions:
+      "Параметры a, b, c, d — целые числа. Никаких условий положительности или различности для теоремы не требуется: утверждается наличие как минимум четырёх квадратных клеток.",
+    definitions,
+    squareValues: String.raw`(${positions.join(",")})=(${roots.map((root) => `${root}^2`).join(",")})`,
+    identityDerivation,
+    identities: [relation],
+    integralityClearance: `Множитель δ=${delta} равен модулю ненулевого минора матрицы выбранных клеточных форм. Умножение корней на δ умножает значения на δ², поэтому формулы Крамера для E, x, y становятся целочисленными.`,
+    parameterDerivation,
+    coverageText:
+      family.coverageStatus === "complete-up-to-equivalence"
+        ? "Полнота доказана над рациональными точками и после очистки знаменателей переносится на целые решения с точностью до знаков корней, общего масштаба, общего НОД и симметрий D₄."
+        : "Полнота задаётся алгоритмически четырьмя знаковыми картами, соответствующими строкам матрицы Адамара. Отображаемый генератор реализует одну аффинную карту; если целевая точка лежит на её исключительной образующей, обратный алгоритм выбирает строку с ненулевым спариванием Lε и использует соответствующую однородную карту.",
+  };
+}
+
 const unrestricted =
   "Параметры a, b, c, d — произвольные целые числа. Все вводимые ниже корни поэтому целочисленны.";
 const gcdRestricted =
-  "Параметры a, b, c, d целые; оба указанных НОД ненулевые. Следовательно, частные p и q целочисленны.";
+  "Параметры a, b, c, d целые. После данных ниже определений требуется в точности g₁g₂ ≠ 0; тогда частные p и q определены и целочисленны. Нулевые ветви этого деления данной формулой не заявляются.";
 
 const redRedOne = [
   String.raw`k_1=a^2+b^2,\qquad k_2=c^2+d^2`,
@@ -218,6 +301,31 @@ export const FAMILY_PROOFS: Readonly<Record<string, FamilyProofText>> = {
     [...redYellowOneIdentities, String.raw`B+F=2G,\qquad A+B=F+J`],
     true,
   ),
+  befgj: {
+    assumptions:
+      "Параметры a, b, c, d — произвольные целые числа. Теорема гарантирует квадратность B, E, F, G, J, но не запрещает дополнительным клеткам также оказаться квадратами.",
+    cellSystem: String.raw`\left\{\begin{aligned}E-x+y&=b_0^2,&E&=e_0^2,&E+x+y&=f_0^2,\\E+y&=g_0^2,&E-x&=j_0^2.\end{aligned}\right.`,
+    definitions: [
+      String.raw`r=-a^2+2ab+b^2,\qquad s=a^2+b^2,\qquad t=a^2+2ab-b^2`,
+      String.raw`r^2+t^2=2s^2,\qquad K=t^2-s^2`,
+      String.raw`\lambda=2cd,\qquad b_0=\lambda r,\quad g_0=\lambda s,\quad f_0=\lambda t`,
+      String.raw`e_0=Kd^2+c^2,\qquad j_0=Kd^2-c^2`,
+    ],
+    squareValues: String.raw`(B,E,F,G,J)=(b_0^2,e_0^2,f_0^2,g_0^2,j_0^2)`,
+    identityDerivation:
+      "Красная квадрика параметризуется тройкой r,s,t. Для второй квадрики используем разность квадратов: произведение (e₀−j₀)(e₀+j₀) выбирается равным λ²(t²−s²). Это и есть рациональная параметризация гиперболы совместимости после очистки знаменателей.",
+    identities: [
+      String.raw`B+F=\lambda^2(r^2+t^2)=2\lambda^2s^2=2G`,
+      String.raw`e_0^2-j_0^2=(2c^2)(2Kd^2)=4c^2d^2(t^2-s^2)=f_0^2-g_0^2`,
+      String.raw`E+G=F+J`,
+      String.raw`B+E-G-J=(B+F-2G)+(E+G-F-J)=0`,
+      String.raw`B+E=G+J`,
+    ],
+    parameterDerivation:
+      "Обратный алгоритм сначала параметризует красную конику B+F=2G. Затем равенство E−J=F−G на уровне значений переписывается как (e₀−j₀)(e₀+j₀)=(f₀−g₀)(f₀+g₀). Разнесение двух множителей по НОД и возможная смена знака одного корня дают отношение c:d; общий знаменатель поглощается масштабом λ. Исключительные нулевые множители разбираются тем же равенством непосредственно.",
+    coverageText:
+      "Так получается алгоритмическое покрытие рациональных решений с точностью до знаков корней и общего масштаба; целые представители восстанавливаются очисткой знаменателей и делением общего НОД.",
+  },
   abcdh: proof(
     unrestricted,
     redBlueBase,
@@ -317,8 +425,91 @@ export const FAMILY_PROOFS: Readonly<Record<string, FamilyProofText>> = {
   ),
 };
 
+const redRedParameterDerivation =
+  "Начинаем с двух копий красной коники r²+t²=2s². Каждая рациональная тройка корней получается стандартной парой параметров. Чтобы две тройки имели одну и ту же клетку, умножаем первую тройку на выделенный корень второй, а вторую — на выделенный корень первой; именно эти перекрёстные множители обозначены k₁ и k₂. После этой однородной склейки общий корень совпадает тождественно, а перестановка остальных четырёх корней даёт указанную маску.";
+
+const gcdRedYellowParameterDerivation =
+  "Сначала красная квадрика даёт тройку ρ, σ, τ. Вторая, жёлтая квадрика после переноса имеет вид z²−v²=u²−w²=(u−w)(u+w). Для показанных красных корней два множителя справа равны, с точностью до 2, произведениям 2αβ и α²−β². Разносим их между p, q, g₁, g₂ посредством НОД и полагаем v=pg₂−qg₁, z=pg₂+qg₁. Тогда z²−v²=4pqg₁g₂ точно совпадает с u²−w². Это выводит формулы из двух исходных квадрик, а не только проверяет готовую подстановку.";
+
+const gaussianRedYellowParameterDerivation =
+  "Красную квадрику сначала параметризуем корнями r, s, t. После этого жёлтая квадрика требует сохранить сумму квадратов одной пары. Все точки соответствующей рациональной окружности получаются, с точностью до масштаба и исключительной карты, из P=d²−c², Q=2cd, N=c²+d². Умножение пары на матрицу ((P,−Q),(Q,P)) даёт выписанные корни; тождество P²+Q²=N² одновременно обеспечивает согласование с уже выбранной красной тройкой.";
+
+const redBlueParameterDerivation =
+  "Красная квадрика даёт r, s, t. Оставшаяся голубая квадрика является равенством значений формы X²−2Y². Её рациональная коника параметризуется P=c²+2d², Q=2cd, M=c²−2d², после чего умножение в Q(√2) задаёт линейное преобразование T(P,Q). Решение двух клеточных квадрик относительно оставшихся корней даёт ровно выписанные компоненты T; масштаб M приклеивает их к красной тройке.";
+
+const yellowBlueParameterDerivation =
+  "Отдельно параметризуем две нормы: P²+Q²=N² и U²+2V²=M². После этой подстановки две клеточные квадрики становятся однородной линейной системой по билинейным произведениям PU, PV, QU, QV, NM и другим указанным произведениям. Выписанные пять корней — её совместимые миноры; прямое раскрытие в следующей строке показывает, что никаких дополнительных делений или скрытых условий для этой карты нет.";
+
+const blueBlueParameterDerivation =
+  "Обе голубые квадрики сначала приводим к двум копиям Uᵢ²+2Vᵢ²=Mᵢ². Исключение общих клеточных корней даёт матрицу совместимости ранга четыре; пять показанных выражений являются её максимальными минорами. Общий множитель M₂ очищает единственный знаменатель, а две нормовые формулы сокращают остатки обеих исходных квадрик до нуля.";
+
+const yellowBrownParameterDerivation =
+  "Красная вспомогательная коника вводит r, s, u. После подстановки в коричневую квадрику коэффициент при второй паре сворачивается в K=2r²−s². Пара P=Kc²−d², Q=2ucd параметризует полученную взвешенную конику; два гауссовых поворота дают β, γ, δ, η. Последовательность равенств ниже решает обе квадрики и одновременно восстанавливает центр E без деления.";
+
+const FIVE_PARAMETER_DERIVATIONS: Readonly<Record<string, string>> = {
+  acegj: redRedParameterDerivation,
+  bdefh: redRedParameterDerivation,
+  abehj: redRedParameterDerivation,
+  bdefj: redRedParameterDerivation,
+  bdfgj: redRedParameterDerivation,
+  abdej: redRedParameterDerivation,
+  bdfhj: gcdRedYellowParameterDerivation,
+  abdfj: gcdRedYellowParameterDerivation,
+  acehj: gcdRedYellowParameterDerivation,
+  acdef: gcdRedYellowParameterDerivation,
+  abefj: gcdRedYellowParameterDerivation,
+  abfgj: gcdRedYellowParameterDerivation,
+  acdeg: gaussianRedYellowParameterDerivation,
+  abceh: gaussianRedYellowParameterDerivation,
+  abcdh: redBlueParameterDerivation,
+  abcdj: redBlueParameterDerivation,
+  abdef: redBlueParameterDerivation,
+  abcgj: yellowBlueParameterDerivation,
+  abcgh: yellowBlueParameterDerivation,
+  abcde: yellowBlueParameterDerivation,
+  abcdf: blueBlueParameterDerivation,
+  abcdg: yellowBrownParameterDerivation,
+};
+
+const RED_RED_IDS = new Set([
+  "acegj",
+  "bdefh",
+  "abehj",
+  "bdefj",
+  "bdfgj",
+  "abdej",
+]);
+
+const GCD_RED_YELLOW_IDS = new Set([
+  "bdfhj",
+  "abdfj",
+  "acehj",
+  "acdef",
+  "abefj",
+  "abfgj",
+]);
+
+function fiveCoverageText(id: string): string {
+  if (RED_RED_IDS.has(id)) {
+    return "Обе красные коники покрываются полностью, а перекрёстная склейка покрывает ветвь с ненулевым общим корнем. Нулевые общие корни требуют отдельного разбиения на случаи; до него глобальная полнота этой четырёхпараметрической формулы не заявляется.";
+  }
+  if (GCD_RED_YELLOW_IDS.has(id)) {
+    return "Разнесение ненулевых множителей через НОД даёт обратный алгоритм на заявленной ветви g₁g₂ ≠ 0. Нулевые ветви исключены условиями теоремы и должны параметризоваться отдельно, поэтому глобальная полнота пока не заявляется.";
+  }
+  return "Формула полностью доказана как полиномиальная карта в данное семейство. Обратная классификация всех рациональных решений совместной пары квадрик, включая исключительные ранговые ветви, пока не завершена; поэтому полнота этой параметризации не заявляется.";
+}
+
 export function familyProofById(id: string): FamilyProofText {
   const result = FAMILY_PROOFS[id];
   if (!result) throw new Error(`No exhaustive proof text for family ${id}`);
-  return result;
+  return {
+    ...result,
+    parameterDerivation:
+      result.parameterDerivation ?? FIVE_PARAMETER_DERIVATIONS[id],
+    coverageText: result.coverageText ?? fiveCoverageText(id),
+  };
+}
+
+export function familyProof(family: FamilyDefinition): FamilyProofText {
+  return family.level === 4 ? fourFamilyProof(family) : familyProofById(family.id);
 }

@@ -1,7 +1,15 @@
 import type { Coordinates, Position } from "./magicSquare";
 
 export type ParameterStrings = readonly [string, string, string, string];
+export type FamilyLevel = 4 | 5;
 export type FamilyGroup =
+  | "red"
+  | "yellow"
+  | "blue"
+  | "green"
+  | "brown"
+  | "dark-gray"
+  | "light-gray"
   | "red-red"
   | "red-yellow"
   | "red-blue"
@@ -14,12 +22,16 @@ export type ProofColor =
   | "yellow"
   | "blue-light"
   | "blue-dark"
-  | "brown";
+  | "brown"
+  | "green"
+  | "gray-dark"
+  | "gray-light";
 export type CommonProofId =
   | "arithmetic-progression"
   | "two-square-norm"
   | "sqrt-minus-two-norm"
-  | "weighted-conic";
+  | "weighted-conic"
+  | "diagonal-quadric-projection";
 
 export interface ProofJustification {
   id: string;
@@ -34,12 +46,21 @@ export interface FamilyDefinition {
   id: string;
   mask: string;
   positions: readonly Position[];
+  level: FamilyLevel;
   group: FamilyGroup;
   groupLabel: string;
   title: string;
   summary: string;
   theorem: string;
-  proofStatus: "proof-core" | "legacy-formula";
+  proofStatus: "proof-core" | "legacy-formula" | "browser-certificate";
+  coverageStatus:
+    | "complete-up-to-equivalence"
+    | "algorithmic-up-to-equivalence"
+    | "parametric-subfamily";
+  orbitDescription?: string;
+  relationCoefficients?: readonly number[];
+  integralityScale?: number;
+  parametrizationKind?: "red-conic" | "quadric-projection";
   reconstructionLatex: string;
   justifications: readonly ProofJustification[];
   defaults: ParameterStrings;
@@ -243,6 +264,25 @@ function redYellowAbfgj(parameters: ParameterStrings): Coordinates {
   return [(A + J) / 2n, (A - J) / 2n, B - J];
 }
 
+function redYellowBefgj(parameters: ParameterStrings): Coordinates {
+  const [a, b, c, d] = bigInts(parameters);
+  const { r, s, t } = redSeed(a, b);
+  const K = t * t - s * s;
+  const scale = 2n * c * d;
+  const bRoot = scale * r;
+  const fRoot = scale * t;
+  const gRoot = scale * s;
+  const eRoot = K * d * d + c * c;
+  const jRoot = K * d * d - c * c;
+  const E = eRoot * eRoot;
+  const G = gRoot * gRoot;
+  const J = jRoot * jRoot;
+  if (J + G - E !== bRoot * bRoot || E + G - J !== fRoot * fRoot) {
+    throw new Error("BEFGJ polynomial certificate failed");
+  }
+  return [E, E - J, G - E];
+}
+
 function redSeed(a: bigint, b: bigint) {
   return {
     r: -a * a + 2n * a * b + b * b,
@@ -411,6 +451,13 @@ const YELLOW = "Жёлтое равенство двух сумм";
 const BLUE = "Голубая норма x² + 2y²";
 
 const groupLabels: Record<FamilyGroup, string> = {
+  red: "Красные 4/9",
+  yellow: "Жёлтые 4/9",
+  blue: "Голубые 4/9",
+  green: "Зелёные 4/9",
+  brown: "Коричневые 4/9",
+  "dark-gray": "Тёмно-серые 4/9",
+  "light-gray": "Светло-серые 4/9",
   "red-red": "Красно-красные",
   "red-yellow": "Красно-жёлтые",
   "red-blue": "Красно-голубые",
@@ -419,19 +466,310 @@ const groupLabels: Record<FamilyGroup, string> = {
   "yellow-brown": "Жёлто-коричневые",
 };
 
-type FamilyInput = Omit<FamilyDefinition, "mask" | "groupLabel"> & {
+type FamilyInput = Omit<
+  FamilyDefinition,
+  "mask" | "groupLabel" | "level" | "coverageStatus"
+> & {
   mask?: string;
+  level?: FamilyLevel;
+  coverageStatus?: FamilyDefinition["coverageStatus"];
 };
 
 function family(input: FamilyInput): FamilyDefinition {
   return {
     ...input,
     mask: input.mask ?? input.title,
+    level: input.level ?? 5,
+    coverageStatus: input.coverageStatus ?? "parametric-subfamily",
     groupLabel: groupLabels[input.group],
   };
 }
 
-export const FAMILIES: readonly FamilyDefinition[] = [
+type CellForm = readonly [center: number, x: number, y: number];
+
+const CELL_FORMS: Readonly<Record<Position, CellForm>> = {
+  A: [1, 1, 0],
+  B: [1, -1, 1],
+  C: [1, 0, -1],
+  D: [1, -1, -1],
+  E: [1, 0, 0],
+  F: [1, 1, 1],
+  G: [1, 0, 1],
+  H: [1, 1, -1],
+  J: [1, -1, 0],
+};
+
+function determinant3(matrix: readonly CellForm[]): number {
+  const [[a, b, c], [d, e, f], [g, h, i]] = matrix;
+  return a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+}
+
+function numberGcd(left: number, right: number): number {
+  let a = Math.abs(left);
+  let b = Math.abs(right);
+  while (b !== 0) [a, b] = [b, a % b];
+  return a;
+}
+
+function primitiveRelation(positions: readonly Position[]): readonly number[] {
+  const matrix = positions.map((position) => CELL_FORMS[position]);
+  let coefficients = matrix.map((_, index) => {
+    const minor = matrix.filter((__, candidate) => candidate !== index);
+    return (index % 2 === 0 ? 1 : -1) * determinant3(minor);
+  });
+  const divisor = coefficients.reduce(numberGcd, 0) || 1;
+  coefficients = coefficients.map((coefficient) => coefficient / divisor);
+  const first = coefficients.find((coefficient) => coefficient !== 0) ?? 1;
+  if (first < 0) coefficients = coefficients.map((coefficient) => -coefficient);
+  return coefficients;
+}
+
+function independentTriple(positions: readonly Position[]): readonly [number, number, number] {
+  const triples = [
+    [0, 1, 2],
+    [0, 1, 3],
+    [0, 2, 3],
+    [1, 2, 3],
+  ] as const;
+  const result = triples.find(
+    (indices) =>
+      determinant3(indices.map((index) => CELL_FORMS[positions[index]])) !== 0,
+  );
+  if (!result) throw new Error(`Rank below three for mask ${positions.join("")}`);
+  return result;
+}
+
+function determinant3BigInt(matrix: readonly (readonly bigint[])[]): bigint {
+  const [[a, b, c], [d, e, f], [g, h, i]] = matrix;
+  return a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+}
+
+function replaceColumn(
+  matrix: readonly (readonly bigint[])[],
+  column: number,
+  values: readonly bigint[],
+): readonly (readonly bigint[])[] {
+  return matrix.map((row, rowIndex) =>
+    row.map((value, candidate) => (candidate === column ? values[rowIndex] : value)),
+  );
+}
+
+function reconstructFourCoordinates(
+  positions: readonly Position[],
+  values: readonly bigint[],
+): Coordinates {
+  const indices = independentTriple(positions);
+  const matrix = indices.map((index) =>
+    CELL_FORMS[positions[index]].map(BigInt),
+  );
+  const selected = indices.map((index) => values[index]);
+  const determinant = determinant3BigInt(matrix);
+  return [0, 1, 2].map(
+    (column) => determinant3BigInt(replaceColumn(matrix, column, selected)) / determinant,
+  ) as unknown as Coordinates;
+}
+
+function fourFamilyGenerator(
+  positions: readonly Position[],
+  coefficients: readonly number[],
+  kind: "red-conic" | "quadric-projection",
+): (parameters: ParameterStrings) => Coordinates {
+  return (parameters) => {
+    const [a, b, c, d] = bigInts(parameters);
+    let roots: bigint[];
+    if (kind === "red-conic") {
+      const { r, s, t } = redSeed(a, b);
+      const zeroIndex = coefficients.findIndex((coefficient) => coefficient === 0);
+      const middleIndex = coefficients.findIndex(
+        (coefficient) => Math.abs(coefficient) === 2,
+      );
+      const endIndexes = coefficients
+        .map((coefficient, index) => ({ coefficient, index }))
+        .filter(({ coefficient }) => Math.abs(coefficient) === 1)
+        .map(({ index }) => index);
+      roots = Array.from({ length: 4 }, () => 0n);
+      roots[zeroIndex] = c * d;
+      roots[middleIndex] = s * d;
+      roots[endIndexes[0]] = r * d;
+      roots[endIndexes[1]] = t * d;
+    } else {
+      const [k1, k2, k3] = coefficients.map(BigInt);
+      const D = k1 * a * a + k2 * b * b + k3 * c * c;
+      const L = k1 * a + k2 * b + k3 * c;
+      roots = [D - 2n * L * a, D - 2n * L * b, D - 2n * L * c, D].map(
+        (root) => root * d,
+      );
+    }
+    const indices = independentTriple(positions);
+    const determinant = BigInt(
+      Math.abs(determinant3(indices.map((index) => CELL_FORMS[positions[index]]))),
+    );
+    const values = roots.map((root) => (root * determinant) ** 2n);
+    return reconstructFourCoordinates(positions, values);
+  };
+}
+
+function relationLatex(
+  positions: readonly Position[],
+  coefficients: readonly number[],
+): string {
+  const side = (positive: boolean) =>
+    positions
+      .map((position, index) => ({ position, coefficient: coefficients[index] }))
+      .filter(({ coefficient }) => (positive ? coefficient > 0 : coefficient < 0))
+      .map(({ position, coefficient }) => {
+        const absolute = Math.abs(coefficient);
+        return `${absolute === 1 ? "" : absolute}${position}`;
+      })
+      .join("+");
+  return `${side(true)}=${side(false)}`;
+}
+
+function reconstructionLatex(positions: readonly Position[]): string {
+  const indices = independentTriple(positions);
+  const numeric = indices.map((index) => CELL_FORMS[positions[index]]);
+  const matrix = numeric.map((row) => row.map(BigInt));
+  let denominator = determinant3BigInt(matrix);
+  const symbols = indices.map((index) => positions[index]);
+  const expressions = [0, 1, 2].map((column) =>
+    symbols.map((_, source) => {
+      const unit = symbols.map((__, index) => BigInt(index === source));
+      return determinant3BigInt(replaceColumn(matrix, column, unit));
+    }),
+  );
+  if (denominator < 0n) {
+    denominator = -denominator;
+    expressions.forEach((row) => row.forEach((value, index) => (row[index] = -value)));
+  }
+  const format = (coefficients: readonly bigint[]) => {
+    const divisor = coefficients
+      .reduce((current, value) => gcd(current, value), denominator) || 1n;
+    const reducedDenominator = denominator / divisor;
+    const terms = coefficients
+      .map((value, index) => ({ value: value / divisor, symbol: symbols[index] }))
+      .filter(({ value }) => value !== 0n)
+      .map(({ value, symbol }, index) => {
+        const sign = value < 0n ? "-" : index === 0 ? "" : "+";
+        const absolute = value < 0n ? -value : value;
+        return `${sign}${absolute === 1n ? "" : absolute}${symbol}`;
+      })
+      .join("");
+    return reducedDenominator === 1n
+      ? terms
+      : String.raw`\frac{${terms}}{${reducedDenominator}}`;
+  };
+  return String.raw`(E,x,y)=\left(${expressions.map(format).join(",\,")}\right)`;
+}
+
+const fourProofMetadata: Record<
+  Extract<FamilyGroup, "red" | "yellow" | "blue" | "green" | "brown" | "dark-gray" | "light-gray">,
+  { label: string; color: ProofColor; commonProofId: CommonProofId }
+> = {
+  red: { label: RED, color: "red-light", commonProofId: "arithmetic-progression" },
+  yellow: { label: YELLOW, color: "yellow", commonProofId: "two-square-norm" },
+  blue: { label: BLUE, color: "blue-light", commonProofId: "sqrt-minus-two-norm" },
+  green: { label: "Зелёная диагональная квадрика", color: "green", commonProofId: "diagonal-quadric-projection" },
+  brown: { label: "Коричневая взвешенная квадрика", color: "brown", commonProofId: "diagonal-quadric-projection" },
+  "dark-gray": { label: "Тёмно-серая диагональная квадрика", color: "gray-dark", commonProofId: "diagonal-quadric-projection" },
+  "light-gray": { label: "Светло-серая диагональная квадрика", color: "gray-light", commonProofId: "diagonal-quadric-projection" },
+};
+
+type FourGroup = keyof typeof fourProofMetadata;
+
+const fourDefaults: Readonly<Record<string, ParameterStrings>> = {
+  aceg: ["1", "4", "18", "1"],
+  bdef: ["1", "2", "2", "1"],
+  abce: ["1", "5", "4", "1"],
+  aceh: ["2", "3", "4", "1"],
+  acde: ["4", "1", "2", "1"],
+  abej: ["1", "3", "1", "1"],
+  abde: ["3", "1", "2", "1"],
+  bdej: ["1", "2", "6", "1"],
+  bcde: ["1", "2", "6", "1"],
+  abeh: ["1", "2", "2", "1"],
+  bdfh: ["1", "2", "4", "1"],
+  acgj: ["1", "5", "7", "1"],
+  bdfg: ["2", "1", "2", "1"],
+  abcg: ["1", "2", "5", "1"],
+  acfg: ["1", "2", "7", "1"],
+  abdf: ["1", "2", "3", "1"],
+  acdf: ["1", "2", "7", "1"],
+  abch: ["1", "2", "7", "1"],
+  abcd: ["1", "2", "7", "1"],
+  abdj: ["1", "2", "6", "1"],
+  abfj: ["1", "2", "4", "1"],
+  abhj: ["1", "4", "2", "1"],
+  acdh: ["1", "2", "2", "1"],
+};
+
+function fourOrbit(
+  id: string,
+  positions: readonly Position[],
+  group: FourGroup,
+  orbitDescription: string,
+): FamilyDefinition {
+  const coefficients = primitiveRelation(positions);
+  const metadata = fourProofMetadata[group];
+  const kind = group === "red" ? "red-conic" : "quadric-projection";
+  const relation = relationLatex(positions, coefficients);
+  const supportPositions = positions.filter((_, index) => coefficients[index] !== 0);
+  const triple = independentTriple(positions);
+  const integralityScale = Math.abs(
+    determinant3(triple.map((index) => CELL_FORMS[positions[index]])),
+  );
+  return family({
+    id,
+    title: positions.join(""),
+    positions,
+    level: 4,
+    group,
+    summary: `${orbitDescription}. Единственная совместимость после исключения E, x, y: ${relation}.`,
+    theorem: `four_of_nine_${id}_orbit`,
+    proofStatus: "browser-certificate",
+    coverageStatus:
+      group === "red"
+        ? "complete-up-to-equivalence"
+        : "algorithmic-up-to-equivalence",
+    orbitDescription,
+    relationCoefficients: coefficients,
+    integralityScale,
+    parametrizationKind: kind,
+    reconstructionLatex: reconstructionLatex(positions),
+    defaults: fourDefaults[id],
+    generate: fourFamilyGenerator(positions, coefficients, kind),
+    justifications: [
+      support(id, metadata.label, metadata.color, supportPositions, relation, metadata.commonProofId),
+    ],
+  });
+}
+
+export const FOUR_FAMILIES: readonly FamilyDefinition[] = [
+  fourOrbit("aceg", ["A", "C", "E", "G"], "red", "Центр и три угла"),
+  fourOrbit("bdef", ["B", "D", "E", "F"], "red", "Центр и три стороны"),
+  fourOrbit("abce", ["A", "B", "C", "E"], "green", "Центр, соседние углы и сторона между ними"),
+  fourOrbit("aceh", ["A", "C", "E", "H"], "yellow", "Центр, соседние углы и противоположная сторона"),
+  fourOrbit("acde", ["A", "C", "D", "E"], "yellow", "Центр, соседние углы и сторона при одном из них"),
+  fourOrbit("abej", ["A", "B", "E", "J"], "red", "Центр, противоположные углы и сторона"),
+  fourOrbit("abde", ["A", "B", "D", "E"], "dark-gray", "Центр, соседние стороны и угол между ними"),
+  fourOrbit("bdej", ["B", "D", "E", "J"], "red", "Центр, соседние стороны и противоположный угол"),
+  fourOrbit("bcde", ["B", "C", "D", "E"], "blue", "Центр, соседние стороны и угол при одной из них"),
+  fourOrbit("abeh", ["A", "B", "E", "H"], "red", "Центр, противоположные стороны и угол"),
+  fourOrbit("bdfh", ["B", "D", "F", "H"], "yellow", "Четыре стороны"),
+  fourOrbit("acgj", ["A", "C", "G", "J"], "yellow", "Четыре угла"),
+  fourOrbit("bdfg", ["B", "D", "F", "G"], "red", "Три стороны и внешний угол"),
+  fourOrbit("abcg", ["A", "B", "C", "G"], "brown", "Три угла и внутренняя сторона"),
+  fourOrbit("acfg", ["A", "C", "F", "G"], "blue", "Три угла и внешняя сторона"),
+  fourOrbit("abdf", ["A", "B", "D", "F"], "blue", "Три стороны и внутренний угол"),
+  fourOrbit("acdf", ["A", "C", "D", "F"], "blue", "Соседние углы и не общие стороны при них"),
+  fourOrbit("abch", ["A", "B", "C", "H"], "brown", "Соседние углы, общая сторона и противоположная сторона"),
+  fourOrbit("abcd", ["A", "B", "C", "D"], "light-gray", "Соседние углы и две стороны при одном из них"),
+  fourOrbit("abdj", ["A", "B", "D", "J"], "red", "Противоположные углы и стороны при одном из них"),
+  fourOrbit("abfj", ["A", "B", "F", "J"], "yellow", "Противоположные углы и соседние стороны при них"),
+  fourOrbit("abhj", ["A", "B", "H", "J"], "yellow", "Противоположные углы и противоположные стороны"),
+  fourOrbit("acdh", ["A", "C", "D", "H"], "red", "Соседние углы и соседние стороны при невыбранном угле"),
+];
+
+export const FIVE_FAMILIES: readonly FamilyDefinition[] = [
   family({
     id: "acegj", title: "ACEGJ", positions: ["A", "C", "E", "G", "J"], group: "red-red",
     summary: "Две арифметические прогрессии квадратов пересекаются в центре E.", theorem: "legacy_red_red_acegj", proofStatus: "legacy-formula",
@@ -559,6 +897,16 @@ export const FAMILIES: readonly FamilyDefinition[] = [
     ],
   }),
   family({
+    id: "befgj", title: "BEFGJ", positions: ["B", "E", "F", "G", "J"], group: "red-yellow",
+    summary: "Пропущенная в исходном PDF орбита: прогрессия BGF и жёлтое равенство B+E=G+J.", theorem: "red_yellow_befgj_square_mask", proofStatus: "browser-certificate",
+    coverageStatus: "algorithmic-up-to-equivalence",
+    reconstructionLatex: String.raw`(E,x,y)=(E,\,E-J,\,G-E)`, defaults: ["2", "1", "1", "1"], generate: redYellowBefgj,
+    justifications: [
+      support("bgf", RED, "red-light", ["B", "G", "F"], "B+F=2G", "arithmetic-progression"),
+      support("begj", YELLOW, "yellow", ["B", "E", "G", "J"], "B+E=G+J", "two-square-norm"),
+    ],
+  }),
+  family({
     id: "abcdh", title: "ABCDH", positions: ["A", "B", "C", "D", "H"], group: "red-blue",
     summary: "AP-тройка CDH, согласованная с нормой x² + 2y² на ABDH.", theorem: "red_blue_five_square_masks", proofStatus: "proof-core",
     reconstructionLatex: String.raw`(E,x,y)=(A-H+C,\,H-C,\,A-H)`, defaults: ["2", "1", "1", "1"], generate: redBlueAbcdh,
@@ -630,6 +978,11 @@ export const FAMILIES: readonly FamilyDefinition[] = [
       support("abcg", "Коричневая взвешенная коника", "brown", ["A", "B", "C", "G"], "2A+2B=C+3G", "weighted-conic"),
     ],
   }),
+];
+
+export const FAMILIES: readonly FamilyDefinition[] = [
+  ...FOUR_FAMILIES,
+  ...FIVE_FAMILIES,
 ];
 
 export function familyById(id: string | null): FamilyDefinition {

@@ -72,6 +72,23 @@ export const COMMON_PROOFS: readonly CommonProof[] = [
     conclusion:
       "Полиномиальная параметризация этой коники и её совместимость с B+C=D+G закреплены сертификатом yellow_brown_abcdg_square_mask.",
   },
+  {
+    id: "diagonal-quadric-projection",
+    title: "Проекционная лемма для диагональной квадрики",
+    colorLabel: "зелёные, коричневые и серые опоры",
+    summary:
+      "Любая невырожденная четырёхчленная диагональная квадрика с суммой коэффициентов ноль покрывается четырьмя знаковыми проекционными картами.",
+    formulas: [
+      String.raw`Q(q)=k_1q_1^2+k_2q_2^2+k_3q_3^2+k_4q_4^2,\qquad \sum_{i=1}^4k_i=0`,
+      String.raw`H=\begin{pmatrix}1&1&1&1\\1&1&-1&-1\\1&-1&1&-1\\1&-1&-1&1\end{pmatrix},\qquad \det H=-16`,
+      String.raw`\varepsilon\in\operatorname{rows}(H),\quad D=\sum k_iu_i^2,\quad L_\varepsilon=\sum k_i\varepsilon_i u_i,\quad q_i=D\varepsilon_i-2L_\varepsilon u_i`,
+      String.raw`Q(q)=D^2Q(\varepsilon)-4DL_\varepsilon^2+4L_\varepsilon^2D=0`,
+      String.raw`Q(q^*)=0:\quad H(k_1q_1^*,\ldots,k_4q_4^*)^T\ne0\Longrightarrow\exists\varepsilon:\ L_\varepsilon(q^*)\ne0`,
+      String.raw`u=q^*\Longrightarrow D=0,\qquad q=-2L_\varepsilon(q^*)q^*`,
+    ],
+    conclusion:
+      "Четыре строки H дают конечное покрытие всех ненулевых рациональных точек при kᵢ ≠ 0. Общий знаменатель очищается однородным масштабированием корней; случай нулевого коэффициента выделяется в красную конику со свободным корнем.",
+  },
 ];
 
 export function commonProofById(

@@ -9,9 +9,9 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 - News content lives in `src/content/news.ts` and is versioned with the UI.
 - KaTeX renders local proof cards and shared lemmas without a server runtime.
 - Exact integer calculations use native `BigInt` in the browser.
-- The atlas exposes all 22 known `5/9` families. Eight link to symbolic
-  certificates in `magic-squares-core`; legacy ports remain explicitly marked
-  as awaiting formalization.
+- The atlas exposes all 23 `4/9` and all 23 `5/9` orbits under `D4`. The exact
+  finite census, relation bases, and nondegenerate defaults are checked during
+  verification; proof-core and legacy formulas retain distinct statuses.
 - The laboratory state is the canonical integer triple `(E, x, y)`:
 
   ```text
@@ -30,7 +30,7 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   miniatures instead color the exact proof supports and split intersections
   between their two supporting identities.
 - Every default family preset has nine positive pairwise-distinct entries and
-  exactly the declared five square-valued positions.
+  exactly the declared four or five square-valued positions.
 - The selected family's sequential proof text is rendered directly below the
   laboratory: assumptions, explicit roots, algebraic identities, Magic3
   reconstruction, parity clearance, and the conclusion. It is not an
