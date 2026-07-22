@@ -94,6 +94,20 @@ const STATIC_METADATA: Readonly<
       type: "Article",
     },
   },
+  theory: {
+    en: {
+      title: "Theory of 3×3 Magic Squares — Contents",
+      description:
+        "Published chapters on the linear, arithmetic, and Diophantine theory of 3×3 magic squares, with complete proofs and explicit theorem boundaries.",
+      type: "WebPage",
+    },
+    ru: {
+      title: "Теория магических квадратов 3×3 — оглавление",
+      description:
+        "Опубликованные главы по линейной, арифметической и диофантовой теории магических квадратов 3×3 с полными доказательствами и точными границами теорем.",
+      type: "WebPage",
+    },
+  },
   "theory/magic-squares-3x3": {
     en: {
       title: "3×3 Magic Squares — General Form and Classification Proof",
@@ -105,6 +119,20 @@ const STATIC_METADATA: Readonly<
       title: "Магические квадраты 3×3 — общая форма и доказательство классификации",
       description:
         "Полное доказательство равенства M=3E и единственной формы m(E,x,y) над абелевой группой, с точными следствиями для колец, полей, R, Q и Z.",
+      type: "Article",
+    },
+  },
+  "theory/residues": {
+    en: {
+      title: "Residues and Quadratic Residues in 3×3 Magic Squares",
+      description:
+        "Proofs of congruence restrictions modulo 3, 4, 5, and 24 for integral magic squares of squares, plus a Legendre-symbol obstruction for corner entries.",
+      type: "Article",
+    },
+    ru: {
+      title: "Вычеты и квадратичные вычеты в магических квадратах 3×3",
+      description:
+        "Доказательства ограничений по модулям 3, 4, 5 и 24 для целочисленных магических квадратов из квадратов и препятствие для углов через символ Лежандра.",
       type: "Article",
     },
   },
@@ -423,8 +451,10 @@ END_CONTRACT */
 export function indexableRouteSuffixes(): readonly string[] {
   return [
     "",
+    "theory",
     "squares-of-squares",
     "theory/magic-squares-3x3",
+    "theory/residues",
     "lab",
     "proofs/general",
     "orbits/4",

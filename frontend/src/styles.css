@@ -1985,6 +1985,55 @@ main {
   max-width: 1320px;
 }
 
+.theory-chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.theory-chapter-card {
+  min-height: 230px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 22px;
+  padding: clamp(24px, 3.4vw, 42px);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-strong);
+}
+
+.theory-chapter-card:hover {
+  border-color: var(--brick);
+  background: var(--paper);
+}
+
+.theory-chapter-card > span {
+  color: var(--brick);
+  font: 10px var(--mono);
+  letter-spacing: 0.08em;
+}
+
+.theory-chapter-card h2 {
+  max-width: 440px;
+  margin: -5px 0 15px;
+  color: var(--graphite);
+  font: 500 clamp(27px, 3vw, 40px)/1.04 var(--serif);
+  letter-spacing: -0.025em;
+}
+
+.theory-chapter-card p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--graphite-soft);
+  font: 16px/1.62 var(--serif);
+}
+
+.theory-chapter-card > i {
+  align-self: end;
+  color: var(--blue-deep);
+  font-style: normal;
+}
+
 .topic-document,
 .orbit-level-document {
   max-width: 1120px;
@@ -3087,6 +3136,14 @@ main {
 
   .topic-route-grid {
     grid-template-columns: 1fr;
+  }
+
+  .theory-chapter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theory-chapter-card {
+    min-height: 0;
   }
 
 }

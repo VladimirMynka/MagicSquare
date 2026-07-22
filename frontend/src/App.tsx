@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import katex from "katex";
 import {
   Link as RouterLink,
   NavLink as RouterNavLink,
@@ -16,6 +15,7 @@ import {
   type NavigateProps,
   type To,
 } from "react-router-dom";
+import { Latex } from "./components/Latex";
 import { news, newsBySlug, type NewsArticle } from "./content/news";
 import { familyProof } from "./content/familyProofs";
 import {
@@ -58,6 +58,7 @@ import {
   type Locale,
 } from "./i18n";
 import { TimelinePage } from "./TimelinePage";
+import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
 
@@ -94,26 +95,6 @@ function NavLink({ to, ...props }: NavLinkProps) {
 function Navigate({ to, ...props }: NavigateProps) {
   const { locale } = useLocale();
   return <RouterNavigate to={localizeTo(locale, to)} {...props} />;
-}
-
-function Latex({
-  children,
-  display = false,
-}: {
-  children: string;
-  display?: boolean;
-}) {
-  const html = katex.renderToString(children, {
-    displayMode: display,
-    throwOnError: false,
-    strict: "warn",
-  });
-  return (
-    <span
-      className={`latex ${display ? "display" : "inline"}`}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  );
 }
 
 function AppMark() {
@@ -204,7 +185,7 @@ function AppShell() {
           aria-label={text("Основная навигация", "Primary navigation")}
         >
           <NavLink to="/lab">{text("Лаборатория", "Laboratory")}</NavLink>
-          <NavLink to="/squares-of-squares">
+          <NavLink to="/theory">
             {text("Теория", "Theory")}
           </NavLink>
           <NavLink to="/news">{text("Новости", "News")}</NavLink>
@@ -276,7 +257,7 @@ function HomePage() {
             <Link className="button button-primary" to="/lab">
               {text("Открыть лабораторию", "Open the laboratory")} <span>↗</span>
             </Link>
-            <Link className="button button-ghost" to="/squares-of-squares">
+            <Link className="button button-ghost" to="/theory">
               {text("Как устроены доказательства", "How the proofs work")}
             </Link>
           </div>
@@ -1727,8 +1708,8 @@ function BasicMagicTheoryPage() {
   const { text } = useLocale();
   return (
     <article className="page proof-page topic-page basic-theory-page">
-      <Link className="back-link" to="/squares-of-squares">
-        ← {text("К постановке задачи", "Back to the problem")}
+      <Link className="back-link" to="/theory">
+        ← {text("К оглавлению теории", "Back to theory contents")}
       </Link>
       <header className="proof-page-header">
         <div>
@@ -2793,8 +2774,10 @@ export function App() {
     <Routes>
       <Route path="/:locale" element={<LocaleLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="theory" element={<TheoryIndexPage />} />
         <Route path="squares-of-squares" element={<SquaresOfSquaresPage />} />
         <Route path="theory/magic-squares-3x3" element={<BasicMagicTheoryPage />} />
+        <Route path="theory/residues" element={<ResiduesTheoryPage />} />
         <Route path="lab" element={<LabPage />} />
         <Route path="families/:familyId" element={<FamilyRedirect />} />
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />
