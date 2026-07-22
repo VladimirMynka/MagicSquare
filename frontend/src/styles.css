@@ -2703,8 +2703,9 @@ main {
   }
 
   .site-header {
-    min-height: 70px;
+    min-height: 80px;
     padding: 0 18px;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
   }
 
   .brand strong {
