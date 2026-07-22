@@ -2152,14 +2152,14 @@ function AboutPage() {
           <p className="eyebrow">{text("О проекте", "About")}</p>
           <h1>
             {text(
-              "Задача о магическом квадрате 3×3 из полных квадратов",
-              "The 3×3 magic square of squares problem",
+              "Исследование магических квадратов 3×3",
+              "Research on 3×3 magic squares",
             )}
           </h1>
           <p>
             {text(
-              "Проект посвящён задаче о магическом квадрате 3×3 из попарно различных полных квадратов и её ослаблениям, в которых квадратными обязаны быть только некоторые клетки.",
-              "The project studies the problem of a 3×3 magic square made of pairwise distinct perfect squares and its weaker variants, in which only some entries are required to be squares.",
+              "Проект посвящён арифметической и алгебраической структуре магических квадратов 3×3. Центральная открытая задача — существование магического квадрата из девяти положительных попарно различных полных квадратов; частичные задачи k/9, конгруумы и алгебра магических матриц рассматриваются как связанные направления одного исследования.",
+              "The project studies the arithmetic and algebraic structure of 3×3 magic squares. Its central open question is whether a magic square can consist of nine positive, pairwise distinct perfect squares; the partial k/9 problems, congrua, and the algebra of magic matrices are treated as connected parts of the same investigation.",
             )}
           </p>
         </div>
@@ -2287,100 +2287,109 @@ a+e+j=c+e+g=M.
         </section>
 
         <section>
-          <h3>{text("2. Связь с конгруумами", "2. Relation to congrua")}</h3>
+          <h3>{text("2. Область исследования", "2. Scope of the research")}</h3>
           <p>
             {text(
-              "Базовый красный случай возникает, когда три квадратные клетки лежат в арифметической прогрессии. Их общий ненулевой шаг d называется конгруумом:",
-              "The basic red case occurs when three square-valued entries form an arithmetic progression. Their common nonzero difference d is a congruum:",
+              "Задачи 9/9 и 7/9 задают основную цель, но не исчерпывают проект. Мы изучаем, какие наборы клеток магического квадрата могут одновременно быть полными квадратами, строим параметрические семейства таких квадратов, исследуем ограничения делимости и представления чисел суммами квадратов, а также рассматриваем обычное матричное умножение магических и полумагических квадратов.",
+              "The 9/9 and 7/9 problems provide the main objective, but they do not exhaust the project. We study which sets of entries can simultaneously be perfect squares, construct parametric families of such squares, investigate divisibility restrictions and representations by sums of squares, and study ordinary matrix multiplication of magic and semimagic squares.",
             )}
           </p>
-          <Latex display>{String.raw`r^2,\ s^2,\ t^2,\qquad r^2+t^2=2s^2,\qquad d=s^2-r^2=t^2-s^2`}</Latex>
           <p>
             {text(
-              "Этой прогрессии соответствует прямоугольный треугольник со сторонами t−r, t+r и 2s и площадью d. Поэтому поиск красных троек связан с классической задачей о конгруэнтных числах. В проекте эта связь используется как одна из лемм, а не как решение всей задачи о магическом квадрате.",
-              "This progression gives a right triangle with sides t−r, t+r, and 2s and area d. Thus the search for red triples is connected with the classical congruent number problem. The project uses this correspondence as one lemma, not as a solution of the full magic-square problem.",
+              "Обозначение k/9 означает, что выбранные k клеток гарантированно являются квадратами; остальные клетки также могут случайно оказаться квадратами. Два расположения выбранных клеток считаются одинаковыми, если одно получается из другого поворотом или отражением всего квадрата.",
+              "The notation k/9 means that the selected k entries are guaranteed to be squares; some of the remaining entries may also happen to be squares. Two placements of selected entries are regarded as the same when one is obtained from the other by rotating or reflecting the whole square.",
+            )}
+          </p>
+        </section>
+
+        <section>
+          <h3>{text("3. Основные результаты", "3. Main results")}</h3>
+          <p>
+            {text(
+              "Ниже перечислены результаты, которые, по изученным нами публикациям и каталогам, ранее не были представлены в таком объёме или в такой форме. Это утверждение относится к доступному нам корпусу источников и может уточняться по мере библиографической проверки.",
+              "The results below have not, to the best of our knowledge from the publications and catalogues examined, previously appeared with the same scope or in the same form. This statement is limited to the sources available to us and may be refined as the bibliographic review continues.",
+            )}
+          </p>
+
+          <h4 className="about-subheading">
+            {text("3.1. Полное покрытие позиционных типов 5/9", "3.1. Complete coverage of the 5/9 positional types")}
+          </h4>
+          <p>
+            {text(
+              "Для каждого из 23 существенно различных расположений пяти квадратных клеток построено явное невырожденное параметрическое семейство целочисленных магических квадратов. Поэтому ни один позиционный тип 5/9 не остаётся без конструкции. Под невырожденностью здесь понимаются положительность и попарная различность всех девяти элементов хотя бы для допустимых значений параметров семейства.",
+              "For each of the 23 essentially different placements of five square entries, we construct an explicit nondegenerate parametric family of integral magic squares. Thus no 5/9 positional type remains without a construction. Here nondegenerate means that admissible parameter values exist for which all nine entries are positive and pairwise distinct.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Это полнота покрытия позиционных типов, а не утверждение, что одна выписанная формула перечисляет каждую рациональную точку соответствующей системы уравнений. Для каждой формулы отдельно указано, какая часть рациональных решений ею покрывается.",
+              "This is completeness of coverage of the positional types, not a claim that one displayed formula enumerates every rational point of the corresponding system of equations. The subset of rational solutions covered by each formula is stated separately.",
+            )}
+          </p>
+          <ul className="proof-references">
+            <li><Link to="/orbits/5">{text("Атлас позиционных типов 5/9", "Atlas of the 5/9 positional types")}</Link></li>
+            <li><Link to="/proofs/general">{text("Общая теория частичных квадратных масок", "General theory of partial square patterns")}</Link></li>
+          </ul>
+
+          <h4 className="about-subheading">
+            {text("3.2. Продвижение для 6/9", "3.2. Progress on 6/9")}
+          </h4>
+          <p>
+            {text(
+              "Для шести выбранных клеток существует 16 существенно различных позиционных типов. В проекте получены точные невырожденные примеры как минимум для девяти из них и бесконечные явные параметрические семейства для трёх типов. По сравнению с рассмотренными нами источниками это даёт существенно более широкое покрытие задачи 6/9 по позиционным типам, хотя полного решения всех 16 типов пока нет.",
+              "There are 16 essentially different positional types for six selected entries. The project has exact nondegenerate examples for at least nine of them and explicit infinite parametric families for three types. Compared with the sources we have examined, this gives substantially broader type-by-type coverage of the 6/9 problem, although all 16 types have not yet been solved.",
+            )}
+          </p>
+
+          <h4 className="about-subheading">
+            {text("3.3. Магические, чарующие и полумагические квадраты", "3.3. Magic, charming, and semimagic squares")}
+          </h4>
+          <p>
+            {text(
+              "Произведение двух магических квадратов 3×3 обычно уже не является магическим, но остаётся полумагическим: суммы во всех строках и столбцах равны. Такие произведения образуют выделенный трёхмерный класс, который мы называем чарующими квадратами. Магические и чарующие квадраты чередуются при умножении: произведение двух магических квадратов чарующее, произведение магического и чарующего — магическое, а произведение двух чарующих — чарующее.",
+              "The product of two 3×3 magic squares is generally no longer magic, but it remains semimagic: all row and column sums are equal. Such products form a distinguished three-dimensional class that we call charming squares. Magic and charming squares alternate under multiplication: magic times magic is charming, magic times charming is magic, and charming times charming is charming.",
+            )}
+          </p>
+          <p>
+            {text(
+              "После отделения общего скалярного компонента эти два класса задают чётную и нечётную части пятимерной ассоциативной алгебры полумагических матриц. Для этой алгебры получены явные формулы определителя, присоединённой матрицы и характеристического многочлена.",
+              "After the common scalar component is separated, these two classes give the even and odd parts of the five-dimensional associative algebra of semimagic matrices. Explicit formulas for the determinant, adjugate, and characteristic polynomial have also been obtained for this algebra.",
+            )}
+          </p>
+
+          <h4 className="about-subheading">
+            {text("3.4. Конгруумы и поверхность F4+", "3.4. Congrua and the F4+ surface")}
+          </h4>
+          <p>
+            {text(
+              "Три квадрата в арифметической прогрессии определяют прямоугольный треугольник, площадь которого равна шагу прогрессии. Поэтому часть задачи о магических квадратах связана с классической задачей о конгруэнтных числах. Если положить F(a,b)=ab(a²−b²), то значения F, отличающиеся на рациональный квадрат, соответствуют одному классу этой задачи.",
+              "Three squares in arithmetic progression determine a right triangle whose area equals the common difference. This connects part of the magic-square problem with the classical congruent number problem. If F(a,b)=ab(a²−b²), then values of F that differ by a rational square represent the same class in this problem.",
+            )}
+          </p>
+          <Latex display>{String.raw`F(a,b)=\rho^2F(a,d)`}</Latex>
+          <p>
+            {text(
+              "Мы свели это семейство совпадений к эллиптической поверхности F4+. Её рациональные точки систематически порождают пары представлений одного конгруэнтного класса. Для поверхности определены особые слои и доказано существование ровно двух независимых направлений рациональных семейств; более ранние отдельные формулы оказываются частными случаями или вырожденным пределом общей конструкции. Та же структура используется при построении некоторых семейств 6/9.",
+              "We reduce this family of coincidences to an elliptic surface called F4+. Its rational points systematically produce pairs of representations of the same congruent-number class. The singular fibres are determined, and the rational families are proved to have exactly two independent directions; several earlier isolated formulas become special cases or a degenerate limit of the common construction. The same structure is used in constructing some 6/9 families.",
             )}
           </p>
           <ul className="proof-references">
             <li>
               <Link to="/proofs/arithmetic-progression">
                 {text(
-                  "Красная лемма и полная параметризация трёх квадратов в арифметической прогрессии",
-                  "The red lemma and the complete parametrization of three squares in arithmetic progression",
+                  "Три квадрата в арифметической прогрессии",
+                  "Three squares in arithmetic progression",
                 )}
               </Link>
             </li>
-            <li>
-              <a href="https://arxiv.org/abs/0712.3850">
-                A. van der Poorten, Fermat&apos;s Four Squares Theorem
-              </a>
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>{text("3. Объект классификации", "3. Object of classification")}</h3>
-          <p>
-            {text(
-              "Группа D₄ действует на девяти клетках вращениями и отражениями. Проект классифицирует маски S с четырьмя и пятью клетками с точностью до этого действия. На каждом уровне получается ровно 23 орбиты; взятие дополнения задаёт биекцию между уровнями 4/9 и 5/9.",
-              "The group D4 acts on the nine cells by rotations and reflections. The project classifies four- and five-cell masks S modulo this action. There are exactly 23 orbits at each level, and taking complements gives a bijection between the 4/9 and 5/9 levels.",
-            )}
-          </p>
-          <p>
-            {text(
-              "После введения корней qₚ исходная система линейна по E, x, y. Исключение этих трёх координат даёт одну квадрику при |S|=4 и две независимые квадрики при |S|=5. Они необходимы и достаточны над Q; целочисленные координаты получаются очисткой общего знаменателя однородным масштабированием.",
-              "After roots qₚ are introduced, the original system is linear in E, x, and y. Eliminating these three coordinates gives one quadric when |S|=4 and two independent quadrics when |S|=5. They are necessary and sufficient over Q; integral coordinates are obtained by clearing the common denominator through homogeneous scaling.",
-            )}
-          </p>
-          <Latex display>{String.raw`q_S^{[2]}\in\operatorname{im}L_S\quad\Longleftrightarrow\quad R_i(q_S^{[2]})=0\quad(1\le i\le |S|-3)`}</Latex>
-          <ul className="proof-references">
-            <li><Link to="/proofs/general">{text("Общее доказательство классификации и исключения", "General proof of the classification and elimination")}</Link></li>
-            <li><Link to="/orbits/4">{text("Все 23 орбиты уровня 4/9", "All 23 orbits at the 4/9 level")}</Link></li>
-            <li><Link to="/orbits/5">{text("Все 23 орбиты уровня 5/9", "All 23 orbits at the 5/9 level")}</Link></li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>{text("4. Научная новизна", "4. Scientific novelty")}</h3>
-          <p>
-            {text(
-              "Новизна проекта не относится к общей форме магического квадрата, понятию конгруума или постановке открытой задачи 9/9. Она состоит в совместном рассмотрении всех частичных квадратных масок уровней 4/9 и 5/9 в единой системе:",
-              "The project's novelty does not lie in the general form of a magic square, the notion of a congruum, or the statement of the open 9/9 problem. It lies in treating all partial square masks at the 4/9 and 5/9 levels within one system:",
-            )}
-          </p>
-          <ul>
-            <li>{text("полный список D₄-орбит обоих уровней и исправление прежнего каталога проекта с 22 до 23 орбит;", "a complete list of D4 orbits at both levels and correction of the project's earlier catalog from 22 to 23 orbits;")}</li>
-            <li>{text("единый вывод необходимых и достаточных квадратичных систем непосредственно из координат E, x, y;", "a uniform derivation of the necessary-and-sufficient quadratic systems directly from the coordinates E, x, and y;")}</li>
-            <li>{text("явные параметризации для каждой орбиты с отдельным доказательством области покрытия и исключительного множества;", "explicit parametrizations for every orbit, each with a separate proof of its coverage domain and exceptional locus;")}</li>
-            <li>{text("канонический выбор цветового базиса квадрик, связывающий раскраску маски с конкретными уравнениями, а не с декоративной разметкой.", "a canonical colored basis of quadrics that ties each mask color to a specific equation rather than decorative markup.")}</li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>{text("5. Вклад текущей версии", "5. Contribution of the current version")}</h3>
-          <ul>
-            <li>{text("Для всех 23 орбит 4/9 дана полная рациональная параметризация с алгоритмом перехода к целым координатам.", "All 23 orbits at the 4/9 level have a complete rational parametrization with an algorithm for obtaining integral coordinates.")}</li>
-            <li>{text("Для 15 из 23 орбит 5/9 доказана полнота используемой параметризации. Для остальных восьми точно указано максимально широкое подмножество, покрытие которого доказано, и описано исключительное множество.", "For 15 of the 23 orbits at the 5/9 level, the employed parametrization is proved complete. For each of the other eight, the widest subset whose coverage is proved is stated explicitly, together with the exceptional locus.")}</li>
-            <li>{text("Каждая семейная формула сопровождается выводом из квадрик, восстановлением E, x, y и явным статусом полноты; проверка тождества не выдаётся за доказательство покрытия.", "Every family formula is accompanied by a derivation from its quadrics, reconstruction of E, x, and y, and an explicit coverage status; identity verification is not presented as a coverage proof.")}</li>
-            <li>{text("Точные полиномиальные сертификаты вынесены в доказательное ядро и отделены от формул, для которых доказательство ещё не формализовано.", "Exact polynomial certificates are kept in the proof core and distinguished from formulas whose proofs have not yet been formalized.")}</li>
-          </ul>
-        </section>
-
-        <section>
-          <h3>{text("6. Границы результата", "6. Scope and limitations")}</h3>
-          <ul>
-            <li>{text("Классификация 4/9 и 5/9 не доказывает существование квадрата 9/9.", "The 4/9 and 5/9 classification does not prove the existence of a 9/9 square.")}</li>
-            <li>{text("Обозначение k/9 гарантирует квадратность выбранных k клеток, но не утверждает неквадратность остальных.", "The notation k/9 guarantees that the selected k entries are squares but does not assert that the remaining entries are nonsquares.")}</li>
-            <li>{text("Полнота списка масок, достаточность квадрик и полнота конкретной параметризации являются разными утверждениями и доказываются отдельно.", "Completeness of the mask list, sufficiency of the quadrics, and completeness of a particular parametrization are distinct claims and are proved separately.")}</li>
-            <li>{text("Утверждение о научном приоритете относительно всей литературы не делается до завершения отдельного библиографического обзора.", "No claim of historical priority over the entire literature is made before a dedicated bibliographic review is completed.")}</li>
           </ul>
         </section>
 
         <section id="copyright" className="copyright-section">
           <h3>
             {text(
-              "7. Авторы, благодарности и распространение",
-              "7. Authors, acknowledgements, and redistribution",
+              "4. Авторы, благодарности и распространение",
+              "4. Authors, acknowledgements, and redistribution",
             )}
           </h3>
           <h4>{text("Авторы", "Authors")}</h4>
@@ -2397,12 +2406,18 @@ a+e+j=c+e+g=M.
                 "An author who wishes to remain anonymous — co-author.",
               )}
             </li>
+            <li>
+              {text(
+                "Алексей Поздеев — соавтор.",
+                "Alexey Pozdeev — co-author.",
+              )}
+            </li>
           </ul>
           <h4>{text("Благодарности", "Acknowledgements")}</h4>
           <p>
             {text(
-              "Отдельная благодарность Алексею Халину, ИППИ РАН, за консультацию и ранние проверки, а также активным участникам локального математического сообщества.",
-              "Special thanks to Alexey Khalin, IITP RAS, for consultation and early checks, and to the active participants in the local mathematics community.",
+              "Отдельная благодарность Алексею Халину (Институт проблем передачи информации им. А. А. Харкевича РАН, ИППИ РАН) за консультацию и ранние проверки, а также активным участникам локального математического сообщества.",
+              "Special thanks to Alexey Khalin (Kharkevich Institute for Information Transmission Problems of the Russian Academy of Sciences, IITP RAS) for consultation and early checks, and to the active participants in the local mathematics community.",
             )}
           </p>
           <h4>Copyright</h4>

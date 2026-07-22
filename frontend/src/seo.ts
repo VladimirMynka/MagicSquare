@@ -150,14 +150,14 @@ const STATIC_METADATA: Readonly<
   },
   about: {
     en: {
-      title: "About the 3×3 Magic Square of Squares Project",
+      title: "About the Magic Squares Research Project",
       description:
-        "Definitions of 3×3 magic squares and magic squares of squares, the open strong 9/9 problem, the open weak 7/9 problem, the known exception, and the project's contribution.",
+        "The 9/9 and 7/9 problems, complete coverage of the 5/9 positional types, progress on 6/9, charming squares, the F4+ elliptic surface, authorship, and rights.",
     },
     ru: {
-      title: "О проекте магических квадратов из квадратов 3×3",
+      title: "О проекте исследования магических квадратов",
       description:
-        "Определения магического и квадратного квадрата 3×3, открытые сильная задача 9/9 и слабая задача 7/9, известное исключение и вклад проекта.",
+        "Задачи 9/9 и 7/9, полное покрытие позиционных типов 5/9, продвижение для 6/9, чарующие квадраты, эллиптическая поверхность F4+, авторы и права.",
     },
   },
 };
@@ -165,7 +165,7 @@ const STATIC_METADATA: Readonly<
 /* START_FUNCTION pageSchema */
 /* START_CONTRACT
 PURPOSE: Build one Schema.org record with consistent authorship and rights metadata.
-CONTRACT: Attribute every public page to Vladimir Mynka and point redistribution terms to the localized copyright section.
+CONTRACT: Attribute every public page to the three project authors and point redistribution terms to the localized copyright section.
 FAILURE_MEANING: Search engines may expose incomplete or incorrect authorship metadata.
 KEYWORDS: schema-org, author, copyright
 COMPLEXITY: 2
@@ -186,6 +186,10 @@ function pageSchema(
       name: locale === "ru"
         ? "Автор, пожелавший сохранить анонимность"
         : "An author who wishes to remain anonymous",
+    },
+    {
+      "@type": "Person",
+      name: locale === "ru" ? "Алексей Поздеев" : "Alexey Pozdeev",
     },
   ];
   const schema: Record<string, unknown> = {

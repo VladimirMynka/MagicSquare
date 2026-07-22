@@ -59,6 +59,12 @@ for (const suffix of indexableRouteSuffixes()) {
       html.includes('"copyrightHolder"') && html.includes('"copyrightYear":2021'),
       `${pathname} is missing structured copyright metadata`,
     );
+    invariant(
+      html.includes(locale === "ru" ? "Алексей Поздеев" : "Alexey Pozdeev")
+        && html.includes("Alexey Khalin")
+        && html.includes("IITP RAS"),
+      `${pathname} is missing structured project authorship`,
+    );
     const root = html.match(/<div id="root">([\s\S]*)<\/div>\s*<\/body>/);
     invariant(Boolean(root?.[1]) && root[1].length > 1000, `${pathname} has an empty app shell`);
     for (const match of html.matchAll(/href="(\/(?:en|ru)(?:[^"?#]*))/g)) {

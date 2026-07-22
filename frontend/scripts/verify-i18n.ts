@@ -190,7 +190,7 @@ function verifyEnglishRoutes(): number {
     "/en/proofs/arithmetic-progression": "Red lemma",
     "/en/news": "Research milestones and project publications",
     "/en/timeline": "Project timeline",
-    "/en/about": "The 3×3 magic square of squares problem",
+    "/en/about": "Research on 3×3 magic squares",
   };
   for (const [route, marker] of Object.entries(routes)) {
     const html = renderToStaticMarkup(
