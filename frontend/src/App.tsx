@@ -2284,14 +2284,37 @@ function AboutPage() {
         <section id="copyright" className="copyright-section">
           <h3>
             {text(
-              "7. Авторство и распространение",
-              "7. Authorship and redistribution",
+              "7. Авторы, благодарности и распространение",
+              "7. Authors, acknowledgements, and redistribution",
             )}
           </h3>
+          <h4>{text("Авторы", "Authors")}</h4>
+          <ul className="rights-list">
+            <li>
+              {text(
+                "Владимир Мынка — основной автор.",
+                "Vladimir Mynka — lead author.",
+              )}
+            </li>
+            <li>
+              {text(
+                "Автор, пожелавший сохранить анонимность, — соавтор.",
+                "An author who wishes to remain anonymous — co-author.",
+              )}
+            </li>
+          </ul>
+          <h4>{text("Благодарности", "Acknowledgements")}</h4>
           <p>
             {text(
-              "Исследование и исходный проект: Владимир Мынка (Vladimir Mynka). Copyright © 2021–2026 Vladimir Mynka.",
-              "Research and original project: Vladimir Mynka. Copyright © 2021–2026 Vladimir Mynka.",
+              "Отдельная благодарность Алексею Халину, ИППИ РАН, за консультацию и ранние проверки, а также активным участникам локального математического сообщества.",
+              "Special thanks to Alexey Khalin, IITP RAS, for consultation and early checks, and to the active participants in the local mathematics community.",
+            )}
+          </p>
+          <h4>Copyright</h4>
+          <p>
+            {text(
+              "Copyright © 2021–2026 Владимир Мынка.",
+              "Copyright © 2021–2026 Vladimir Mynka.",
             )}
           </p>
           <p>

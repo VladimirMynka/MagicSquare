@@ -59,6 +59,21 @@ END_CONTRACT */
   background: #eee6da !important;
 }
 
+.copyright-section h4 {
+  margin: 28px 0 10px;
+  color: var(--graphite);
+  font: 600 16px/1.2 var(--serif);
+}
+
+.copyright-section .rights-list {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.copyright-section .rights-list li + li {
+  margin-top: 5px;
+}
+
 .canonical-rights-link,
 .copyright-section p a {
   display: inline-block;

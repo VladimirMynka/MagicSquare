@@ -176,6 +176,18 @@ function pageSchema(
   locale: SeoLocale,
 ): Readonly<Record<string, unknown>> {
   const type = metadata.type ?? "WebPage";
+  const authors = [
+    {
+      "@type": "Person",
+      name: SITE_AUTHOR,
+    },
+    {
+      "@type": "Person",
+      name: locale === "ru"
+        ? "Автор, пожелавший сохранить анонимность"
+        : "An author who wishes to remain anonymous",
+    },
+  ];
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": type,
@@ -183,9 +195,14 @@ function pageSchema(
     description: metadata.description,
     inLanguage: locale,
     url: `${SITE_ORIGIN}${canonicalPath}`,
-    creator: {
+    creator: authors,
+    contributor: {
       "@type": "Person",
-      name: SITE_AUTHOR,
+      name: "Alexey Khalin",
+      affiliation: {
+        "@type": "Organization",
+        name: "IITP RAS",
+      },
     },
     copyrightHolder: {
       "@type": "Person",
@@ -197,10 +214,7 @@ function pageSchema(
   };
   if (type === "Article") {
     schema.headline = metadata.title;
-    schema.author = {
-      "@type": "Person",
-      name: SITE_AUTHOR,
-    };
+    schema.author = authors;
     schema.datePublished = "2026-07-21";
     schema.dateModified = "2026-07-22";
   }
