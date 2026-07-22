@@ -184,7 +184,7 @@ function verifyEnglishRoutes(): number {
     "/en/orbits/5/befgj": "Family BEFGJ",
     "/en/proofs/general": "Why there are exactly 23 orbits",
     "/en/proofs/arithmetic-progression": "Red lemma",
-    "/en/news": "No publications have been published yet",
+    "/en/news": "Research milestones and project publications",
     "/en/timeline": "Project timeline",
     "/en/about": "The 3×3 magic square of squares problem",
   };

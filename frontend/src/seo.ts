@@ -128,12 +128,12 @@ const STATIC_METADATA: Readonly<
     en: {
       title: "Magic Squares Project News",
       description:
-        "News section of the Magic Squares research project. No publications have been published yet.",
+        "Research milestones and publications from the Magic Squares project.",
     },
     ru: {
       title: "Новости проекта Magic Squares",
       description:
-        "Раздел новостей исследовательского проекта Magic Squares. Публикаций пока нет.",
+        "Вехи исследования и публикации проекта Magic Squares.",
     },
   },
   timeline: {

@@ -2067,8 +2067,8 @@ function NewsPage() {
         <h1>{text("Новости", "News")}</h1>
         <p>
           {text(
-            "Публикаций пока нет.",
-            "No publications have been published yet.",
+            "Вехи исследования и публикации проекта.",
+            "Research milestones and project publications.",
           )}
         </p>
       </header>
