@@ -2356,6 +2356,19 @@ a+e+j=c+e+g=M.
               "After the common scalar component is separated, these two classes give the even and odd parts of the five-dimensional associative algebra of semimagic matrices. Explicit formulas for the determinant, adjugate, and characteristic polynomial have also been obtained for this algebra.",
             )}
           </p>
+          <p>
+            {text(
+              "Более того, над рациональными числами каждый полумагический квадрат 3×3 допускает явное разложение в сумму магического квадрата и произведения двух магических квадратов:",
+              "Moreover, over the rational numbers every 3×3 semimagic square has an explicit decomposition as the sum of a magic square and a product of two magic squares:",
+            )}
+          </p>
+          <Latex display>{String.raw`S(E,x,y,z,w)=M(E,x,y)+M(0,1,0)M(0,z,-w).`}</Latex>
+          <p>
+            {text(
+              "Второе слагаемое является чарующим квадратом C(0,z,w). Поэтому магические и чарующие квадраты не только порождают всё пятимерное пространство линейными комбинациями: для каждого его элемента разложение выписывается непосредственно.",
+              "The second term is the charming square C(0,z,w). Thus magic and charming squares do more than span the five-dimensional space by linear combinations: the decomposition of every element is explicit.",
+            )}
+          </p>
 
           <h4 className="about-subheading">
             {text("3.4. Конгруумы и поверхность F4+", "3.4. Congrua and the F4+ surface")}
