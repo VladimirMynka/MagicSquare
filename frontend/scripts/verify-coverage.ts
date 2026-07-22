@@ -48,7 +48,7 @@ for (const family of FAMILIES) {
       `${family.id}/${locale}: empty exceptional locus`,
     );
 
-    const route = `/${locale}/lab?family=${family.id}`;
+    const route = `/${locale}/orbits/${family.level}/${family.id}`;
     const html = renderToStaticMarkup(
       createElement(
         MemoryRouter,

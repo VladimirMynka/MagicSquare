@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://magic-squares.mynka.tech/sitemap.xml

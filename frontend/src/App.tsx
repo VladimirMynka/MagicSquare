@@ -8,6 +8,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
   useParams,
   useSearchParams,
   type LinkProps,
@@ -46,6 +47,7 @@ import {
   type Position,
   type SquareCell,
 } from "./lib/magicSquare";
+import { orbitPath } from "./seo";
 import {
   LocaleProvider,
   isLocale,
@@ -201,13 +203,16 @@ function AppShell() {
           aria-label={text("Основная навигация", "Primary navigation")}
         >
           <NavLink to="/lab">{text("Лаборатория", "Laboratory")}</NavLink>
+          <NavLink to="/squares-of-squares">
+            {text("Теория", "Theory")}
+          </NavLink>
           <NavLink to="/news">{text("Новости", "News")}</NavLink>
           <NavLink to="/about">{text("О проекте", "About")}</NavLink>
         </nav>
         <div className="header-meta">
           <LanguageSwitcher />
           <span className="release-pill">
-            <i /> alpha · 0.5.1
+            <i /> alpha · 0.6.0
           </span>
         </div>
       </header>
@@ -263,7 +268,7 @@ function HomePage() {
             <Link className="button button-primary" to="/lab">
               {text("Открыть лабораторию", "Open the laboratory")} <span>↗</span>
             </Link>
-            <Link className="button button-ghost" to="/about">
+            <Link className="button button-ghost" to="/squares-of-squares">
               {text("Как устроены доказательства", "How the proofs work")}
             </Link>
           </div>
@@ -307,7 +312,7 @@ function HomePage() {
           {["abehj", "abcdh", "abcdg"].map(familyById).map((family, index) => (
             <Link
               className={`feature-card tone-${family.group}`}
-              to={`/lab?family=${family.id}#family-proof`}
+              to={`${orbitPath(family.id)}#family-proof`}
               key={family.id}
             >
               <span className="feature-index">0{index + 1}</span>
@@ -406,11 +411,14 @@ function HeroSquare() {
   );
 }
 
-function LabPage() {
+function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   const { locale, text } = useLocale();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const requestedFamily = searchParams.get("family");
-  const initialFamily = requestedFamily ? familyById(requestedFamily) : null;
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const requestedFamily = routeFamilyId ?? searchParams.get("family");
+  const initialFamily = requestedFamily
+    ? findFamilyById(requestedFamily) ?? null
+    : null;
   let initialParameters = PARAMETER_KEYS.map(
     (key, index) =>
       searchParams.get(key) ?? (initialFamily ?? FAMILIES[0]).defaults[index],
@@ -471,19 +479,27 @@ function LabPage() {
     nextFamily: FamilyDefinition,
     nextParameters: ParameterStrings,
   ) {
-    setSearchParams({
-      family: nextFamily.id,
-      ...Object.fromEntries(
+    const nextSearch = new URLSearchParams(
+      Object.fromEntries(
         PARAMETER_KEYS.map((key, index) => [key, nextParameters[index]]),
       ),
+    );
+    navigate({
+      pathname: localePath(locale, orbitPath(nextFamily.id)),
+      search: `?${nextSearch.toString()}`,
+      hash: "#family-proof",
     });
   }
 
   function persistManual(nextCoordinates: Coordinates) {
-    setSearchParams({
+    const nextSearch = new URLSearchParams({
       e: nextCoordinates[0].toString(),
       x: nextCoordinates[1].toString(),
       y: nextCoordinates[2].toString(),
+    });
+    navigate({
+      pathname: localePath(locale, "/lab"),
+      search: `?${nextSearch.toString()}`,
     });
   }
 
@@ -1135,7 +1151,14 @@ function FamilyRedirect() {
   const { familyId } = useParams();
   const family = findFamilyById(familyId);
   if (!family) return <Navigate to="/lab" replace />;
-  return <Navigate to={`/lab?family=${family.id}#family-proof`} replace />;
+  return <Navigate to={`${orbitPath(family.id)}#family-proof`} replace />;
+}
+
+function OrbitFamilyPage() {
+  const { level, familyId } = useParams();
+  const family = findFamilyById(familyId);
+  if (!family || String(family.level) !== level) return <NotFoundPage />;
+  return <LabPage key={`${level}/${family.id}`} routeFamilyId={family.id} />;
 }
 
 function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
@@ -1530,7 +1553,7 @@ function OrbitAtlas({
                     <div>
                       <Link
                         className="orbit-atlas-title"
-                        to={`/lab?family=${family.id}#family-proof`}
+                        to={`${orbitPath(family.id)}#family-proof`}
                       >
                         {family.title} →
                       </Link>
@@ -1564,6 +1587,201 @@ function OrbitAtlas({
         </div>
       </div>
     </section>
+  );
+}
+
+function SquaresOfSquaresPage() {
+  const { text } = useLocale();
+  return (
+    <article className="page proof-page topic-page">
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">
+            {text(
+              "Открытая задача и её частичные формы",
+              "The open problem and its partial forms",
+            )}
+          </p>
+          <h1>
+            {text(
+              "Магический квадрат из квадратов 3×3",
+              "The 3×3 magic square of squares",
+            )}
+          </h1>
+          <p>
+            {text(
+              "Существует ли невырожденный магический квадрат порядка 3, все девять различных целых значений которого являются полными квадратами? Для обычной арифметики эта задача остаётся открытой.",
+              "Does there exist a nondegenerate order-3 magic square whose nine distinct integer entries are all perfect squares? Over the ordinary integers, this problem remains open.",
+            )}
+          </p>
+        </div>
+      </header>
+
+      <div className="proof-document topic-document">
+        <section>
+          <h2>{text("Общая форма", "The general form")}</h2>
+          <p>
+            {text(
+              "Каждый магический квадрат 3×3 однозначно задаётся тремя координатами E, x, y. Центр равен E, а магическая сумма равна 3E:",
+              "Every 3×3 magic square is uniquely determined by three coordinates E, x, and y. Its center is E and its magic sum is 3E:",
+            )}
+          </p>
+          <Latex display>{MAGIC3_LATEX}</Latex>
+          <p>
+            {text(
+              "Полная задача 9/9 требует, чтобы все девять линейных форм были различными неотрицательными квадратами целых чисел. Лаборатория позволяет непосредственно изменять E, x, y и проверять получающийся квадрат.",
+              "The full 9/9 problem requires all nine linear forms to be distinct nonnegative integer squares. The laboratory exposes E, x, and y directly and checks the resulting square.",
+            )}
+          </p>
+          <div className="topic-actions">
+            <Link className="button button-primary" to="/lab">
+              {text("Открыть калькулятор", "Open the calculator")} <span>↗</span>
+            </Link>
+            <Link className="button button-ghost" to="/proofs/general">
+              {text("Читать общую теорию", "Read the general theory")}
+            </Link>
+          </div>
+        </section>
+
+        <section>
+          <h2>
+            {text(
+              "Почему мы начинаем с 4/9 и 5/9",
+              "Why the atlas starts with 4/9 and 5/9",
+            )}
+          </h2>
+          <p>
+            {text(
+              "Вместо недоказанного существования 9/9 мы фиксируем набор клеток, значения которых гарантированно являются квадратами. Это условие не запрещает остальным клеткам случайно оказаться квадратными: 4/9 и 5/9 обозначают гарантированную маску, а не обязательно точное число квадратных значений.",
+              "Instead of assuming an unproved 9/9 solution, we fix a set of cells whose values are guaranteed to be squares. Other cells may also happen to be square-valued: 4/9 and 5/9 describe a guaranteed mask, not necessarily the exact number of square entries.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Вращения и отражения квадрата образуют группу D₄. С точностью до этого действия существует 23 маски из четырёх клеток и 23 дополнительные к ним маски из пяти клеток.",
+              "Rotations and reflections form the group D4. Modulo this action there are 23 four-cell masks and 23 complementary five-cell masks.",
+            )}
+          </p>
+          <div className="topic-route-grid">
+            <Link to="/orbits/4">
+              <span>4/9</span>
+              <strong>{text("23 орбиты четырёх клеток", "23 four-cell orbits")}</strong>
+              <i>→</i>
+            </Link>
+            <Link to="/orbits/5">
+              <span>5/9</span>
+              <strong>{text("23 орбиты пяти клеток", "23 five-cell orbits")}</strong>
+              <i>→</i>
+            </Link>
+          </div>
+        </section>
+
+        <section>
+          <h2>{text("Что содержит доказательство", "What the proof contains")}</h2>
+          <ul>
+            <li>
+              {text(
+                "полное разложение масок по орбитам D₄ и доказательство отсутствия других орбит;",
+                "a complete decomposition into D4 orbits and a proof that no further orbits exist;",
+              )}
+            </li>
+            <li>
+              {text(
+                "исходную систему уравнений в E, x, y и квадратных корнях;",
+                "the original equations in E, x, y, and the square roots;",
+              )}
+            </li>
+            <li>
+              {text(
+                "исключение E, x, y до одной квадрики для 4/9 и двух независимых квадрик для 5/9;",
+                "elimination of E, x, and y to one quadric for 4/9 and two independent quadrics for 5/9;",
+              )}
+            </li>
+            <li>
+              {text(
+                "явные параметризации, условия применимости и максимально широкие доказанные области покрытия.",
+                "explicit parametrizations, applicability assumptions, and the widest proved coverage domains currently available.",
+              )}
+            </li>
+          </ul>
+        </section>
+      </div>
+    </article>
+  );
+}
+
+function OrbitLevelPage({ level }: { level: FamilyLevel }) {
+  const { text } = useLocale();
+  const families = level === 4 ? FOUR_FAMILIES : FIVE_FAMILIES;
+  return (
+    <article className="page proof-page orbit-level-page">
+      <Link className="back-link" to="/squares-of-squares">
+        ← {text("К постановке задачи", "Back to the problem")}
+      </Link>
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">
+            {text("Полная классификация по D₄", "Complete D4 classification")}
+          </p>
+          <h1>
+            {level === 4
+              ? text(
+                  "Четыре квадратные клетки: 23 орбиты",
+                  "Four square entries: 23 orbits",
+                )
+              : text(
+                  "Пять квадратных клеток: 23 орбиты",
+                  "Five square entries: 23 orbits",
+                )}
+          </h1>
+          <p>
+            {level === 4
+              ? text(
+                  "Каждая маска задаёт четыре гарантированно квадратных значения и одну квадрику совместимости после исключения E, x, y.",
+                  "Each mask specifies four guaranteed square values and one compatibility quadric after E, x, and y are eliminated.",
+                )
+              : text(
+                  "Каждая маска задаёт пять гарантированно квадратных значений и две независимые квадрики совместимости после исключения E, x, y.",
+                  "Each mask specifies five guaranteed square values and two independent compatibility quadrics after E, x, and y are eliminated.",
+                )}
+          </p>
+        </div>
+      </header>
+
+      <div className="proof-document orbit-level-document">
+        <section>
+          <p>
+            {text(
+              "Число в названии — нижняя гарантия, а не запрет на дополнительные квадратные клетки. Нажмите название маски, чтобы открыть ту же лабораторию с её параметрами и полным доказательством непосредственно под квадратом.",
+              "The level is a lower guarantee, not a prohibition on additional square-valued cells. Open a mask to load the same laboratory with its parameters and complete proof directly below the square.",
+            )}
+          </p>
+          <p>
+            <Link className="general-proof-link" to="/proofs/general">
+              {text(
+                "Доказательство полноты классификации и достаточности квадрик",
+                "Proof of classification completeness and sufficiency of the quadrics",
+              )}{" "}
+              →
+            </Link>
+          </p>
+          <OrbitAtlas
+            title={
+              level === 4
+                ? text(
+                    "Все 23 орбиты и квадрики 4/9",
+                    "All 23 orbits and quadrics for 4/9",
+                  )
+                : text(
+                    "Все 23 орбиты и пары квадрик 5/9",
+                    "All 23 orbits and pairs of quadrics for 5/9",
+                  )
+            }
+            families={families}
+          />
+        </section>
+      </div>
+    </article>
   );
 }
 
@@ -1815,7 +2033,7 @@ function CommonProofPage() {
           {families.map((family) => (
             <Link
               className={`lemma-family tone-${family.group}`}
-              to={`/lab?family=${family.id}#family-proof`}
+              to={`${orbitPath(family.id)}#family-proof`}
               key={family.id}
             >
               <Pattern family={family} compact />
@@ -1937,11 +2155,11 @@ function AboutPage() {
       <div className="about-grid">
         <section>
           <span>01</span>
-          <h2>{text("Статическая SPA", "Static SPA")}</h2>
+          <h2>{text("Пререндеренная SPA", "Prerendered SPA")}</h2>
           <p>
             {text(
-              "React отвечает за исследовательский интерфейс, маршруты и визуализацию. nginx раздаёт неизменяемые assets и возвращает index.html для клиентских маршрутов.",
-              "React provides the research interface, routing, and visualization. nginx serves immutable assets and falls back to index.html for client-side routes.",
+              "React отвечает за исследовательский интерфейс, маршруты и визуализацию. При сборке каждый публичный маршрут получает полный статический HTML, после чего браузер гидратирует его в интерактивное приложение.",
+              "React provides the research interface, routing, and visualization. At build time every public route receives complete static HTML, which the browser then hydrates into an interactive application.",
             )}
           </p>
         </section>
@@ -2020,19 +2238,44 @@ function AboutPage() {
   );
 }
 
+function NotFoundPage() {
+  const { text } = useLocale();
+  return (
+    <div className="page text-page not-found-page">
+      <header className="editorial-header">
+        <p className="eyebrow">404</p>
+        <h1>{text("Страница не найдена", "Page not found")}</h1>
+        <p>
+          {text(
+            "Такого маршрута нет в атласе доказательств.",
+            "This route does not exist in the proof atlas.",
+          )}
+        </p>
+        <Link className="button button-primary" to="/">
+          {text("На главную", "Go to the home page")}
+        </Link>
+      </header>
+    </div>
+  );
+}
+
 export function App() {
   return (
     <Routes>
       <Route path="/:locale" element={<LocaleLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="squares-of-squares" element={<SquaresOfSquaresPage />} />
         <Route path="lab" element={<LabPage />} />
         <Route path="families/:familyId" element={<FamilyRedirect />} />
+        <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />
+        <Route path="orbits/5" element={<OrbitLevelPage level={5} />} />
+        <Route path="orbits/:level/:familyId" element={<OrbitFamilyPage />} />
         <Route path="proofs/general" element={<GeneralTheoryPage />} />
         <Route path="proofs/:proofId" element={<CommonProofPage />} />
         <Route path="news" element={<NewsPage />} />
         <Route path="news/:slug" element={<NewsArticlePage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
       <Route path="*" element={<LegacyLocaleRedirect />} />
     </Routes>

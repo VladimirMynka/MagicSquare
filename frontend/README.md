@@ -4,8 +4,10 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
 
 ## Architecture
 
-- Vite builds a static bundle in `dist/`.
-- React Router owns the public routes; nginx falls back to `index.html`.
+- Vite builds the browser bundle in `dist/`, then `scripts/prerender.tsx`
+  writes complete static HTML for every public route.
+- React Router hydrates the prerendered documents. nginx serves exact route
+  files and returns a real `404` instead of a catch-all app shell.
 - Russian and English editions use stable `/ru/...` and `/en/...` routes. The
   language switch preserves the current path, query, and hash; legacy
   unprefixed links redirect according to the saved preference or browser
@@ -37,12 +39,15 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   exactly the declared four or five square-valued positions.
 - The selected family's sequential proof text is rendered directly below the
   laboratory: assumptions, explicit roots, algebraic identities, Magic3
-  reconstruction, parity clearance, and the conclusion. It is not an
-  abbreviated proof-summary card or a separate family page.
+  reconstruction, parity clearance, and the conclusion. Stable
+  `/orbits/<level>/<mask>` URLs load this same integrated interface; they do
+  not introduce a separate family-page design.
 - English coverage is validated across interface literals, all 46 family
   descriptions and proofs, all shared lemmas, and every news article. Runtime
   metadata sets `lang`, canonical, `hreflang=ru`, `hreflang=en`, and
   `hreflang=x-default` for the current localized route.
+- The build emits a bilingual `sitemap.xml`, route-specific metadata and
+  JSON-LD, plus a `robots.txt` that points crawlers to the sitemap.
 
 A backend is intentionally not part of the first release. Add one when news
 must be published without a Git deployment, or when accounts, subscriptions,
@@ -54,6 +59,7 @@ comments, dynamic search, or queued research jobs become product requirements.
 npm install
 npm run dev
 npm run verify:i18n
+npm run verify:seo
 ```
 
 The development server binds to `127.0.0.1:17601`.
@@ -66,7 +72,9 @@ nginx -p "$PWD/" -c nginx/local.conf
 ```
 
 The local nginx configuration serves `dist/` at `http://127.0.0.1:17601/` and
-keeps client-side routes such as `/en/lab` and `/ru/news/...` reload-safe.
+returns prerendered documents for paths such as `/en/lab` and `/ru/news/...`.
+Its second loopback listener at `127.0.0.1:17602` provides the permanent
+redirect from `math.mynka.tech/magic-squares` to the canonical host.
 
 For a durable project preview, link `systemd/magic-squares-spa.service` into the
 user systemd manager and enable it. The unit runs nginx in the foreground and

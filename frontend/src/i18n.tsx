@@ -6,6 +6,12 @@ import {
   type ReactNode,
 } from "react";
 import { useLocation } from "react-router-dom";
+import {
+  SITE_NAME,
+  SITE_ORIGIN,
+  alternatePath,
+  seoForPath,
+} from "./seo";
 
 export const LOCALES = ["ru", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
@@ -74,6 +80,47 @@ function setCanonicalLink(href: string) {
   link.href = href;
 }
 
+function setNamedMeta(name: string, content: string) {
+  let meta = document.head.querySelector<HTMLMetaElement>(
+    `meta[name="${name}"]`,
+  );
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = name;
+    document.head.append(meta);
+  }
+  meta.content = content;
+}
+
+function setPropertyMeta(property: string, content: string) {
+  let meta = document.head.querySelector<HTMLMetaElement>(
+    `meta[property="${property}"]`,
+  );
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("property", property);
+    document.head.append(meta);
+  }
+  meta.content = content;
+}
+
+function setStructuredData(schema: Readonly<Record<string, unknown>>) {
+  let script = document.head.querySelector<HTMLScriptElement>(
+    "script[data-magic-squares-schema]",
+  );
+  if (Object.keys(schema).length === 0) {
+    script?.remove();
+    return;
+  }
+  if (!script) {
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.dataset.magicSquaresSchema = "true";
+    document.head.append(script);
+  }
+  script.textContent = JSON.stringify(schema);
+}
+
 export function LocaleProvider({
   locale,
   children,
@@ -83,45 +130,50 @@ export function LocaleProvider({
 }) {
   const location = useLocation();
   useEffect(() => {
+    const metadata = seoForPath(location.pathname);
+    const canonicalUrl = `${SITE_ORIGIN}${metadata.canonicalPath}`;
     window.localStorage.setItem("magic-squares-locale", locale);
-    document.documentElement.lang = locale;
-    document.title =
-      locale === "ru"
-        ? "Magic Squares — атлас доказательств"
-        : "Magic Squares — Proof Atlas";
-    const description = document.head.querySelector<HTMLMetaElement>(
-      'meta[name="description"]',
+    document.documentElement.lang = metadata.locale;
+    document.title = metadata.title;
+    setNamedMeta("description", metadata.description);
+    setNamedMeta(
+      "robots",
+      metadata.index ? "index, follow" : "noindex, follow",
     );
-    if (description) {
-      description.content =
-        locale === "ru"
-          ? "Интерактивный атлас параметрических магических квадратов, полных LaTeX-доказательств и воспроизводимых сертификатов."
-          : "An interactive atlas of parametric magic squares, complete LaTeX proofs, and reproducible certificates.";
-    }
+    setNamedMeta("twitter:card", "summary");
+    setNamedMeta("twitter:title", metadata.title);
+    setNamedMeta("twitter:description", metadata.description);
+    setPropertyMeta(
+      "og:type",
+      metadata.schema["@type"] === "Article" ? "article" : "website",
+    );
+    setPropertyMeta("og:site_name", SITE_NAME);
+    setPropertyMeta("og:title", metadata.title);
+    setPropertyMeta("og:description", metadata.description);
+    setPropertyMeta("og:url", canonicalUrl);
+    setPropertyMeta("og:locale", locale === "ru" ? "ru_RU" : "en_US");
 
-    for (const language of LOCALES) {
-      const pathname = replaceLocale(location.pathname, language);
+    if (metadata.index) {
+      for (const language of LOCALES) {
+        setAlternateLink(
+          language,
+          `${SITE_ORIGIN}${alternatePath(metadata.canonicalPath, language)}`,
+        );
+      }
       setAlternateLink(
-        language,
-        new URL(
-          `${pathname}${location.search}`,
-          window.location.origin,
-        ).href,
+        "x-default",
+        `${SITE_ORIGIN}${alternatePath(metadata.canonicalPath, "en")}`,
       );
+      setCanonicalLink(canonicalUrl);
+    } else {
+      document.head
+        .querySelectorAll(
+          'link[rel="canonical"], link[rel="alternate"][hreflang]',
+        )
+        .forEach((link) => link.remove());
     }
-    const defaultPath = replaceLocale(location.pathname, "en");
-    setAlternateLink(
-      "x-default",
-      new URL(`${defaultPath}${location.search}`, window.location.origin)
-        .href,
-    );
-    setCanonicalLink(
-      new URL(
-        `${location.pathname}${location.search}`,
-        window.location.origin,
-      ).href,
-    );
-  }, [locale, location.pathname, location.search]);
+    setStructuredData(metadata.schema);
+  }, [locale, location.pathname]);
 
   const value = useMemo<LocaleContextValue>(
     () => ({

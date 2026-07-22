@@ -141,10 +141,14 @@ function verifyContent() {
   }
 }
 
-function verifyEnglishRoutes() {
+function verifyEnglishRoutes(): number {
   const routes: Readonly<Record<string, string>> = {
     "/en": "Magic squares you can do more than look at",
     "/en/lab?family=befgj": "Family BEFGJ",
+    "/en/squares-of-squares": "The 3×3 magic square of squares",
+    "/en/orbits/4": "Four square entries: 23 orbits",
+    "/en/orbits/5": "Five square entries: 23 orbits",
+    "/en/orbits/5/befgj": "Family BEFGJ",
     "/en/proofs/general": "Why there are exactly 23 orbits",
     "/en/proofs/arithmetic-progression": "Red lemma",
     "/en/news": "News and notes",
@@ -182,11 +186,12 @@ function verifyEnglishRoutes() {
     russianHome.includes('href="/ru/lab"'),
     "/ru does not render Russian locale-prefixed links",
   );
+  return Object.keys(routes).length;
 }
 
 verifyInterfaceLiterals();
 verifyContent();
-verifyEnglishRoutes();
+const routeCount = verifyEnglishRoutes();
 console.log(
-  `Verified complete English copy and 7 localized routes for ${FAMILIES.length} families, ${commonProofs("en").length} shared proofs, and ${news("en").length} news articles.`,
+  `Verified complete English copy and ${routeCount} localized routes for ${FAMILIES.length} families, ${commonProofs("en").length} shared proofs, and ${news("en").length} news articles.`,
 );

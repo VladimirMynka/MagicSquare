@@ -1956,6 +1956,78 @@ main {
   margin: 0 auto;
 }
 
+.topic-page,
+.orbit-level-page {
+  max-width: 1320px;
+}
+
+.topic-document,
+.orbit-level-document {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.topic-document h2 {
+  margin-bottom: 18px;
+}
+
+.topic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.topic-route-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.topic-route-grid a {
+  min-height: 116px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  color: var(--graphite);
+  background: var(--paper);
+}
+
+.topic-route-grid a:hover {
+  border-color: var(--brick);
+  background: var(--paper-muted);
+}
+
+.topic-route-grid span {
+  color: var(--brick);
+  font: 11px var(--mono);
+}
+
+.topic-route-grid strong {
+  font: 500 23px/1.15 var(--serif);
+}
+
+.topic-route-grid i {
+  color: var(--blue-deep);
+  font-style: normal;
+}
+
+.orbit-level-document > section:first-child {
+  padding-top: 0;
+}
+
+.not-found-page {
+  min-height: 65vh;
+}
+
+.not-found-page .editorial-header {
+  max-width: 780px;
+}
+
 .general-color-proof {
   margin-top: 24px;
   padding: 24px;
@@ -2916,6 +2988,10 @@ main {
   .proof-document > footer code {
     max-width: 100%;
     overflow-wrap: anywhere;
+  }
+
+  .topic-route-grid {
+    grid-template-columns: 1fr;
   }
 
 }

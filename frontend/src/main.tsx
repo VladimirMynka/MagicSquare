@@ -1,5 +1,5 @@
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import "katex/dist/katex.min.css";
@@ -11,10 +11,17 @@ if (!root) {
   throw new Error("React root element was not found");
 }
 
-createRoot(root).render(
+const application = (
   <StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 );
+
+if (root.hasChildNodes() && window.location.search === "") {
+  hydrateRoot(root, application);
+} else {
+  root.replaceChildren();
+  createRoot(root).render(application);
+}

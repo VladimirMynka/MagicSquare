@@ -1,16 +1,17 @@
 {
   "name": "magic-squares-web",
   "private": true,
-  "version": "0.5.1",
+  "version": "0.6.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && tsx scripts/prerender.tsx",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit --pretty false",
     "verify:atlas": "tsx scripts/verify-atlas.ts",
     "verify:coverage": "tsx scripts/verify-coverage.ts",
-    "verify:i18n": "tsx scripts/verify-i18n.ts"
+    "verify:i18n": "tsx scripts/verify-i18n.ts",
+    "verify:seo": "tsx scripts/verify-seo.ts"
   },
   "dependencies": {
     "katex": "0.16.22",
