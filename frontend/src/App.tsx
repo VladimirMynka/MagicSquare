@@ -1811,14 +1811,37 @@ A+B+C=\cdots=C+E+G=M.`}</Latex>
             </p>
             <Latex display>{MAGIC3_LATEX}</Latex>
           </div>
-          <h3>{text("Существование координат", "Existence of the coordinates")}</h3>
+          <h3>
+            {text(
+              "Сюръективность: каждый магический квадрат имеет эту форму",
+              "Surjectivity: every magic square has this form",
+            )}
+          </h3>
           <p>
             {text(
               "Пусть дан произвольный магический квадрат Q. Положим x=A−E и y=G−E. Тогда A=E+x и G=E+y. Из равенств противоположных пар получаем J=E−x и C=E−y. Нижняя строка и первая колонка затем дают H=E+x−y и D=E−x−y, а противоположные им клетки равны B=E−x+y и F=E+x+y. Тем самым все девять клеток имеют заявленный вид.",
               "Let Q be any magic square and set x=A−E and y=G−E. Then A=E+x and G=E+y. The opposite-pair identities give J=E−x and C=E−y. The bottom row and first column then give H=E+x−y and D=E−x−y, while their opposite entries are B=E−x+y and F=E+x+y. Thus all nine entries have the stated form.",
             )}
           </p>
-          <h3>{text("Обратная проверка", "Converse verification")}</h3>
+          <Latex display>{String.raw`\begin{aligned}
+x&=A-E,& y&=G-E,\\
+A&=E+x,& G&=E+y,\\
+J&=2E-A=E-x,& C&=2E-G=E-y,\\
+H&=3E-G-J=E+x-y,& B&=2E-H=E-x+y,\\
+D&=3E-A-G=E-x-y,& F&=2E-D=E+x+y.
+\end{aligned}`}</Latex>
+          <p>
+            {text(
+              "Следовательно, для каждого Q∈𝓜₃(A) найден прообраз (E,x,y), то есть отображение Φₐ:A³→𝓜₃(A) сюръективно.",
+              "Consequently every Q∈𝓜₃(A) has a preimage (E,x,y), so the map Φₐ:A³→𝓜₃(A) is surjective.",
+            )}
+          </p>
+          <h3>
+            {text(
+              "Корректность: каждый набор координат даёт магический квадрат",
+              "Well-definedness: every coordinate triple gives a magic square",
+            )}
+          </h3>
           <p>
             {text(
               "Для любых E,x,y восемь требуемых сумм вычисляются непосредственно. Ни одно из равенств не использует деление:",
@@ -1835,7 +1858,12 @@ A+B+C=\cdots=C+E+G=M.`}</Latex>
 (E+x)+E+(E-x)&=3E,\\
 (E-y)+E+(E+y)&=3E.
 \end{aligned}`}</Latex>
-          <h3>{text("Единственность", "Uniqueness")}</h3>
+          <h3>
+            {text(
+              "Инъективность: координаты единственны",
+              "Injectivity: the coordinates are unique",
+            )}
+          </h3>
           <p>
             {text(
               "Координаты восстанавливаются без выбора и без знаменателей: E — центральная клетка, x=A−E, y=G−E. Поэтому два различных набора координат не могут задавать один квадрат.",
