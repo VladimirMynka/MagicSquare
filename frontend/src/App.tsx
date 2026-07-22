@@ -2228,6 +2228,12 @@ a+e+j=c+e+g=M.
           </p>
           <p>
             {text(
+              "Однако один квадрат 7/9 уже известен и сам по себе не решает слабую задачу. Слабая задача состоит в том, чтобы найти другой, нетривиально новый квадрат 7/9 либо доказать, что известный квадрат единственен с точностью до естественных эквивалентностей. Ни второй класс, ни доказательство единственности пока не получены: слабая задача остаётся открытой.",
+              "However, one 7/9 square is already known and does not by itself solve the weak problem. The weak problem is to find another, nontrivially new 7/9 square or to prove that the known square is unique up to the natural equivalences. Neither a second class nor a uniqueness proof is known, so the weak problem remains open.",
+            )}
+          </p>
+          <p>
+            {text(
               "Известен следующий квадрат 7/9 Бремнера—Сэллоуза:",
               "The following Bremner–Sallows 7/9 square is known:",
             )}
@@ -2248,8 +2254,14 @@ a+e+j=c+e+g=M.
 471^2<151\cdot1471=222121<472^2.`}</Latex>
           <p>
             {text(
-              "Повороты, отражения и общее умножение всех клеток на один и тот же положительный полный квадрат дают лишь тривиально эквивалентные варианты. Слабая задача состоит в том, чтобы найти квадрат 7/9, не эквивалентный приведённому таким образом. По проверенным каталогам другого класса пока не известно.",
-              "Rotations, reflections, and multiplication of every entry by the same positive perfect square produce only trivially equivalent variants. The weak problem is to find a 7/9 square not equivalent to the one above in this sense. No other class is currently listed in the catalogs we checked.",
+              "Повороты, отражения и общее умножение всех клеток на один и тот же положительный полный квадрат дают лишь тривиально эквивалентные варианты и не считаются новым решением.",
+              "Rotations, reflections, and multiplication of every entry by the same positive perfect square produce only trivially equivalent variants and do not count as a new solution.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Связь двух постановок асимметрична. При поиске примера условие 9/9 сильнее и потому труднее: любой квадрат 9/9 автоматически дал бы новое решение 7/9. При доказательстве невозможности направление меняется: доказательство единственности известного 7/9 исключило бы также 8/9 и 9/9, тогда как одна лишь невозможность 9/9 не решила бы слабую задачу. Поэтому отрицательная постановка 9/9 идеологически проще, а положительная — сложнее.",
+              "The relation between the two formulations is asymmetric. When constructing an example, the 9/9 condition is stronger and therefore harder: any 9/9 square would automatically give a new 7/9 solution. For a nonexistence proof, the direction reverses: proving uniqueness of the known 7/9 square would also rule out 8/9 and 9/9 squares, whereas ruling out 9/9 alone would not settle the weak problem. Thus the negative 9/9 formulation is conceptually simpler, while its positive formulation is harder.",
             )}
           </p>
           <ul className="proof-references">

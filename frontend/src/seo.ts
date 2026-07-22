@@ -152,12 +152,12 @@ const STATIC_METADATA: Readonly<
     en: {
       title: "About the 3×3 Magic Square of Squares Project",
       description:
-        "Definitions of 3×3 magic squares and magic squares of squares, the strong 9/9 problem, the weak 7/9 problem, the known example, and the project's contribution.",
+        "Definitions of 3×3 magic squares and magic squares of squares, the open strong 9/9 problem, the open weak 7/9 problem, the known exception, and the project's contribution.",
     },
     ru: {
       title: "О проекте магических квадратов из квадратов 3×3",
       description:
-        "Определения магического и квадратного квадрата 3×3, сильная задача 9/9, слабая задача 7/9, известный пример и вклад проекта.",
+        "Определения магического и квадратного квадрата 3×3, открытые сильная задача 9/9 и слабая задача 7/9, известное исключение и вклад проекта.",
     },
   },
 };
