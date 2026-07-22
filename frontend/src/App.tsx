@@ -2158,8 +2158,8 @@ function AboutPage() {
           </h1>
           <p>
             {text(
-              "Проект исследует целочисленные магические квадраты порядка 3, в которых заданные клетки являются полными квадратами, и строит классификацию и параметризации частичных случаев 4/9 и 5/9.",
-              "The project studies integral magic squares of order 3 in which specified cells are perfect squares, and develops a classification and parametrizations for the partial 4/9 and 5/9 cases.",
+              "Проект посвящён задаче о магическом квадрате 3×3 из попарно различных полных квадратов и её ослаблениям, в которых квадратными обязаны быть только некоторые клетки.",
+              "The project studies the problem of a 3×3 magic square made of pairwise distinct perfect squares and its weaker variants, in which only some entries are required to be squares.",
             )}
           </p>
         </div>
@@ -2168,27 +2168,110 @@ function AboutPage() {
       <div className="proof-document about-document">
         <section>
           <h3>{text("1. Постановка задачи", "1. Problem statement")}</h3>
+          <h4 className="about-subheading">
+            {text("1.1. Магический квадрат", "1.1. Magic square")}
+          </h4>
           <p>
             {text(
-              "Каждый магический квадрат порядка 3 однозначно задаётся тремя координатами E, x, y; его магическая сумма равна 3E:",
-              "Every magic square of order 3 is uniquely determined by three coordinates E, x, and y; its magic sum is 3E:",
+              "Магическим квадратом порядка n называется квадратная таблица из n² чисел, в которой суммы элементов каждой строки, каждого столбца и двух диагоналей, соединяющих противоположные углы, равны одному и тому же числу M — магической константе. Само определение не требует, чтобы элементы были различны; это условие вводится отдельно там, где оно необходимо.",
+              "A magic square of order n is an n×n array of numbers in which the entries in every row, every column, and the two diagonals joining opposite corners have the same sum M, called the magic constant. Distinctness of the entries is not part of this definition; it is imposed separately when needed.",
             )}
           </p>
-          <Latex display>{MAGIC3_LATEX}</Latex>
+          <Latex display>{String.raw`\sum_{j=1}^{n}a_{ij}=M\ (1\le i\le n),\qquad
+\sum_{i=1}^{n}a_{ij}=M\ (1\le j\le n),\qquad
+\sum_{i=1}^{n}a_{ii}=\sum_{i=1}^{n}a_{i,n+1-i}=M.`}</Latex>
           <p>
             {text(
-              "Полная задача состоит в нахождении целых E, x, y, для которых все девять клеток являются положительными попарно различными квадратами целых чисел. Существование такого квадрата 9/9 не доказано и не опровергнуто.",
-              "The full problem asks for integers E, x, and y for which all nine entries are positive, pairwise distinct squares of integers. The existence of such a 9/9 square remains neither proved nor disproved.",
+              "Магический квадрат порядка 3 состоит из девяти чисел. В явной форме условие означает равенство восьми сумм: трёх строк, трёх столбцов и двух диагоналей.",
+              "A magic square of order 3 has nine entries. Explicitly, the condition is the equality of eight sums: three rows, three columns, and two diagonals.",
             )}
           </p>
-          <Latex display>{String.raw`E,x,y\in\mathbb Z,\qquad \mathcal M(E,x,y)_P=q_P^2>0\quad(P\in\Omega),\qquad q_P^2\ne q_Q^2\ (P\ne Q)`}</Latex>
+          <Latex display>{String.raw`\begin{gathered}
+\begin{pmatrix}a&b&c\\d&e&f\\g&h&j\end{pmatrix},\\[3pt]
+a+b+c=d+e+f=g+h+j=M,\\
+a+d+g=b+e+h=c+f+j=M,\\
+a+e+j=c+e+g=M.
+\end{gathered}`}</Latex>
+
+          <h4 className="about-subheading">
+            {text(
+              "1.2. Квадратный квадрат и сильная задача 9/9",
+              "1.2. A magic square of squares and the strong 9/9 problem",
+            )}
+          </h4>
           <p>
             {text(
-              "Текущая задача проекта — для подмножества клеток S описать решения системы, в которой квадратность гарантируется для всех P из S. Клетки вне S ничем не ограничиваются и также могут оказаться квадратными.",
-              "The project's current task is to describe solutions for a subset of cells S whose entries are guaranteed to be squares. Cells outside S are unrestricted and may also happen to be squares.",
+              "Квадратным квадратом в этом проекте называется целочисленный магический квадрат порядка 3, все девять элементов которого являются положительными попарно различными полными квадратами. Иными словами, каждая клетка имеет вид q² для положительного целого q, и никакие две клетки не равны.",
+              "In this project, a magic square of squares means an integral magic square of order 3 whose nine entries are positive, pairwise distinct perfect squares. Thus every entry has the form q² for a positive integer q, and no two entries are equal.",
             )}
           </p>
-          <Latex display>{String.raw`\mathcal M(E,x,y)_P=q_P^2\quad(P\in S),\qquad |S|\in\{4,5\}`}</Latex>
+          <Latex display>{String.raw`a_{ij}=q_{ij}^{\,2},\qquad q_{ij}\in\mathbb Z_{>0},\qquad
+(i,j)\ne(k,\ell)\ \Longrightarrow\ q_{ij}^{\,2}\ne q_{k\ell}^{\,2}.`}</Latex>
+          <p>
+            {text(
+              "Сильная задача 9/9 состоит в том, чтобы построить такой квадрат либо доказать, что он не существует. Она остаётся открытой.",
+              "The strong 9/9 problem is to construct such a square or prove that none exists. It remains open.",
+            )}
+          </p>
+
+          <h4 className="about-subheading">
+            {text(
+              "1.3. Слабая задача 7/9",
+              "1.3. The weak 7/9 problem",
+            )}
+          </h4>
+          <p>
+            {text(
+              "Квадратом k/9 в этой задаче называется целочисленный магический квадрат порядка 3 с попарно различными элементами, в котором не менее k клеток являются положительными полными квадратами. На остальные клетки не накладывается условие быть или не быть квадратами. Поэтому решение 8/9 или 9/9 автоматически является решением задачи 7/9.",
+              "In this problem, a k/9 square is an integral magic square of order 3 with pairwise distinct entries and at least k positive perfect-square entries. The remaining entries are not required either to be squares or to be nonsquares. Consequently, an 8/9 or 9/9 solution would automatically solve the 7/9 problem.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Известен следующий квадрат 7/9 Бремнера—Сэллоуза:",
+              "The following Bremner–Sallows 7/9 square is known:",
+            )}
+          </p>
+          <Latex display>{String.raw`\mathcal B=\begin{pmatrix}
+565^2&289^2&373^2\\
+23^2&425^2&137\cdot2633\\
+151\cdot1471&527^2&205^2
+\end{pmatrix}.`}</Latex>
+          <p>
+            {text(
+              "Обозначим суммы строк через Rᵢ, столбцов через Cᵢ, а двух диагоналей через D₁ и D₂. Тогда точный сертификат магичности имеет вид ниже. Семь указанных корней попарно различны, а две оставшиеся клетки не являются квадратами:",
+              "Let Rᵢ denote the row sums, Cᵢ the column sums, and D₁ and D₂ the two diagonal sums. The exact magic-square certificate is then the equality below. The seven displayed roots are pairwise distinct, while the other two entries are not squares:",
+            )}
+          </p>
+          <Latex display>{String.raw`R_1=R_2=R_3=C_1=C_2=C_3=D_1=D_2=541875,`}</Latex>
+          <Latex display>{String.raw`600^2<137\cdot2633=360721<601^2,\qquad
+471^2<151\cdot1471=222121<472^2.`}</Latex>
+          <p>
+            {text(
+              "Повороты, отражения и общее умножение всех клеток на один и тот же положительный полный квадрат дают лишь тривиально эквивалентные варианты. Слабая задача состоит в том, чтобы найти квадрат 7/9, не эквивалентный приведённому таким образом. По проверенным каталогам другого класса пока не известно.",
+              "Rotations, reflections, and multiplication of every entry by the same positive perfect square produce only trivially equivalent variants. The weak problem is to find a 7/9 square not equivalent to the one above in this sense. No other class is currently listed in the catalogs we checked.",
+            )}
+          </p>
+          <ul className="proof-references">
+            <li>
+              <a href="https://www.impan.pl/en/publishing-house/journals-and-series/acta-arithmetica/all/88/3/110732/on-squares-of-squares">
+                A. Bremner, <em>On squares of squares</em>, Acta Arithmetica 88 (1999), 289–297
+              </a>
+            </li>
+            <li>
+              <a href="https://www.multimagie.com/English/SquaresOfSquares.htm">
+                {text(
+                  "Каталог квадратов из квадратов Multimagie",
+                  "Multimagie catalog of magic squares of squares",
+                )}
+              </a>
+            </li>
+            <li>
+              <a href="https://oeis.org/A221669">
+                OEIS A221669
+              </a>
+            </li>
+          </ul>
         </section>
 
         <section>

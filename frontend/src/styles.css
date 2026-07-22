@@ -1945,6 +1945,16 @@ main {
   padding-left: 22px;
 }
 
+.about-document .about-subheading {
+  margin: 30px 0 12px;
+  color: var(--graphite);
+  font: 600 19px/1.25 var(--serif);
+}
+
+.about-document section > .about-subheading:first-of-type {
+  margin-top: 4px;
+}
+
 .inline-lemma {
   margin-top: 22px;
   padding: 24px;

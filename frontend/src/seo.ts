@@ -152,12 +152,12 @@ const STATIC_METADATA: Readonly<
     en: {
       title: "About the 3×3 Magic Square of Squares Project",
       description:
-        "Problem statement, relation to congrua, D4 classification of 4/9 and 5/9 masks, scientific novelty, contribution, and limitations.",
+        "Definitions of 3×3 magic squares and magic squares of squares, the strong 9/9 problem, the weak 7/9 problem, the known example, and the project's contribution.",
     },
     ru: {
       title: "О проекте магических квадратов из квадратов 3×3",
       description:
-        "Постановка задачи, связь с конгруумами, D₄-классификация масок 4/9 и 5/9, научная новизна, вклад и границы результата.",
+        "Определения магического и квадратного квадрата 3×3, сильная задача 9/9, слабая задача 7/9, известный пример и вклад проекта.",
     },
   },
 };
