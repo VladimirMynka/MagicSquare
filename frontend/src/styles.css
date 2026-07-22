@@ -1931,6 +1931,20 @@ main {
   border-bottom: 1px solid var(--line-strong);
 }
 
+.about-page {
+  max-width: 1320px;
+}
+
+.about-document {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.about-document .proof-references {
+  margin: 18px 0;
+  padding-left: 22px;
+}
+
 .inline-lemma {
   margin-top: 22px;
   padding: 24px;

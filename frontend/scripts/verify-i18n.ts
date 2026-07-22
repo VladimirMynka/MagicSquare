@@ -151,9 +151,8 @@ function verifyEnglishRoutes(): number {
     "/en/orbits/5/befgj": "Family BEFGJ",
     "/en/proofs/general": "Why there are exactly 23 orbits",
     "/en/proofs/arithmetic-progression": "Red lemma",
-    "/en/news": "News and notes",
-    "/en/news/bilingual-proof-atlas": "Proof Atlas is now fully bilingual",
-    "/en/about": "The interface is not a proof",
+    "/en/news": "No publications have been published yet",
+    "/en/about": "The 3×3 magic square of squares problem",
   };
   for (const [route, marker] of Object.entries(routes)) {
     const html = renderToStaticMarkup(

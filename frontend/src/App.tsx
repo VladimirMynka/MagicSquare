@@ -242,6 +242,7 @@ function AppShell() {
 function HomePage() {
   const { locale, text } = useLocale();
   const articles = news(locale);
+  const latestArticle = articles[0];
   return (
     <div className="page home-page">
       <section className="hero">
@@ -348,18 +349,20 @@ function HomePage() {
         </p>
       </section>
 
-      <section className="section-block latest-section">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">{text("Журнал проекта", "Project journal")}</p>
-            <h2>{text("Последнее обновление", "Latest update")}</h2>
+      {latestArticle ? (
+        <section className="section-block latest-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{text("Журнал проекта", "Project journal")}</p>
+              <h2>{text("Последнее обновление", "Latest update")}</h2>
+            </div>
+            <Link className="text-link" to="/news">
+              {text("Все новости", "All news")} <span>→</span>
+            </Link>
           </div>
-          <Link className="text-link" to="/news">
-            {text("Все новости", "All news")} <span>→</span>
-          </Link>
-        </div>
-        <NewsCard article={articles[0]} featured />
-      </section>
+          <NewsCard article={latestArticle} featured />
+        </section>
+      ) : null}
     </div>
   );
 }
@@ -2053,12 +2056,12 @@ function NewsPage() {
   return (
     <div className="page text-page">
       <header className="editorial-header">
-        <p className="eyebrow">{text("Журнал проекта", "Project journal")}</p>
-        <h1>{text("Новости и заметки", "News and notes")}</h1>
+        <p className="eyebrow">{text("Публикации", "Publications")}</p>
+        <h1>{text("Новости", "News")}</h1>
         <p>
           {text(
-            "Релизы proof-core, новые семейства и объяснения исследовательских решений.",
-            "Proof-core releases, new families, and explanations of research decisions.",
+            "Публикаций пока нет.",
+            "No publications have been published yet.",
           )}
         </p>
       </header>
@@ -2135,106 +2138,144 @@ function NewsArticlePage() {
 }
 
 function AboutPage() {
-  const { locale, text } = useLocale();
-  const proofs = commonProofs(locale);
+  const { text } = useLocale();
   return (
-    <div className="page text-page about-page">
-      <header className="editorial-header">
-        <p className="eyebrow">
-          {text("Архитектура проекта", "Project architecture")}
-        </p>
-        <h1>
-          {text("Интерфейс — не доказательство.", "The interface is not a proof.")}
-          <br />
-          {text(
-            "Но он знает, где доказательство лежит.",
-            "But it knows where the proof lives.",
-          )}
-        </h1>
+    <article className="page proof-page about-page">
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">{text("О проекте", "About")}</p>
+          <h1>
+            {text(
+              "Задача о магическом квадрате 3×3 из полных квадратов",
+              "The 3×3 magic square of squares problem",
+            )}
+          </h1>
+          <p>
+            {text(
+              "Проект исследует целочисленные магические квадраты порядка 3, в которых заданные клетки являются полными квадратами, и строит классификацию и параметризации частичных случаев 4/9 и 5/9.",
+              "The project studies integral magic squares of order 3 in which specified cells are perfect squares, and develops a classification and parametrizations for the partial 4/9 and 5/9 cases.",
+            )}
+          </p>
+        </div>
       </header>
-      <div className="about-grid">
+
+      <div className="proof-document about-document">
         <section>
-          <span>01</span>
-          <h2>{text("Пререндеренная SPA", "Prerendered SPA")}</h2>
+          <h3>{text("1. Постановка задачи", "1. Problem statement")}</h3>
           <p>
             {text(
-              "React отвечает за исследовательский интерфейс, маршруты и визуализацию. При сборке каждый публичный маршрут получает полный статический HTML, после чего браузер гидратирует его в интерактивное приложение.",
-              "React provides the research interface, routing, and visualization. At build time every public route receives complete static HTML, which the browser then hydrates into an interactive application.",
+              "Каждый магический квадрат порядка 3 однозначно задаётся тремя координатами E, x, y; его магическая сумма равна 3E:",
+              "Every magic square of order 3 is uniquely determined by three coordinates E, x, and y; its magic sum is 3E:",
             )}
           </p>
+          <Latex display>{MAGIC3_LATEX}</Latex>
+          <p>
+            {text(
+              "Полная задача состоит в нахождении целых E, x, y, для которых все девять клеток являются положительными попарно различными квадратами целых чисел. Существование такого квадрата 9/9 не доказано и не опровергнуто.",
+              "The full problem asks for integers E, x, and y for which all nine entries are positive, pairwise distinct squares of integers. The existence of such a 9/9 square remains neither proved nor disproved.",
+            )}
+          </p>
+          <Latex display>{String.raw`E,x,y\in\mathbb Z,\qquad \mathcal M(E,x,y)_P=q_P^2>0\quad(P\in\Omega),\qquad q_P^2\ne q_Q^2\ (P\ne Q)`}</Latex>
+          <p>
+            {text(
+              "Текущая задача проекта — для подмножества клеток S описать решения системы, в которой квадратность гарантируется для всех P из S. Клетки вне S ничем не ограничиваются и также могут оказаться квадратными.",
+              "The project's current task is to describe solutions for a subset of cells S whose entries are guaranteed to be squares. Cells outside S are unrestricted and may also happen to be squares.",
+            )}
+          </p>
+          <Latex display>{String.raw`\mathcal M(E,x,y)_P=q_P^2\quad(P\in S),\qquad |S|\in\{4,5\}`}</Latex>
         </section>
+
         <section>
-          <span>02</span>
-          <h2>Proof-core</h2>
+          <h3>{text("2. Связь с конгруумами", "2. Relation to congrua")}</h3>
           <p>
             {text(
-              "Математические утверждения живут отдельно от браузера и проверяются точными полиномиальными тождествами. SPA различает сертификаты proof-core и перенесённые legacy-формулы, не выдавая одно за другое.",
-              "Mathematical claims live outside the browser and are checked by exact polynomial identities. The SPA distinguishes proof-core certificates from migrated legacy formulas and never presents one as the other.",
+              "Базовый красный случай возникает, когда три квадратные клетки лежат в арифметической прогрессии. Их общий ненулевой шаг d называется конгруумом:",
+              "The basic red case occurs when three square-valued entries form an arithmetic progression. Their common nonzero difference d is a congruum:",
             )}
           </p>
+          <Latex display>{String.raw`r^2,\ s^2,\ t^2,\qquad r^2+t^2=2s^2,\qquad d=s^2-r^2=t^2-s^2`}</Latex>
+          <p>
+            {text(
+              "Этой прогрессии соответствует прямоугольный треугольник со сторонами t−r, t+r и 2s и площадью d. Поэтому поиск красных троек связан с классической задачей о конгруэнтных числах. В проекте эта связь используется как одна из лемм, а не как решение всей задачи о магическом квадрате.",
+              "This progression gives a right triangle with sides t−r, t+r, and 2s and area d. Thus the search for red triples is connected with the classical congruent number problem. The project uses this correspondence as one lemma, not as a solution of the full magic-square problem.",
+            )}
+          </p>
+          <ul className="proof-references">
+            <li>
+              <Link to="/proofs/arithmetic-progression">
+                {text(
+                  "Красная лемма и полная параметризация трёх квадратов в арифметической прогрессии",
+                  "The red lemma and the complete parametrization of three squares in arithmetic progression",
+                )}
+              </Link>
+            </li>
+            <li>
+              <a href="https://arxiv.org/abs/0712.3850">
+                A. van der Poorten, Fermat&apos;s Four Squares Theorem
+              </a>
+            </li>
+          </ul>
         </section>
+
         <section>
-          <span>03</span>
-          <h2>{text("Новости без backend", "News without a backend")}</h2>
+          <h3>{text("3. Объект классификации", "3. Object of classification")}</h3>
           <p>
             {text(
-              "Пока публикации меняются вместе с кодом, сервер не нужен: контент версионируется и попадает в атомарную сборку. Это меньше инфраструктуры и меньше источников несогласованности.",
-              "While publications change together with the code, no server is needed: content is versioned and shipped in an atomic build. This means less infrastructure and fewer sources of inconsistency.",
+              "Группа D₄ действует на девяти клетках вращениями и отражениями. Проект классифицирует маски S с четырьмя и пятью клетками с точностью до этого действия. На каждом уровне получается ровно 23 орбиты; взятие дополнения задаёт биекцию между уровнями 4/9 и 5/9.",
+              "The group D4 acts on the nine cells by rotations and reflections. The project classifies four- and five-cell masks S modulo this action. There are exactly 23 orbits at each level, and taking complements gives a bijection between the 4/9 and 5/9 levels.",
             )}
           </p>
+          <p>
+            {text(
+              "После введения корней qₚ исходная система линейна по E, x, y. Исключение этих трёх координат даёт одну квадрику при |S|=4 и две независимые квадрики при |S|=5. Они необходимы и достаточны над Q; целочисленные координаты получаются очисткой общего знаменателя однородным масштабированием.",
+              "After roots qₚ are introduced, the original system is linear in E, x, and y. Eliminating these three coordinates gives one quadric when |S|=4 and two independent quadrics when |S|=5. They are necessary and sufficient over Q; integral coordinates are obtained by clearing the common denominator through homogeneous scaling.",
+            )}
+          </p>
+          <Latex display>{String.raw`q_S^{[2]}\in\operatorname{im}L_S\quad\Longleftrightarrow\quad R_i(q_S^{[2]})=0\quad(1\le i\le |S|-3)`}</Latex>
+          <ul className="proof-references">
+            <li><Link to="/proofs/general">{text("Общее доказательство классификации и исключения", "General proof of the classification and elimination")}</Link></li>
+            <li><Link to="/orbits/4">{text("Все 23 орбиты уровня 4/9", "All 23 orbits at the 4/9 level")}</Link></li>
+            <li><Link to="/orbits/5">{text("Все 23 орбиты уровня 5/9", "All 23 orbits at the 5/9 level")}</Link></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>{text("4. Научная новизна", "4. Scientific novelty")}</h3>
+          <p>
+            {text(
+              "Новизна проекта не относится к общей форме магического квадрата, понятию конгруума или постановке открытой задачи 9/9. Она состоит в совместном рассмотрении всех частичных квадратных масок уровней 4/9 и 5/9 в единой системе:",
+              "The project's novelty does not lie in the general form of a magic square, the notion of a congruum, or the statement of the open 9/9 problem. It lies in treating all partial square masks at the 4/9 and 5/9 levels within one system:",
+            )}
+          </p>
+          <ul>
+            <li>{text("полный список D₄-орбит обоих уровней и исправление прежнего каталога проекта с 22 до 23 орбит;", "a complete list of D4 orbits at both levels and correction of the project's earlier catalog from 22 to 23 orbits;")}</li>
+            <li>{text("единый вывод необходимых и достаточных квадратичных систем непосредственно из координат E, x, y;", "a uniform derivation of the necessary-and-sufficient quadratic systems directly from the coordinates E, x, and y;")}</li>
+            <li>{text("явные параметризации для каждой орбиты с отдельным доказательством области покрытия и исключительного множества;", "explicit parametrizations for every orbit, each with a separate proof of its coverage domain and exceptional locus;")}</li>
+            <li>{text("канонический выбор цветового базиса квадрик, связывающий раскраску маски с конкретными уравнениями, а не с декоративной разметкой.", "a canonical colored basis of quadrics that ties each mask color to a specific equation rather than decorative markup.")}</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>{text("5. Вклад текущей версии", "5. Contribution of the current version")}</h3>
+          <ul>
+            <li>{text("Для всех 23 орбит 4/9 дана полная рациональная параметризация с алгоритмом перехода к целым координатам.", "All 23 orbits at the 4/9 level have a complete rational parametrization with an algorithm for obtaining integral coordinates.")}</li>
+            <li>{text("Для 15 из 23 орбит 5/9 доказана полнота используемой параметризации. Для остальных восьми точно указано максимально широкое подмножество, покрытие которого доказано, и описано исключительное множество.", "For 15 of the 23 orbits at the 5/9 level, the employed parametrization is proved complete. For each of the other eight, the widest subset whose coverage is proved is stated explicitly, together with the exceptional locus.")}</li>
+            <li>{text("Каждая семейная формула сопровождается выводом из квадрик, восстановлением E, x, y и явным статусом полноты; проверка тождества не выдаётся за доказательство покрытия.", "Every family formula is accompanied by a derivation from its quadrics, reconstruction of E, x, and y, and an explicit coverage status; identity verification is not presented as a coverage proof.")}</li>
+            <li>{text("Точные полиномиальные сертификаты вынесены в доказательное ядро и отделены от формул, для которых доказательство ещё не формализовано.", "Exact polynomial certificates are kept in the proof core and distinguished from formulas whose proofs have not yet been formalized.")}</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>{text("6. Границы результата", "6. Scope and limitations")}</h3>
+          <ul>
+            <li>{text("Классификация 4/9 и 5/9 не доказывает существование квадрата 9/9.", "The 4/9 and 5/9 classification does not prove the existence of a 9/9 square.")}</li>
+            <li>{text("Обозначение k/9 гарантирует квадратность выбранных k клеток, но не утверждает неквадратность остальных.", "The notation k/9 guarantees that the selected k entries are squares but does not assert that the remaining entries are nonsquares.")}</li>
+            <li>{text("Полнота списка масок, достаточность квадрик и полнота конкретной параметризации являются разными утверждениями и доказываются отдельно.", "Completeness of the mask list, sufficiency of the quadrics, and completeness of a particular parametrization are distinct claims and are proved separately.")}</li>
+            <li>{text("Утверждение о научном приоритете относительно всей литературы не делается до завершения отдельного библиографического обзора.", "No claim of historical priority over the entire literature is made before a dedicated bibliographic review is completed.")}</li>
+          </ul>
         </section>
       </div>
-      <section className="proof-index">
-        <div>
-          <p className="eyebrow">{text("Общие леммы", "Shared lemmas")}</p>
-          <h2>
-            {text("Цвет — это ссылка на причину", "Color points to a reason")}
-          </h2>
-          <p>
-            {text(
-              "Одна лемма используется несколькими масками. В тексте доказательства остаётся конкретное клеточное тождество, а общий вывод вынесен сюда.",
-              "One lemma can serve several masks. Each family proof retains the concrete cell identity, while the reusable argument is collected here.",
-            )}
-          </p>
-        </div>
-        <div className="proof-index-links">
-          <Link to="/proofs/general">
-            <span>00</span>
-            <strong>
-              {text(
-                "Общая теория орбит 4/9 и 5/9",
-                "General theory of the 4/9 and 5/9 orbits",
-              )}
-            </strong>
-            <i>→</i>
-          </Link>
-          {proofs.map((proof, index) => (
-            <Link to={`/proofs/${proof.id}`} key={proof.id}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{proof.title}</strong>
-              <i>→</i>
-            </Link>
-          ))}
-        </div>
-      </section>
-      <section className="backend-callout">
-        <div>
-          <p className="eyebrow">{text("Когда появится API", "When an API becomes necessary")}</p>
-          <h2>
-            {text(
-              "Backend добавим по фактической потребности",
-              "A backend will be added when there is a concrete need",
-            )}
-          </h2>
-        </div>
-        <ul>
-          <li>{text("редакторы публикуют без Git и deploy;", "editors must publish without Git or a deployment;")}</li>
-          <li>{text("появляются аккаунты, комментарии или подписки;", "accounts, comments, or subscriptions are introduced;")}</li>
-          <li>{text("нужны полнотекстовый поиск и динамические подборки;", "full-text search or dynamic collections are required;")}</li>
-          <li>{text("исследовательские вычисления запускаются как задания.", "research computations must run as queued jobs.")}</li>
-        </ul>
-      </section>
-    </div>
+    </article>
   );
 }
 

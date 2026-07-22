@@ -12,7 +12,8 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   language switch preserves the current path, query, and hash; legacy
   unprefixed links redirect according to the saved preference or browser
   language.
-- News content lives in `src/content/news.ts` and is versioned with the UI.
+- The news section is present but contains no publications yet. Future entries
+  will live in `src/content/news.ts` and be versioned with the UI.
 - KaTeX renders local proof cards and shared lemmas without a server runtime.
 - Exact integer calculations use native `BigInt` in the browser.
 - The atlas exposes all 23 `4/9` and all 23 `5/9` orbits under `D4`. The exact
@@ -43,7 +44,7 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   `/orbits/<level>/<mask>` URLs load this same integrated interface; they do
   not introduce a separate family-page design.
 - English coverage is validated across interface literals, all 46 family
-  descriptions and proofs, all shared lemmas, and every news article. Runtime
+  descriptions and proofs, all shared lemmas, and any published news. Runtime
   metadata sets `lang`, canonical, `hreflang=ru`, `hreflang=en`, and
   `hreflang=x-default` for the current localized route.
 - The build emits a bilingual `sitemap.xml`, route-specific metadata and

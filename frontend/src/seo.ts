@@ -116,26 +116,26 @@ const STATIC_METADATA: Readonly<
   },
   news: {
     en: {
-      title: "Magic Squares Research Notes and Releases",
+      title: "Magic Squares Project News",
       description:
-        "Research notes on 3×3 magic squares of squares, new parametric families, exact certificates, and updates to the proof atlas.",
+        "News section of the Magic Squares research project. No publications have been published yet.",
     },
     ru: {
-      title: "Исследовательские заметки и релизы Magic Squares",
+      title: "Новости проекта Magic Squares",
       description:
-        "Заметки о магических квадратах из квадратов 3×3, новых параметрических семействах, точных сертификатах и развитии атласа доказательств.",
+        "Раздел новостей исследовательского проекта Magic Squares. Публикаций пока нет.",
     },
   },
   about: {
     en: {
-      title: "About the Magic Squares Proof Atlas",
+      title: "About the 3×3 Magic Square of Squares Project",
       description:
-        "How the interactive calculator, exact proof core, LaTeX exposition, and explicit coverage statements form a reproducible research environment.",
+        "Problem statement, relation to congrua, D4 classification of 4/9 and 5/9 masks, scientific novelty, contribution, and limitations.",
     },
     ru: {
-      title: "Об атласе доказательств Magic Squares",
+      title: "О проекте магических квадратов из квадратов 3×3",
       description:
-        "Как интерактивный калькулятор, точное доказательное ядро, LaTeX-изложение и явные статусы полноты образуют воспроизводимую исследовательскую среду.",
+        "Постановка задачи, связь с конгруумами, D₄-классификация масок 4/9 и 5/9, научная новизна, вклад и границы результата.",
     },
   },
 };
