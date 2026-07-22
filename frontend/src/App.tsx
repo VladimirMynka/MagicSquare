@@ -2369,8 +2369,8 @@ a+e+j=c+e+g=M.
           <Latex display>{String.raw`F(a,b)=\rho^2F(a,d)`}</Latex>
           <p>
             {text(
-              "Мы свели это семейство совпадений к эллиптической поверхности F4+. Её рациональные точки систематически порождают пары представлений одного конгруэнтного класса. Для поверхности определены особые слои и доказано существование ровно двух независимых направлений рациональных семейств; более ранние отдельные формулы оказываются частными случаями или вырожденным пределом общей конструкции. Та же структура используется при построении некоторых семейств 6/9.",
-              "We reduce this family of coincidences to an elliptic surface called F4+. Its rational points systematically produce pairs of representations of the same congruent-number class. The singular fibres are determined, and the rational families are proved to have exactly two independent directions; several earlier isolated formulas become special cases or a degenerate limit of the common construction. The same structure is used in constructing some 6/9 families.",
+              "В проекте введена эллиптическая поверхность F4+, рациональные точки которой систематически порождают пары представлений одного конгруэнтного класса. Для неё определены особые слои и доказано существование ровно двух независимых направлений рациональных семейств. Это даёт единый способ получать новые тождества между конгруумами и строить связанные с ними семейства магических квадратов, в том числе некоторые семейства 6/9.",
+              "The project introduces the F4+ elliptic surface, whose rational points systematically produce pairs of representations of the same congruent-number class. Its singular fibres are determined, and its rational families are proved to have exactly two independent directions. This provides a unified way to obtain new identities between congrua and construct related families of magic squares, including some 6/9 families.",
             )}
           </p>
           <ul className="proof-references">
