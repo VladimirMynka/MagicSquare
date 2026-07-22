@@ -10,6 +10,7 @@ import {
   alternatePath,
   indexableRouteSuffixes,
   seoForPath,
+  socialImagesForLocale,
   type SeoMetadata,
 } from "../src/seo";
 
@@ -42,6 +43,7 @@ function metadataHead(metadata: SeoMetadata): string {
   const canonicalUrl = `${SITE_ORIGIN}${metadata.canonicalPath}`;
   const englishUrl = `${SITE_ORIGIN}${alternatePath(metadata.canonicalPath, "en")}`;
   const russianUrl = `${SITE_ORIGIN}${alternatePath(metadata.canonicalPath, "ru")}`;
+  const socialImages = socialImagesForLocale(metadata.locale);
   const tags = [
     `<meta name="robots" content="${metadata.index ? "index, follow" : "noindex, follow"}" />`,
     `<meta property="og:type" content="${metadata.schema["@type"] === "Article" ? "article" : "website"}" />`,
@@ -50,9 +52,18 @@ function metadataHead(metadata: SeoMetadata): string {
     `<meta property="og:description" content="${escapeHtml(metadata.description)}" />`,
     `<meta property="og:url" content="${escapeHtml(canonicalUrl)}" />`,
     `<meta property="og:locale" content="${metadata.locale === "ru" ? "ru_RU" : "en_US"}" />`,
-    `<meta name="twitter:card" content="summary" />`,
+    `<meta property="og:locale:alternate" content="${metadata.locale === "ru" ? "en_US" : "ru_RU"}" />`,
+    `<meta property="og:image" content="${escapeHtml(socialImages.openGraph)}" />`,
+    `<meta property="og:image:secure_url" content="${escapeHtml(socialImages.openGraph)}" />`,
+    `<meta property="og:image:type" content="image/png" />`,
+    `<meta property="og:image:width" content="1200" />`,
+    `<meta property="og:image:height" content="630" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(socialImages.alt)}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(metadata.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(metadata.description)}" />`,
+    `<meta name="twitter:image" content="${escapeHtml(socialImages.twitter)}" />`,
+    `<meta name="twitter:image:alt" content="${escapeHtml(socialImages.alt)}" />`,
   ];
   if (metadata.index) {
     tags.splice(

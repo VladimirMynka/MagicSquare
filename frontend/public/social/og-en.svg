@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f3efe5"/>
+  <rect x="28" y="28" width="1144" height="574" fill="#fbf9f3" stroke="#c9c2b6" stroke-width="2"/>
+  <path d="M72 116H690" stroke="#c9c2b6" stroke-width="2"/>
+  <g font-family="DejaVu Sans, sans-serif" fill="#74756f">
+    <text x="72" y="82" font-size="21" font-weight="700" letter-spacing="4">MAGIC SQUARES</text>
+    <text x="72" y="112" font-size="15" letter-spacing="2">RESEARCH PROJECT · 3×3</text>
+  </g>
+  <g font-family="DejaVu Serif, serif" fill="#343633" font-size="58" font-weight="700">
+    <text x="72" y="200">Research on</text>
+    <text x="72" y="274">3×3 magic</text>
+    <text x="72" y="348">squares</text>
+  </g>
+  <text x="72" y="414" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#50524d">
+    Parametric families · proofs · calculator
+  </text>
+  <g font-family="DejaVu Sans Mono, monospace" font-size="17" fill="#74756f">
+    <text x="72" y="542">magic-squares.mynka.tech</text>
+  </g>
+  <g transform="translate(770 118)">
+    <text x="180" y="-24" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="27" font-style="italic" fill="#50524d">m(E, x, y)</text>
+    <rect x="0" y="0" width="360" height="360" fill="#fffdf8" stroke="#a9a296" stroke-width="2"/>
+    <g font-family="DejaVu Serif, serif" font-size="26" text-anchor="middle" dominant-baseline="middle">
+      <g fill="#c98680" stroke="#b3463f" stroke-width="2">
+        <rect x="20" y="20" width="96" height="96"/><rect x="132" y="20" width="96" height="96"/><rect x="244" y="20" width="96" height="96"/>
+        <rect x="132" y="132" width="96" height="96"/><rect x="20" y="244" width="96" height="96"/>
+      </g>
+      <g fill="#ece6da" stroke="#c9c2b6" stroke-width="2">
+        <rect x="20" y="132" width="96" height="96"/><rect x="244" y="132" width="96" height="96"/>
+        <rect x="132" y="244" width="96" height="96"/><rect x="244" y="244" width="96" height="96"/>
+      </g>
+      <g fill="#343633">
+        <text x="68" y="68">A²</text>
+        <text x="180" y="68">B²</text>
+        <text x="292" y="68">C²</text>
+        <text x="68" y="180" fill="#74756f">D</text>
+        <text x="180" y="180">E²</text>
+        <text x="292" y="180" fill="#74756f">F</text>
+        <text x="68" y="292">G²</text>
+        <text x="180" y="292" fill="#74756f">H</text>
+        <text x="292" y="292" fill="#74756f">J</text>
+      </g>
+    </g>
+  </g>
+  <rect x="28" y="28" width="10" height="574" fill="#b3463f"/>
+</svg>

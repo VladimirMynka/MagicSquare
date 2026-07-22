@@ -13,6 +13,7 @@ import {
   SITE_ORIGIN,
   indexableRouteSuffixes,
   seoForPath,
+  socialImagesForLocale,
 } from "../src/seo";
 
 const DIST_DIR = resolve("dist");
@@ -35,6 +36,7 @@ for (const suffix of indexableRouteSuffixes()) {
     invariant(existsSync(file), `${pathname} has no prerendered HTML file`);
     const html = readFileSync(file, "utf8");
     const metadata = seoForPath(pathname);
+    const socialImages = socialImagesForLocale(locale);
     invariant(
       html.includes(`<html lang="${locale}">`),
       `${pathname} has the wrong document language`,
@@ -50,6 +52,26 @@ for (const suffix of indexableRouteSuffixes()) {
     invariant(
       html.includes('name="robots" content="index, follow"'),
       `${pathname} is not indexable`,
+    );
+    invariant(
+      html.includes('rel="icon" href="/favicon.svg"')
+        && html.includes('rel="icon" href="/favicon-32x32.png"')
+        && html.includes('rel="shortcut icon" href="/favicon.ico"')
+        && html.includes('rel="apple-touch-icon" href="/apple-touch-icon.png"'),
+      `${pathname} is missing favicon metadata`,
+    );
+    invariant(
+      html.includes(`property="og:image" content="${socialImages.openGraph}"`)
+        && html.includes('property="og:image:width" content="1200"')
+        && html.includes('property="og:image:height" content="630"')
+        && html.includes(`property="og:image:alt" content="${socialImages.alt}"`),
+      `${pathname} is missing Open Graph image metadata`,
+    );
+    invariant(
+      html.includes('name="twitter:card" content="summary_large_image"')
+        && html.includes(`name="twitter:image" content="${socialImages.twitter}"`)
+        && html.includes(`name="twitter:image:alt" content="${socialImages.alt}"`),
+      `${pathname} is missing Twitter image metadata`,
     );
     invariant(
       html.includes("© 2021–2026") && html.includes("Vladimir Mynka"),
@@ -88,6 +110,19 @@ invariant(
   sitemap.includes('hreflang="x-default"'),
   "Sitemap has no x-default alternates",
 );
+
+for (const asset of [
+  "favicon.svg",
+  "favicon-32x32.png",
+  "favicon.ico",
+  "apple-touch-icon.png",
+  "social/og-en.png",
+  "social/og-ru.png",
+  "social/twitter-en.png",
+  "social/twitter-ru.png",
+]) {
+  invariant(existsSync(resolve(DIST_DIR, asset)), `Missing published brand asset: ${asset}`);
+}
 
 const notFound = readFileSync(resolve(DIST_DIR, "404.html"), "utf8");
 invariant(

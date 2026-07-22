@@ -2,7 +2,7 @@
 /* START_CONTRACT
 PURPOSE: Define bilingual search metadata, structured attribution, and the static route manifest.
 MATHEMATICAL_SCOPE: Descriptive metadata only; it must not strengthen the status of mathematical claims.
-PUBLIC_SURFACE: SITE_ORIGIN, SITE_NAME, seoForPath, indexableRouteSuffixes, alternatePath, orbitPath.
+PUBLIC_SURFACE: SITE_ORIGIN, SITE_NAME, socialImagesForLocale, seoForPath, indexableRouteSuffixes, alternatePath, orbitPath.
 KEYWORDS: seo, prerender, schema-org, copyright, timeline
 COMPLEXITY: 3
 END_CONTRACT */
@@ -21,6 +21,32 @@ export const SITE_NAME = "Magic Squares";
 const SITE_AUTHOR = "Vladimir Mynka";
 
 export type SeoLocale = "ru" | "en";
+
+export interface SocialImages {
+  alt: string;
+  openGraph: string;
+  twitter: string;
+}
+
+/* START_FUNCTION socialImagesForLocale */
+/* START_CONTRACT
+PURPOSE: Return absolute localized social-preview image URLs and accessible alternative text.
+CONTRACT: Keep Open Graph and Twitter assets aligned with the active route locale and canonical origin.
+FAILURE_MEANING: Shared links may show a broken, untranslated, or inaccessible preview image.
+KEYWORDS: open-graph, twitter-card, social-preview, localization
+COMPLEXITY: 1
+END_CONTRACT */
+export function socialImagesForLocale(locale: SeoLocale): SocialImages {
+  return {
+    alt:
+      locale === "ru"
+        ? "Magic Squares — исследование магических квадратов 3×3"
+        : "Magic Squares — research on 3×3 magic squares",
+    openGraph: `${SITE_ORIGIN}/social/og-${locale}.png`,
+    twitter: `${SITE_ORIGIN}/social/twitter-${locale}.png`,
+  };
+}
+/* END_FUNCTION socialImagesForLocale */
 
 export interface SeoMetadata {
   canonicalPath: string;
@@ -176,6 +202,7 @@ function pageSchema(
   locale: SeoLocale,
 ): Readonly<Record<string, unknown>> {
   const type = metadata.type ?? "WebPage";
+  const socialImages = socialImagesForLocale(locale);
   const authors = [
     {
       "@type": "Person",
@@ -199,6 +226,8 @@ function pageSchema(
     description: metadata.description,
     inLanguage: locale,
     url: `${SITE_ORIGIN}${canonicalPath}`,
+    image: socialImages.openGraph,
+    thumbnailUrl: socialImages.openGraph,
     creator: authors,
     contributor: {
       "@type": "Person",

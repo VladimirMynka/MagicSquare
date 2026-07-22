@@ -11,6 +11,7 @@ import {
   SITE_ORIGIN,
   alternatePath,
   seoForPath,
+  socialImagesForLocale,
 } from "./seo";
 
 export const LOCALES = ["ru", "en"] as const;
@@ -132,6 +133,7 @@ export function LocaleProvider({
   useEffect(() => {
     const metadata = seoForPath(location.pathname);
     const canonicalUrl = `${SITE_ORIGIN}${metadata.canonicalPath}`;
+    const socialImages = socialImagesForLocale(metadata.locale);
     window.localStorage.setItem("magic-squares-locale", locale);
     document.documentElement.lang = metadata.locale;
     document.title = metadata.title;
@@ -140,9 +142,11 @@ export function LocaleProvider({
       "robots",
       metadata.index ? "index, follow" : "noindex, follow",
     );
-    setNamedMeta("twitter:card", "summary");
+    setNamedMeta("twitter:card", "summary_large_image");
     setNamedMeta("twitter:title", metadata.title);
     setNamedMeta("twitter:description", metadata.description);
+    setNamedMeta("twitter:image", socialImages.twitter);
+    setNamedMeta("twitter:image:alt", socialImages.alt);
     setPropertyMeta(
       "og:type",
       metadata.schema["@type"] === "Article" ? "article" : "website",
@@ -152,6 +156,13 @@ export function LocaleProvider({
     setPropertyMeta("og:description", metadata.description);
     setPropertyMeta("og:url", canonicalUrl);
     setPropertyMeta("og:locale", locale === "ru" ? "ru_RU" : "en_US");
+    setPropertyMeta("og:locale:alternate", locale === "ru" ? "en_US" : "ru_RU");
+    setPropertyMeta("og:image", socialImages.openGraph);
+    setPropertyMeta("og:image:secure_url", socialImages.openGraph);
+    setPropertyMeta("og:image:type", "image/png");
+    setPropertyMeta("og:image:width", "1200");
+    setPropertyMeta("og:image:height", "630");
+    setPropertyMeta("og:image:alt", socialImages.alt);
 
     if (metadata.index) {
       for (const language of LOCALES) {
