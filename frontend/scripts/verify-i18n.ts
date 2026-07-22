@@ -160,7 +160,11 @@ function verifyContent() {
 
   for (const moment of researchTimeline("en")) {
     for (const event of moment.events) {
-      assertEnglish(`${event.id} timeline event`, [event.title, event.summary]);
+      assertEnglish(`${event.id} timeline event`, [
+        event.title,
+        event.summary,
+        ...event.sources.map((source) => source.label),
+      ]);
     }
   }
 }

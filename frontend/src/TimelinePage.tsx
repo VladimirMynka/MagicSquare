@@ -13,31 +13,9 @@ import {
   type TimelineVisual as TimelineVisualSpec,
 } from "./content/timeline";
 import { findFamilyById } from "./lib/families";
-import { useLocale, type Locale } from "./i18n";
+import { useLocale } from "./i18n";
 
-const COMMIT_URL = "https://github.com/VladimirMynka/MagicSquare/commit";
 const MASK_POSITIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "J"] as const;
-
-/* START_FUNCTION formatTimelineDate */
-/* START_CONTRACT
-PURPOSE: Format one archival ISO date without timezone-dependent drift.
-CONTRACT: Preserve the recorded UTC calendar day in both supported locales.
-FAILURE_MEANING: A repository event could be displayed under the wrong date.
-KEYWORDS: date, locale, UTC
-COMPLEXITY: 1
-END_CONTRACT */
-function formatTimelineDate(date: string, locale: Locale): string {
-  return new Date(`${date}T00:00:00Z`).toLocaleDateString(
-    locale === "ru" ? "ru-RU" : "en-US",
-    {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      timeZone: "UTC",
-    },
-  );
-}
-/* END_FUNCTION formatTimelineDate */
 
 /* START_FUNCTION TimelineMask */
 /* START_CONTRACT
@@ -97,14 +75,13 @@ function TimelineVisual({
 
 /* START_FUNCTION TimelineEventCard */
 /* START_CONTRACT
-PURPOSE: Present one author-reviewed event with its visual and supporting source.
-CONTRACT: Every event exposes its title, description, and immutable commit reference.
+PURPOSE: Present one author-reviewed event with its visual and available primary sources.
+CONTRACT: Every event exposes its title and description; every declared source retains its public label and URL.
 FAILURE_MEANING: The chronology would no longer distinguish historical evidence from editorial prose.
-KEYWORDS: timeline-event, git, provenance
+KEYWORDS: timeline-event, sources, provenance
 COMPLEXITY: 1
 END_CONTRACT */
 function TimelineEventCard({ event }: { event: TimelineEvent }) {
-  const { text } = useLocale();
   return (
     <article className="timeline-card">
       <TimelineVisual visual={event.visual} label={event.title} />
@@ -112,14 +89,21 @@ function TimelineEventCard({ event }: { event: TimelineEvent }) {
         <h3>{event.title}</h3>
         <p>{event.summary}</p>
       </div>
-      <a
-        className="timeline-source"
-        href={`${COMMIT_URL}/${event.commit}`}
-        target="_blank"
-        rel="noreferrer"
-      >
-        {text("источник", "source")} · {event.commit} ↗
-      </a>
+      {event.sources.length > 0 ? (
+        <div className="timeline-sources">
+          {event.sources.map((source) => (
+            <a
+              className="timeline-source"
+              href={source.href}
+              target="_blank"
+              rel="noreferrer"
+              key={source.href}
+            >
+              {source.label} ↗
+            </a>
+          ))}
+        </div>
+      ) : null}
     </article>
   );
 }
@@ -147,8 +131,8 @@ export function TimelinePage() {
         <h1>{text("Хронология проекта", "Project timeline")}</h1>
         <p>
           {text(
-            "Здесь будет восстановлена история исследования: от первых идей и найденных конструкций до доказательств и современной постановки задачи.",
-            "This page will reconstruct the history of the research, from its first ideas and constructions to the proofs and the present form of the problem.",
+            "Здесь восстанавливается история исследования: от первых идей и найденных конструкций до доказательств и современной постановки задачи.",
+            "This page reconstructs the history of the research, from its first ideas and constructions to the proofs and the present form of the problem.",
           )}
         </p>
       </header>
@@ -203,7 +187,7 @@ export function TimelinePage() {
                     <div className="timeline-axis-point">
                       <i aria-hidden="true" />
                       <time dateTime={moment.date}>
-                        {formatTimelineDate(moment.date, locale)}
+                        {moment.dateLabel}
                       </time>
                       <small>{String(momentIndex + 1).padStart(2, "0")}</small>
                     </div>

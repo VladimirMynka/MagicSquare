@@ -431,18 +431,20 @@ END_CONTRACT */
 }
 
 .timeline-card p {
-  display: -webkit-box;
-  overflow: hidden;
   margin: 0;
   color: var(--graphite-soft);
   font-size: 10px;
   line-height: 1.35;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+}
+
+.timeline-sources {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
 }
 
 .timeline-source {
-  grid-column: 1 / -1;
   width: max-content;
   color: var(--muted);
   font: 8px/1 var(--mono);
