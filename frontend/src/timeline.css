@@ -461,15 +461,39 @@ END_CONTRACT */
 /* START_COMPONENT compact_navigation */
 /* START_CONTRACT
 PURPOSE: Keep the expanded navigation and chronology usable on narrow screens.
-CONTRACT: Allow horizontal navigation and preserve the timeline axis rather than collapsing it into a vertical feed.
+CONTRACT: Keep every navigation label on one line, distribute spare width evenly, and scroll the whole navigation strip when its intrinsic width no longer fits.
 KEYWORDS: responsive, mobile, navigation, timeline
 COMPLEXITY: 2
 END_CONTRACT */
+.main-nav {
+  width: min(720px, 50vw);
+  min-width: 0;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+.main-nav a {
+  min-width: max-content;
+  flex: 1 1 0;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@media (max-width: 1220px) {
+  .main-nav {
+    width: calc(100vw - 8.4vw);
+    max-width: 100%;
+    justify-self: stretch;
+  }
+}
+
 @media (max-width: 780px) {
   .main-nav {
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: thin;
+    width: calc(100vw - 36px);
   }
 
   .site-footer nav {
