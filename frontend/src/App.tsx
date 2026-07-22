@@ -2336,8 +2336,8 @@ a+e+j=c+e+g=M.
           </h4>
           <p>
             {text(
-              "Для шести выбранных клеток существует 16 существенно различных позиционных типов. В проекте получены точные невырожденные примеры как минимум для девяти из них и бесконечные явные параметрические семейства для трёх типов. По сравнению с рассмотренными нами источниками это даёт существенно более широкое покрытие задачи 6/9 по позиционным типам, хотя полного решения всех 16 типов пока нет.",
-              "There are 16 essentially different positional types for six selected entries. The project has exact nondegenerate examples for at least nine of them and explicit infinite parametric families for three types. Compared with the sources we have examined, this gives substantially broader type-by-type coverage of the 6/9 problem, although all 16 types have not yet been solved.",
+              "Для двух позиционных типов 6/9, образованных параллельными тройками квадратов в арифметических прогрессиях, построены развитые параметризации: квадратные классы разностей двух прогрессий согласуются методом tfmn. Для нетфмн-типа ABEFGH система сведена к эллиптической поверхности, являющейся обратным образом семейства Лежандра; рациональная секция и её кратные порождают явные семейства решений. Для типов ABCDEH и ABDEFH получены расслоения кривыми рода 1 и эллиптические модели, задающие систематический вход в дальнейшие классы. Полного решения всех 16 позиционных типов пока нет.",
+              "For two 6/9 positional types formed by parallel triples of squares in arithmetic progression, the project constructs developed parametrizations by matching the square classes of the two common differences through the tfmn method. For the non-tfmn type ABEFGH, the system is reduced to an elliptic surface obtained as a pullback of the Legendre family; a rational section and its multiples generate explicit families of solutions. For the ABCDEH and ABDEFH types, genus-one fibrations and elliptic models provide a systematic route into further classes. A complete solution of all 16 positional types is not yet known.",
             )}
           </p>
 
