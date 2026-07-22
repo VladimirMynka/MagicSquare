@@ -1,3 +1,12 @@
+/* START_MODULE verify_localization */
+/* START_CONTRACT
+PURPOSE: Verify bilingual content and public routes, including chronology and attribution.
+MATHEMATICAL_SCOPE: Localization integrity only; this script does not prove mathematical claims.
+PUBLIC_SURFACE: Executable verification script.
+KEYWORDS: i18n, verification, timeline, prerender
+COMPLEXITY: 3
+END_CONTRACT */
+
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createElement } from "react";
@@ -7,6 +16,7 @@ import { App } from "../src/App";
 import { familyProof } from "../src/content/familyProofs";
 import { news } from "../src/content/news";
 import { commonProofs } from "../src/content/proofs";
+import { researchTimeline } from "../src/content/timeline";
 import {
   FAMILIES,
   familyGroupLabel,
@@ -71,6 +81,14 @@ function verifyInterfaceLiterals() {
   );
 }
 
+/* START_FUNCTION verifyContent */
+/* START_CONTRACT
+PURPOSE: Ensure every structured English content record is present and free of Cyrillic leakage.
+CONTRACT: Cover families, proofs, news, and every timeline event.
+FAILURE_MEANING: The English edition contains missing or untranslated structured content.
+KEYWORDS: content, English, timeline
+COMPLEXITY: 2
+END_CONTRACT */
 function verifyContent() {
   for (const family of FAMILIES) {
     const group = familyGroupLabel(family, "en");
@@ -139,8 +157,23 @@ function verifyContent() {
       ...article.body,
     ]);
   }
-}
 
+  for (const moment of researchTimeline("en")) {
+    for (const event of moment.events) {
+      assertEnglish(`${event.id} timeline event`, [event.title, event.summary]);
+    }
+  }
+}
+/* END_FUNCTION verifyContent */
+
+/* START_FUNCTION verifyEnglishRoutes */
+/* START_CONTRACT
+PURPOSE: Render representative English and Russian routes and verify visible localized markers.
+CONTRACT: Include the chronology route and locale-prefixed navigation.
+FAILURE_MEANING: A route may be declared bilingual while rendering missing or untranslated copy.
+KEYWORDS: routes, SSR, localization
+COMPLEXITY: 2
+END_CONTRACT */
 function verifyEnglishRoutes(): number {
   const routes: Readonly<Record<string, string>> = {
     "/en": "Magic squares you can do more than look at",
@@ -152,6 +185,7 @@ function verifyEnglishRoutes(): number {
     "/en/proofs/general": "Why there are exactly 23 orbits",
     "/en/proofs/arithmetic-progression": "Red lemma",
     "/en/news": "No publications have been published yet",
+    "/en/timeline": "Project timeline",
     "/en/about": "The 3×3 magic square of squares problem",
   };
   for (const [route, marker] of Object.entries(routes)) {
@@ -187,6 +221,7 @@ function verifyEnglishRoutes(): number {
   );
   return Object.keys(routes).length;
 }
+/* END_FUNCTION verifyEnglishRoutes */
 
 verifyInterfaceLiterals();
 verifyContent();
@@ -194,3 +229,5 @@ const routeCount = verifyEnglishRoutes();
 console.log(
   `Verified complete English copy and ${routeCount} localized routes for ${FAMILIES.length} families, ${commonProofs("en").length} shared proofs, and ${news("en").length} news articles.`,
 );
+
+/* END_MODULE verify_localization */

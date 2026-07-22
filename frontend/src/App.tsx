@@ -57,6 +57,7 @@ import {
   useLocale,
   type Locale,
 } from "./i18n";
+import { TimelinePage } from "./TimelinePage";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
 
@@ -207,6 +208,7 @@ function AppShell() {
             {text("Теория", "Theory")}
           </NavLink>
           <NavLink to="/news">{text("Новости", "News")}</NavLink>
+          <NavLink to="/timeline">{text("Хронология", "Timeline")}</NavLink>
           <NavLink to="/about">{text("О проекте", "About")}</NavLink>
         </nav>
         <div className="header-meta">
@@ -222,18 +224,23 @@ function AppShell() {
       </main>
 
       <footer className="site-footer">
-        <span>
-          {text(
-            "Magic Squares · открытая исследовательская среда",
-            "Magic Squares · open research environment",
-          )}
-        </span>
-        <span>
-          {text(
-            "Точные формулы · воспроизводимые сертификаты",
-            "Exact formulas · reproducible certificates",
-          )}
-        </span>
+        <div className="footer-copyright">
+          <strong>
+            © 2021–2026 {text("Владимир Минька", "Vladimir Mynka")}
+          </strong>
+          <span>
+            {text(
+              "Распространение материалов разрешено с явным указанием авторства и активной ссылкой на сайт.",
+              "Materials may be redistributed with explicit attribution and an active link to this site.",
+            )}
+          </span>
+        </div>
+        <nav aria-label={text("Сведения о проекте", "Project information")}>
+          <Link to="/timeline">{text("Хронология", "Timeline")}</Link>
+          <Link to="/about#copyright">
+            {text("Авторство и условия", "Attribution and terms")}
+          </Link>
+        </nav>
       </footer>
     </div>
   );
@@ -2136,7 +2143,6 @@ function NewsArticlePage() {
     </article>
   );
 }
-
 function AboutPage() {
   const { text } = useLocale();
   return (
@@ -2274,6 +2280,39 @@ function AboutPage() {
             <li>{text("Утверждение о научном приоритете относительно всей литературы не делается до завершения отдельного библиографического обзора.", "No claim of historical priority over the entire literature is made before a dedicated bibliographic review is completed.")}</li>
           </ul>
         </section>
+
+        <section id="copyright" className="copyright-section">
+          <h3>
+            {text(
+              "7. Авторство и распространение",
+              "7. Authorship and redistribution",
+            )}
+          </h3>
+          <p>
+            {text(
+              "Исследование и исходный проект: Владимир Минька (Vladimir Mynka). Copyright © 2021–2026 Vladimir Mynka.",
+              "Research and original project: Vladimir Mynka. Copyright © 2021–2026 Vladimir Mynka.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Материалы проекта разрешается копировать и распространять только при явном указании авторства и сохранении активной ссылки на канонический сайт проекта. Иное использование требует отдельного согласования с автором.",
+              "Project materials may be copied and redistributed only when authorship is explicitly credited and an active link to the canonical project site is retained. Other uses require separate permission from the author.",
+            )}
+          </p>
+          <a className="canonical-rights-link" href="https://magic-squares.mynka.tech">
+            magic-squares.mynka.tech
+          </a>
+          <p>
+            <Link to="/timeline">
+              {text(
+                "Хронология подтверждённых этапов исследования",
+                "Chronology of verified research milestones",
+              )}{" "}
+              →
+            </Link>
+          </p>
+        </section>
       </div>
     </article>
   );
@@ -2315,6 +2354,7 @@ export function App() {
         <Route path="proofs/:proofId" element={<CommonProofPage />} />
         <Route path="news" element={<NewsPage />} />
         <Route path="news/:slug" element={<NewsArticlePage />} />
+        <Route path="timeline" element={<TimelinePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

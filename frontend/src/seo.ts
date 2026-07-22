@@ -1,3 +1,12 @@
+/* START_MODULE search_metadata */
+/* START_CONTRACT
+PURPOSE: Define bilingual search metadata, structured attribution, and the static route manifest.
+MATHEMATICAL_SCOPE: Descriptive metadata only; it must not strengthen the status of mathematical claims.
+PUBLIC_SURFACE: SITE_ORIGIN, SITE_NAME, seoForPath, indexableRouteSuffixes, alternatePath, orbitPath.
+KEYWORDS: seo, prerender, schema-org, copyright, timeline
+COMPLEXITY: 3
+END_CONTRACT */
+
 import { NEWS } from "./content/news";
 import { COMMON_PROOFS } from "./content/proofs";
 import {
@@ -9,6 +18,7 @@ import {
 
 export const SITE_ORIGIN = "https://magic-squares.mynka.tech";
 export const SITE_NAME = "Magic Squares";
+const SITE_AUTHOR = "Vladimir Mynka";
 
 export type SeoLocale = "ru" | "en";
 
@@ -126,6 +136,20 @@ const STATIC_METADATA: Readonly<
         "Раздел новостей исследовательского проекта Magic Squares. Публикаций пока нет.",
     },
   },
+  timeline: {
+    en: {
+      title: "Magic Squares Research Timeline — 2021 to 2026",
+      description:
+        "A repository-backed chronology of the Magic Squares research project, from the first interface and generators to the bilingual proof atlas.",
+      type: "Article",
+    },
+    ru: {
+      title: "Хронология исследования Magic Squares — 2021–2026",
+      description:
+        "Подтверждённая историей репозитория хронология проекта Magic Squares: от первого интерфейса и генераторов до двуязычного атласа доказательств.",
+      type: "Article",
+    },
+  },
   about: {
     en: {
       title: "About the 3×3 Magic Square of Squares Project",
@@ -140,6 +164,14 @@ const STATIC_METADATA: Readonly<
   },
 };
 
+/* START_FUNCTION pageSchema */
+/* START_CONTRACT
+PURPOSE: Build one Schema.org record with consistent authorship and rights metadata.
+CONTRACT: Attribute every public page to Vladimir Mynka and point redistribution terms to the localized copyright section.
+FAILURE_MEANING: Search engines may expose incomplete or incorrect authorship metadata.
+KEYWORDS: schema-org, author, copyright
+COMPLEXITY: 2
+END_CONTRACT */
 function pageSchema(
   metadata: LocalizedMetadata,
   canonicalPath: string,
@@ -153,12 +185,23 @@ function pageSchema(
     description: metadata.description,
     inLanguage: locale,
     url: `${SITE_ORIGIN}${canonicalPath}`,
+    creator: {
+      "@type": "Person",
+      name: SITE_AUTHOR,
+    },
+    copyrightHolder: {
+      "@type": "Person",
+      name: SITE_AUTHOR,
+    },
+    copyrightNotice: `© 2021–2026 ${SITE_AUTHOR}`,
+    copyrightYear: 2021,
+    license: `${SITE_ORIGIN}/${locale}/about#copyright`,
   };
   if (type === "Article") {
     schema.headline = metadata.title;
     schema.author = {
-      "@type": "Organization",
-      name: "Magic Squares research project",
+      "@type": "Person",
+      name: SITE_AUTHOR,
     };
     schema.datePublished = "2026-07-21";
     schema.dateModified = "2026-07-22";
@@ -169,6 +212,7 @@ function pageSchema(
   }
   return schema;
 }
+/* END_FUNCTION pageSchema */
 
 function localizedStatic(
   suffix: string,
@@ -309,6 +353,14 @@ export function orbitPath(familyId: string): string {
   return family ? `/orbits/${family.level}/${family.id}` : "/lab";
 }
 
+/* START_FUNCTION indexableRouteSuffixes */
+/* START_CONTRACT
+PURPOSE: Enumerate every localized route that must be prerendered and indexed.
+CONTRACT: Include chronology, static research pages, every orbit, every common proof, and published news only.
+FAILURE_MEANING: A declared public route may be omitted from static HTML and the sitemap.
+KEYWORDS: route-manifest, sitemap, prerender
+COMPLEXITY: 1
+END_CONTRACT */
 export function indexableRouteSuffixes(): readonly string[] {
   return [
     "",
@@ -321,6 +373,10 @@ export function indexableRouteSuffixes(): readonly string[] {
     ...COMMON_PROOFS.map((proof) => `proofs/${proof.id}`),
     "news",
     ...NEWS.map((article) => `news/${article.slug}`),
+    "timeline",
     "about",
   ];
 }
+/* END_FUNCTION indexableRouteSuffixes */
+
+/* END_MODULE search_metadata */

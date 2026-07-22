@@ -1,3 +1,12 @@
+/* START_MODULE verify_search_publication */
+/* START_CONTRACT
+PURPOSE: Verify prerendered routes, sitemap entries, localized metadata, and public attribution.
+MATHEMATICAL_SCOPE: Publication integrity only; this script does not validate proof claims.
+PUBLIC_SURFACE: Executable verification script.
+KEYWORDS: seo, sitemap, copyright, prerender
+COMPLEXITY: 3
+END_CONTRACT */
+
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
@@ -42,6 +51,14 @@ for (const suffix of indexableRouteSuffixes()) {
       html.includes('name="robots" content="index, follow"'),
       `${pathname} is not indexable`,
     );
+    invariant(
+      html.includes("© 2021–2026") && html.includes("Vladimir Mynka"),
+      `${pathname} is missing visible attribution`,
+    );
+    invariant(
+      html.includes('"copyrightHolder"') && html.includes('"copyrightYear":2021'),
+      `${pathname} is missing structured copyright metadata`,
+    );
     const root = html.match(/<div id="root">([\s\S]*)<\/div>\s*<\/body>/);
     invariant(Boolean(root?.[1]) && root[1].length > 1000, `${pathname} has an empty app shell`);
     for (const match of html.matchAll(/href="(\/(?:en|ru)(?:[^"?#]*))/g)) {
@@ -74,3 +91,5 @@ invariant(
 invariant(notFound.includes("Page not found"), "404 page has no visible error message");
 
 console.log(`Verified ${routeCount} prerendered routes, sitemap entries, and 404 metadata.`);
+
+/* END_MODULE verify_search_publication */
