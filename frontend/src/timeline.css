@@ -182,6 +182,67 @@ END_CONTRACT */
   padding: 0 66px;
 }
 
+.timeline-scroll-empty {
+  overflow-x: hidden;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.timeline-empty {
+  min-height: 360px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.timeline-empty::after {
+  height: 2px;
+  position: absolute;
+  right: 0;
+  bottom: 116px;
+  left: 0;
+  background: var(--line-strong);
+  content: "";
+}
+
+.timeline-empty-card {
+  width: min(430px, calc(100% - 42px));
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--blue);
+  background: rgba(255, 253, 248, 0.96);
+  box-shadow: 0 8px 22px rgba(72, 63, 48, 0.06);
+}
+
+.timeline-empty-card span {
+  color: var(--brick);
+  font: 30px/1 var(--serif);
+}
+
+.timeline-empty-card p {
+  margin: 0;
+  color: var(--graphite-soft);
+  font: 18px/1.35 var(--serif);
+}
+
+.timeline-empty-axis {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  bottom: 109px;
+  left: 50%;
+  z-index: 1;
+  border: 3px solid var(--canvas);
+  border-radius: 50%;
+  background: var(--brick);
+  box-shadow: 0 0 0 1px var(--brick);
+  transform: translateX(-50%);
+}
+
 .timeline-moment {
   width: 270px;
   flex: 0 0 270px;
@@ -378,46 +439,6 @@ END_CONTRACT */
   color: var(--brick);
 }
 
-.timeline-method {
-  max-width: 1050px;
-  display: grid;
-  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
-  gap: 24px 56px;
-  margin: 58px 0 0;
-  padding: 32px;
-  border: 1px solid var(--line);
-  border-left: 6px solid var(--sage);
-  background: var(--paper);
-}
-
-.timeline-method span {
-  color: var(--brick);
-  font: 9px/1.2 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.timeline-method h2 {
-  margin: 9px 0 0;
-  color: var(--graphite);
-  font: 500 29px/1.08 var(--serif);
-}
-
-.timeline-method p {
-  margin: 0;
-  color: var(--graphite-soft);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.timeline-method > a {
-  grid-column: 2;
-  width: max-content;
-  padding-bottom: 3px;
-  border-bottom: 1px solid var(--line-strong);
-  color: var(--blue-deep);
-  font-size: 11px;
-}
 /* END_COMPONENT research_timeline */
 
 /* START_COMPONENT compact_navigation */
@@ -468,14 +489,6 @@ END_CONTRACT */
     flex-basis: 242px;
   }
 
-  .timeline-method {
-    grid-template-columns: 1fr;
-    padding: 25px 22px;
-  }
-
-  .timeline-method > a {
-    grid-column: 1;
-  }
 }
 /* END_COMPONENT compact_navigation */
 

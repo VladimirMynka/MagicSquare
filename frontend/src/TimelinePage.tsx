@@ -1,13 +1,17 @@
 /* START_MODULE timeline_page */
 /* START_CONTRACT
 PURPOSE: Render the bilingual, horizontally scrollable, multi-level research chronology.
-MATHEMATICAL_SCOPE: Historical presentation only; repository dates are not mathematical evidence or retrospective release dates.
+MATHEMATICAL_SCOPE: Historical presentation only; dated events are not mathematical evidence.
 PUBLIC_SURFACE: TimelinePage.
 KEYWORDS: react, chronology, horizontal-scroll, provenance, accessibility
 COMPLEXITY: 3
 END_CONTRACT */
 
-import { researchTimeline, type TimelineEvent, type TimelineVisual as TimelineVisualSpec } from "./content/timeline";
+import {
+  researchTimeline,
+  type TimelineEvent,
+  type TimelineVisual as TimelineVisualSpec,
+} from "./content/timeline";
 import { findFamilyById } from "./lib/families";
 import { useLocale, type Locale } from "./i18n";
 
@@ -93,7 +97,7 @@ function TimelineVisual({
 
 /* START_FUNCTION TimelineEventCard */
 /* START_CONTRACT
-PURPOSE: Present one dated repository-backed event with its visual and source commit.
+PURPOSE: Present one author-reviewed event with its visual and supporting source.
 CONTRACT: Every event exposes its title, description, and immutable commit reference.
 FAILURE_MEANING: The chronology would no longer distinguish historical evidence from editorial prose.
 KEYWORDS: timeline-event, git, provenance
@@ -114,7 +118,7 @@ function TimelineEventCard({ event }: { event: TimelineEvent }) {
         target="_blank"
         rel="noreferrer"
       >
-        {text("запись", "record")} · {event.commit} ↗
+        {text("источник", "source")} · {event.commit} ↗
       </a>
     </article>
   );
@@ -124,8 +128,8 @@ function TimelineEventCard({ event }: { event: TimelineEvent }) {
 /* START_FUNCTION TimelinePage */
 /* START_CONTRACT
 PURPOSE: Display the full project chronology as a horizontally scrollable multi-level research record.
-CONTRACT: Keep events grouped by recorded date, allow multiple cards above and below each date, and state that dates are not retrospective release claims.
-FAILURE_MEANING: Readers could mistake repository activity for contemporaneous publication or miss same-day events.
+CONTRACT: Keep events grouped by date, allow multiple cards above and below each date, and present an explicit empty state while history is being reconstructed.
+FAILURE_MEANING: Readers could mistake draft history for an author-reviewed chronology or miss same-day events.
 KEYWORDS: chronology, horizontal-scroll, multi-level, bilingual
 COMPLEXITY: 3
 END_CONTRACT */
@@ -133,6 +137,9 @@ export function TimelinePage() {
   const { locale, text } = useLocale();
   const moments = researchTimeline(locale);
   const eventCount = moments.reduce((total, moment) => total + moment.events.length, 0);
+  const dateRange = moments.length > 0
+    ? `${moments[0].date.slice(0, 4)} → ${moments[moments.length - 1].date.slice(0, 4)}`
+    : null;
   return (
     <article className="page timeline-page">
       <header className="editorial-header timeline-header">
@@ -140,73 +147,78 @@ export function TimelinePage() {
         <h1>{text("Хронология проекта", "Project timeline")}</h1>
         <p>
           {text(
-            "Вехи восстановлены по истории репозитория. Это даты зафиксированной работы, а не утверждение о том, что результаты публично объявлялись в тот же день.",
-            "Milestones are reconstructed from repository history. These are dates of recorded work, not claims that the results were publicly announced on those dates.",
+            "Здесь будет восстановлена история исследования: от первых идей и найденных конструкций до доказательств и современной постановки задачи.",
+            "This page will reconstruct the history of the research, from its first ideas and constructions to the proofs and the present form of the problem.",
           )}
         </p>
       </header>
 
       <div className="timeline-summary" id="timeline-instructions">
-        <span>2021 → 2026</span>
+        <span>{dateRange ?? text("История исследования", "Research history")}</span>
         <strong>
-          {eventCount} {text("подтверждённых событий", "verified events")}
+          {eventCount > 0
+            ? `${eventCount} ${text("событий", "events")}`
+            : text("Хронология восстанавливается", "Timeline in preparation")}
         </strong>
-        <span>{text("Прокручивайте по горизонтали →", "Scroll horizontally →")}</span>
+        <span>
+          {eventCount > 0
+            ? text("Прокручивайте по горизонтали →", "Scroll horizontally →")
+            : text("События пока не опубликованы", "Events have not yet been published")}
+        </span>
       </div>
 
       <div className="timeline-scroll-shell">
         <div
-          className="timeline-scroll"
+          className={`timeline-scroll ${moments.length === 0 ? "timeline-scroll-empty" : ""}`}
           role="region"
           aria-label={text("Хронология исследования", "Research timeline")}
           aria-describedby="timeline-instructions"
           tabIndex={0}
         >
-          <div className="timeline-track">
-            {moments.map((moment, momentIndex) => {
-              const above = moment.events.filter((event) => event.side === "above");
-              const below = moment.events.filter((event) => event.side === "below");
-              return (
-                <section className="timeline-moment" key={moment.date}>
-                  <div className="timeline-stack timeline-stack-above">
-                    {above.map((event) => (
-                      <TimelineEventCard event={event} key={event.id} />
-                    ))}
-                  </div>
-                  <div className="timeline-axis-point">
-                    <i aria-hidden="true" />
-                    <time dateTime={moment.date}>
-                      {formatTimelineDate(moment.date, locale)}
-                    </time>
-                    <small>{String(momentIndex + 1).padStart(2, "0")}</small>
-                  </div>
-                  <div className="timeline-stack timeline-stack-below">
-                    {below.map((event) => (
-                      <TimelineEventCard event={event} key={event.id} />
-                    ))}
-                  </div>
-                </section>
-              );
-            })}
-          </div>
+          {moments.length === 0 ? (
+            <div className="timeline-empty">
+              <div className="timeline-empty-card">
+                <span aria-hidden="true">◇</span>
+                <p>
+                  {text(
+                    "Здесь появятся датированные события исследования.",
+                    "Dated milestones of the research will appear here.",
+                  )}
+                </p>
+              </div>
+              <i className="timeline-empty-axis" aria-hidden="true" />
+            </div>
+          ) : (
+            <div className="timeline-track">
+              {moments.map((moment, momentIndex) => {
+                const above = moment.events.filter((event) => event.side === "above");
+                const below = moment.events.filter((event) => event.side === "below");
+                return (
+                  <section className="timeline-moment" key={moment.date}>
+                    <div className="timeline-stack timeline-stack-above">
+                      {above.map((event) => (
+                        <TimelineEventCard event={event} key={event.id} />
+                      ))}
+                    </div>
+                    <div className="timeline-axis-point">
+                      <i aria-hidden="true" />
+                      <time dateTime={moment.date}>
+                        {formatTimelineDate(moment.date, locale)}
+                      </time>
+                      <small>{String(momentIndex + 1).padStart(2, "0")}</small>
+                    </div>
+                    <div className="timeline-stack timeline-stack-below">
+                      {below.map((event) => (
+                        <TimelineEventCard event={event} key={event.id} />
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
-
-      <section className="timeline-method">
-        <div>
-          <span>{text("Принцип отбора", "Selection rule")}</span>
-          <h2>{text("Только проверяемые вехи", "Only verifiable milestones")}</h2>
-        </div>
-        <p>
-          {text(
-            "Включены изменения, для которых существует запись в репозитории и которые меняли математические инструменты, генераторы, теоретический текст или способ публикации исследования. Позднейшая редактура описаний не меняет исходных дат.",
-            "An event is included only when a repository record exists and the change affected mathematical tools, generators, theory text, or publication of the research. Later editorial work does not alter the original dates.",
-          )}
-        </p>
-        <a href="https://github.com/VladimirMynka/MagicSquare" target="_blank" rel="noreferrer">
-          {text("Открыть историю репозитория", "Open repository history")} ↗
-        </a>
-      </section>
     </article>
   );
 }

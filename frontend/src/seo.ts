@@ -138,16 +138,14 @@ const STATIC_METADATA: Readonly<
   },
   timeline: {
     en: {
-      title: "Magic Squares Research Timeline — 2021 to 2026",
+      title: "Magic Squares Research Timeline",
       description:
-        "A repository-backed chronology of the Magic Squares research project, from the first interface and generators to the bilingual proof atlas.",
-      type: "Article",
+        "The history of the Magic Squares research project, from its first ideas and constructions to its proofs and present form.",
     },
     ru: {
-      title: "Хронология исследования Magic Squares — 2021–2026",
+      title: "Хронология исследования Magic Squares",
       description:
-        "Подтверждённая историей репозитория хронология проекта Magic Squares: от первого интерфейса и генераторов до двуязычного атласа доказательств.",
-      type: "Article",
+        "История исследования Magic Squares: от первых идей и найденных конструкций до доказательств и современной постановки задачи.",
     },
   },
   about: {

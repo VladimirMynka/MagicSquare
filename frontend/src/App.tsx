@@ -226,7 +226,7 @@ function AppShell() {
       <footer className="site-footer">
         <div className="footer-copyright">
           <strong>
-            © 2021–2026 {text("Владимир Минька", "Vladimir Mynka")}
+            © 2021–2026 {text("Владимир Мынка", "Vladimir Mynka")}
           </strong>
           <span>
             {text(
@@ -2290,7 +2290,7 @@ function AboutPage() {
           </h3>
           <p>
             {text(
-              "Исследование и исходный проект: Владимир Минька (Vladimir Mynka). Copyright © 2021–2026 Vladimir Mynka.",
+              "Исследование и исходный проект: Владимир Мынка (Vladimir Mynka). Copyright © 2021–2026 Vladimir Mynka.",
               "Research and original project: Vladimir Mynka. Copyright © 2021–2026 Vladimir Mynka.",
             )}
           </p>
@@ -2306,8 +2306,8 @@ function AboutPage() {
           <p>
             <Link to="/timeline">
               {text(
-                "Хронология подтверждённых этапов исследования",
-                "Chronology of verified research milestones",
+                "Хронология исследования",
+                "Research timeline",
               )}{" "}
               →
             </Link>
