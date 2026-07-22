@@ -1647,8 +1647,11 @@ function SquaresOfSquaresPage() {
             <Link className="button button-primary" to="/lab">
               {text("Открыть калькулятор", "Open the calculator")} <span>↗</span>
             </Link>
-            <Link className="button button-ghost" to="/proofs/general">
-              {text("Читать общую теорию", "Read the general theory")}
+            <Link className="button button-ghost" to="/theory/magic-squares-3x3">
+              {text(
+                "Доказательство общей формы",
+                "Proof of the general form",
+              )}
             </Link>
           </div>
         </section>
@@ -1714,6 +1717,278 @@ function SquaresOfSquaresPage() {
               )}
             </li>
           </ul>
+        </section>
+      </div>
+    </article>
+  );
+}
+
+function BasicMagicTheoryPage() {
+  const { text } = useLocale();
+  return (
+    <article className="page proof-page topic-page basic-theory-page">
+      <Link className="back-link" to="/squares-of-squares">
+        ← {text("К постановке задачи", "Back to the problem")}
+      </Link>
+      <header className="proof-page-header">
+        <div>
+          <p className="eyebrow">
+            {text("Базовая теория", "Basic theory")}
+          </p>
+          <h1>
+            {text(
+              "Магические квадраты 3×3 над произвольным носителем",
+              "3×3 magic squares over a general carrier",
+            )}
+          </h1>
+          <p>
+            {text(
+              "Магическая константа, полная форма m(E,x,y), её единственность и точные различия между абелевыми группами, кольцами, полями, вещественными, рациональными и целыми числами.",
+              "The magic constant, the complete form m(E,x,y), its uniqueness, and the exact distinctions between abelian groups, rings, fields, and the real, rational, and integer cases.",
+            )}
+          </p>
+        </div>
+      </header>
+
+      <div className="proof-document topic-document basic-theory-document">
+        <section>
+          <h2>{text("1. Носитель и определение", "1. Carrier and definition")}</h2>
+          <p>
+            {text(
+              "Пусть A — абелева группа в аддитивной записи. Магическим квадратом 3×3 над A назовём таблицу, у которой суммы трёх строк, трёх столбцов и двух главных диагоналей равны одному элементу M∈A. Абелева группа — естественная общая граница теории: в доказательстве нужны сложение, нуль и вычитание, но не нужны умножение, порядок или деление.",
+              "Let A be an abelian group written additively. A 3×3 magic square over A is an array whose three row sums, three column sums, and two main diagonal sums are equal to one element M∈A. An abelian group is the natural general setting: the proof needs addition, zero, and subtraction, but it needs no multiplication, order, or division.",
+            )}
+          </p>
+          <Latex display>{String.raw`Q=\begin{pmatrix}A&B&C\\D&E&F\\G&H&J\end{pmatrix},\qquad
+A+B+C=\cdots=C+E+G=M.`}</Latex>
+          <p>
+            {text(
+              "Если A является модулем над кольцом R, то сложение квадратов и умножение всех клеток на один скаляр выполняются поклеточно. Полная классификация ниже совместима с этой модульной структурой.",
+              "If A is a module over a ring R, squares are added entrywise and every entry may be multiplied by one scalar. The classification below is compatible with this module structure.",
+            )}
+          </p>
+        </section>
+
+        <section>
+          <h2>{text("2. Магическая константа", "2. The magic constant")}</h2>
+          <div className="theorem-block">
+            <h3>{text("Теорема", "Theorem")}</h3>
+            <p>
+              {text(
+                "В любом магическом квадрате 3×3 над абелевой группой магическая константа равна утроенному центральному элементу:",
+                "In every 3×3 magic square over an abelian group, the magic constant is three times the central entry:",
+              )}
+            </p>
+            <Latex display>{String.raw`M=3E.`}</Latex>
+          </div>
+          <h3>{text("Доказательство", "Proof")}</h3>
+          <p>
+            {text(
+              "Обозначим сумму всех девяти клеток через T. Сложение трёх строк даёт T=3M. Теперь сложим среднюю строку, средний столбец и две диагонали. Каждая нецентральная клетка встретится один раз, а центр — четыре раза. Поэтому эта сумма одновременно равна 4M и T+3E:",
+              "Let T be the sum of all nine entries. Adding the three rows gives T=3M. Now add the middle row, the middle column, and both diagonals. Every noncentral entry occurs once and the center occurs four times. Hence this sum is both 4M and T+3E:",
+            )}
+          </p>
+          <Latex display>{String.raw`T=3M,\qquad
+(D+E+F)+(B+E+H)+(A+E+J)+(C+E+G)=T+3E=4M.`}</Latex>
+          <p>
+            {text(
+              "Подставляя T=3M и сокращая 3M в абелевой группе, получаем M=3E. Деление на 3 здесь не использовалось. Из четырёх линий, проходящих через центр, сразу следует дополнительное равенство противоположных пар:",
+              "Substituting T=3M and cancelling 3M in the abelian group gives M=3E. No division by 3 was used. The four lines through the center immediately give the opposite-pair identities:",
+            )}
+          </p>
+          <Latex display>{String.raw`A+J=B+H=C+G=D+F=2E.`}</Latex>
+        </section>
+
+        <section>
+          <h2>{text("3. Полная форма m(E,x,y)", "3. The complete form m(E,x,y)")}</h2>
+          <div className="theorem-block">
+            <h3>{text("Теорема о классификации", "Classification theorem")}</h3>
+            <p>
+              {text(
+                "Для любой абелевой группы A каждый магический квадрат 3×3 над A единственным образом представляется в следующем виде, где E,x,y∈A:",
+                "For every abelian group A, each 3×3 magic square over A has a unique representation of the following form, with E,x,y∈A:",
+              )}
+            </p>
+            <Latex display>{MAGIC3_LATEX}</Latex>
+          </div>
+          <h3>{text("Существование координат", "Existence of the coordinates")}</h3>
+          <p>
+            {text(
+              "Пусть дан произвольный магический квадрат Q. Положим x=A−E и y=G−E. Тогда A=E+x и G=E+y. Из равенств противоположных пар получаем J=E−x и C=E−y. Нижняя строка и первая колонка затем дают H=E+x−y и D=E−x−y, а противоположные им клетки равны B=E−x+y и F=E+x+y. Тем самым все девять клеток имеют заявленный вид.",
+              "Let Q be any magic square and set x=A−E and y=G−E. Then A=E+x and G=E+y. The opposite-pair identities give J=E−x and C=E−y. The bottom row and first column then give H=E+x−y and D=E−x−y, while their opposite entries are B=E−x+y and F=E+x+y. Thus all nine entries have the stated form.",
+            )}
+          </p>
+          <h3>{text("Обратная проверка", "Converse verification")}</h3>
+          <p>
+            {text(
+              "Для любых E,x,y восемь требуемых сумм вычисляются непосредственно. Ни одно из равенств не использует деление:",
+              "For arbitrary E,x,y, the eight required sums are computed directly. None of these identities uses division:",
+            )}
+          </p>
+          <Latex display>{String.raw`\begin{aligned}
+(E+x)+(E-x+y)+(E-y)&=3E,\\
+(E-x-y)+E+(E+x+y)&=3E,\\
+(E+y)+(E+x-y)+(E-x)&=3E,\\
+(E+x)+(E-x-y)+(E+y)&=3E,\\
+(E-x+y)+E+(E+x-y)&=3E,\\
+(E-y)+(E+x+y)+(E-x)&=3E,\\
+(E+x)+E+(E-x)&=3E,\\
+(E-y)+E+(E+y)&=3E.
+\end{aligned}`}</Latex>
+          <h3>{text("Единственность", "Uniqueness")}</h3>
+          <p>
+            {text(
+              "Координаты восстанавливаются без выбора и без знаменателей: E — центральная клетка, x=A−E, y=G−E. Поэтому два различных набора координат не могут задавать один квадрат.",
+              "The coordinates are recovered without choices or denominators: E is the central entry, x=A−E, and y=G−E. Therefore two different coordinate triples cannot define the same square.",
+            )}
+          </p>
+          <Latex display>{String.raw`(E,x,y)=\bigl(Q_{22},\ Q_{11}-Q_{22},\ Q_{31}-Q_{22}\bigr).`}</Latex>
+        </section>
+
+        <section>
+          <h2>{text("4. Группа, модуль и векторное пространство", "4. Group, module, and vector space")}</h2>
+          <p>
+            {text(
+              "Обозначим множество магических квадратов 3×3 над A через 𝓜₃(A). Теорема задаёт изоморфизм абелевых групп A³≅𝓜₃(A). Если A — R-модуль, этот изоморфизм R-линеен:",
+              "Write 𝓜₃(A) for the set of 3×3 magic squares over A. The theorem gives an isomorphism of abelian groups A³≅𝓜₃(A). If A is an R-module, this isomorphism is R-linear:",
+            )}
+          </p>
+          <Latex display>{String.raw`\begin{aligned}
+\Phi_A:A^3&\longrightarrow\mathcal M_3(A),&(E,x,y)&\longmapsto\mathcal M(E,x,y),\\
+\mathcal M(E_1,x_1,y_1)+\mathcal M(E_2,x_2,y_2)
+&=\mathcal M(E_1+E_2,x_1+x_2,y_1+y_2),\\
+r\mathcal M(E,x,y)&=\mathcal M(rE,rx,ry).
+\end{aligned}`}</Latex>
+          <p>
+            {text(
+              "Для коммутативного кольца R это свободный R-модуль с тремя явными базисными матрицами:",
+              "For a commutative ring R, this is a free R-module with the following three explicit basis matrices:",
+            )}
+          </p>
+          <Latex display>{String.raw`\mathcal M(E,x,y)=E S_0+xS_1+yS_2,`}</Latex>
+          <Latex display>{String.raw`S_0=\begin{pmatrix}1&1&1\\1&1&1\\1&1&1\end{pmatrix},\quad
+S_1=\begin{pmatrix}1&-1&0\\-1&0&1\\0&1&-1\end{pmatrix},\quad
+S_2=\begin{pmatrix}0&1&-1\\-1&0&1\\1&-1&0\end{pmatrix}.`}</Latex>
+          <p>
+            {text(
+              "В частности, над любым полем K пространство 𝓜₃(K) трёхмерно. Это утверждение относится к поклеточному сложению и умножению на скаляр; обычное матричное умножение магические квадраты в общем случае не сохраняет.",
+              "In particular, over every field K the space 𝓜₃(K) has dimension three. This statement concerns entrywise addition and scalar multiplication; ordinary matrix multiplication does not in general preserve magic squares.",
+            )}
+          </p>
+        </section>
+
+        <section>
+          <h2>{text("5. Различные области коэффициентов", "5. Different scalar domains")}</h2>
+          <div className="domain-table-wrap">
+            <table className="domain-table">
+              <thead>
+                <tr>
+                  <th>{text("Носитель", "Carrier")}</th>
+                  <th>{text("Структура", "Structure")}</th>
+                  <th>{text("Точное следствие", "Exact consequence")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><Latex>{String.raw`A`}</Latex></td>
+                  <td>{text("абелева группа", "abelian group")}</td>
+                  <td><Latex>{String.raw`\mathcal M_3(A)\cong A^3`}</Latex></td>
+                </tr>
+                <tr>
+                  <td><Latex>{String.raw`R`}</Latex></td>
+                  <td>{text("коммутативное кольцо", "commutative ring")}</td>
+                  <td>{text("свободный R-модуль ранга 3", "free R-module of rank 3")}</td>
+                </tr>
+                <tr>
+                  <td><Latex>{String.raw`K`}</Latex></td>
+                  <td>{text("поле", "field")}</td>
+                  <td><Latex>{String.raw`\dim_K\mathcal M_3(K)=3`}</Latex></td>
+                </tr>
+                <tr>
+                  <td><Latex>{String.raw`\mathbb R`}</Latex></td>
+                  <td>{text("упорядоченное поле", "ordered field")}</td>
+                  <td>{text("фиксированное M задаёт аффинную плоскость E=M/3", "fixed M gives the affine plane E=M/3")}</td>
+                </tr>
+                <tr>
+                  <td><Latex>{String.raw`\mathbb Q`}</Latex></td>
+                  <td>{text("рациональное поле", "rational field")}</td>
+                  <td>{text("общий знаменатель переводит квадрат в целочисленный", "a common denominator scales the square to an integral one")}</td>
+                </tr>
+                <tr>
+                  <td><Latex>{String.raw`\mathbb Z`}</Latex></td>
+                  <td>{text("свободная абелева группа", "free abelian group")}</td>
+                  <td><Latex>{String.raw`\mathcal M_3(\mathbb Z)\cong\mathbb Z^3`}</Latex></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>{text("Вещественные числа", "Real numbers")}</h3>
+          <p>
+            {text(
+              "Над ℝ получаем трёхмерное вещественное векторное пространство. При фиксированной магической константе M координата E=M/3 фиксирована, а x и y свободны, поэтому получается двумерная аффинная плоскость. Положительность клеток задаётся девятью линейными неравенствами, а попарная различность — исключением конечного набора прямых в плоскости (x,y).",
+              "Over ℝ one obtains a three-dimensional real vector space. For a fixed magic constant M, the coordinate E=M/3 is fixed while x and y are free, giving a two-dimensional affine plane. Positivity is expressed by nine linear inequalities, while pairwise distinctness removes a finite collection of lines from the (x,y)-plane.",
+            )}
+          </p>
+
+          <h3>{text("Рациональные числа", "Rational numbers")}</h3>
+          <p>
+            {text(
+              "Рациональные клетки эквивалентны рациональным координатам E,x,y. Умножение на общий знаменатель координат переводит любой рациональный магический квадрат в целочисленный. Если требуется сохранить представление клеток именно рациональными квадратами, берут общий знаменатель их квадратных корней и умножают весь квадрат на квадрат этого знаменателя.",
+              "Rational entries are equivalent to rational coordinates E,x,y. Multiplying by a common denominator of the coordinates turns any rational magic square into an integral one. To preserve the stronger property that the entries are rational squares, take a common denominator of their square roots and multiply the whole square by the square of that denominator.",
+            )}
+          </p>
+
+          <h3>{text("Целые числа", "Integers")}</h3>
+          <p>
+            {text(
+              "Целочисленный магический квадрат имеет целые E,x,y, поскольку эти координаты являются целочисленными разностями его клеток; обратное очевидно из формулы. Магическая константа обязательно делится на 3. Кроме того, примитивность полностью читается по координатам:",
+              "An integral magic square has integral E,x,y because these coordinates are integral differences of its entries; the converse is immediate from the formula. Its magic constant is necessarily divisible by 3. Primitivity is also read directly from the coordinates:",
+            )}
+          </p>
+          <Latex display>{text(
+            String.raw`\gcd\{\text{девять клеток}\}=\gcd(E,x,y),`,
+            String.raw`\gcd\{\text{nine entries}\}=\gcd(E,x,y).`,
+          )}</Latex>
+          <p>
+            {text(
+              "Действительно, каждая клетка — целочисленная линейная комбинация E,x,y, а E,x,y, в свою очередь, являются целочисленными линейными комбинациями клеток. Поэтому два НОД делят друг друга.",
+              "Indeed, every entry is an integral linear combination of E,x,y, while E,x,y are themselves integral linear combinations of the entries. Hence the two gcds divide each other.",
+            )}
+          </p>
+
+          <h3>{text("Поля положительной характеристики", "Fields of positive characteristic")}</h3>
+          <p>
+            {text(
+              "Форма m(E,x,y) и трёхмерность сохраняются в любой характеристике, но привычная геометрия может вырождаться. В характеристике 3 каждый магический квадрат имеет M=3E=0, поэтому M уже не определяет центр. В характеристике 2 противоположные клетки совпадают, а четыре боковые клетки B,D,F,H имеют одно значение; квадрат не может иметь девять попарно различных клеток:",
+              "The form m(E,x,y) and the three-dimensional classification remain valid in every characteristic, but the familiar geometry may degenerate. In characteristic 3 every magic square has M=3E=0, so M no longer determines the center. In characteristic 2 opposite entries coincide and the four side entries B,D,F,H share one value; the square cannot have nine pairwise distinct entries:",
+            )}
+          </p>
+          <Latex display>{String.raw`\operatorname{char}K=2:\qquad A=J,\quad C=G,\quad B=D=F=H.`}</Latex>
+          <p>
+            {text(
+              "Над кольцом, где 2 или 3 не обратимы, безопасно пользоваться беззнаменательной формой и восстановлением E=Q₂₂, x=A−E, y=G−E. Формулы E=M/3, x=(A−J)/2 и y=(G−C)/2 допустимы только при обратимости соответствующих элементов.",
+              "Over a ring in which 2 or 3 is not invertible, one should use the denominator-free form and recover E=Q₂₂, x=A−E, y=G−E. The formulas E=M/3, x=(A−J)/2, and y=(G−C)/2 are valid only when the corresponding elements are invertible.",
+            )}
+          </p>
+        </section>
+
+        <section>
+          <h2>{text("6. Граница линейной теории", "6. Boundary of the linear theory")}</h2>
+          <p>
+            {text(
+              "Теорема классифицирует все магические квадраты 3×3, но сама по себе ничего не утверждает о положительности, различности или квадратности клеток. Положительность требует порядка; понятие полного квадрата требует умножения; одновременная квадратность выбранных линейных форм превращает линейную задачу в диофантову. Именно с этой точки начинаются задачи k/9, теория вычетов, нормы и эллиптические поверхности.",
+              "The theorem classifies all 3×3 magic squares, but by itself says nothing about positivity, distinctness, or square-valued entries. Positivity requires an order; being a square requires multiplication; requiring selected linear forms to be squares turns the linear problem into a Diophantine one. This is the point at which the k/9 problems, residue theory, norms, and elliptic surfaces begin.",
+            )}
+          </p>
+          <div className="topic-actions">
+            <Link className="button button-primary" to="/lab">
+              {text("Открыть m(E,x,y) в калькуляторе", "Open m(E,x,y) in the calculator")} <span>↗</span>
+            </Link>
+            <Link className="button button-ghost" to="/proofs/general">
+              {text("Перейти к теории 4/9 и 5/9", "Continue to the 4/9 and 5/9 theory")}
+            </Link>
+          </div>
         </section>
       </div>
     </article>
@@ -2491,6 +2766,7 @@ export function App() {
       <Route path="/:locale" element={<LocaleLayout />}>
         <Route index element={<HomePage />} />
         <Route path="squares-of-squares" element={<SquaresOfSquaresPage />} />
+        <Route path="theory/magic-squares-3x3" element={<BasicMagicTheoryPage />} />
         <Route path="lab" element={<LabPage />} />
         <Route path="families/:familyId" element={<FamilyRedirect />} />
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />

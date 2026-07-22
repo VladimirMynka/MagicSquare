@@ -183,6 +183,7 @@ function verifyEnglishRoutes(): number {
     "/en": "Magic squares you can do more than look at",
     "/en/lab?family=befgj": "Family BEFGJ",
     "/en/squares-of-squares": "The 3×3 magic square of squares",
+    "/en/theory/magic-squares-3x3": "3×3 magic squares over a general carrier",
     "/en/orbits/4": "Four square entries: 23 orbits",
     "/en/orbits/5": "Five square entries: 23 orbits",
     "/en/orbits/5/befgj": "Family BEFGJ",

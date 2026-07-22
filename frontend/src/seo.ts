@@ -94,6 +94,20 @@ const STATIC_METADATA: Readonly<
       type: "Article",
     },
   },
+  "theory/magic-squares-3x3": {
+    en: {
+      title: "3×3 Magic Squares — General Form and Classification Proof",
+      description:
+        "A complete proof that every 3×3 magic square over an abelian group has magic sum 3E and a unique form m(E,x,y), with exact consequences over rings, fields, R, Q, and Z.",
+      type: "Article",
+    },
+    ru: {
+      title: "Магические квадраты 3×3 — общая форма и доказательство классификации",
+      description:
+        "Полное доказательство равенства M=3E и единственной формы m(E,x,y) над абелевой группой, с точными следствиями для колец, полей, R, Q и Z.",
+      type: "Article",
+    },
+  },
   lab: {
     en: {
       title: "3×3 Magic Square Calculator — E, x, y Form",
@@ -410,6 +424,7 @@ export function indexableRouteSuffixes(): readonly string[] {
   return [
     "",
     "squares-of-squares",
+    "theory/magic-squares-3x3",
     "lab",
     "proofs/general",
     "orbits/4",
