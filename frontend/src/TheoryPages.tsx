@@ -37,18 +37,6 @@ export function TheoryIndexPage() {
     },
     {
       index: "02",
-      to: "/theory/residues",
-      title: text(
-        "Вычеты и квадратичные вычеты",
-        "Residues and quadratic residues",
-      ),
-      summary: text(
-        "Сравнение квадратов через координаты, ограничения по модулям 3, 4, 5 и 24 и применение символа Лежандра к простым делителям клеток.",
-        "Coordinate congruence, restrictions modulo 3, 4, 5, and 24, and an application of the Legendre symbol to prime divisors of entries.",
-      ),
-    },
-    {
-      index: "03",
       to: "/squares-of-squares",
       title: text(
         "Задача о квадрате из квадратов",
@@ -60,7 +48,7 @@ export function TheoryIndexPage() {
       ),
     },
     {
-      index: "04",
+      index: "03",
       to: "/proofs/general",
       title: text(
         "Общая теория масок 4/9 и 5/9",
@@ -69,6 +57,18 @@ export function TheoryIndexPage() {
       summary: text(
         "Орбиты D₄, исключение E,x,y, квадратичные системы, цветовые опоры и критерии полноты параметризаций.",
         "D₄ orbits, elimination of E,x,y, quadratic systems, colored supports, and criteria for completeness of parametrizations.",
+      ),
+    },
+    {
+      index: "04",
+      to: "/theory/residues",
+      title: text(
+        "Вычеты и квадратичные вычеты",
+        "Residues and quadratic residues",
+      ),
+      summary: text(
+        "Сравнение квадратов через координаты, ограничения по модулям 3, 4, 5 и 24 и применение символа Лежандра к простым делителям клеток.",
+        "Coordinate congruence, restrictions modulo 3, 4, 5, and 24, and an application of the Legendre symbol to prime divisors of entries.",
       ),
     },
   ] as const;
@@ -81,8 +81,8 @@ export function TheoryIndexPage() {
           <h1>{text("Оглавление теории", "Theory contents")}</h1>
           <p>
             {text(
-              "Опубликованные главы расположены от общей линейной структуры магического квадрата к арифметическим и диофантовым ограничениям. Каждая глава отделяет доказанные утверждения от открытых вопросов.",
-              "The published chapters proceed from the general linear structure of a magic square to arithmetic and Diophantine restrictions. Each chapter separates proved statements from open questions.",
+              "Сначала вводится общая структура магического квадрата и формулируется основная задача, затем разбираются позиционные классы и применяемые к ним арифметические методы. Каждая глава отделяет доказанные утверждения от открытых вопросов.",
+              "The general structure of a magic square and the main problem come first, followed by positional classes and the arithmetic methods applied to them. Each chapter separates proved statements from open questions.",
             )}
           </p>
         </div>
