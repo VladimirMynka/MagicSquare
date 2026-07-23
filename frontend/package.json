@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit --pretty false",
     "verify:atlas": "tsx scripts/verify-atlas.ts",
     "verify:coverage": "tsx scripts/verify-coverage.ts",
+    "verify:gaussian": "tsx scripts/verify-gaussian-tools.ts",
     "verify:i18n": "tsx scripts/verify-i18n.ts",
     "verify:seo": "tsx scripts/verify-seo.ts"
   },

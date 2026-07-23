@@ -1,4 +1,9 @@
 import { Latex } from "./components/Latex";
+import {
+  GaussianFactorizationExplorer,
+  GaussianLatticeDemo,
+  OppositePairsDemo,
+} from "./components/theory";
 import { TheoryLink } from "./TheoryPages";
 import { useLocale } from "./i18n";
 
@@ -134,6 +139,12 @@ b^2+f^2&=2g^2,& b^2+d^2&=2j^2.
             )}
           </p>
           <Latex display>{String.raw`
+u^2\equiv-v^2\pmod q
+\quad\Longrightarrow\quad
+(uv^{-1})^2\equiv-1\pmod q,
+\qquad q\nmid v.
+`}</Latex>
+          <Latex display>{String.raw`
 \left(\frac{-1}{q}\right)=(-1)^{(q-1)/2}=-1,
 `}</Latex>
           <p>
@@ -186,6 +197,7 @@ N(\rho)=N(\beta)\left|\frac{\alpha}{\beta}-\gamma\right|^2
               "Thus the norm is Euclidean. The Euclidean algorithm gives greatest common divisors and Bézout identities. Hence every irreducible is prime: if π∣αβ and π∤α, then gcd(π,α)=1, and multiplying a Bézout identity by β gives π∣β. Factorization into irreducibles exists by descent on the positive norm, and primality of irreducibles successively cancels matching factors from any two factorizations. Therefore ℤ[i] is a unique factorization domain.",
             )}
           </p>
+          <GaussianLatticeDemo />
 
           <h3>{text("Расщепление простого p≡1 (mod 4)", "Splitting a prime p≡1 (mod 4)")}</h3>
           <p>
@@ -228,6 +240,7 @@ z\sim(1+i)\pi^r\bar\pi^{\,2\alpha-r},
               "The condition p∣u and p∣v is equivalent to divisibility of z by p=ππ̄. It holds exactly for 1≤r≤2α−1. The remaining cases r=0 and r=2α are conjugate and yield one representation after swapping coordinates and changing signs.",
             )}
           </p>
+          <GaussianFactorizationExplorer />
         </section>
 
         <section>
@@ -237,6 +250,7 @@ z\sim(1+i)\pi^r\bar\pi^{\,2\alpha-r},
               "5. Factorization of the central root",
             )}
           </h2>
+          <OppositePairsDemo />
           <div className="theorem-block">
             <h3>{text("Теорема", "Theorem")}</h3>
             <p>
