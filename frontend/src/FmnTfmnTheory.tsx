@@ -302,16 +302,20 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
           </div>
           <p>
             {text(
-              "Последняя строка следует из",
-              "The last row follows from",
+              "Последняя строка непосредственно следует из факторизации f(a,b)=ab(a+b)(a−b):",
+              "The last row follows immediately from the factorization f(a,b)=ab(a+b)(a−b):",
             )}
           </p>
           <Latex display>{String.raw`
-f(m+n,m-n)=4mn(m^2-n^2)=4f(m,n),`}</Latex>
+\begin{aligned}
+f(m+n,m-n)
+&=(m+n)(m-n)\cdot2m\cdot2n\\
+&=4f(m,n).
+\end{aligned}`}</Latex>
           <p>
             {text(
-              "а средний квадрат V=(m²+n²)² при той же замене также умножается на 4. Поэтому отношение 4f/V, то есть dir, не меняется. При классификации неориентированных прогрессий дополнительно отождествляются противоположные знаки tf.",
-              "while the middle square V=(m²+n²)² is also multiplied by 4 under the same substitution. Hence the ratio 4f/V, namely dir, is unchanged. When unoriented progressions are classified, opposite signs of tf are identified as well.",
+              "Средний квадрат V=(m²+n²)² при той же замене также умножается на 4. Поэтому отношение 4f/V, то есть dir, не меняется. Поскольку множитель 4 является квадратом, значение tf также сохраняется. При классификации неориентированных прогрессий дополнительно отождествляются противоположные знаки tf.",
+              "The middle square V=(m²+n²)² is also multiplied by 4 under the same substitution. Hence the ratio 4f/V, namely dir, is unchanged. Since the factor 4 is a square, the value of tf is preserved as well. When unoriented progressions are classified, opposite signs of tf are identified as well.",
             )}
           </p>
         </section>
