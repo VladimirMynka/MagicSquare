@@ -50,6 +50,7 @@ import {
   type Position,
   type SquareCell,
 } from "./lib/magicSquare";
+import { familyParameterGuide } from "./lib/parameterGuides";
 import { orbitPath } from "./seo";
 import {
   LocaleProvider,
@@ -510,6 +511,10 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const snapshot = useMemo(() => createSnapshot(coordinates), [coordinates]);
+  const parameterGuide = useMemo(
+    () => (family ? familyParameterGuide(family, locale) : null),
+    [family, locale],
+  );
   const declaredMaskHolds = family
     ? family.positions.every((position) =>
         snapshot.squarePositions.includes(position),
@@ -689,6 +694,19 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       parameters[0],
       parameters[1],
     ];
+    setParameters(next);
+    generateFamily(next);
+  }
+
+  function swapWithinParameters(left: number, right: number) {
+    if (!family) return;
+    const next = [...parameters] as [
+      string,
+      string,
+      string,
+      string,
+    ];
+    [next[left], next[right]] = [next[right], next[left]];
     setParameters(next);
     generateFamily(next);
   }
@@ -1165,27 +1183,87 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                   </div>
                   <form className="parameter-form" onSubmit={submitFamily}>
                     <div className="parameter-row">
-                      {PARAMETER_KEYS.map((key, index) => (
-                        <label key={key}>
-                          <span>{key}</span>
-                          <input
-                            aria-label={`${text("Параметр", "Parameter")} ${key}`}
-                            inputMode="numeric"
-                            value={parameters[index]}
-                            onChange={(event) => {
-                              const next = [...parameters] as [
-                                string,
-                                string,
-                                string,
-                                string,
-                              ];
-                              next[index] = event.target.value;
-                              setParameters(next);
-                            }}
-                          />
-                        </label>
-                      ))}
+                      {PARAMETER_KEYS.map((key, index) => {
+                        const role = parameterGuide?.roles.find((candidate) =>
+                          candidate.indices.includes(index),
+                        );
+                        const symbol = parameterGuide?.symbols?.[index] ?? key;
+                        return (
+                          <label
+                            key={key}
+                            className={`parameter-input parameter-tone-${role?.tone ?? "neutral"}`}
+                            title={role?.description}
+                          >
+                            <span>{symbol}</span>
+                            <input
+                              aria-label={`${text("Параметр", "Parameter")} ${symbol}`}
+                              inputMode="numeric"
+                              value={parameters[index]}
+                              onChange={(event) => {
+                                const next = [...parameters] as [
+                                  string,
+                                  string,
+                                  string,
+                                  string,
+                                ];
+                                next[index] = event.target.value;
+                                setParameters(next);
+                              }}
+                            />
+                          </label>
+                        );
+                      })}
                     </div>
+                    {parameterGuide && (
+                      <div
+                        className="parameter-guide"
+                        aria-label={text(
+                          "Роли параметров",
+                          "Parameter roles",
+                        )}
+                      >
+                        {parameterGuide.roles.map((role) => (
+                          <article
+                            className={`parameter-role parameter-tone-${role.tone}`}
+                            key={role.indices.join("-")}
+                          >
+                            <div className="parameter-role-copy">
+                              <strong>
+                                <i
+                                  className={`proof-swatch ${role.tone}`}
+                                  aria-hidden="true"
+                                />
+                                {role.title}
+                              </strong>
+                              <span>{role.description}</span>
+                            </div>
+                            {role.swapEffect && role.indices.length === 2 && (
+                              <div className="parameter-operation">
+                                <button
+                                  className="button button-quiet"
+                                  type="button"
+                                  onClick={() =>
+                                    swapWithinParameters(
+                                      role.indices[0],
+                                      role.indices[1],
+                                    )
+                                  }
+                                >
+                                  {parameterGuide.symbols?.[
+                                    role.indices[0]
+                                  ] ?? PARAMETER_KEYS[role.indices[0]]}
+                                  {" ↔ "}
+                                  {parameterGuide.symbols?.[
+                                    role.indices[1]
+                                  ] ?? PARAMETER_KEYS[role.indices[1]]}
+                                </button>
+                                <small>{role.swapEffect}</small>
+                              </div>
+                            )}
+                          </article>
+                        ))}
+                      </div>
+                    )}
                     <div className="tool-actions">
                       <button className="button button-secondary" type="submit">
                         {text("Применить семейство", "Apply family")}
@@ -1197,14 +1275,24 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                       >
                         {text("Случайные", "Randomize")}
                       </button>
-                      <button
-                        className="button button-quiet"
-                        type="button"
-                        onClick={swapPairs}
-                      >
-                        {text("Поменять пары", "Swap pairs")}
-                      </button>
                     </div>
+                    {parameterGuide?.exchange && (
+                      <div className="parameter-pair-exchange">
+                        <button
+                          className="button button-quiet"
+                          type="button"
+                          onClick={swapPairs}
+                        >
+                          (
+                          {parameterGuide.symbols?.[0] ?? PARAMETER_KEYS[0]},
+                          {parameterGuide.symbols?.[1] ?? PARAMETER_KEYS[1]})
+                          {" ↔ "}(
+                          {parameterGuide.symbols?.[2] ?? PARAMETER_KEYS[2]},
+                          {parameterGuide.symbols?.[3] ?? PARAMETER_KEYS[3]})
+                        </button>
+                        <small>{parameterGuide.exchange.effect}</small>
+                      </div>
+                    )}
                   </form>
                 </section>
               )}

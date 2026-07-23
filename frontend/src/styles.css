@@ -740,6 +740,10 @@ main {
   background: #aaa9a1;
 }
 
+.proof-swatch.neutral {
+  background: var(--paper-muted);
+}
+
 .pattern.compact {
   width: 42px;
   height: 42px;
@@ -1348,6 +1352,7 @@ main {
   grid-template-columns: 36px 1fr;
   align-items: center;
   border: 1px solid var(--line-strong);
+  border-left: 4px solid var(--parameter-tone, var(--line-strong));
   background: var(--paper-strong);
 }
 
@@ -1372,6 +1377,113 @@ main {
 
 .parameter-row input:focus {
   box-shadow: inset 0 0 0 2px var(--blue-deep);
+}
+
+.parameter-tone-red-light {
+  --parameter-tone: var(--brick-soft);
+}
+
+.parameter-tone-red-dark {
+  --parameter-tone: var(--brick);
+}
+
+.parameter-tone-yellow {
+  --parameter-tone: var(--wheat);
+}
+
+.parameter-tone-blue-light {
+  --parameter-tone: var(--blue);
+}
+
+.parameter-tone-blue-dark {
+  --parameter-tone: var(--blue-deep);
+}
+
+.parameter-tone-brown {
+  --parameter-tone: var(--clay);
+}
+
+.parameter-tone-green {
+  --parameter-tone: var(--sage);
+}
+
+.parameter-tone-gray-dark {
+  --parameter-tone: #777973;
+}
+
+.parameter-tone-gray-light {
+  --parameter-tone: #aaa9a1;
+}
+
+.parameter-tone-neutral {
+  --parameter-tone: var(--line-strong);
+}
+
+.parameter-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.parameter-role {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--parameter-tone, var(--line-strong));
+  background: rgba(251, 249, 243, 0.58);
+}
+
+.parameter-role-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.parameter-role-copy strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--graphite);
+  font: 600 11px var(--mono);
+}
+
+.parameter-role-copy strong i {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(45, 45, 42, 0.22);
+}
+
+.parameter-role-copy > span,
+.parameter-operation small,
+.parameter-pair-exchange small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.parameter-operation,
+.parameter-pair-exchange {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line);
+  background: rgba(232, 228, 216, 0.26);
+}
+
+.parameter-operation .button,
+.parameter-pair-exchange .button {
+  min-width: 76px;
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+
+.parameter-pair-exchange {
+  margin-top: 6px;
+  border: 1px solid var(--line);
 }
 
 .source-note {
@@ -3929,6 +4041,21 @@ main {
 
   .parameter-row {
     grid-template-columns: 1fr;
+  }
+
+  .parameter-guide {
+    grid-template-columns: 1fr;
+  }
+
+  .parameter-operation,
+  .parameter-pair-exchange {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .parameter-operation .button,
+  .parameter-pair-exchange .button {
+    width: 100%;
   }
 
   .coordinate-ledger strong {

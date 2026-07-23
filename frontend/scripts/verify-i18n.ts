@@ -24,6 +24,7 @@ import {
   familySummary,
   justificationLabel,
 } from "../src/lib/families";
+import { familyParameterGuide } from "../src/lib/parameterGuides";
 
 const CYRILLIC = /[А-Яа-яЁё]/;
 
@@ -104,6 +105,22 @@ function verifyContent() {
       orbit,
       summary,
       ...family.justifications.map((item) => justificationLabel(item, "en")),
+    ]);
+    const parameterGuide = familyParameterGuide(family, "en");
+    const coveredParameters = parameterGuide.roles
+      .flatMap((role) => role.indices)
+      .sort((left, right) => left - right);
+    invariant(
+      coveredParameters.join(",") === "0,1,2,3",
+      `${family.id} parameter guide must cover every parameter exactly once`,
+    );
+    assertEnglish(`${family.id} parameter guide`, [
+      ...parameterGuide.roles.flatMap((role) => [
+        role.title,
+        role.description,
+        role.swapEffect,
+      ]),
+      parameterGuide.exchange?.effect,
     ]);
     const proof = familyProof(family, "en");
     invariant(Boolean(proof.assumptions), `${family.id} has no English assumptions`);
