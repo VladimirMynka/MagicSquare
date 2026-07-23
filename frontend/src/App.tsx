@@ -75,6 +75,32 @@ interface MinimizationNotice {
   remainingDivisor: bigint;
 }
 
+interface SquarePreservingReduction {
+  coordinates: Coordinates;
+  dividedBy: bigint;
+  remainingDivisor: bigint;
+}
+
+function squarePreservingReduction(
+  coordinates: Coordinates,
+): SquarePreservingReduction | null {
+  const divisor = greatestCommonDivisor(...coordinates);
+  if (divisor < 2n) {
+    return {
+      coordinates,
+      dividedBy: 1n,
+      remainingDivisor: 1n,
+    };
+  }
+  const squareDivisor = greatestSquareDivisor(divisor);
+  if (squareDivisor === null) return null;
+  return {
+    coordinates: divideCoordinates(coordinates, squareDivisor),
+    dividedBy: squareDivisor,
+    remainingDivisor: divisor / squareDivisor,
+  };
+}
+
 const CELL_FORM_LATEX: Readonly<Record<string, string>> = {
   A: "E+x",
   B: "E-x+y",
@@ -475,6 +501,7 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   ]);
   const [scale, setScale] = useState("−1");
   const [factorized, setFactorized] = useState(false);
+  const [autoPreserveMinimize, setAutoPreserveMinimize] = useState(false);
   const [normalization, setNormalization] = useState(initialNormalization);
   const [familyRelation, setFamilyRelation] =
     useState<FamilyRelation>(initialFamilyRelation);
@@ -502,6 +529,13 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
     setFactorized(
       window.localStorage.getItem("magic-squares-factorized") === "true",
     );
+    const autoMinimize =
+      window.localStorage.getItem("magic-squares-auto-preserve-minimize") ===
+      "true";
+    setAutoPreserveMinimize(autoMinimize);
+    if (autoMinimize && family && familyRelation === "exact") {
+      window.requestAnimationFrame(() => minimizePreservingMask());
+    }
   }, []);
 
   function persistFamily(
@@ -558,11 +592,33 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   function generateFamily(nextParameters = parameters, nextFamily = family) {
     if (!nextFamily) return;
     try {
-      const nextCoordinates = nextFamily.generate(nextParameters);
+      let nextCoordinates = nextFamily.generate(nextParameters);
+      let nextNormalization = 1n;
+      let nextNotice: MinimizationNotice | null = null;
+      if (autoPreserveMinimize) {
+        const reduction = squarePreservingReduction(nextCoordinates);
+        if (reduction) {
+          nextCoordinates = reduction.coordinates;
+          nextNormalization = reduction.dividedBy;
+          if (reduction.dividedBy > 1n || reduction.remainingDivisor > 1n) {
+            nextNotice = {
+              kind: "preserved",
+              dividedBy: reduction.dividedBy,
+              remainingDivisor: reduction.remainingDivisor,
+            };
+          }
+        }
+      }
       setCurrentCoordinates(nextCoordinates, nextFamily);
-      setNormalization(1n);
+      setNormalization(nextNormalization);
       setFamilyRelation("exact");
-      persistFamily(nextFamily, nextParameters);
+      setMinimizationNotice(nextNotice);
+      persistFamily(
+        nextFamily,
+        nextParameters,
+        nextNormalization,
+        "exact",
+      );
     } catch {
       setError(
         text(
@@ -656,9 +712,25 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       minimizeFully();
       return;
     }
+    minimizePreservingMask();
+  }
 
-    const divisor = greatestCommonDivisor(...coordinates);
-    if (divisor < 2n) {
+  function minimizePreservingMask() {
+    if (!family || familyRelation !== "exact") return;
+    const reduction = squarePreservingReduction(coordinates);
+    if (!reduction) {
+      setMinimizationNotice({
+        kind: "unavailable",
+        dividedBy: 1n,
+        remainingDivisor: greatestCommonDivisor(...coordinates),
+      });
+      return;
+    }
+
+    if (
+      reduction.dividedBy === 1n &&
+      reduction.remainingDivisor === 1n
+    ) {
       setMinimizationNotice({
         kind: "primitive",
         dividedBy: 1n,
@@ -667,25 +739,14 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       return;
     }
 
-    const squareDivisor = greatestSquareDivisor(divisor);
-    if (squareDivisor === null) {
-      setMinimizationNotice({
-        kind: "unavailable",
-        dividedBy: 1n,
-        remainingDivisor: divisor,
-      });
-      return;
-    }
-
-    const nextCoordinates = divideCoordinates(coordinates, squareDivisor);
-    const nextNormalization = normalization * squareDivisor;
-    setCurrentCoordinates(nextCoordinates, family);
+    const nextNormalization = normalization * reduction.dividedBy;
+    setCurrentCoordinates(reduction.coordinates, family);
     setNormalization(nextNormalization);
     setFamilyRelation("exact");
     setMinimizationNotice({
       kind: "preserved",
-      dividedBy: squareDivisor,
-      remainingDivisor: divisor / squareDivisor,
+      dividedBy: reduction.dividedBy,
+      remainingDivisor: reduction.remainingDivisor,
     });
     persistFamily(family, parameters, nextNormalization, "exact");
   }
@@ -758,6 +819,17 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       );
       return next;
     });
+  }
+
+  function toggleAutoPreserveMinimize(enabled: boolean) {
+    setAutoPreserveMinimize(enabled);
+    window.localStorage.setItem(
+      "magic-squares-auto-preserve-minimize",
+      String(enabled),
+    );
+    if (enabled && family && familyRelation === "exact") {
+      minimizePreservingMask();
+    }
   }
 
   return (
@@ -931,6 +1003,31 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                       {text("Минимизировать", "Minimize")}
                     </button>
                   </div>
+                  {family && (
+                    <label className="minimize-preference">
+                      <input
+                        type="checkbox"
+                        checked={autoPreserveMinimize}
+                        onChange={(event) =>
+                          toggleAutoPreserveMinimize(event.target.checked)
+                        }
+                      />
+                      <span>
+                        <strong>
+                          {text(
+                            "Всегда минимизировать с сохранением маски",
+                            "Always minimize while preserving the mask",
+                          )}
+                        </strong>
+                        <small>
+                          {text(
+                            "автоматически для каждого нового результата семейства",
+                            "automatically for every new family result",
+                          )}
+                        </small>
+                      </span>
+                    </label>
+                  )}
                 </form>
                 {minimizationNotice && family && (
                   <div
