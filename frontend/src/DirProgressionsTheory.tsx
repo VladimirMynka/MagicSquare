@@ -27,8 +27,8 @@ export function DirProgressionsTheoryPage() {
           </h1>
           <p>
             {text(
-              "В каждом магическом квадрате 3×3 существуют восемь арифметических прогрессий клеток: четыре проходят через центр, ещё четыре идут последовательными ходами коня. Полная параметризация трёх квадратов в прогрессии приводит к нормированному шагу dir(m,n), который используется далее в задачах 4/9, 5/9, 6/9 и 7/9.",
-              "Every magic 3×3 square contains eight arithmetic progressions of entries: four pass through the center, while four follow two consecutive knight moves. The complete parametrization of three squares in progression leads to the normalized difference dir(m,n), used later in the 4/9, 5/9, 6/9, and 7/9 problems.",
+              "Линейная структура магического квадрата 3×3 выделяет восемь троек клеток, значения в которых всегда образуют арифметические прогрессии. Если значения этих клеток должны быть квадратами, каждая тройка приводит к одной и той же рациональной конике. Её полная параметризация позволяет отделить общий масштаб прогрессии от её формы и ввести нормированный шаг dir(m,n).",
+              "The linear structure of a 3×3 magic square singles out eight triples of entries whose values always form arithmetic progressions. When those entries are required to be squares, every triple leads to the same rational conic. Its complete parametrization separates the common scale of a progression from its shape and yields the normalized difference dir(m,n).",
             )}
           </p>
         </div>
@@ -43,9 +43,13 @@ export function DirProgressionsTheoryPage() {
             )}
           </h2>
           <p>
+            {text("По ", "By ")}
+            <TheoryLink to="/theory/magic-squares-3x3">
+              {text("теореме об общей форме", "the general-form theorem")}
+            </TheoryLink>
             {text(
-              "Запишем общий магический квадрат в буквенной и координатной формах:",
-              "Write the general magic square in letter and coordinate form:",
+              " любой магический квадрат 3×3 однозначно определяется тремя координатами E,x,y. При принятой нумерации клеток он имеет вид",
+              ", every 3×3 magic square is uniquely determined by three coordinates E,x,y. With the chosen labels for the entries it has the form",
             )}
           </p>
           <div className="formula-scroll formula-scroll-wide">
@@ -113,8 +117,8 @@ E+y&E+x-y&E-x
           </div>
           <p>
             {text(
-              "В последних четырёх строках название относится к расположению членов одной прогрессии: каждый переход между соседними членами, например B→J и J→D, является шахматным ходом коня. Это не связь между разными прогрессиями.",
-              "In the last four rows the name describes the placement of the members of one progression: each transition between consecutive members, such as B→J and J→D, is a chess knight move. It is not a relation between different progressions.",
+              "В первых четырёх последовательностях средним членом служит центр квадрата. В каждой из остальных четырёх переход от первого члена ко второму и затем от второго к третьему геометрически является шахматным ходом коня; поэтому их будем называть прогрессиями ходом коня.",
+              "In the first four sequences the center of the square is the middle term. In each of the remaining four, the move from the first term to the second and then from the second to the third is geometrically a chess knight move; these will therefore be called knight-move progressions.",
             )}
           </p>
           <h3>{text("Полнота списка", "Completeness of the list")}</h3>
@@ -132,8 +136,8 @@ E+y&E+x-y&E-x
 \end{pmatrix}.`}</Latex>
           <p>
             {text(
-              "Для фиксированной средней клетки с вектором v прогрессия требует пару различных векторов u,w из этой таблицы, удовлетворяющих u+w=2v. Отражая каждый из восьми возможных концов относительно каждого из девяти кандидатов на середину, получаем четыре пары с v=(0,0) и по одной паре для каждого углового вектора (±1,0),(0,±1). Для четырёх боковых векторов подходящих пар нет. Это даёт ровно восемь строк таблицы и доказывает, что других тождественных прогрессий нет.",
-              "For a fixed middle entry with vector v, a progression requires two distinct vectors u,w from this table with u+w=2v. Reflecting each of the eight possible endpoints through each of the nine candidate midpoints gives four pairs for v=(0,0) and one pair for each corner vector (±1,0),(0,±1). None of the four side vectors admits such a pair. These are exactly the eight rows above, proving that no other universal progressions exist.",
+              "Пусть v — коэффициентный вектор средней клетки. Два различных конца с векторами u и w образуют с ней прогрессию тогда и только тогда, когда w=2v−u также присутствует в таблице. Для v=(0,0) существуют четыре противоположные пары; для каждого из четырёх угловых векторов (±1,0),(0,±1) — ровно одна пара; для четырёх боковых векторов пар нет. Следовательно, перечисленные восемь прогрессий исчерпывают все тождества вида U+W=2V между различными клетками общего магического квадрата.",
+              "Let v be the coefficient vector of the middle entry. Two distinct endpoints with vectors u and w form a progression with it exactly when w=2v−u also occurs in the table. For v=(0,0) there are four opposite pairs; for each of the four corner vectors (±1,0),(0,±1) there is exactly one pair; and for the four side vectors there are none. Hence the eight displayed progressions exhaust all identities U+W=2V among distinct entries of the general magic square.",
             )}
           </p>
         </section>
@@ -145,6 +149,20 @@ E+y&E+x-y&E-x
               "2. Complete parametrization of three squares",
             )}
           </h2>
+          <p>
+            {text(
+              "Рассмотрим одну из найденных прогрессий и потребуем, чтобы все три её члена были рациональными квадратами. Записав их как r²,s²,t² в порядке прогрессии, получаем",
+              "Consider one of the progressions above and require all three of its terms to be rational squares. Writing them as r²,s²,t² in progression order gives",
+            )}
+          </p>
+          <Latex display>{String.raw`
+r^2+t^2=2s^2.`}</Latex>
+          <p>
+            {text(
+              "Таким образом, одна квадратная прогрессия задаётся рациональной точкой на конике. Следующая теорема описывает все её точки.",
+              "Thus a progression of squares is a rational point on a conic. The following theorem describes all of its points.",
+            )}
+          </p>
           <div className="theorem-block">
             <h3>{text("Теорема", "Theorem")}</h3>
             <p>
@@ -246,7 +264,12 @@ m=s+v,\qquad n=u,\qquad k=\frac1{2(s+v)}.`}</Latex>
 
         <section>
           <h2>{text("4. Нормированный шаг dir(m,n)", "4. The normalized difference dir(m,n)")}</h2>
-          <p>{text("Введём три однородные функции", "Define three homogeneous functions")}</p>
+          <p>
+            {text(
+              "Параметр k отвечает только за общий масштаб корней: его умножение на λ умножает все три квадратных члена на λ². Для сопоставления прогрессий внутри одного магического квадрата удобно выделить величины, зависящие только от отношения m:n. Введём",
+              "The parameter k controls only the common scale of the roots: multiplying it by λ multiplies all three squared terms by λ². To compare progressions within one magic square, it is useful to isolate quantities that depend only on the ratio m:n. Define",
+            )}
+          </p>
           <Latex display>{String.raw`
 f(m,n)=mn(m^2-n^2),\qquad
 c(m,n)=(m^2+n^2)^2,\qquad
@@ -282,14 +305,14 @@ V=k^2c(m,n),\qquad
         <section>
           <h2>
             {text(
-              "5. Dir-уравнения восьми линий",
-              "5. Dir equations for the eight lines",
+              "5. Восемь прогрессий в координатах dir",
+              "5. The eight progressions in dir coordinates",
             )}
           </h2>
           <p>
             {text(
-              "Для каждой из восьми прогрессий её средняя клетка V и ориентированный шаг Δ являются линейными формами от E,x,y. Если все три клетки — ненулевые рациональные квадраты, то для собственной пары параметров m,n выполняется Δ/V=4dir(m,n):",
-              "For each of the eight progressions, its middle entry V and oriented difference Δ are linear forms in E,x,y. If all three entries are nonzero rational squares, then for a suitable parameter pair m,n one has Δ/V=4dir(m,n):",
+              "Вернёмся к общему магическому квадрату. Для каждой из восьми прогрессий средний член V и ориентированный шаг Δ являются линейными формами от E,x,y. Если её три члена — ненулевые рациональные квадраты, параметризация предыдущего раздела переводит условие квадратности в уравнение Δ/V=4dir(m,n):",
+              "Return now to the general magic square. For each of its eight progressions, the middle term V and oriented difference Δ are linear forms in E,x,y. If its three terms are nonzero rational squares, the preceding parametrization turns the square condition into the equation Δ/V=4dir(m,n):",
             )}
           </p>
           <div className="domain-table-wrap">
@@ -404,8 +427,8 @@ V=k^2c(m,n),\qquad
 \frac{(t-r)(t+r)}2=\Delta.`}</Latex>
           <p>
             {text(
-              "Поэтому положительный шаг является конгруэнтным числом. Поскольку Δ=4k²f(m,n), его класс в Q×/(Q×)² совпадает с классом f(m,n):",
-              "Thus a positive difference is a congruent number. Since Δ=4k²f(m,n), its class in Q×/(Q×)² is the class of f(m,n):",
+              "Следовательно, положительный целый шаг является конгруэнтным числом. Для произвольного положительного рационального шага та же конструкция задаёт рациональный прямоугольный треугольник площади Δ; после умножения на рациональный квадрат можно выбрать целого представителя того же квадратного класса. Поскольку Δ=4k²f(m,n),",
+              "Consequently, a positive integral difference is a congruent number. For an arbitrary positive rational difference, the same construction gives a rational right triangle of area Δ; after multiplication by a rational square, one may choose an integral representative of the same square class. Since Δ=4k²f(m,n),",
             )}
           </p>
           <Latex display>{String.raw`
@@ -421,20 +444,20 @@ V=k^2c(m,n),\qquad
         <section>
           <h2>
             {text(
-              "8. Что даёт и чего не даёт dir-параметризация",
-              "8. What the dir parametrization does and does not provide",
+              "8. От одной прогрессии к квадратным конфигурациям",
+              "8. From one progression to square configurations",
             )}
           </h2>
           <p>
             {text(
-              "Для одной красной тройки параметризация полна: она перечисляет все рациональные и, после примитивной нормализации, все целочисленные прогрессии квадратов. Поэтому всякий позиционный тип 4/9 или 5/9, чья единственная нелинейная связь является одной такой прогрессией, сводится к этой теореме и последующему линейному восстановлению E,x,y.",
-              "For one red triple the parametrization is complete: it lists every rational progression of squares and, after primitive normalization, every integral one. Hence any 4/9 or 5/9 positional type whose only nonlinear relation is one such progression reduces to this theorem followed by linear recovery of E,x,y.",
+              "Параметризация одной прогрессии является полным локальным строительным блоком: она перечисляет все рациональные прогрессии квадратов и после примитивной нормализации — все целочисленные. Если квадратная конфигурация 4/9 или 5/9 содержит только одну нелинейную связь такого типа, сначала выбирается параметризованная прогрессия, после чего E,x,y восстанавливаются из оставшихся линейных условий.",
+              "The parametrization of one progression is a complete local building block: it lists every rational progression of squares and, after primitive normalization, every integral one. If a 4/9 or 5/9 square configuration contains only one nonlinear relation of this kind, one first chooses a parametrized progression and then recovers E,x,y from the remaining linear conditions.",
             )}
           </p>
           <p>
             {text(
-              "Несколько прогрессий в одном магическом квадрате требуют совместить их масштабы, общие клетки и линейные координаты. Полнота каждой отдельной dir-тройки не доказывает полноту такой склейки. Равенства квадратных классов приводят к tfmn-уравнениям, а более сложные совместимости — к коникам, нормам и эллиптическим кривым. Именно эти дополнительные условия отличают задачи 5/9, 6/9 и 7/9 от одной прогрессии.",
-              "Several progressions in one magic square require compatibility of their scales, shared entries, and linear coordinates. Completeness of each individual dir triple does not prove completeness of such a gluing. Equal square classes lead to tfmn equations, while more complicated compatibility conditions lead to conics, norm forms, and elliptic curves. These additional conditions are what distinguish the 5/9, 6/9, and 7/9 problems from a single progression.",
+              "При наличии нескольких квадратных прогрессий их параметры должны одновременно описывать общие клетки и одни и те же координаты E,x,y. Поэтому локальные параметризации дополняются уравнениями совместимости масштабов. Совпадение квадратных классов шагов приводит к tfmn-уравнениям; другие способы совмещения дают коники, уравнения норм и эллиптические кривые. Так параметризация одной прогрессии переходит в теорию конфигураций 5/9, 6/9 и 7/9.",
+              "When several progressions are required to consist of squares, their parameters must simultaneously describe shared entries and the same coordinates E,x,y. The local parametrizations are therefore supplemented by scale-compatibility equations. Equality of the square classes of the differences leads to tfmn equations; other compatibility patterns produce conics, norm equations, and elliptic curves. In this way the parametrization of one progression develops into the theory of 5/9, 6/9, and 7/9 configurations.",
             )}
           </p>
           <div className="topic-actions">
