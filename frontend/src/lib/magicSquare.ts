@@ -58,15 +58,32 @@ export function isPerfectSquare(value: bigint): boolean {
   if (value < 0n) return false;
   if (value < 2n) return true;
 
+  const root = integerSquareRoot(value);
+  return root * root === value;
+}
+
+export function integerSquareRoot(value: bigint): bigint {
+  if (value < 0n) throw new Error("Square root requires a nonnegative integer");
+  if (value < 2n) return value;
+
   let estimate = value;
   let next = (estimate + 1n) / 2n;
-
   while (next < estimate) {
     estimate = next;
     next = (estimate + value / estimate) / 2n;
   }
+  return estimate;
+}
 
-  return estimate * estimate === value;
+export function factorizationTrialDivisionWork(
+  values: readonly bigint[],
+): bigint {
+  return values.reduce((total, value) => {
+    const absolute = value < 0n ? -value : value;
+    if (absolute < 4n) return total;
+    const root = integerSquareRoot(absolute);
+    return total + 1n + (root - 1n) / 2n;
+  }, 0n);
 }
 
 export function createSnapshot(coordinates: Coordinates): SquareSnapshot {

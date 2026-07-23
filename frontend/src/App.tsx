@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
 import {
   Link as RouterLink,
   NavLink as RouterNavLink,
@@ -41,7 +47,7 @@ import {
 import {
   createSnapshot,
   divideCoordinates,
-  factorInteger,
+  factorizationTrialDivisionWork,
   formatInteger,
   greatestCommonDivisor,
   greatestSquareDivisor,
@@ -80,6 +86,52 @@ interface SquarePreservingReduction {
   coordinates: Coordinates;
   dividedBy: bigint;
   remainingDivisor: bigint;
+}
+
+interface FactorizationWarning {
+  source: "estimate" | "elapsed";
+  thresholdMs: 10_000 | 60_000;
+  estimatedMs?: number;
+}
+
+type FactorizationWorkerMessage =
+  | {
+      type: "result";
+      index: number;
+      factorization: string;
+    }
+  | {
+      type: "threshold";
+      thresholdMs: 10_000 | 60_000;
+    }
+  | {
+      type: "done";
+      elapsedMs: number;
+    };
+
+const FACTORIZATION_BENCHMARK_STEPS = 20_000;
+const TEN_SECONDS = 10_000;
+const ONE_MINUTE = 60_000;
+
+function estimateFactorizationMs(values: readonly bigint[]): number {
+  const work = factorizationTrialDivisionWork(values);
+  if (work === 0n) return 0;
+
+  const probe =
+    values.reduce((largest, value) => {
+      const absolute = value < 0n ? -value : value;
+      return absolute > largest ? absolute : largest;
+    }, 0n) || 9_999_999_967n;
+  let candidate = 3n;
+  const startedAt = performance.now();
+  for (let index = 0; index < FACTORIZATION_BENCHMARK_STEPS; index += 1) {
+    void (probe % candidate);
+    candidate += 2n;
+  }
+  const elapsedMs = Math.max(performance.now() - startedAt, 0.25);
+  const attemptsPerMs = FACTORIZATION_BENCHMARK_STEPS / elapsedMs;
+  if (work > BigInt(Number.MAX_SAFE_INTEGER)) return Number.POSITIVE_INFINITY;
+  return Number(work) / attemptsPerMs;
 }
 
 function squarePreservingReduction(
@@ -502,6 +554,14 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   ]);
   const [scale, setScale] = useState("−1");
   const [factorized, setFactorized] = useState(false);
+  const [factorizations, setFactorizations] = useState<
+    readonly (string | undefined)[]
+  >([]);
+  const [factorizationRunning, setFactorizationRunning] = useState(false);
+  const [factorizationWarning, setFactorizationWarning] =
+    useState<FactorizationWarning | null>(null);
+  const factorizationWorker = useRef<Worker | null>(null);
+  const pendingFactorizationValues = useRef<readonly bigint[]>([]);
   const [autoPreserveMinimize, setAutoPreserveMinimize] = useState(false);
   const [normalization, setNormalization] = useState(initialNormalization);
   const [familyRelation, setFamilyRelation] =
@@ -542,6 +602,21 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       window.requestAnimationFrame(() => minimizePreservingMask());
     }
   }, []);
+
+  useEffect(() => {
+    if (!factorized) {
+      stopFactorization();
+      return;
+    }
+    prepareFactorization(snapshot.cells.map((cell) => cell.value));
+  }, [factorized, coordinates]);
+
+  useEffect(
+    () => () => {
+      factorizationWorker.current?.terminate();
+    },
+    [],
+  );
 
   function persistFamily(
     nextFamily: FamilyDefinition,
@@ -828,15 +903,129 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
     window.setTimeout(() => setCopied(false), 1600);
   }
 
-  function toggleFactorization() {
-    setFactorized((value) => {
-      const next = !value;
-      window.localStorage.setItem(
-        "magic-squares-factorized",
-        String(next),
+  function stopFactorization() {
+    factorizationWorker.current?.terminate();
+    factorizationWorker.current = null;
+    setFactorizationRunning(false);
+    setFactorizationWarning(null);
+    setFactorizations([]);
+  }
+
+  function startFactorization(
+    values: readonly bigint[],
+    approvedThroughMs: number,
+  ) {
+    factorizationWorker.current?.terminate();
+    const worker = new Worker(
+      new URL("./workers/factorization.worker.ts", import.meta.url),
+      { type: "module" },
+    );
+    factorizationWorker.current = worker;
+    setFactorizations(Array.from({ length: values.length }, () => undefined));
+    setFactorizationRunning(true);
+    setFactorizationWarning(null);
+
+    worker.onmessage = (
+      event: MessageEvent<FactorizationWorkerMessage>,
+    ) => {
+      const message = event.data;
+      if (message.type === "result") {
+        setFactorizations((current) => {
+          const next = [...current];
+          next[message.index] = message.factorization;
+          return next;
+        });
+        return;
+      }
+      if (message.type === "threshold") {
+        setFactorizationRunning(false);
+        setFactorizationWarning({
+          source: "elapsed",
+          thresholdMs: message.thresholdMs,
+        });
+        return;
+      }
+      setFactorizationRunning(false);
+      factorizationWorker.current?.terminate();
+      factorizationWorker.current = null;
+    };
+    worker.onerror = () => {
+      setFactorizationRunning(false);
+      factorizationWorker.current?.terminate();
+      factorizationWorker.current = null;
+      setError(
+        text(
+          "Не удалось выполнить факторизацию в фоновом потоке.",
+          "Factorization could not be completed in the background worker.",
+        ),
       );
-      return next;
+    };
+    worker.postMessage({
+      type: "start",
+      values: values.map(String),
+      approvedThroughMs,
     });
+  }
+
+  function prepareFactorization(values: readonly bigint[]) {
+    factorizationWorker.current?.terminate();
+    factorizationWorker.current = null;
+    pendingFactorizationValues.current = values;
+    setFactorizations(Array.from({ length: values.length }, () => undefined));
+    setFactorizationRunning(false);
+    setFactorizationWarning(null);
+
+    const estimatedMs = estimateFactorizationMs(values);
+    if (estimatedMs > ONE_MINUTE) {
+      setFactorizationWarning({
+        source: "estimate",
+        thresholdMs: ONE_MINUTE,
+        estimatedMs,
+      });
+      return;
+    }
+    if (estimatedMs > TEN_SECONDS) {
+      setFactorizationWarning({
+        source: "estimate",
+        thresholdMs: TEN_SECONDS,
+        estimatedMs,
+      });
+      return;
+    }
+    startFactorization(values, 0);
+  }
+
+  function continueFactorization() {
+    if (!factorizationWarning) return;
+    const approvedThroughMs = factorizationWarning.thresholdMs;
+    if (factorizationWarning.source === "estimate") {
+      startFactorization(
+        pendingFactorizationValues.current,
+        approvedThroughMs,
+      );
+      return;
+    }
+    factorizationWorker.current?.postMessage({
+      type: "continue",
+      approvedThroughMs,
+    });
+    setFactorizationWarning(null);
+    setFactorizationRunning(true);
+  }
+
+  function cancelFactorization() {
+    window.localStorage.setItem("magic-squares-factorized", "false");
+    setFactorized(false);
+    stopFactorization();
+  }
+
+  function toggleFactorization() {
+    if (factorized) {
+      cancelFactorization();
+      return;
+    }
+    window.localStorage.setItem("magic-squares-factorized", "true");
+    setFactorized(true);
   }
 
   function toggleAutoPreserveMinimize(enabled: boolean) {
@@ -1021,6 +1210,24 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                       {text("Минимизировать", "Minimize")}
                     </button>
                   </div>
+                  {factorized && factorizationRunning && (
+                    <div className="factorization-progress" role="status">
+                      <span>
+                        <i aria-hidden="true" />
+                        {text(
+                          "Факторизация выполняется в фоне",
+                          "Factoring in the background",
+                        )}
+                      </span>
+                      <button
+                        className="button button-quiet"
+                        type="button"
+                        onClick={cancelFactorization}
+                      >
+                        {text("Отменить", "Cancel")}
+                      </button>
+                    </div>
+                  )}
                   {family && (
                     <label className="minimize-preference">
                       <input
@@ -1215,53 +1422,90 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                       })}
                     </div>
                     {parameterGuide && (
-                      <div
-                        className="parameter-guide"
-                        aria-label={text(
-                          "Роли параметров",
-                          "Parameter roles",
+                      <div className="parameter-compact-tools">
+                        {parameterGuide.roles.map(
+                          (role) =>
+                            role.swapEffect &&
+                            role.indices.length === 2 && (
+                              <button
+                                className={`button parameter-swap parameter-tone-${role.tone}`}
+                                type="button"
+                                title={role.swapEffect}
+                                onClick={() =>
+                                  swapWithinParameters(
+                                    role.indices[0],
+                                    role.indices[1],
+                                  )
+                                }
+                                key={role.indices.join("-")}
+                              >
+                                {parameterGuide.symbols?.[role.indices[0]] ??
+                                  PARAMETER_KEYS[role.indices[0]]}
+                                {" ↔ "}
+                                {parameterGuide.symbols?.[role.indices[1]] ??
+                                  PARAMETER_KEYS[role.indices[1]]}
+                              </button>
+                            ),
                         )}
-                      >
-                        {parameterGuide.roles.map((role) => (
-                          <article
-                            className={`parameter-role parameter-tone-${role.tone}`}
-                            key={role.indices.join("-")}
+                        {parameterGuide.exchange && (
+                          <button
+                            className="button parameter-swap parameter-tone-neutral"
+                            type="button"
+                            title={parameterGuide.exchange.effect}
+                            onClick={swapPairs}
                           >
-                            <div className="parameter-role-copy">
-                              <strong>
-                                <i
-                                  className={`proof-swatch ${role.tone}`}
-                                  aria-hidden="true"
-                                />
-                                {role.title}
-                              </strong>
-                              <span>{role.description}</span>
-                            </div>
-                            {role.swapEffect && role.indices.length === 2 && (
-                              <div className="parameter-operation">
-                                <button
-                                  className="button button-quiet"
-                                  type="button"
-                                  onClick={() =>
-                                    swapWithinParameters(
-                                      role.indices[0],
-                                      role.indices[1],
-                                    )
-                                  }
-                                >
-                                  {parameterGuide.symbols?.[
-                                    role.indices[0]
-                                  ] ?? PARAMETER_KEYS[role.indices[0]]}
-                                  {" ↔ "}
-                                  {parameterGuide.symbols?.[
-                                    role.indices[1]
-                                  ] ?? PARAMETER_KEYS[role.indices[1]]}
-                                </button>
-                                <small>{role.swapEffect}</small>
-                              </div>
+                            (
+                            {parameterGuide.symbols?.[0] ?? PARAMETER_KEYS[0]},
+                            {parameterGuide.symbols?.[1] ?? PARAMETER_KEYS[1]})
+                            {" ↔ "}(
+                            {parameterGuide.symbols?.[2] ?? PARAMETER_KEYS[2]},
+                            {parameterGuide.symbols?.[3] ?? PARAMETER_KEYS[3]})
+                          </button>
+                        )}
+                        <details className="parameter-help-popover">
+                          <summary
+                            aria-label={text(
+                              "Пояснить параметры",
+                              "Explain parameters",
                             )}
-                          </article>
-                        ))}
+                            title={text(
+                              "Пояснить параметры",
+                              "Explain parameters",
+                            )}
+                          >
+                            ?
+                          </summary>
+                          <div className="parameter-help-panel">
+                            {parameterGuide.roles.map((role) => (
+                              <section key={role.indices.join("-")}>
+                                <strong>
+                                  <i
+                                    className={`proof-swatch ${role.tone}`}
+                                    aria-hidden="true"
+                                  />
+                                  {role.title}
+                                </strong>
+                                <p>{role.description}</p>
+                                {role.swapEffect && (
+                                  <small>
+                                    <b>↔</b> {role.swapEffect}
+                                  </small>
+                                )}
+                              </section>
+                            ))}
+                            {parameterGuide.exchange && (
+                              <section>
+                                <strong>
+                                  {text(
+                                    "Обмен пар",
+                                    "Pair exchange",
+                                  )}
+                                </strong>
+                                <p>{parameterGuide.exchange.effect}</p>
+                              </section>
+                            )}
+                          </div>
+                        </details>
                       </div>
                     )}
                     <div className="tool-actions">
@@ -1276,23 +1520,6 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                         {text("Случайные", "Randomize")}
                       </button>
                     </div>
-                    {parameterGuide?.exchange && (
-                      <div className="parameter-pair-exchange">
-                        <button
-                          className="button button-quiet"
-                          type="button"
-                          onClick={swapPairs}
-                        >
-                          (
-                          {parameterGuide.symbols?.[0] ?? PARAMETER_KEYS[0]},
-                          {parameterGuide.symbols?.[1] ?? PARAMETER_KEYS[1]})
-                          {" ↔ "}(
-                          {parameterGuide.symbols?.[2] ?? PARAMETER_KEYS[2]},
-                          {parameterGuide.symbols?.[3] ?? PARAMETER_KEYS[3]})
-                        </button>
-                        <small>{parameterGuide.exchange.effect}</small>
-                      </div>
-                    )}
                   </form>
                 </section>
               )}
@@ -1392,13 +1619,14 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                   <span>Σ = {formatInteger(snapshot.magicSum)}</span>
                 </div>
                 <div className="result-grid">
-                  {snapshot.cells.map((cell) => (
+                  {snapshot.cells.map((cell, index) => (
                     <ResultCell
                       cell={cell}
                       declared={
                         family?.positions.includes(cell.position) ?? false
                       }
                       factorized={factorized}
+                      factorization={factorizations[index]}
                       key={cell.position}
                     />
                   ))}
@@ -1462,6 +1690,13 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
           <FamilyProofDocument family={family} />
         </section>
       )}
+      {factorizationWarning && (
+        <FactorizationWarningDialog
+          warning={factorizationWarning}
+          onCancel={cancelFactorization}
+          onContinue={continueFactorization}
+        />
+      )}
     </div>
   );
 }
@@ -1470,26 +1705,24 @@ function ResultCell({
   cell,
   declared,
   factorized,
+  factorization,
 }: {
   cell: SquareCell;
   declared: boolean;
   factorized: boolean;
+  factorization?: string;
 }) {
   const { text } = useLocale();
-  const factorization = factorized ? factorInteger(cell.value) : undefined;
   const display = factorized
-    ? (factorization ?? text("слишком большое", "too large"))
+    ? (factorization ?? "…")
     : formatInteger(cell.value);
   const digits = display.length;
   return (
     <div
       className={`result-cell ${cell.isSquare ? "is-square" : ""} ${declared ? "is-declared" : ""}`}
       title={
-        factorized && factorization === null
-          ? `${text(
-              "Факторизация ограничена числами до 10¹². Значение:",
-              "Factorization is limited to values up to 10¹². Value:",
-            )} ${cell.value}`
+        factorized && factorization === undefined
+          ? text("Ожидает факторизации", "Waiting for factorization")
           : undefined
       }
     >
@@ -1497,6 +1730,110 @@ function ResultCell({
       <strong className={digits > 18 ? "tiny" : digits > 11 ? "small" : ""}>
         {display}
       </strong>
+    </div>
+  );
+}
+
+function FactorizationWarningDialog({
+  warning,
+  onCancel,
+  onContinue,
+}: {
+  warning: FactorizationWarning;
+  onCancel: () => void;
+  onContinue: () => void;
+}) {
+  const { text } = useLocale();
+  const minute = warning.thresholdMs === ONE_MINUTE;
+  const estimatedSeconds =
+    warning.estimatedMs !== undefined &&
+    Number.isFinite(warning.estimatedMs)
+      ? Math.max(1, Math.ceil(warning.estimatedMs / 1000))
+      : null;
+  return (
+    <div className="factorization-warning-backdrop">
+      <section
+        className="factorization-warning-dialog"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="factorization-warning-title"
+      >
+        <span className="factorization-warning-mark" aria-hidden="true">
+          !
+        </span>
+        <div>
+          <p className="eyebrow">
+            {text(
+              "Предохранитель вычисления",
+              "Computation safeguard",
+            )}
+          </p>
+          <h2 id="factorization-warning-title">
+            {warning.source === "estimate"
+              ? minute
+                ? text(
+                    "Верхняя оценка превышает минуту",
+                    "The upper estimate exceeds one minute",
+                  )
+                : text(
+                    "Верхняя оценка превышает 10 секунд",
+                    "The upper estimate exceeds 10 seconds",
+                  )
+              : minute
+                ? text(
+                    "Факторизация выполняется уже минуту",
+                    "Factorization has been running for one minute",
+                  )
+                : text(
+                    "Факторизация выполняется уже 10 секунд",
+                    "Factorization has been running for 10 seconds",
+                  )}
+          </h2>
+          <p>
+            {warning.source === "estimate"
+              ? text(
+                  `Оценка построена по худшему случаю пробного деления${estimatedSeconds === null ? "" : `: около ${estimatedSeconds} с`}. Малый делитель может значительно ускорить расчёт.`,
+                  `The estimate uses the worst case for trial division${estimatedSeconds === null ? "" : `: about ${estimatedSeconds} s`}. A small divisor can make the actual computation much faster.`,
+                )
+              : text(
+                  "Расчёт приостановлен без потери уже найденных множителей. Можно продолжить с того же места.",
+                  "The computation is paused without losing factors already found. It can resume from the same point.",
+                )}
+          </p>
+          <p>
+            {text(
+              "Вычисление выполняется в отдельном потоке и не блокирует страницу.",
+              "The computation runs in a separate worker and does not block the page.",
+            )}
+          </p>
+          <div className="factorization-warning-actions">
+            <button
+              className="button button-quiet"
+              type="button"
+              onClick={onCancel}
+            >
+              {text("Не вычислять", "Do not factor")}
+            </button>
+            <button
+              className="button button-primary"
+              type="button"
+              onClick={onContinue}
+            >
+              {minute
+                ? text(
+                    "Продолжить без лимита",
+                    "Continue without a limit",
+                  )
+                : warning.source === "elapsed"
+                  ? text(
+                      "Продолжить до минуты",
+                      "Continue up to one minute",
+                    )
+                  : text("Начать вычисление", "Start factoring")}
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
