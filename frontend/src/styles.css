@@ -2156,14 +2156,18 @@ main {
 }
 
 .proof-page-header > div {
+  width: 100%;
+  min-width: 0;
   max-width: 920px;
 }
 
 .proof-page-header h1 {
+  max-width: 100%;
   margin: 0;
   color: var(--graphite);
   font: 500 clamp(52px, 7vw, 96px)/0.92 var(--serif);
   letter-spacing: -0.05em;
+  overflow-wrap: break-word;
 }
 
 .proof-page-header > div > p:last-child {
@@ -4240,7 +4244,9 @@ main {
   }
 
   .proof-page-header h1 {
-    font-size: 48px;
+    font-size: clamp(34px, 10.3vw, 42px);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
   }
 
   .latex-step,
