@@ -107,17 +107,17 @@ V-4f(m,n),\qquad V,\qquad V+4f(m,n),
 N=\operatorname{sgn}(N)\prod_p p^{e_p},`}</Latex>
           <p>{text("то определим", "define")}</p>
           <Latex display>{String.raw`
-\tau(N)=\operatorname{sgn}(N)\prod_{e_p\ \mathrm{odd}}p.`}</Latex>
+t(N)=\operatorname{sgn}(N)\prod_{e_p\ \mathrm{odd}}p.`}</Latex>
           <p>
             {text(
-              "Действительно, N=τ(N)q², где q=∏p^{⌊eₚ/2⌋}. Чётности всех показателей простых и знак неизменны при умножении на ненулевой рациональный квадрат, поэтому τ(N) определяется квадратным классом и определяет его однозначно.",
-              "Indeed, N=τ(N)q² with q=∏p^{⌊eₚ/2⌋}. The parities of all prime exponents and the sign are unchanged by multiplication by a nonzero rational square, so τ(N) is determined by the square class and determines it uniquely.",
+              "Действительно, N=t(N)q², где q=∏p^{⌊eₚ/2⌋}. Чётности всех показателей простых и знак неизменны при умножении на ненулевой рациональный квадрат, поэтому t(N) определяется квадратным классом и определяет его однозначно.",
+              "Indeed, N=t(N)q² with q=∏p^{⌊eₚ/2⌋}. The parities of all prime exponents and the sign are unchanged by multiplication by a nonzero rational square, so t(N) is determined by the square class and determines it uniquely.",
             )}
           </p>
           <div className="theorem-block">
             <h3>{text("Определение tfmn", "Definition of tfmn")}</h3>
             <Latex display>{String.raw`
-\operatorname{tfmn}(m,n)=\tau\!\left(\operatorname{fmn}(m,n)\right),
+\operatorname{tfmn}(m,n)=t\!\left(\operatorname{fmn}(m,n)\right),
 \qquad m,n\in\mathbb Z,\quad f(m,n)\ne0.`}</Latex>
             <p>
               {text(
@@ -175,7 +175,7 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
               )}
             </p>
             <ol>
-              <li><Latex>{String.raw`\tau(F_1)=\tau(F_2)`}</Latex>;</li>
+              <li><Latex>{String.raw`t(F_1)=t(F_2)`}</Latex>;</li>
               <li><Latex>{String.raw`F_1/F_2`}</Latex> {text("является квадратом в ℚ", "is a square in ℚ")};</li>
               <li><Latex>{String.raw`F_1F_2`}</Latex> {text("является положительным полным квадратом", "is a positive perfect square")};</li>
               <li>
@@ -190,8 +190,8 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
           <h3>{text("Доказательство", "Proof")}</h3>
           <p>
             {text(
-              "Запишем Fᵢ=Tᵢqᵢ², где Tᵢ=τ(Fᵢ) — знаковое бесквадратное число. Отношение F₁/F₂ является квадратом тогда и только тогда, когда совпадают знак и чётности показателей каждого простого, то есть T₁=T₂. Произведение F₁F₂ является положительным квадратом при том же условии.",
-              "Write Fᵢ=Tᵢqᵢ², where Tᵢ=τ(Fᵢ) is signed and squarefree. The quotient F₁/F₂ is a square exactly when the sign and the parity of every prime exponent agree, that is, exactly when T₁=T₂. The product F₁F₂ is a positive square under the same condition.",
+              "Запишем Fᵢ=Tᵢqᵢ², где Tᵢ=t(Fᵢ) — знаковое бесквадратное число. Отношение F₁/F₂ является квадратом тогда и только тогда, когда совпадают знак и чётности показателей каждого простого, то есть T₁=T₂. Произведение F₁F₂ является положительным квадратом при том же условии.",
+              "Write Fᵢ=Tᵢqᵢ², where Tᵢ=t(Fᵢ) is signed and squarefree. The quotient F₁/F₂ is a square exactly when the sign and the parity of every prime exponent agree, that is, exactly when T₁=T₂. The product F₁F₂ is a positive square under the same condition.",
             )}
           </p>
           <p>
