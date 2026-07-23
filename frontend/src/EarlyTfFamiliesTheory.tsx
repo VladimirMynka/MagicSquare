@@ -137,15 +137,58 @@ f(a+b,b)
         </section>
 
         <section>
-          <h2>{text("3. Полные параметризации F1–F3", "3. Complete parametrizations of F1–F3")}</h2>
+          <h2>
+            {text(
+              "3. Вывод полных параметризаций F1–F3",
+              "3. Deriving the complete parametrizations of F1–F3",
+            )}
+          </h2>
+          <p>
+            {text(
+              "Коэффициенты в параметризациях не требуется угадывать. В каждом из трёх случаев сокращённое отношение из предыдущего раздела должно быть ненулевым рациональным квадратом. Запишем этот квадрат как n²/m², где m,n∈ℚ×.",
+              "The coefficients in the parametrizations need not be guessed. In each of the three cases, the reduced ratio from the preceding section must be a nonzero rational square. Write that square as n²/m², where m,n∈ℚ×.",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\begin{aligned}
+\mathrm{F1}:&\quad
+\frac{b}{2(3a+b)}=\frac{n^2}{m^2}
+\iff b(m^2-2n^2)=6an^2,\\
+\mathrm{F2}:&\quad
+\frac{b}{2(3a-b)}=\frac{n^2}{m^2}
+\iff b(m^2+2n^2)=6an^2,\\
+\mathrm{F3}:&\quad
+\frac{a-b}{a+2b}=\frac{n^2}{m^2}
+\iff a(m^2-n^2)=b(m^2+2n^2).
+\end{aligned}`}</Latex>
+          <p>
+            {text(
+              "После выбора m и n каждое равенство оставляет для пары (a,b) только общий масштаб. Обозначая его через λ∈ℚ×, получаем",
+              "Once m and n are fixed, each equality leaves only a common scale for the pair (a,b). Denoting it by λ∈ℚ× gives",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\begin{aligned}
+\mathrm{F1}:&\quad
+\frac{a}{m^2-2n^2}
+=\frac{b}{6n^2}
+=\lambda,\\
+\mathrm{F2}:&\quad
+\frac{a}{m^2+2n^2}
+=\frac{b}{6n^2}
+=\lambda,\\
+\mathrm{F3}:&\quad
+\frac{a}{m^2+2n^2}
+=\frac{b}{m^2-n^2}
+=\lambda.
+\end{aligned}`}</Latex>
+          <p>
+            {text(
+              "Теперь остаётся применить линейные подстановки, которыми были определены F1, F2 и F3. Так одновременно выводятся обе пары:",
+              "It remains only to apply the linear substitutions defining F1, F2, and F3. This derives both pairs at once:",
+            )}
+          </p>
           <div className="theorem-block">
-            <h3>{text("Теорема", "Theorem")}</h3>
-            <p>
-              {text(
-                "Пусть λ,m,n∈ℚ и λmn≠0. Следующие формулы задают решения соответствующих уравнений:",
-                "Let λ,m,n∈ℚ with λmn≠0. The following formulas solve the corresponding equations:",
-              )}
-            </p>
             <Latex display>{String.raw`
 \begin{array}{c|c|c}
 & (a,b) & (c,d)\\ \hline
@@ -159,69 +202,17 @@ f(a+b,b)
 & \lambda(m^2+2n^2,\;m^2-n^2)
 & \lambda(2m^2+n^2,\;m^2-n^2)
 \end{array}`}</Latex>
-            <p>
-              {text(
-                "Для F2 дополнительно требуется m²≠4n², а для F3 — m²≠n²; эти исключения в точности удаляют вырожденные пары. В F1 при λmn≠0 вырождение над ℚ невозможно.",
-                "For F2 one must additionally require m²≠4n², and for F3, m²≠n²; these exclusions remove precisely the degenerate pairs. In F1, no degeneration over ℚ is possible when λmn≠0.",
-              )}
-            </p>
-            <p>
-              {text(
-                "Обратно, всякое невырожденное рациональное решение каждого из трёх указанных линейных уравнений получается соответствующей формулой.",
-                "Conversely, every nondegenerate rational solution of each of the three stated linear equations is obtained from the corresponding formula.",
-              )}
-            </p>
           </div>
-
-          <h3>{text("Проверка формул", "Verification of the formulas")}</h3>
           <p>
             {text(
-              "Общий множитель λ можно опустить: он умножает оба аргумента пары и потому меняет f в λ⁴ раз. Подстановка оставшихся форм в три сокращённых отношения даёт",
-              "The common factor λ may be omitted: it scales both entries of a pair and therefore multiplies f by λ⁴. Substitution of the remaining forms into the three reduced ratios gives",
+              "Все переходы были равносильными. Поэтому этот вывод одновременно доказывает корректность формул и полноту каждой параметризации внутри соответствующего линейного анзаца: всякое невырожденное рациональное решение задаёт квадрат n²/m², а после выбора представляющих его m,n — общий масштаб λ.",
+              "Every step was an equivalence. The derivation therefore proves both the validity of the formulas and the completeness of each parametrization within its linear ansatz: every nondegenerate rational solution determines a square n²/m² and, after representatives m,n have been chosen, the common scale λ.",
             )}
           </p>
-          <Latex display>{String.raw`
-\begin{aligned}
-\mathrm{F1}:&\quad
-\frac{6n^2}
-{2\bigl(3(m^2-2n^2)+6n^2\bigr)}
-=\frac{n^2}{m^2},\\
-\mathrm{F2}:&\quad
-\frac{6n^2}
-{2\bigl(3(m^2+2n^2)-6n^2\bigr)}
-=\frac{n^2}{m^2},\\
-\mathrm{F3}:&\quad
-\frac{(m^2+2n^2)-(m^2-n^2)}
-{(m^2+2n^2)+2(m^2-n^2)}
-=\frac{n^2}{m^2}.
-\end{aligned}`}</Latex>
           <p>
             {text(
-              "Все три отношения являются рациональными квадратами, поэтому соответствующие значения tf совпадают.",
-              "All three ratios are rational squares, so the corresponding tf values are equal.",
-            )}
-          </p>
-
-          <h3>{text("Доказательство полноты", "Proof of completeness")}</h3>
-          <p>
-            {text(
-              "Пусть сокращённое отношение равно (n/m)². После перекрёстного умножения три случая дают",
-              "Suppose the reduced ratio equals (n/m)². Cross multiplication gives",
-            )}
-          </p>
-          <Latex display>{String.raw`
-\begin{aligned}
-\mathrm{F1}:&\quad
-b(m^2-2n^2)=6an^2,\\
-\mathrm{F2}:&\quad
-b(m^2+2n^2)=6an^2,\\
-\mathrm{F3}:&\quad
-a(m^2-n^2)=b(m^2+2n^2).
-\end{aligned}`}</Latex>
-          <p>
-            {text(
-              "В F1 и F2 положим λ=b/(6n²), а в F3 — λ=a/(m²+2n²). Получаются ровно формулы теоремы. Невырожденность исключает нулевые знаменатели и завершает доказательство в обоих направлениях.",
-              "For F1 and F2 set λ=b/(6n²), and for F3 set λ=a/(m²+2n²). This recovers exactly the formulas in the theorem. Nondegeneracy excludes zero denominators and completes the proof in both directions.",
+              "Условия λmn≠0 исключают нулевой масштаб и нулевой квадрат отношения. Для F2 дополнительно требуется m²≠4n², а для F3 — m²≠n²; именно при этих равенствах одна из построенных пар вырождается. В F1 при λmn≠0 вырождение над ℚ невозможно.",
+              "The conditions λmn≠0 exclude zero scale and a zero ratio square. For F2 one must additionally require m²≠4n², and for F3, m²≠n²; precisely at those equalities one of the constructed pairs degenerates. In F1 no degeneration over ℚ is possible when λmn≠0.",
             )}
           </p>
         </section>
