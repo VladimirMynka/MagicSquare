@@ -22,65 +22,127 @@ export function TheoryLink({
 
 export function TheoryIndexPage() {
   const { text } = useLocale();
-  const chapters = [
+  const series = [
     {
-      index: "01",
-      to: "/theory/magic-squares-3x3",
-      title: text(
-        "Общая форма магического квадрата 3×3",
-        "The general form of a 3×3 magic square",
-      ),
+      index: "I",
+      title: text("Основы", "Foundations"),
       summary: text(
-        "Доказательства M=3E, существования и единственности m(E,x,y), а также точные версии над группами, кольцами, полями, ℤ, ℚ и ℝ.",
-        "Proofs of M=3E and the existence and uniqueness of m(E,x,y), with exact versions over groups, rings, fields, ℤ, ℚ, and ℝ.",
+        "Определения, полная линейная классификация и постановка основной диофантовой задачи.",
+        "Definitions, the complete linear classification, and the main Diophantine problem.",
       ),
+      chapters: [
+        {
+          index: "1.1",
+          to: "/theory/magic-squares-3x3",
+          title: text(
+            "Общая форма магического квадрата 3×3",
+            "The general form of a 3×3 magic square",
+          ),
+          summary: text(
+            "Доказательства M=3E, существования и единственности m(E,x,y), а также точные версии над группами, кольцами, полями, ℤ, ℚ и ℝ.",
+            "Proofs of M=3E and the existence and uniqueness of m(E,x,y), with exact versions over groups, rings, fields, ℤ, ℚ, and ℝ.",
+          ),
+        },
+        {
+          index: "1.2",
+          to: "/squares-of-squares",
+          title: text(
+            "Задача о квадрате из квадратов",
+            "The magic square of squares problem",
+          ),
+          summary: text(
+            "Постановки 9/9 и 7/9, известный пример и переход от общей линейной формы к диофантовым ограничениям.",
+            "The 9/9 and 7/9 problems, the known example, and the transition from the linear normal form to Diophantine constraints.",
+          ),
+        },
+      ],
     },
     {
-      index: "02",
-      to: "/squares-of-squares",
-      title: text(
-        "Задача о квадрате из квадратов",
-        "The magic square of squares problem",
-      ),
+      index: "II",
+      title: text("Арифметические ограничения", "Arithmetic restrictions"),
       summary: text(
-        "Постановки 9/9 и 7/9, известный пример и переход от общей линейной формы к диофантовым ограничениям.",
-        "The 9/9 and 7/9 problems, the known example, and the transition from the linear normal form to Diophantine constraints.",
+        "Локальные сравнения, суммы двух квадратов и ограничения на простые делители.",
+        "Local congruences, sums of two squares, and restrictions on prime divisors.",
       ),
+      chapters: [
+        {
+          index: "2.1",
+          to: "/theory/residues",
+          title: text(
+            "Вычеты и квадратичные вычеты",
+            "Residues and quadratic residues",
+          ),
+          summary: text(
+            "Сравнение квадратов через координаты, ограничения по модулям 3, 4, 5 и 24 и применение символа Лежандра к простым делителям клеток.",
+            "Coordinate congruence, restrictions modulo 3, 4, 5, and 24, and an application of the Legendre symbol to prime divisors of entries.",
+          ),
+        },
+        {
+          index: "2.2",
+          to: "/theory/prime-divisors",
+          title: text(
+            "Простые делители минимального квадрата 9/9",
+            "Prime divisors in a minimal 9/9 square",
+          ),
+          summary: text(
+            "Гауссовы разложения суммы двух квадратов, факторизация центрального корня и ограничения на простые делители остальных восьми корней.",
+            "Gaussian factorizations of sums of two squares, the central-root factorization, and restrictions on prime divisors of the other eight roots.",
+          ),
+        },
+      ],
     },
     {
-      index: "03",
-      to: "/theory/residues",
+      index: "III",
       title: text(
-        "Вычеты и квадратичные вычеты",
-        "Residues and quadratic residues",
+        "Частичные квадратные конфигурации",
+        "Partial square configurations",
       ),
       summary: text(
-        "Сравнение квадратов через координаты, ограничения по модулям 3, 4, 5 и 24 и применение символа Лежандра к простым делителям клеток.",
-        "Coordinate congruence, restrictions modulo 3, 4, 5, and 24, and an application of the Legendre symbol to prime divisors of entries.",
+        "Позиционные типы, квадратичные системы и полнота параметрических семейств.",
+        "Positional types, quadratic systems, and completeness of parametric families.",
       ),
+      chapters: [
+        {
+          index: "3.1",
+          to: "/proofs/general",
+          title: text(
+            "Общая теория масок 4/9 и 5/9",
+            "General theory of the 4/9 and 5/9 patterns",
+          ),
+          summary: text(
+            "Орбиты D₄, исключение E,x,y, квадратичные системы, цветовые опоры и критерии полноты параметризаций.",
+            "D₄ orbits, elimination of E,x,y, quadratic systems, colored supports, and criteria for completeness of parametrizations.",
+          ),
+        },
+      ],
     },
     {
-      index: "04",
-      to: "/theory/prime-divisors",
+      index: "IV",
       title: text(
-        "Простые делители минимального квадрата 9/9",
-        "Prime divisors in a minimal 9/9 square",
+        "Алгебра матричного умножения",
+        "Matrix multiplication algebra",
       ),
       summary: text(
-        "Гауссовы разложения суммы двух квадратов, факторизация центрального корня и ограничения на простые делители остальных восьми корней.",
-        "Gaussian factorizations of sums of two squares, the central-root factorization, and restrictions on prime divisors of the other eight roots.",
+        "Самостоятельная ветвь о произведениях магических матриц и пятимерной алгебре полумагических квадратов.",
+        "A separate branch on products of magic matrices and the five-dimensional algebra of semimagic squares.",
       ),
-    },
-    {
-      index: "05",
-      to: "/proofs/general",
-      title: text(
-        "Общая теория масок 4/9 и 5/9",
-        "General theory of the 4/9 and 5/9 patterns",
-      ),
-      summary: text(
-        "Орбиты D₄, исключение E,x,y, квадратичные системы, цветовые опоры и критерии полноты параметризаций.",
-        "D₄ orbits, elimination of E,x,y, quadratic systems, colored supports, and criteria for completeness of parametrizations.",
+      chapters: [
+        {
+          index: "4.1",
+          to: "/theory/matrix-algebra/magic-charming-semimagic",
+          title: text(
+            "Магические, чарующие и полумагические квадраты",
+            "Magic, charming, and semimagic squares",
+          ),
+          summary: text(
+            "Стандартные associated и balanced-компоненты, четыре закона умножения, полная пятимерная форма и точные разложения.",
+            "The standard associated and balanced components, four product laws, the complete five-dimensional form, and exact decompositions.",
+          ),
+        },
+      ],
+      continuation: text(
+        "Далее: устройство алгебры, определитель и спектр, границы над ℤ и ℚ.",
+        "Next: the algebra structure, determinant and spectrum, and the boundary between ℤ and ℚ.",
       ),
     },
   ] as const;
@@ -93,23 +155,43 @@ export function TheoryIndexPage() {
           <h1>{text("Оглавление теории", "Theory contents")}</h1>
           <p>
             {text(
-              "Сначала вводится общая структура магического квадрата и формулируется основная задача, затем разбираются арифметические ограничения и позиционные классы. Каждая глава отделяет доказанные утверждения от открытых вопросов.",
-              "The general structure of a magic square and the main problem come first, followed by arithmetic restrictions and positional classes. Each chapter separates proved statements from open questions.",
+              "Материал разделён на самостоятельные циклы. Основная линия идёт от линейной формы к арифметике и частичным квадратным конфигурациям; алгебра матричного умножения развивается параллельно.",
+              "The material is divided into self-contained series. The main line runs from the linear form through arithmetic to partial square configurations, while matrix multiplication algebra develops in parallel.",
             )}
           </p>
         </div>
       </header>
 
-      <div className="theory-chapter-grid">
-        {chapters.map((chapter) => (
-          <TheoryLink className="theory-chapter-card" key={chapter.index} to={chapter.to}>
-            <span>{chapter.index}</span>
-            <div>
-              <h2>{chapter.title}</h2>
-              <p>{chapter.summary}</p>
+      <div className="theory-series-list">
+        {series.map((group) => (
+          <section
+            className="theory-series"
+            id={group.index === "IV" ? "matrix-algebra" : undefined}
+            key={group.index}
+          >
+            <header className="theory-series-header">
+              <span>{group.index}</span>
+              <div>
+                <h2>{group.title}</h2>
+                <p>{group.summary}</p>
+              </div>
+            </header>
+            <div className="theory-chapter-grid">
+              {group.chapters.map((chapter) => (
+                <TheoryLink className="theory-chapter-card" key={chapter.index} to={chapter.to}>
+                  <span>{chapter.index}</span>
+                  <div>
+                    <h3>{chapter.title}</h3>
+                    <p>{chapter.summary}</p>
+                  </div>
+                  <i>→</i>
+                </TheoryLink>
+              ))}
             </div>
-            <i>→</i>
-          </TheoryLink>
+            {"continuation" in group ? (
+              <p className="theory-series-continuation">{group.continuation}</p>
+            ) : null}
+          </section>
         ))}
       </div>
     </article>

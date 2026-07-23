@@ -1985,10 +1985,60 @@ main {
   max-width: 1320px;
 }
 
+.theory-series-list {
+  display: grid;
+  gap: 42px;
+}
+
+.theory-series {
+  scroll-margin-top: 110px;
+}
+
+.theory-series-header {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 20px;
+  margin-bottom: 16px;
+  padding: 0 4px 18px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.theory-series-header > span {
+  padding-top: 5px;
+  color: var(--brick);
+  font: 10px var(--mono);
+  letter-spacing: 0.1em;
+}
+
+.theory-series-header h2 {
+  margin: 0 0 7px;
+  color: var(--graphite);
+  font: 500 clamp(27px, 3vw, 38px)/1.08 var(--serif);
+  letter-spacing: -0.02em;
+}
+
+.theory-series-header p,
+.theory-series-continuation {
+  max-width: 780px;
+  margin: 0;
+  color: var(--graphite-soft);
+  font: 15px/1.55 var(--serif);
+}
+
+.theory-series-continuation {
+  margin: 13px 4px 0 78px;
+  color: var(--graphite-soft);
+  opacity: 0.78;
+}
+
 .theory-chapter-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+.theory-chapter-grid > :only-child {
+  grid-column: 1 / -1;
 }
 
 .theory-chapter-card {
@@ -2013,7 +2063,7 @@ main {
   letter-spacing: 0.08em;
 }
 
-.theory-chapter-card h2 {
+.theory-chapter-card h3 {
   max-width: 440px;
   margin: -5px 0 15px;
   color: var(--graphite);
@@ -2119,6 +2169,72 @@ main {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 24px;
+}
+
+.formula-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.formula-scroll-wide .katex-display {
+  width: max-content;
+  min-width: 100%;
+}
+
+.basis-matrix-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.basis-matrix-row > div {
+  min-width: 0;
+  padding: 17px 14px 10px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  scrollbar-width: thin;
+}
+
+.basis-matrix-row > div > span {
+  display: block;
+  color: var(--brick);
+  font: 10px var(--mono);
+}
+
+.basis-matrix-row .latex.display {
+  margin: 8px 0;
+}
+
+.basis-matrix-row .katex-display > .katex {
+  text-align: center;
+}
+
+.literature-note {
+  margin: 28px 0 4px;
+  padding: 24px 26px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.literature-note h3 {
+  margin-bottom: 10px;
+}
+
+.literature-note ul {
+  margin: 18px 0 0;
+  padding-left: 21px;
+}
+
+.literature-note li + li {
+  margin-top: 8px;
+}
+
+.literature-note a {
+  color: var(--blue-deep);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 .theory-demo {
@@ -3780,6 +3896,19 @@ main {
 
   .theory-chapter-card {
     min-height: 0;
+  }
+
+  .theory-series-header {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .theory-series-continuation {
+    margin-left: 50px;
+  }
+
+  .basis-matrix-row {
+    grid-template-columns: 1fr;
   }
 
 }

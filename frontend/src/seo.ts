@@ -148,6 +148,20 @@ const STATIC_METADATA: Readonly<
         "Proofs of the central-root factorization and restrictions on prime divisors of noncentral roots in a minimal 9/9 magic square.",
     },
   },
+  "theory/matrix-algebra/magic-charming-semimagic": {
+    ru: {
+      title: "Магические, чарующие и полумагические квадраты 3×3",
+      description:
+        "Полная классификация полумагических матриц 3×3, associated и balanced-компоненты, четыре закона умножения и точные разложения через магические квадраты.",
+      type: "Article",
+    },
+    en: {
+      title: "Magic, Charming, and Semimagic 3×3 Squares",
+      description:
+        "A complete classification of semimagic 3×3 matrices, their associated and balanced components, four product laws, and exact decompositions into magic squares.",
+      type: "Article",
+    },
+  },
   lab: {
     en: {
       title: "3×3 Magic Square Calculator — E, x, y Form",
@@ -468,6 +482,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/magic-squares-3x3",
     "theory/residues",
     "theory/prime-divisors",
+    "theory/matrix-algebra/magic-charming-semimagic",
     "lab",
     "proofs/general",
     "orbits/4",

@@ -60,6 +60,7 @@ import {
 import { TimelinePage } from "./TimelinePage";
 import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
+import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
 
@@ -2780,6 +2781,10 @@ export function App() {
         <Route path="theory/magic-squares-3x3" element={<BasicMagicTheoryPage />} />
         <Route path="theory/residues" element={<ResiduesTheoryPage />} />
         <Route path="theory/prime-divisors" element={<PrimeDivisorsTheoryPage />} />
+        <Route
+          path="theory/matrix-algebra/magic-charming-semimagic"
+          element={<SemimagicAlgebraTheoryPage />}
+        />
         <Route path="lab" element={<LabPage />} />
         <Route path="families/:familyId" element={<FamilyRedirect />} />
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />
