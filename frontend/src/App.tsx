@@ -59,6 +59,7 @@ import {
 } from "./i18n";
 import { TimelinePage } from "./TimelinePage";
 import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
+import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
 
@@ -2778,6 +2779,7 @@ export function App() {
         <Route path="squares-of-squares" element={<SquaresOfSquaresPage />} />
         <Route path="theory/magic-squares-3x3" element={<BasicMagicTheoryPage />} />
         <Route path="theory/residues" element={<ResiduesTheoryPage />} />
+        <Route path="theory/prime-divisors" element={<PrimeDivisorsTheoryPage />} />
         <Route path="lab" element={<LabPage />} />
         <Route path="families/:familyId" element={<FamilyRedirect />} />
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />

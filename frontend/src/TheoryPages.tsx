@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Latex } from "./components/Latex";
 import { localePath, useLocale } from "./i18n";
 
-function TheoryLink({
+export function TheoryLink({
   children,
   className,
   to,
@@ -61,6 +61,18 @@ export function TheoryIndexPage() {
     },
     {
       index: "04",
+      to: "/theory/prime-divisors",
+      title: text(
+        "Простые делители минимального квадрата 9/9",
+        "Prime divisors in a minimal 9/9 square",
+      ),
+      summary: text(
+        "Гауссовы разложения суммы двух квадратов, факторизация центрального корня и ограничения на простые делители остальных восьми корней.",
+        "Gaussian factorizations of sums of two squares, the central-root factorization, and restrictions on prime divisors of the other eight roots.",
+      ),
+    },
+    {
+      index: "05",
       to: "/proofs/general",
       title: text(
         "Общая теория масок 4/9 и 5/9",
@@ -387,13 +399,13 @@ a^2&b^2&c^2\\d^2&e^2&f^2\\g^2&h^2&j^2
           </p>
           <p>
             {text(
-              "Следующий арифметический слой — представления числа суммой двух квадратов и факторизация в ℤ[i]. Именно там локальные ограничения на простые делители превращаются в конструктивные нормы.",
-              "The next arithmetic layer is representation as a sum of two squares and factorization in ℤ[i]. That is where local restrictions on prime divisors become constructive norm identities.",
+              "Представления числа суммой двух квадратов и факторизация в ℤ[i] усиливают это угловое ограничение до всех нецентральных клеток и определяют возможную факторизацию центрального корня.",
+              "Representations as sums of two squares and factorization in ℤ[i] extend this corner restriction to every noncentral entry and determine the possible factorization of the central root.",
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/lab">
-              {text("Проверить координаты в калькуляторе", "Check coordinates in the calculator")} <span>↗</span>
+            <TheoryLink className="button button-primary" to="/theory/prime-divisors">
+              {text("Перейти к факторизации корней", "Continue to root factorizations")} <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Back to theory contents")}

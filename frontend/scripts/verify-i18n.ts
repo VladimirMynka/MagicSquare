@@ -186,6 +186,7 @@ function verifyEnglishRoutes(): number {
     "/en/squares-of-squares": "The 3×3 magic square of squares",
     "/en/theory/magic-squares-3x3": "3×3 magic squares over a general carrier",
     "/en/theory/residues": "Residues and quadratic residues",
+    "/en/theory/prime-divisors": "Prime divisors in a minimal 9/9 square",
     "/en/orbits/4": "Four square entries: 23 orbits",
     "/en/orbits/5": "Five square entries: 23 orbits",
     "/en/orbits/5/befgj": "Family BEFGJ",

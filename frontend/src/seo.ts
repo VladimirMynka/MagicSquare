@@ -136,6 +136,18 @@ const STATIC_METADATA: Readonly<
       type: "Article",
     },
   },
+  "theory/prime-divisors": {
+    ru: {
+      title: "Простые делители минимального квадрата 9/9",
+      description:
+        "Доказательства факторизации центрального корня и ограничений на простые делители нецентральных корней минимального магического квадрата 9/9.",
+    },
+    en: {
+      title: "Prime divisors in a minimal 9/9 square",
+      description:
+        "Proofs of the central-root factorization and restrictions on prime divisors of noncentral roots in a minimal 9/9 magic square.",
+    },
+  },
   lab: {
     en: {
       title: "3×3 Magic Square Calculator — E, x, y Form",
@@ -455,6 +467,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "squares-of-squares",
     "theory/magic-squares-3x3",
     "theory/residues",
+    "theory/prime-divisors",
     "lab",
     "proofs/general",
     "orbits/4",
