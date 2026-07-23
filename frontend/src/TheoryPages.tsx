@@ -104,6 +104,18 @@ export function TheoryIndexPage() {
       chapters: [
         {
           index: "3.1",
+          to: "/theory/arithmetic-progressions-dir",
+          title: text(
+            "Арифметические прогрессии квадратов и dir-функция",
+            "Arithmetic progressions of squares and the dir function",
+          ),
+          summary: text(
+            "Полная рациональная и целочисленная параметризация трёх квадратов в прогрессии, восемь линий магического квадрата и нормированный шаг dir(m,n).",
+            "The complete rational and integral parametrization of three squares in progression, the eight lines of a magic square, and the normalized difference dir(m,n).",
+          ),
+        },
+        {
+          index: "3.2",
           to: "/proofs/general",
           title: text(
             "Общая теория масок 4/9 и 5/9",
@@ -178,7 +190,13 @@ export function TheoryIndexPage() {
         {series.map((group) => (
           <section
             className="theory-series"
-            id={group.index === "IV" ? "matrix-algebra" : undefined}
+            id={
+              group.index === "III"
+                ? "partial-configurations"
+                : group.index === "IV"
+                  ? "matrix-algebra"
+                  : undefined
+            }
             key={group.index}
           >
             <header className="theory-series-header">

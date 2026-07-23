@@ -70,6 +70,7 @@ import {
 import { TimelinePage } from "./TimelinePage";
 import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
+import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3096,6 +3097,20 @@ function CommonProofPage() {
             </section>
           ))}
           <div className="lemma-conclusion">{proof.conclusion}</div>
+          {proof.id === "arithmetic-progression" ? (
+            <div className="topic-actions">
+              <Link
+                className="button button-primary"
+                to="/theory/arithmetic-progressions-dir"
+              >
+                {text(
+                  "Полная теория прогрессий и dir",
+                  "Complete theory of progressions and dir",
+                )}{" "}
+                <span>→</span>
+              </Link>
+            </div>
+          ) : null}
         </section>
         <aside className="lemma-families">
           <span>
@@ -3557,6 +3572,10 @@ export function App() {
         <Route path="theory/magic-squares-3x3" element={<BasicMagicTheoryPage />} />
         <Route path="theory/residues" element={<ResiduesTheoryPage />} />
         <Route path="theory/prime-divisors" element={<PrimeDivisorsTheoryPage />} />
+        <Route
+          path="theory/arithmetic-progressions-dir"
+          element={<DirProgressionsTheoryPage />}
+        />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"
           element={<SemimagicAlgebraTheoryPage />}

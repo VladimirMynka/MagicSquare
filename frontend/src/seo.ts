@@ -99,6 +99,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/arithmetic-progressions-dir": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -217,6 +221,20 @@ const STATIC_METADATA: Readonly<
       title: "Prime divisors in a minimal 9/9 square",
       description:
         "Proofs of the central-root factorization and restrictions on prime divisors of noncentral roots in a minimal 9/9 magic square.",
+    },
+  },
+  "theory/arithmetic-progressions-dir": {
+    ru: {
+      title: "Арифметические прогрессии квадратов и dir-функция",
+      description:
+        "Полная параметризация трёх рациональных и целых квадратов в арифметической прогрессии, восемь прогрессий магического квадрата 3×3 и точная формула dir(m,n).",
+      type: "Article",
+    },
+    en: {
+      title: "Arithmetic Progressions of Squares and the dir Function",
+      description:
+        "A complete parametrization of three rational and integral squares in arithmetic progression, the eight progressions in a magic 3×3 square, and the exact dir(m,n) formula.",
+      type: "Article",
     },
   },
   "theory/matrix-algebra/magic-charming-semimagic": {
@@ -575,6 +593,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/magic-squares-3x3",
     "theory/residues",
     "theory/prime-divisors",
+    "theory/arithmetic-progressions-dir",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
