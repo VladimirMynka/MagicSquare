@@ -433,11 +433,12 @@ x(2P)
           </p>
 
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory">
-              {text("К оглавлению теории", "Theory contents")} <span>→</span>
+            <TheoryLink className="button button-primary" to="/theory/f4-plus">
+              {text("Эллиптическая поверхность F4+", "The F4+ elliptic surface")}{" "}
+              <span>→</span>
             </TheoryLink>
-            <TheoryLink className="button button-ghost" to="/theory/fmn-tfmn">
-              {text("Функции fmn и tfmn", "The fmn and tfmn functions")}
+            <TheoryLink className="button button-ghost" to="/theory">
+              {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>
           </div>
         </section>

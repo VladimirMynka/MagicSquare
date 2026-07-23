@@ -115,6 +115,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/f4-plus": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -288,6 +292,20 @@ const STATIC_METADATA: Readonly<
       title: "F7+: The Bijection Between tfmn Pairs and the Congruent-Number Surface",
       description:
         "A complete proof of the bijection between nondegenerate projective pairs of fixed tf and rational points on y²=x³−T²x, up to the sign of y.",
+      type: "Article",
+    },
+  },
+  "theory/f4-plus": {
+    ru: {
+      title: "F4+: эллиптическая поверхность пифагоровых площадей",
+      description:
+        "Полная модель совпадающих квадратных классов площадей пифагоровых треугольников: бирациональная кубика, рациональная эллиптическая поверхность ранга 2, K3-замена базы и связь с проблемой конгруэнтных чисел.",
+      type: "Article",
+    },
+    en: {
+      title: "F4+: Elliptic Surface for Pythagorean Triangle Areas",
+      description:
+        "A complete model for equal square classes of Pythagorean-triangle areas: a birational cubic, a rank-2 rational elliptic surface, its K3 base change, and the link to the congruent number problem.",
       type: "Article",
     },
   },
@@ -651,6 +669,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/fmn-tfmn",
     "theory/early-tf-families",
     "theory/f7-plus",
+    "theory/f4-plus",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

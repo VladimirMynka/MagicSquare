@@ -175,10 +175,22 @@ export function TheoryIndexPage() {
             "The exact bijection between nondegenerate projective pairs [m:n] of fixed tf and nontrivial rational points on y²=x³−T²x, up to the sign of y.",
           ),
         },
+        {
+          index: "4.2",
+          to: "/theory/f4-plus",
+          title: text(
+            "F4+: эллиптическая поверхность пар пифагоровых площадей",
+            "F4+: an elliptic surface for pairs of Pythagorean areas",
+          ),
+          summary: text(
+            "Полная нормализация совпадающих квадратных классов площадей, бирациональная модель Вейерштрасса, рациональная эллиптическая поверхность и её квадратичная K3-замена базы.",
+            "Complete normalization of equal area square classes, a birational Weierstrass model, the resulting rational elliptic surface, and its quadratic K3 base change.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: F4+ как полное описание через общий первый аргумент, затем конструктивный взгляд F8/F9-like.",
-        "Next: F4+ as the complete common-first-coordinate description, followed by the constructive F8/F9-like viewpoint.",
+        "Далее: конструктивный взгляд F8/F9-like на ту же задачу.",
+        "Next: the constructive F8/F9-like viewpoint on the same problem.",
       ),
     },
     {

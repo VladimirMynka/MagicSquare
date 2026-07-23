@@ -552,8 +552,8 @@ y^2
               {text("Современная теория F7+", "The modern F7+ theory")}{" "}
               <span>→</span>
             </TheoryLink>
-            <TheoryLink className="button button-ghost" to="/theory/fmn-tfmn">
-              {text("Назад к fmn и tfmn", "Back to fmn and tfmn")}
+            <TheoryLink className="button button-ghost" to="/theory/f4-plus">
+              {text("Современная теория F4+", "The modern F4+ theory")}
             </TheoryLink>
           </div>
         </section>
