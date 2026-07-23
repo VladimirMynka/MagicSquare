@@ -3554,6 +3554,10 @@ main {
   min-width: 0;
 }
 
+.latex .katex-mathml {
+  position: fixed;
+}
+
 .latex.display {
   display: block;
   max-width: 100%;
