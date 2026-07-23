@@ -71,6 +71,7 @@ import { TimelinePage } from "./TimelinePage";
 import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
+import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3576,6 +3577,7 @@ export function App() {
           path="theory/arithmetic-progressions-dir"
           element={<DirProgressionsTheoryPage />}
         />
+        <Route path="theory/fmn-tfmn" element={<FmnTfmnTheoryPage />} />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"
           element={<SemimagicAlgebraTheoryPage />}

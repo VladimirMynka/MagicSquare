@@ -116,6 +116,18 @@ export function TheoryIndexPage() {
         },
         {
           index: "3.2",
+          to: "/theory/fmn-tfmn",
+          title: text(
+            "Функции fmn и tfmn",
+            "The fmn and tfmn functions",
+          ),
+          summary: text(
+            "Площади пифагоровых треугольников, квадратные классы, критерий согласования шагов двух прогрессий и эллиптическая кривая одного tfmn.",
+            "Areas of Pythagorean triangles, square classes, the criterion for matching two progression differences, and the elliptic curve of a tfmn value.",
+          ),
+        },
+        {
+          index: "3.3",
           to: "/proofs/general",
           title: text(
             "Общая теория масок 4/9 и 5/9",

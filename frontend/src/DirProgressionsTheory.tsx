@@ -461,12 +461,12 @@ V=k^2c(m,n),\qquad
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/proofs/general">
-              {text("Общая теория масок 4/9 и 5/9", "General theory of 4/9 and 5/9 patterns")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/fmn-tfmn">
+              {text("Функции fmn и tfmn", "The fmn and tfmn functions")}{" "}
               <span>→</span>
             </TheoryLink>
-            <TheoryLink className="button button-ghost" to="/theory/prime-divisors">
-              {text("Арифметика минимального 9/9", "Arithmetic of a minimal 9/9 square")}
+            <TheoryLink className="button button-ghost" to="/proofs/general">
+              {text("Общая теория масок 4/9 и 5/9", "General theory of 4/9 and 5/9 patterns")}
             </TheoryLink>
           </div>
         </section>

@@ -103,6 +103,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/fmn-tfmn": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -234,6 +238,20 @@ const STATIC_METADATA: Readonly<
       title: "Arithmetic Progressions of Squares and the dir Function",
       description:
         "A complete parametrization of three rational and integral squares in arithmetic progression, the eight progressions in a magic 3×3 square, and the exact dir(m,n) formula.",
+      type: "Article",
+    },
+  },
+  "theory/fmn-tfmn": {
+    ru: {
+      title: "Функции fmn и tfmn: квадратные классы прогрессий",
+      description:
+        "Точная теория fmn и tfmn: площади пифагоровых треугольников, бесквадратные представители, согласование шагов прогрессий и конгруэнтные эллиптические кривые.",
+      type: "Article",
+    },
+    en: {
+      title: "The fmn and tfmn Functions: Square Classes of Progressions",
+      description:
+        "The exact theory of fmn and tfmn: Pythagorean-triangle areas, squarefree representatives, matching progression differences, and congruent-number elliptic curves.",
       type: "Article",
     },
   },
@@ -594,6 +612,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/residues",
     "theory/prime-divisors",
     "theory/arithmetic-progressions-dir",
+    "theory/fmn-tfmn",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
