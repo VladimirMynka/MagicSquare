@@ -106,6 +106,11 @@ for (const suffix of indexableRouteSuffixes()) {
 const sitemap = readFileSync(resolve(DIST_DIR, "sitemap.xml"), "utf8");
 const sitemapUrls = sitemap.match(/<url>/g)?.length ?? 0;
 invariant(sitemapUrls === routeCount, `Sitemap has ${sitemapUrls} URLs, expected ${routeCount}`);
+const sitemapLastModified = sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)?.length ?? 0;
+invariant(
+  sitemapLastModified === routeCount,
+  `Sitemap has ${sitemapLastModified} lastmod entries, expected ${routeCount}`,
+);
 invariant(
   sitemap.includes('hreflang="x-default"'),
   "Sitemap has no x-default alternates",

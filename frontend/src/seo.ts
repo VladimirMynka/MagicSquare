@@ -52,15 +52,82 @@ export interface SeoMetadata {
   canonicalPath: string;
   description: string;
   index: boolean;
+  lastModified?: string;
   locale: SeoLocale;
   schema: Readonly<Record<string, unknown>>;
   title: string;
+}
+
+interface PublicationDates {
+  modified: string;
+  published: string;
 }
 
 interface LocalizedMetadata {
   description: string;
   title: string;
   type?: "Article" | "WebApplication" | "WebPage" | "WebSite";
+}
+
+const INITIAL_PUBLICATION: PublicationDates = {
+  published: "2026-07-21",
+  modified: "2026-07-21",
+};
+
+const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
+  "": {
+    published: "2026-07-21",
+    modified: "2026-07-23",
+  },
+  "squares-of-squares": {
+    published: "2026-07-22",
+    modified: "2026-07-22",
+  },
+  theory: {
+    published: "2026-07-22",
+    modified: "2026-07-23",
+  },
+  "theory/magic-squares-3x3": {
+    published: "2026-07-22",
+    modified: "2026-07-22",
+  },
+  "theory/residues": {
+    published: "2026-07-22",
+    modified: "2026-07-22",
+  },
+  "theory/prime-divisors": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
+  "theory/matrix-algebra/magic-charming-semimagic": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
+  news: {
+    published: "2026-07-22",
+    modified: "2026-07-22",
+  },
+  timeline: {
+    published: "2026-07-22",
+    modified: "2026-07-22",
+  },
+  about: {
+    published: "2026-07-22",
+    modified: "2026-07-22",
+  },
+};
+
+function publicationDates(
+  suffix: string,
+  exactDate?: string,
+): PublicationDates {
+  if (exactDate) {
+    return {
+      published: exactDate,
+      modified: exactDate,
+    };
+  }
+  return ROUTE_PUBLICATION_DATES[suffix] ?? INITIAL_PUBLICATION;
 }
 
 const STATIC_METADATA: Readonly<
@@ -268,6 +335,7 @@ function pageSchema(
   metadata: LocalizedMetadata,
   canonicalPath: string,
   locale: SeoLocale,
+  dates: PublicationDates,
 ): Readonly<Record<string, unknown>> {
   const type = metadata.type ?? "WebPage";
   const socialImages = socialImagesForLocale(locale);
@@ -316,8 +384,8 @@ function pageSchema(
   if (type === "Article") {
     schema.headline = metadata.title;
     schema.author = authors;
-    schema.datePublished = "2026-07-21";
-    schema.dateModified = "2026-07-22";
+    schema.datePublished = dates.published;
+    schema.dateModified = dates.modified;
   }
   if (type === "WebApplication") {
     schema.applicationCategory = "EducationalApplication";
@@ -366,12 +434,14 @@ export function seoForPath(value: string): SeoMetadata {
   const suffix = match[2] ?? "";
   const staticMetadata = localizedStatic(suffix, locale);
   if (staticMetadata) {
+    const dates = publicationDates(suffix);
     return {
       canonicalPath: pathname,
       description: staticMetadata.description,
       index: true,
+      lastModified: dates.modified,
       locale,
-      schema: pageSchema(staticMetadata, pathname, locale),
+      schema: pageSchema(staticMetadata, pathname, locale, dates),
       title: staticMetadata.title,
     };
   }
@@ -396,12 +466,14 @@ export function seoForPath(value: string): SeoMetadata {
               description: `${orbit ? `${orbit}. ` : ""}${summary} Приведены явная параметризация, условия и доказательство области покрытия.`,
               type: "Article",
             };
+      const dates = publicationDates(suffix);
       return {
         canonicalPath: pathname,
         description: metadata.description,
         index: true,
+        lastModified: dates.modified,
         locale,
-        schema: pageSchema(metadata, pathname, locale),
+        schema: pageSchema(metadata, pathname, locale, dates),
         title: metadata.title,
       };
     }
@@ -416,12 +488,14 @@ export function seoForPath(value: string): SeoMetadata {
         description: locale === "en" ? proof.summaryEn : proof.summary,
         type: "Article",
       };
+      const dates = publicationDates(suffix);
       return {
         canonicalPath: pathname,
         description: metadata.description,
         index: true,
+        lastModified: dates.modified,
         locale,
-        schema: pageSchema(metadata, pathname, locale),
+        schema: pageSchema(metadata, pathname, locale, dates),
         title: metadata.title,
       };
     }
@@ -436,14 +510,15 @@ export function seoForPath(value: string): SeoMetadata {
         description: locale === "en" ? article.summaryEn : article.summary,
         type: "Article",
       };
+      const dates = publicationDates(suffix, article.date);
       const schema = {
-        ...pageSchema(metadata, pathname, locale),
-        datePublished: article.date,
+        ...pageSchema(metadata, pathname, locale, dates),
       };
       return {
         canonicalPath: pathname,
         description: metadata.description,
         index: true,
+        lastModified: dates.modified,
         locale,
         schema,
         title: metadata.title,

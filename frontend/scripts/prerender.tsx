@@ -129,11 +129,14 @@ function sitemap(): string {
       ]),
     ) as Record<(typeof locales)[number], string>;
     for (const locale of locales) {
+      const metadata = seoForPath(localizedPaths[locale]);
       const canonical = `${SITE_ORIGIN}${localizedPaths[locale]}`;
+      invariant(Boolean(metadata.lastModified), `${canonical} has no last-modified date`);
       entries.push(
         [
           "  <url>",
           `    <loc>${escapeXml(canonical)}</loc>`,
+          `    <lastmod>${escapeXml(metadata.lastModified ?? "")}</lastmod>`,
           `    <xhtml:link rel="alternate" hreflang="en" href="${escapeXml(`${SITE_ORIGIN}${localizedPaths.en}`)}" />`,
           `    <xhtml:link rel="alternate" hreflang="ru" href="${escapeXml(`${SITE_ORIGIN}${localizedPaths.ru}`)}" />`,
           `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${SITE_ORIGIN}${localizedPaths.en}`)}" />`,
