@@ -456,13 +456,13 @@ V=k^2c(m,n),\qquad
           </p>
           <p>
             {text(
-              "При наличии нескольких квадратных прогрессий их параметры должны одновременно описывать общие клетки и одни и те же координаты E,x,y. Поэтому локальные параметризации дополняются уравнениями совместимости масштабов. Совпадение квадратных классов шагов приводит к tfmn-уравнениям; другие способы совмещения дают коники, уравнения норм и эллиптические кривые. Так параметризация одной прогрессии переходит в теорию конфигураций 5/9, 6/9 и 7/9.",
-              "When several progressions are required to consist of squares, their parameters must simultaneously describe shared entries and the same coordinates E,x,y. The local parametrizations are therefore supplemented by scale-compatibility equations. Equality of the square classes of the differences leads to tfmn equations; other compatibility patterns produce conics, norm equations, and elliptic curves. In this way the parametrization of one progression develops into the theory of 5/9, 6/9, and 7/9 configurations.",
+              "При наличии нескольких квадратных прогрессий их параметры должны одновременно описывать общие клетки и одни и те же координаты E,x,y. Поэтому локальные параметризации дополняются уравнениями совместимости масштабов. Совпадение квадратных классов шагов приводит к уравнениям равенства значений tf, лежащим в основе метода tfmn; другие способы совмещения дают коники, уравнения норм и эллиптические кривые. Так параметризация одной прогрессии переходит в теорию конфигураций 5/9, 6/9 и 7/9.",
+              "When several progressions are required to consist of squares, their parameters must simultaneously describe shared entries and the same coordinates E,x,y. The local parametrizations are therefore supplemented by scale-compatibility equations. Equality of the square classes of the differences leads to equations between tf values, which underlie the tfmn method; other compatibility patterns produce conics, norm equations, and elliptic curves. In this way the parametrization of one progression develops into the theory of 5/9, 6/9, and 7/9 configurations.",
             )}
           </p>
           <div className="topic-actions">
             <TheoryLink className="button button-primary" to="/theory/fmn-tfmn">
-              {text("Функции fmn и tfmn", "The fmn and tfmn functions")}{" "}
+              {text("fmn и tfmn", "fmn and tfmn")}{" "}
               <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/proofs/general">

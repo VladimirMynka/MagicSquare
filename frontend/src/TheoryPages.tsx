@@ -118,12 +118,12 @@ export function TheoryIndexPage() {
           index: "3.2",
           to: "/theory/fmn-tfmn",
           title: text(
-            "Функции fmn и tfmn",
-            "The fmn and tfmn functions",
+            "fmn и tfmn",
+            "fmn and tfmn",
           ),
           summary: text(
-            "Площади пифагоровых треугольников, свободная от квадратов часть fmn, критерий согласования шагов двух прогрессий и эллиптическая кривая одного tfmn.",
-            "Areas of Pythagorean triangles, the squarefree part of fmn, the criterion for matching two progression differences, and the elliptic curve of a tfmn value.",
+            "Функция f, свободная от квадратов часть tf, критерий согласования шагов двух прогрессий и эллиптическая кривая фиксированного значения tf.",
+            "The function f, its squarefree part tf, the criterion for matching two progression differences, and the elliptic curve of a fixed tf value.",
           ),
         },
         {

@@ -243,15 +243,15 @@ const STATIC_METADATA: Readonly<
   },
   "theory/fmn-tfmn": {
     ru: {
-      title: "Функции fmn и tfmn: свободная от квадратов часть",
+      title: "fmn и tfmn: функции f и tf",
       description:
-        "Точная теория fmn и tfmn: площади пифагоровых треугольников, свободная от квадратов часть, согласование шагов прогрессий и конгруэнтные эллиптические кривые.",
+        "Конструкции fmn и tfmn: функция f, её свободная от квадратов часть tf, согласование шагов прогрессий и конгруэнтные эллиптические кривые.",
       type: "Article",
     },
     en: {
-      title: "The fmn and tfmn Functions: The Squarefree Part",
+      title: "fmn and tfmn: The Functions f and tf",
       description:
-        "The exact theory of fmn and tfmn: Pythagorean-triangle areas, squarefree parts, matching progression differences, and congruent-number elliptic curves.",
+        "The fmn and tfmn constructions: the function f, its squarefree part tf, matching progression differences, and congruent-number elliptic curves.",
       type: "Article",
     },
   },

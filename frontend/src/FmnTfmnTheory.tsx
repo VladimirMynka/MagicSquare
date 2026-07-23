@@ -21,14 +21,14 @@ export function FmnTfmnTheoryPage() {
           </p>
           <h1>
             {text(
-              "Функции fmn и tfmn",
-              "The fmn and tfmn functions",
+              "fmn и tfmn",
+              "fmn and tfmn",
             )}
           </h1>
           <p>
             {text(
-              "Функция fmn(m,n) одновременно выражает площадь пифагорового треугольника и четверть шага параметризованной прогрессии квадратов. Функция tfmn(m,n) — свободная от квадратов часть fmn(m,n). Равенство двух tfmn является точным критерием того, что две прогрессии можно масштабировать до общего шага.",
-              "The function fmn(m,n) is simultaneously the area of a Pythagorean triangle and one quarter of the difference in a parametrized progression of squares. The function tfmn(m,n) is the squarefree part of fmn(m,n). Equality of two tfmn values is the exact criterion for scaling two progressions to a common difference.",
+              "fmn и tfmn — названия двух связанных конструкций; сами функции обозначаются f и tf. Функция f(m,n) одновременно выражает площадь пифагорового треугольника и четверть шага параметризованной прогрессии квадратов, а tf(m,n)=t(f(m,n)) является свободной от квадратов частью f(m,n). Равенство двух значений tf служит точным критерием того, что две прогрессии можно масштабировать до общего шага.",
+              "fmn and tfmn are the names of two related constructions; the functions themselves are denoted by f and tf. The function f(m,n) is simultaneously the area of a Pythagorean triangle and one quarter of the difference in a parametrized progression of squares, while tf(m,n)=t(f(m,n)) is the squarefree part of f(m,n). Equality of two tf values is the exact criterion for scaling two progressions to a common difference.",
             )}
           </p>
         </div>
@@ -41,7 +41,7 @@ export function FmnTfmnTheoryPage() {
             {text("Для ненулевых рациональных m,n положим", "For nonzero rational m,n, define")}
           </p>
           <Latex display>{String.raw`
-\operatorname{fmn}(m,n)=f(m,n)=mn(m^2-n^2)
+f(m,n)=mn(m^2-n^2)
 =mn(m-n)(m+n).`}</Latex>
           <p>
             {text(
@@ -80,8 +80,8 @@ V-4f(m,n),\qquad V,\qquad V+4f(m,n),
 \qquad V=(m^2+n^2)^2,`}</Latex>
           <p>
             {text(
-              "являются квадратами и образуют арифметическую прогрессию с ориентированным шагом 4f(m,n). Именно это тождество связывает fmn с восемью прогрессиями магического квадрата.",
-              "are squares and form an arithmetic progression with oriented difference 4f(m,n). This identity is what connects fmn with the eight progressions in a magic square.",
+              "являются квадратами и образуют арифметическую прогрессию с ориентированным шагом 4f(m,n). Именно это тождество лежит в основе применения конструкции fmn к восьми прогрессиям магического квадрата.",
+              "are squares and form an arithmetic progression with oriented difference 4f(m,n). This identity underlies the application of the fmn construction to the eight progressions in a magic square.",
             )}
           </p>
         </section>
@@ -133,21 +133,21 @@ t(A)=t(B)
             )}
           </p>
           <div className="theorem-block">
-            <h3>{text("Определение tfmn", "Definition of tfmn")}</h3>
+            <h3>{text("Определение функции tf", "Definition of the function tf")}</h3>
             <Latex display>{String.raw`
-\operatorname{tfmn}(m,n)=t\!\left(\operatorname{fmn}(m,n)\right),
+\operatorname{tf}(m,n)=t\!\left(f(m,n)\right),
 \qquad m,n\in\mathbb Z,\quad f(m,n)\ne0.`}</Latex>
             <p>
               {text(
-                "Таким образом, tfmn(m,n) — свободная от квадратов часть fmn(m,n). При f(m,n)=0 прогрессия постоянна и tfmn не определяется.",
-                "Thus tfmn(m,n) is the squarefree part of fmn(m,n). When f(m,n)=0, the progression is constant and tfmn is undefined.",
+                "Таким образом, tf(m,n) — свободная от квадратов часть f(m,n). При f(m,n)=0 прогрессия постоянна и tf не определяется.",
+                "Thus tf(m,n) is the squarefree part of f(m,n). When f(m,n)=0, the progression is constant and tf is undefined.",
               )}
             </p>
           </div>
         </section>
 
         <section>
-          <h2>{text("3. tfmn как конгруэнтное число", "3. tfmn as a congruent number")}</h2>
+          <h2>{text("3. tf(m,n) как конгруэнтное число", "3. tf(m,n) as a congruent number")}</h2>
           <p>
             {text(
               "Пусть m>n>0 — целые числа и",
@@ -155,7 +155,7 @@ t(A)=t(B)
             )}
           </p>
           <Latex display>{String.raw`
-f(m,n)=Tq^2,\qquad T=\operatorname{tfmn}(m,n)>0.`}</Latex>
+f(m,n)=Tq^2,\qquad T=\operatorname{tf}(m,n)>0.`}</Latex>
           <p>
             {text(
               "Разделим стороны соответствующего пифагорова треугольника на q:",
@@ -176,20 +176,20 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
 \frac{AB}{2}=\frac{mn(m^2-n^2)}{q^2}=T.`}</Latex>
           <p>
             {text(
-              "Следовательно, положительное значение tfmn является свободной от квадратов частью площади и одновременно конгруэнтным числом. Различные пары (m,n) могут иметь одну и ту же свободную от квадратов часть и потому задавать одно и то же T.",
-              "Therefore a positive tfmn value is the squarefree part of the area and is also a congruent number. Distinct pairs (m,n) may have the same squarefree part and hence determine the same T.",
+              "Следовательно, положительное значение tf(m,n) является свободной от квадратов частью площади и одновременно конгруэнтным числом. Различные пары (m,n) могут иметь одну и ту же свободную от квадратов часть и потому задавать одно и то же T.",
+              "Therefore a positive value of tf(m,n) is the squarefree part of the area and is also a congruent number. Distinct pairs (m,n) may have the same squarefree part and hence determine the same T.",
             )}
           </p>
         </section>
 
         <section>
-          <h2>{text("4. Критерии равенства tfmn", "4. Criteria for equality of tfmn")}</h2>
+          <h2>{text("4. Критерии равенства значений tf", "4. Criteria for equality of tf values")}</h2>
           <div className="theorem-block">
             <h3>{text("Теорема", "Theorem")}</h3>
             <p>
               {text(
-                "Пусть F₁ и F₂ — два ненулевых целых значения fmn и G=gcd(|F₁|,|F₂|). Следующие условия эквивалентны:",
-                "Let F₁ and F₂ be two nonzero integral fmn values and let G=gcd(|F₁|,|F₂|). The following conditions are equivalent:",
+                "Пусть Fᵢ=f(mᵢ,nᵢ) — два ненулевых целых значения функции f и G=gcd(|F₁|,|F₂|). Следующие условия эквивалентны:",
+                "Let Fᵢ=f(mᵢ,nᵢ) be two nonzero integral values of f and let G=gcd(|F₁|,|F₂|). The following conditions are equivalent:",
               )}
             </p>
             <ol>
@@ -224,8 +224,8 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
           <h2>{text("5. Согласование масштабов прогрессий", "5. Matching the scales of progressions")}</h2>
           <p>
             {text(
-              "Умножение всех трёх членов прогрессии квадратов на λ² сохраняет квадратность и умножает её шаг на λ². Поэтому для двух параметрических прогрессий с fmn-значениями F₁,F₂ общий ориентированный шаг существует тогда и только тогда, когда найдутся ненулевые α,β∈ℚ такие, что",
-              "Multiplying all three terms of a progression of squares by λ² preserves squarehood and multiplies its difference by λ². Thus two parametrized progressions with fmn values F₁,F₂ admit a common oriented difference exactly when there exist nonzero α,β∈ℚ such that",
+              "Умножение всех трёх членов прогрессии квадратов на λ² сохраняет квадратность и умножает её шаг на λ². Поэтому для двух параметрических прогрессий со значениями F₁=f(m₁,n₁) и F₂=f(m₂,n₂) общий ориентированный шаг существует тогда и только тогда, когда найдутся ненулевые α,β∈ℚ такие, что",
+              "Multiplying all three terms of a progression of squares by λ² preserves squarehood and multiplies its difference by λ². Thus two parametrized progressions with values F₁=f(m₁,n₁) and F₂=f(m₂,n₂) admit a common oriented difference exactly when there exist nonzero α,β∈ℚ such that",
             )}
           </p>
           <Latex display>{String.raw`
@@ -238,18 +238,18 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
           </p>
           <Latex display>
             {text(
-              String.raw`\operatorname{tfmn}(m_1,n_1)=\operatorname{tfmn}(m_2,n_2)
+              String.raw`\operatorname{tf}(m_1,n_1)=\operatorname{tf}(m_2,n_2)
 \iff
 \text{прогрессии масштабируются до общего ориентированного шага}.`,
-              String.raw`\operatorname{tfmn}(m_1,n_1)=\operatorname{tfmn}(m_2,n_2)
+              String.raw`\operatorname{tf}(m_1,n_1)=\operatorname{tf}(m_2,n_2)
 \iff
 \text{the progressions scale to a common oriented difference}.`,
             )}
           </Latex>
           <p>
             {text(
-              "Конструктивно, если F₁=Tu² и F₂=Tv², первую прогрессию следует умножить на v², а вторую на u². Их шаги станут равны 4Tu²v². Это и есть арифметическое содержание tfmn-совпадения.",
-              "Constructively, if F₁=Tu² and F₂=Tv², multiply the first progression by v² and the second by u². Their differences both become 4Tu²v². This is the arithmetic content of an equality of tfmn values.",
+              "Конструктивно, если F₁=Tu² и F₂=Tv², первую прогрессию следует умножить на v², а вторую на u². Их шаги станут равны 4Tu²v². Это и есть арифметическое содержание равенства значений tf.",
+              "Constructively, if F₁=Tu² and F₂=Tv², multiply the first progression by v² and the second by u². Their differences both become 4Tu²v². This is the arithmetic content of equality between tf values.",
             )}
           </p>
         </section>
@@ -258,8 +258,8 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
           <h2>{text("6. Симметрии параметров", "6. Parameter symmetries")}</h2>
           <p>
             {text(
-              "Часть равенств tfmn возникает из замен параметров, которые не меняют квадратный класс или только обращают ориентацию прогрессии:",
-              "Some tfmn equalities arise from parameter substitutions that preserve the square class or merely reverse the orientation of the progression:",
+              "Часть равенств значений tf возникает из замен параметров, которые не меняют квадратный класс или только обращают ориентацию прогрессии:",
+              "Some equalities between tf values arise from parameter substitutions that preserve the square class or merely reverse the orientation of the progression:",
             )}
           </p>
           <div className="domain-table-wrap">
@@ -267,7 +267,7 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
               <thead>
                 <tr>
                   <th>{text("Замена", "Substitution")}</th>
-                  <th>{text("Изменение fmn", "Effect on fmn")}</th>
+                  <th>{text("Изменение f", "Effect on f")}</th>
                   <th>{text("Смысл", "Meaning")}</th>
                 </tr>
               </thead>
@@ -310,14 +310,14 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
 f(m+n,m-n)=4mn(m^2-n^2)=4f(m,n),`}</Latex>
           <p>
             {text(
-              "а средний квадрат V=(m²+n²)² при той же замене также умножается на 4. Поэтому отношение 4f/V, то есть dir, не меняется. При классификации неориентированных прогрессий дополнительно отождествляются противоположные знаки tfmn.",
-              "while the middle square V=(m²+n²)² is also multiplied by 4 under the same substitution. Hence the ratio 4f/V, namely dir, is unchanged. When unoriented progressions are classified, opposite signs of tfmn are identified as well.",
+              "а средний квадрат V=(m²+n²)² при той же замене также умножается на 4. Поэтому отношение 4f/V, то есть dir, не меняется. При классификации неориентированных прогрессий дополнительно отождествляются противоположные знаки tf.",
+              "while the middle square V=(m²+n²)² is also multiplied by 4 under the same substitution. Hence the ratio 4f/V, namely dir, is unchanged. When unoriented progressions are classified, opposite signs of tf are identified as well.",
             )}
           </p>
         </section>
 
         <section>
-          <h2>{text("7. Саморекурсия tfmn", "7. The tfmn self-recurrence")}</h2>
+          <h2>{text("7. Саморекурсия функции tf", "7. The self-recurrence of tf")}</h2>
           <p>
             {text(
               "Одна прогрессия квадратов сама задаёт новую пару параметров. Положим",
@@ -346,17 +346,17 @@ f(V,D)
             )}
           </p>
           <Latex display>{String.raw`
-\operatorname{tfmn}(m,n)
+\operatorname{tf}(m,n)
 =
-\operatorname{tfmn}\!\left((m^2+n^2)^2,\;4f(m,n)\right).`}</Latex>
+\operatorname{tf}\!\left((m^2+n^2)^2,\;4f(m,n)\right).`}</Latex>
         </section>
 
         <section>
-          <h2>{text("8. Эллиптическая кривая одного tfmn", "8. The elliptic curve of a tfmn value")}</h2>
+          <h2>{text("8. Эллиптическая кривая фиксированного значения tf", "8. The elliptic curve of a fixed tf value")}</h2>
           <p>
             {text(
-              "Для T=tfmn(m,n)>0 и f(m,n)=Tq² рациональный треугольник из третьего раздела соответствует точке на конгруэнтной эллиптической кривой",
-              "For T=tfmn(m,n)>0 and f(m,n)=Tq², the rational triangle from Section 3 corresponds to a point on the congruent-number elliptic curve",
+              "Для T=tf(m,n)>0 и f(m,n)=Tq² рациональный треугольник из третьего раздела соответствует точке на конгруэнтной эллиптической кривой",
+              "For T=tf(m,n)>0 and f(m,n)=Tq², the rational triangle from Section 3 corresponds to a point on the congruent-number elliptic curve",
             )}
           </p>
           <Latex display>{String.raw`
@@ -382,8 +382,8 @@ B=\frac{2Tx}{y},\qquad
 H=\frac{x^2+T^2}{y},`}</Latex>
           <p>
             {text(
-              "у которого A²+B²=H² и AB/2=T. Параметризация этого треугольника восстанавливает рациональное отношение m:n. Поэтому множество пар с фиксированным tfmn=T является параметрическим представлением рациональных точек одной и той же кривой E_T с учётом описанных симметрий.",
-              "for which A²+B²=H² and AB/2=T. Parametrizing this triangle recovers the rational ratio m:n. Thus the pairs with fixed tfmn=T parametrize rational points on one and the same curve E_T, modulo the symmetries described above.",
+              "у которого A²+B²=H² и AB/2=T. Параметризация этого треугольника восстанавливает рациональное отношение m:n. Поэтому множество пар с фиксированным tf(m,n)=T является параметрическим представлением рациональных точек одной и той же кривой E_T с учётом описанных симметрий.",
+              "for which A²+B²=H² and AB/2=T. Parametrizing this triangle recovers the rational ratio m:n. Thus the pairs with fixed tf(m,n)=T parametrize rational points on one and the same curve E_T, modulo the symmetries described above.",
             )}
           </p>
           <p>
@@ -406,17 +406,17 @@ T\,\frac{(m^2+n^2)^2}{4f(m,n)}
         </section>
 
         <section>
-          <h2>{text("9. От tfmn к конфигурациям 6/9", "9. From tfmn to 6/9 configurations")}</h2>
+          <h2>{text("9. От метода tfmn к конфигурациям 6/9", "9. From the tfmn method to 6/9 configurations")}</h2>
           <p>
             {text(
-              "Равенство tfmn решает задачу согласования шагов двух прогрессий квадратов. Чтобы разместить обе прогрессии в одном магическом квадрате, необходимо дополнительно согласовать их средние члены, общие клетки и линейные координаты E,x,y. Эти условия зависят от позиционного типа конфигурации.",
-              "Equality of tfmn solves the problem of matching the differences of two progressions of squares. To place both progressions in one magic square, their middle terms, shared entries, and linear coordinates E,x,y must also be compatible. Those conditions depend on the positional type of the configuration.",
+              "Равенство значений tf решает задачу согласования шагов двух прогрессий квадратов. Чтобы разместить обе прогрессии в одном магическом квадрате, необходимо дополнительно согласовать их средние члены, общие клетки и линейные координаты E,x,y. Эти условия зависят от позиционного типа конфигурации.",
+              "Equality of tf values solves the problem of matching the differences of two progressions of squares. To place both progressions in one magic square, their middle terms, shared entries, and linear coordinates E,x,y must also be compatible. Those conditions depend on the positional type of the configuration.",
             )}
           </p>
           <p>
             {text(
-              "Для классов 6/9 с двумя параллельными прогрессиями tfmn служит естественной арифметической координатой: сначала выбираются две точки одной кривой E_T, затем решаются оставшиеся уравнения их размещения в общей форме магического квадрата. В исследованных классах дополнительные уравнения размещения приводят к коникам и эллиптическим поверхностям конкретных семейств.",
-              "For 6/9 classes containing two parallel progressions, tfmn is the natural arithmetic coordinate: one first chooses two points on the same curve E_T and then solves the remaining equations that place them in the general form of a magic square. In the classes studied so far, the additional placement equations lead to conics and elliptic surfaces associated with particular families.",
+              "Для классов 6/9 с двумя параллельными прогрессиями значение tf служит естественной арифметической координатой метода tfmn: сначала выбираются две точки одной кривой E_T, затем решаются оставшиеся уравнения их размещения в общей форме магического квадрата. В исследованных классах дополнительные уравнения размещения приводят к коникам и эллиптическим поверхностям конкретных семейств.",
+              "For 6/9 classes containing two parallel progressions, the tf value is the natural arithmetic coordinate of the tfmn method: one first chooses two points on the same curve E_T and then solves the remaining equations that place them in the general form of a magic square. In the classes studied so far, the additional placement equations lead to conics and elliptic surfaces associated with particular families.",
             )}
           </p>
           <div className="topic-actions">
