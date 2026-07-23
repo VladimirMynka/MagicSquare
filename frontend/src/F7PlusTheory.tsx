@@ -47,8 +47,34 @@ export function F7PlusTheoryPage() {
 f(m,n)=mn(m-n)(m+n).`}</Latex>
           <p>
             {text(
-              "Пара (m,n) невырождена, если m,n,m−n и m+n ненулевые. Одновременное умножение m и n на λ∈ℚ× умножает f на λ⁴, поэтому квадратный класс зависит только от проективной пары [m:n].",
-              "A pair (m,n) is nondegenerate when m, n, m−n, and m+n are all nonzero. Simultaneously multiplying m and n by λ∈ℚ× multiplies f by λ⁴, so the square class depends only on the projective pair [m:n].",
+              "Пара (m,n) невырождена, если m,n,m−n и m+n ненулевые.",
+              "A pair (m,n) is nondegenerate when m, n, m−n, and m+n are all nonzero.",
+            )}
+          </p>
+          <div className="theorem-block">
+            <h3>{text("Определение проективной пары", "Definition of a projective pair")}</h3>
+            <p>
+              {text(
+                "Две ненулевые рациональные пары считаются эквивалентными, если одна получается из другой одновременным умножением обоих параметров на одно и то же ненулевое рациональное число:",
+                "Two nonzero rational pairs are equivalent when one is obtained from the other by simultaneously multiplying both parameters by the same nonzero rational number:",
+              )}
+            </p>
+            <Latex display>{String.raw`
+(m,n)\sim(m',n')
+\iff
+\exists\,\lambda\in\mathbb Q^\times:
+\quad (m',n')=(\lambda m,\lambda n).`}</Latex>
+            <p>
+              {text(
+                "Класс эквивалентности пары (m,n) обозначается [m:n] и называется проективной парой. Множество таких классов есть проективная прямая ℙ¹(ℚ).",
+                "The equivalence class of (m,n) is denoted by [m:n] and is called a projective pair. The set of these classes is the projective line ℙ¹(ℚ).",
+              )}
+            </p>
+          </div>
+          <p>
+            {text(
+              "При этой одновременной замене f(λm,λn)=λ⁴f(m,n). Поскольку λ⁴ является рациональным квадратом, квадратный класс f и значение tf одинаковы для всех представителей [m:n]. Масштабирование только одного параметра к этой эквивалентности не относится.",
+              "Under this simultaneous substitution, f(λm,λn)=λ⁴f(m,n). Since λ⁴ is a rational square, the square class of f and the value of tf are the same for every representative of [m:n]. Scaling only one parameter is not part of this equivalence.",
             )}
           </p>
           <p>
