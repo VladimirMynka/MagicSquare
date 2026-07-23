@@ -723,9 +723,17 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
     persistManual(coordinates);
   }
 
-  function submitFamily(event: FormEvent) {
-    event.preventDefault();
-    generateFamily();
+  function commitFamilyParameters() {
+    if (parameters.every((value) => /^-?\d+$/.test(value))) {
+      generateFamily();
+      return;
+    }
+    setError(
+      text(
+        "Параметры семейства должны быть целыми числами.",
+        "Family parameters must be integers.",
+      ),
+    );
   }
 
   function submitCoordinates(event: FormEvent) {
@@ -1366,14 +1374,59 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                 <section className="tool-section family-parameter-section">
                   <div className="tool-section-heading">
                     <div>
-                      <span>
-                        {text("Параметры", "Parameters")} {family.title}
-                      </span>
+                      <div className="parameter-heading-title">
+                        <span>
+                          {text("Параметры", "Parameters")} {family.title}
+                        </span>
+                        {parameterGuide && (
+                          <details className="parameter-help-popover">
+                            <summary
+                              aria-label={text(
+                                "Пояснить параметры",
+                                "Explain parameters",
+                              )}
+                              title={text(
+                                "Пояснить параметры",
+                                "Explain parameters",
+                              )}
+                            >
+                              ?
+                            </summary>
+                            <div className="parameter-help-panel">
+                              {parameterGuide.roles.map((role) => (
+                                <section key={role.indices.join("-")}>
+                                  <strong>
+                                    <i
+                                      className={`proof-swatch ${role.tone}`}
+                                      aria-hidden="true"
+                                    />
+                                    {role.title}
+                                  </strong>
+                                  <p>{role.description}</p>
+                                  {role.swapEffect && (
+                                    <small>
+                                      <b>↔</b> {role.swapEffect}
+                                    </small>
+                                  )}
+                                </section>
+                              ))}
+                              {parameterGuide.exchange && (
+                                <section>
+                                  <strong>
+                                    {text("Обмен пар", "Pair exchange")}
+                                  </strong>
+                                  <p>{parameterGuide.exchange.effect}</p>
+                                </section>
+                              )}
+                            </div>
+                          </details>
+                        )}
+                      </div>
                       <small>
                         {familyRelation === "derived"
                           ? text(
-                              "исходные параметры; применение восстановит семейство",
-                              "source parameters; applying them restores the family",
+                              "исходные параметры; изменение восстановит семейство",
+                              "source parameters; editing restores the family",
                             )
                           : normalization > 1n
                             ? text(
@@ -1381,14 +1434,31 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                                 `the formula is applied with normalization ÷${formatInteger(normalization)}`,
                               )
                             : text(
-                                "пресет пересчитывает E, x, y",
-                                "the preset recomputes E, x, and y",
+                                "изменения применяются сразу",
+                                "changes apply immediately",
                               )}
                       </small>
                     </div>
-                    <Pattern family={family} compact />
+                    <div className="parameter-heading-actions">
+                      <button
+                        className="parameter-randomize"
+                        type="button"
+                        onClick={randomize}
+                        aria-label={text(
+                          "Случайные параметры",
+                          "Random parameters",
+                        )}
+                        title={text(
+                          "Случайные параметры",
+                          "Random parameters",
+                        )}
+                      >
+                        ⚄
+                      </button>
+                      <Pattern family={family} compact />
+                    </div>
                   </div>
-                  <form className="parameter-form" onSubmit={submitFamily}>
+                  <div className="parameter-form">
                     <div className="parameter-row">
                       {PARAMETER_KEYS.map((key, index) => {
                         const role = parameterGuide?.roles.find((candidate) =>
@@ -1416,40 +1486,48 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                                 next[index] = event.target.value;
                                 setParameters(next);
                               }}
+                              onBlur={commitFamilyParameters}
+                              onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                  event.currentTarget.blur();
+                                }
+                              }}
                             />
                           </label>
                         );
                       })}
                     </div>
                     {parameterGuide && (
-                      <div className="parameter-compact-tools">
-                        {parameterGuide.roles.map(
-                          (role) =>
-                            role.swapEffect &&
-                            role.indices.length === 2 && (
-                              <button
-                                className={`button parameter-swap parameter-tone-${role.tone}`}
-                                type="button"
-                                title={role.swapEffect}
-                                onClick={() =>
-                                  swapWithinParameters(
-                                    role.indices[0],
-                                    role.indices[1],
-                                  )
-                                }
-                                key={role.indices.join("-")}
-                              >
-                                {parameterGuide.symbols?.[role.indices[0]] ??
-                                  PARAMETER_KEYS[role.indices[0]]}
-                                {" ↔ "}
-                                {parameterGuide.symbols?.[role.indices[1]] ??
-                                  PARAMETER_KEYS[role.indices[1]]}
-                              </button>
-                            ),
-                        )}
+                      <div className="parameter-swap-layout">
+                        <div className="parameter-pair-swaps">
+                          {parameterGuide.roles.map(
+                            (role) =>
+                              role.swapEffect &&
+                              role.indices.length === 2 && (
+                                <button
+                                  className={`button parameter-swap parameter-tone-${role.tone}`}
+                                  type="button"
+                                  title={role.swapEffect}
+                                  onClick={() =>
+                                    swapWithinParameters(
+                                      role.indices[0],
+                                      role.indices[1],
+                                    )
+                                  }
+                                  key={role.indices.join("-")}
+                                >
+                                  {parameterGuide.symbols?.[role.indices[0]] ??
+                                    PARAMETER_KEYS[role.indices[0]]}
+                                  {" ↔ "}
+                                  {parameterGuide.symbols?.[role.indices[1]] ??
+                                    PARAMETER_KEYS[role.indices[1]]}
+                                </button>
+                              ),
+                          )}
+                        </div>
                         {parameterGuide.exchange && (
                           <button
-                            className="button parameter-swap parameter-tone-neutral"
+                            className="button parameter-swap parameter-pair-exchange parameter-tone-neutral"
                             type="button"
                             title={parameterGuide.exchange.effect}
                             onClick={swapPairs}
@@ -1462,65 +1540,9 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                             {parameterGuide.symbols?.[3] ?? PARAMETER_KEYS[3]})
                           </button>
                         )}
-                        <details className="parameter-help-popover">
-                          <summary
-                            aria-label={text(
-                              "Пояснить параметры",
-                              "Explain parameters",
-                            )}
-                            title={text(
-                              "Пояснить параметры",
-                              "Explain parameters",
-                            )}
-                          >
-                            ?
-                          </summary>
-                          <div className="parameter-help-panel">
-                            {parameterGuide.roles.map((role) => (
-                              <section key={role.indices.join("-")}>
-                                <strong>
-                                  <i
-                                    className={`proof-swatch ${role.tone}`}
-                                    aria-hidden="true"
-                                  />
-                                  {role.title}
-                                </strong>
-                                <p>{role.description}</p>
-                                {role.swapEffect && (
-                                  <small>
-                                    <b>↔</b> {role.swapEffect}
-                                  </small>
-                                )}
-                              </section>
-                            ))}
-                            {parameterGuide.exchange && (
-                              <section>
-                                <strong>
-                                  {text(
-                                    "Обмен пар",
-                                    "Pair exchange",
-                                  )}
-                                </strong>
-                                <p>{parameterGuide.exchange.effect}</p>
-                              </section>
-                            )}
-                          </div>
-                        </details>
                       </div>
                     )}
-                    <div className="tool-actions">
-                      <button className="button button-secondary" type="submit">
-                        {text("Применить семейство", "Apply family")}
-                      </button>
-                      <button
-                        className="button button-quiet"
-                        type="button"
-                        onClick={randomize}
-                      >
-                        {text("Случайные", "Randomize")}
-                      </button>
-                    </div>
-                  </form>
+                  </div>
                 </section>
               )}
 

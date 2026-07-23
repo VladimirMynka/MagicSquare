@@ -1342,37 +1342,39 @@ main {
 
 .parameter-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
 }
 
 .parameter-row label {
   min-width: 0;
   display: grid;
-  grid-template-columns: 36px 1fr;
-  align-items: center;
+  grid-template-rows: 20px 34px;
   border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--parameter-tone, var(--line-strong));
+  border-top: 4px solid var(--parameter-tone, var(--line-strong));
   background: var(--paper-strong);
 }
 
 .parameter-row label > span {
+  display: grid;
+  place-items: center;
   color: var(--muted);
-  font: 11px var(--mono);
+  font: 10px var(--mono);
   text-align: center;
 }
 
 .parameter-row input {
   min-width: 0;
   width: 100%;
-  height: 40px;
-  padding: 0 10px;
+  height: 34px;
+  padding: 0 4px;
   border: 0;
-  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
   outline: 0;
   color: var(--graphite);
   background: transparent;
   font: 14px var(--mono);
+  text-align: center;
 }
 
 .parameter-row input:focus {
@@ -1419,20 +1421,60 @@ main {
   --parameter-tone: var(--line-strong);
 }
 
-.parameter-compact-tools {
-  position: relative;
-  display: flex;
-  gap: 6px;
+.parameter-swap-layout {
+  display: grid;
+  gap: 5px;
   margin-top: 6px;
+}
+
+.parameter-pair-swaps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
 }
 
 .parameter-swap {
   min-width: 0;
-  flex: 1 1 auto;
-  padding: 8px 9px;
+  width: 100%;
+  padding: 7px 9px;
   border-top: 3px solid var(--parameter-tone, var(--line-strong));
   white-space: nowrap;
   font-family: var(--mono);
+}
+
+.parameter-pair-exchange {
+  grid-column: 1 / -1;
+}
+
+.parameter-heading-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.parameter-heading-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 6px !important;
+}
+
+.parameter-randomize {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  color: var(--graphite);
+  background: var(--paper-strong);
+  cursor: pointer;
+  font: 15px var(--mono);
+}
+
+.parameter-randomize:hover {
+  color: var(--paper-strong);
+  background: var(--graphite);
 }
 
 .parameter-help-popover {
@@ -1441,16 +1483,16 @@ main {
 }
 
 .parameter-help-popover > summary {
-  width: 34px;
-  height: 100%;
-  min-height: 34px;
+  width: 22px;
+  height: 22px;
   display: grid;
   place-items: center;
   border: 1px solid var(--line-strong);
+  border-radius: 50%;
   color: var(--graphite);
   background: var(--paper-strong);
   cursor: pointer;
-  font: 600 13px var(--mono);
+  font: 600 11px var(--mono);
   list-style: none;
 }
 
@@ -4154,12 +4196,7 @@ main {
   }
 
   .parameter-row {
-    grid-template-columns: 1fr;
-  }
-
-  .parameter-compact-tools {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) 34px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .parameter-swap {
@@ -4168,14 +4205,14 @@ main {
     text-overflow: ellipsis;
   }
 
-  .parameter-help-popover {
-    position: static;
-  }
-
   .parameter-help-panel {
-    right: 0;
-    left: 0;
+    position: fixed;
+    top: 72px;
+    right: 18px;
+    left: 18px;
     width: auto;
+    max-height: calc(100vh - 96px);
+    overflow-y: auto;
   }
 
   .factorization-warning-dialog {
