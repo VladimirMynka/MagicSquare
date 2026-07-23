@@ -155,6 +155,35 @@ export function TheoryIndexPage() {
     {
       index: "IV",
       title: text(
+        "Эллиптическая геометрия tfmn",
+        "Elliptic geometry of tfmn",
+      ),
+      summary: text(
+        "Полные координатные описания совпадающих квадратных классов через рациональные точки эллиптических кривых и поверхностей.",
+        "Complete coordinate descriptions of equal square classes through rational points on elliptic curves and surfaces.",
+      ),
+      chapters: [
+        {
+          index: "4.1",
+          to: "/theory/f7-plus",
+          title: text(
+            "F7+: пары параметров и поверхность конгруэнтных чисел",
+            "F7+: parameter pairs and the congruent-number surface",
+          ),
+          summary: text(
+            "Точная биекция между невырожденными проективными парами [m:n] фиксированного tf и нетривиальными рациональными точками y²=x³−T²x с точностью до знака y.",
+            "The exact bijection between nondegenerate projective pairs [m:n] of fixed tf and nontrivial rational points on y²=x³−T²x, up to the sign of y.",
+          ),
+        },
+      ],
+      continuation: text(
+        "Далее: F4+ как полное описание через общий первый аргумент, затем конструктивный взгляд F8/F9-like.",
+        "Next: F4+ as the complete common-first-coordinate description, followed by the constructive F8/F9-like viewpoint.",
+      ),
+    },
+    {
+      index: "V",
+      title: text(
         "Алгебра матричного умножения",
         "Matrix multiplication algebra",
       ),
@@ -164,7 +193,7 @@ export function TheoryIndexPage() {
       ),
       chapters: [
         {
-          index: "4.1",
+          index: "5.1",
           to: "/theory/matrix-algebra/magic-charming-semimagic",
           title: text(
             "Магические, чарующие и полумагические квадраты",
@@ -176,7 +205,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.2",
+          index: "5.2",
           to: "/theory/matrix-algebra/block-structure-split-quaternions",
           title: text(
             "Блочная структура и расщеплённые кватернионы",
@@ -218,7 +247,9 @@ export function TheoryIndexPage() {
               group.index === "III"
                 ? "partial-configurations"
                 : group.index === "IV"
-                  ? "matrix-algebra"
+                  ? "elliptic-tfmn"
+                  : group.index === "V"
+                    ? "matrix-algebra"
                   : undefined
             }
             key={group.index}

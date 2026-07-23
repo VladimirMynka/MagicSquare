@@ -20,7 +20,7 @@ export function SemimagicStructureTheoryPage() {
       <header className="proof-page-header">
         <div>
           <p className="eyebrow">
-            {text("Алгебра матричного умножения · 4.2", "Matrix multiplication algebra · 4.2")}
+            {text("Алгебра матричного умножения · 5.2", "Matrix multiplication algebra · 5.2")}
           </p>
           <h1>
             {text(

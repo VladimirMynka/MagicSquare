@@ -111,6 +111,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/f7-plus": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -270,6 +274,20 @@ const STATIC_METADATA: Readonly<
       title: "The Early F1–F8 Families: Explicit tf Coincidences",
       description:
         "Complete derivations of F1–F4, the F7 identity, the F8 quartic lift, and the scope of the early simplified classification of tf coincidences.",
+      type: "Article",
+    },
+  },
+  "theory/f7-plus": {
+    ru: {
+      title: "F7+: биекция пар tfmn с поверхностью конгруэнтных чисел",
+      description:
+        "Полное доказательство биекции между невырожденными проективными парами фиксированного tf и рациональными точками y²=x³−T²x с точностью до знака y.",
+      type: "Article",
+    },
+    en: {
+      title: "F7+: The Bijection Between tfmn Pairs and the Congruent-Number Surface",
+      description:
+        "A complete proof of the bijection between nondegenerate projective pairs of fixed tf and rational points on y²=x³−T²x, up to the sign of y.",
       type: "Article",
     },
   },
@@ -632,6 +650,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/arithmetic-progressions-dir",
     "theory/fmn-tfmn",
     "theory/early-tf-families",
+    "theory/f7-plus",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

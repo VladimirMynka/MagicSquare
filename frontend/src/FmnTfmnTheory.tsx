@@ -356,57 +356,27 @@ f(V,D)
         </section>
 
         <section>
-          <h2>{text("8. Эллиптическая кривая фиксированного значения tf", "8. The elliptic curve of a fixed tf value")}</h2>
+          <h2>{text("8. От фиксированного tf к F7+", "8. From fixed tf to F7+")}</h2>
           <p>
             {text(
-              "Для T=tf(m,n)>0 и f(m,n)=Tq² рациональный треугольник из третьего раздела соответствует точке на конгруэнтной эллиптической кривой",
-              "For T=tf(m,n)>0 and f(m,n)=Tq², the rational triangle from Section 3 corresponds to a point on the congruent-number elliptic curve",
+              "Фиксированное положительное значение T=tf(m,n) задаёт конгруэнтную эллиптическую кривую",
+              "A fixed positive value T=tf(m,n) determines the congruent-number elliptic curve",
             )}
           </p>
           <Latex display>{String.raw`
 E_T:\quad y^2=x^3-T^2x.`}</Latex>
           <p>
-            {text("В координатах m,n эта точка записывается особенно просто:", "In terms of m,n, this point has the particularly simple form")}
-          </p>
-          <Latex display>{String.raw`
-P_{m,n}=
-\left(
-\frac{Tm}{n},
-\frac{T^2q}{n^2}
-\right).`}</Latex>
-          <p>
             {text(
-              "Подстановка f(m,n)=Tq² непосредственно проверяет уравнение кривой. Обратное соответствие для точки (x,y) с y≠0 задаёт рациональный прямоугольный треугольник",
-              "Substitution of f(m,n)=Tq² directly verifies the curve equation. Conversely, a point (x,y) with y≠0 gives the rational right triangle",
+              "Это не только источник примеров. После проективного отождествления общего масштаба пары существует точная биекция между всеми невырожденными рациональными парами фиксированного квадратного класса и нетривиальными рациональными точками E_T с точностью до знака y. Отдельная статья F7+ выводит оба отображения, доказывает их взаимную обратность и описывает точную вырожденную границу.",
+              "This is not merely a source of examples. After quotienting parameter pairs by their common scale, there is an exact bijection between all nondegenerate rational pairs of the fixed square class and the nontrivial rational points of E_T, up to the sign of y. The separate F7+ article derives both maps, proves that they are inverse, and describes the exact degenerate boundary.",
             )}
           </p>
-          <Latex display>{String.raw`
-A=\frac{x^2-T^2}{y},\qquad
-B=\frac{2Tx}{y},\qquad
-H=\frac{x^2+T^2}{y},`}</Latex>
-          <p>
-            {text(
-              "у которого A²+B²=H² и AB/2=T. Параметризация этого треугольника восстанавливает рациональное отношение m:n. Поэтому множество пар с фиксированным tf(m,n)=T является параметрическим представлением рациональных точек одной и той же кривой E_T с учётом описанных симметрий.",
-              "for which A²+B²=H² and AB/2=T. Parametrizing this triangle recovers the rational ratio m:n. Thus the pairs with fixed tf(m,n)=T parametrize rational points on one and the same curve E_T, modulo the symmetries described above.",
-            )}
-          </p>
-          <p>
-            {text(
-              "Саморекурсия предыдущего раздела имеет на этой кривой стандартный смысл. Формула удвоения даёт",
-              "The self-recurrence of the preceding section has a standard meaning on this curve. The duplication formula gives",
-            )}
-          </p>
-          <Latex display>{String.raw`
-x(2P_{m,n})
-=
-T\,\frac{(m^2+n^2)^2}{4f(m,n)}
-=T\,\frac VD.`}</Latex>
-          <p>
-            {text(
-              "Это x-координата точки, построенной из новой пары (V,D); выбор ориентации определяет знак y. Следовательно, саморекурсия является удвоением точки, а не независимым источником второй точки на E_T.",
-              "This is the x-coordinate of the point constructed from the new pair (V,D); the choice of orientation determines the sign of y. Thus the self-recurrence is point doubling rather than an independent source of a second point on E_T.",
-            )}
-          </p>
+          <div className="topic-actions">
+            <TheoryLink className="button button-primary" to="/theory/f7-plus">
+              {text("F7+: полная биекция", "F7+: the complete bijection")}{" "}
+              <span>→</span>
+            </TheoryLink>
+          </div>
         </section>
 
         <section>
@@ -424,12 +394,12 @@ T\,\frac{(m^2+n^2)^2}{4f(m,n)}
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/early-tf-families">
-              {text("Ранние семейства F1–F8", "The early F1–F8 families")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/f7-plus">
+              {text("F7+: эллиптическая поверхность", "F7+: the elliptic surface")}{" "}
               <span>→</span>
             </TheoryLink>
-            <TheoryLink className="button button-ghost" to="/proofs/general">
-              {text("Общая теория масок 4/9 и 5/9", "General theory of 4/9 and 5/9 patterns")}
+            <TheoryLink className="button button-ghost" to="/theory/early-tf-families">
+              {text("Ранняя классификация", "The early classification")}
             </TheoryLink>
           </div>
         </section>

@@ -548,8 +548,8 @@ y^2
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/proofs/general">
-              {text("Общая теория масок 4/9 и 5/9", "General theory of 4/9 and 5/9 patterns")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/f7-plus">
+              {text("Современная теория F7+", "The modern F7+ theory")}{" "}
               <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/fmn-tfmn">
