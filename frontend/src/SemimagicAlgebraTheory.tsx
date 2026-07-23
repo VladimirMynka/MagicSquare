@@ -30,8 +30,8 @@ export function SemimagicAlgebraTheoryPage() {
           </h1>
           <p>
             {text(
-              "Обычное матричное произведение выводит нас из трёхмерного пространства магических квадратов в пятимерную алгебру полумагических матриц. На этой странице получены явные законы умножения, полная классификация и точные разложения.",
-              "Ordinary matrix multiplication takes us from the three-dimensional space of magic squares into the five-dimensional algebra of semimagic matrices. This page derives explicit product laws, a complete classification, and exact decompositions.",
+              "Произведение двух магических квадратов 3×3 не обязано быть магическим, но всегда сохраняет равенство сумм строк и столбцов. Это наблюдение естественно приводит к полумагическим и чарующим квадратам, их законам умножения и полной пятимерной алгебре.",
+              "A product of two magic 3×3 squares need not be magic, but it always preserves equality of all row and column sums. This observation leads naturally to semimagic and charming squares, their multiplication laws, and the complete five-dimensional algebra.",
             )}
           </p>
         </div>
@@ -39,7 +39,7 @@ export function SemimagicAlgebraTheoryPage() {
 
       <div className="proof-document topic-document semimagic-algebra-theory-document">
         <section>
-          <h2>{text("1. Произведение двух магических квадратов", "1. A product of two magic squares")}</h2>
+          <h2>{text("1. От магических квадратов к полумагическим", "1. From magic squares to semimagic matrices")}</h2>
           <p>
             {text(
               "Используем доказанную ранее общую форму магического квадрата:",
@@ -82,18 +82,18 @@ E+y&E+x-y&E-x
           </div>
           <p>
             {text(
-              "Последняя матрица имеет нулевые суммы строк и столбцов, но её главная диагональ имеет сумму 6. Значит, пространство магических квадратов не замкнуто относительно матричного умножения.",
-              "The last matrix has zero row and column sums, but its main diagonal sums to 6. Hence the space of magic squares is not closed under matrix multiplication.",
+              "Последняя матрица имеет нулевые суммы строк и столбцов, но её главная диагональ имеет сумму 6. Значит, пространство магических квадратов не замкнуто относительно матричного умножения. Сохранившееся свойство выделяет более широкий класс: матрица называется полумагической, если суммы всех её строк и всех её столбцов совпадают.",
+              "The last matrix has zero row and column sums, but its main diagonal sums to 6. Hence the space of magic squares is not closed under matrix multiplication. The property that survives defines a larger class: a matrix is semimagic when all of its row sums and column sums agree.",
             )}
           </p>
         </section>
 
         <section>
-          <h2>{text("2. Стандартная теория и наша терминология", "2. Standard theory and our terminology")}</h2>
+          <h2>{text("2. Центральное отражение и две компоненты", "2. Central reversal and two components")}</h2>
           <p>
             {text(
-              "Матрица называется полумагической, если суммы всех её строк и всех её столбцов совпадают. Для матрицы 3×3 будем записывать эту общую сумму как 3E. Обозначим через P матрицу центрального отражения, а через 𝟙 — матрицу из единиц:",
-              "A matrix is semimagic when all of its row sums and column sums agree. For a 3×3 matrix we write this common sum as 3E. Let P denote the central-reversal matrix and 𝟙 the all-ones matrix:",
+              "Для полумагической матрицы 3×3 будем записывать общую сумму строк и столбцов как 3E. Центральное отражение разделяет такие матрицы на два естественных класса. Обозначим через P матрицу этого отражения, а через 𝟙 — матрицу из единиц:",
+              "For a semimagic 3×3 matrix, write the common row and column sum as 3E. Central reversal separates these matrices into two natural classes. Let P denote the reversal matrix and 𝟙 the all-ones matrix:",
             )}
           </p>
           <Latex display>{String.raw`P=
@@ -217,8 +217,8 @@ C(E_1,x_1,y_1)C(E_2,x_2,y_2)
           <h2>{text("4. Полная форма полумагического квадрата", "4. The complete semimagic form")}</h2>
           <p>
             {text(
-              "Сложение магической и чарующей компонент с единственным общим параметром E приводит к пяти координатам:",
-              "Adding a magic component and a charming component with a single shared parameter E gives five coordinates:",
+              "Чтобы описать весь полумагический класс, сложим магический квадрат веса E и чарующий квадрат с нулевой общей суммой. Получается пятимерная форма:",
+              "To describe the full semimagic class, add a magic square of weight E to a zero-sum charming square. This gives the five-dimensional form:",
             )}
           </p>
           <div className="formula-scroll formula-scroll-wide">
@@ -285,7 +285,7 @@ w=\frac{u+2v}{3}.
         </section>
 
         <section>
-          <h2>{text("5. Единственное чётно-нечётное разложение", "5. The unique even–odd decomposition")}</h2>
+          <h2>{text("5. Каноническое разложение и градуировка", "5. Canonical decomposition and grading")}</h2>
           <p>
             {text(
               "Полная форма уже содержит каноническое разложение",
@@ -309,6 +309,12 @@ w=\frac{u+2v}{3}.
 
         <section>
           <h2>{text("6. Порождение магическими квадратами", "6. Generation by magic squares")}</h2>
+          <p>
+            {text(
+              "Первый закон умножения показывает, что произведение двух магических квадратов является чарующим. Верно и точное обратное утверждение для чарующей компоненты с нулевой суммой: её всегда можно получить одним фиксированным магическим множителем и одним переменным.",
+              "The first product law shows that a product of two magic squares is charming. An exact converse holds for every zero-sum charming component: it can always be obtained from one fixed magic factor and one variable factor.",
+            )}
+          </p>
           <div className="theorem-block">
             <h3>{text("Точная формула", "Exact formula")}</h3>
             <Latex display>{String.raw`S(E,x,y,z,w)
@@ -329,75 +335,7 @@ w=\frac{u+2v}{3}.
         </section>
 
         <section>
-          <h2>{text("7. Почему S=M₁(I+M₂) не универсально", "7. Why S=M₁(I+M₂) is not universal")}</h2>
-          <p>
-            {text(
-              "Единичная матрица принадлежит чарующей компоненте:",
-              "The identity matrix belongs to the charming component:",
-            )}
-          </p>
-          <Latex display>{String.raw`I_3=C\!\left(\frac13,\frac13,0\right).`}</Latex>
-          <p>
-            {text(
-              "Если представить S(E,x,y,z,w) в виде M(a,x,y)(I₃+M(b,u,v)), то сравнение магической и чарующей частей даёт",
-              "If S(E,x,y,z,w) is represented as M(a,x,y)(I₃+M(b,u,v)), comparison of the magic and charming parts gives",
-            )}
-          </p>
-          <Latex display>{String.raw`E=a(1+3b),\qquad
-\begin{pmatrix}z\\w\end{pmatrix}
-=
-\begin{pmatrix}x&-y\\y&-x\end{pmatrix}
-\begin{pmatrix}u\\v\end{pmatrix}.`}</Latex>
-          <p>
-            {text(
-              "Над ℚ первое уравнение разрешимо при любом E, например при a=1. Поэтому единственное препятствие находится во второй системе. Её определитель равен y²−x².",
-              "Over ℚ the first equation is solvable for every E, for example with a=1. Thus the only obstruction lies in the second system, whose determinant is y²−x².",
-            )}
-          </p>
-          <p>
-            {text(
-              "Если x²≠y², матрица системы обратима и допускает любые z,w. Если x=y≠0, обе координаты результата равны x(u−v); если x=−y≠0, они равны x(u+v) и −x(u+v). Каждое из полученных условий достаточно: требуемое значение достигается выбором одного из u,v равным нулю. При x=y=0 образ системы состоит только из нулевой пары. Поэтому получаем точную классификацию:",
-              "If x²≠y², the system matrix is invertible and permits all z,w. If x=y≠0, both output coordinates equal x(u−v); if x=−y≠0, they equal x(u+v) and −x(u+v). Each resulting condition is sufficient: the required value is obtained by setting one of u,v to zero. When x=y=0, the image consists only of the zero pair. Hence the exact classification is:",
-            )}
-          </p>
-          <div className="domain-table-wrap">
-            <table className="domain-table factorization-locus-table">
-              <thead>
-                <tr>
-                  <th>{text("Магическая часть", "Magic component")}</th>
-                  <th>{text("Точно покрываемая чарующая часть", "Exactly covered charming component")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><Latex>{String.raw`x^2\ne y^2`}</Latex></td>
-                  <td>{text("Любые z,w", "All z,w")}</td>
-                </tr>
-                <tr>
-                  <td><Latex>{String.raw`x=y\ne0`}</Latex></td>
-                  <td><Latex>{String.raw`z=w`}</Latex></td>
-                </tr>
-                <tr>
-                  <td><Latex>{String.raw`x=-y\ne0`}</Latex></td>
-                  <td><Latex>{String.raw`z=-w`}</Latex></td>
-                </tr>
-                <tr>
-                  <td><Latex>{String.raw`x=y=0`}</Latex></td>
-                  <td><Latex>{String.raw`z=w=0`}</Latex></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p>
-            {text(
-              "Например, S(0,1,1,1,0) не допускает такого представления: равенство x=y вынуждало бы z=w, тогда как здесь z=1 и w=0. Это точный контрпример к универсальности, а таблица описывает максимальную область применимости формулы.",
-              "For example, S(0,1,1,1,0) has no such representation: x=y would force z=w, whereas here z=1 and w=0. This is an exact counterexample to universality, and the table describes the maximal domain of the formula.",
-            )}
-          </p>
-        </section>
-
-        <section>
-          <h2>{text("8. Граница этой статьи", "8. Scope of this article")}</h2>
+          <h2>{text("7. Область действия результатов", "7. Scope of the results")}</h2>
           <p>
             {text(
               "На этой странице доказаны классификация и законы умножения над полями, где 2 и 3 обратимы, а сами произведения записаны как целочисленные полиномиальные тождества. Над ℤ полная полумагическая матрица может иметь общую сумму, не делящуюся на 3, поэтому координаты S(E,x,y,z,w) описывают не всю целочисленную решётку. Этот вопрос требует отдельной статьи.",

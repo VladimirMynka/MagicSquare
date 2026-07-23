@@ -30,8 +30,8 @@ export function SemimagicStructureTheoryPage() {
           </h1>
           <p>
             {text(
-              "Пятимерная алгебра полумагических матриц распадается в прямое произведение скалярной компоненты и полной алгебры матриц 2×2. Её четырёхмерный идеал нулевой общей суммы — не алгебра кватернионов Гамильтона, а расщеплённая кватернионная алгебра с явным базисом 1,i,j,k.",
-              "The five-dimensional algebra of semimagic matrices splits as a direct product of a scalar component and the full 2×2 matrix algebra. Its four-dimensional zero-sum ideal is not Hamilton's quaternion algebra but a split quaternion algebra with an explicit basis 1,i,j,k.",
+              "Равенство сумм строк и столбцов выделяет в трёхмерном пространстве инвариантную прямую и дополнительную плоскость. Это разложение раскрывает внутреннее устройство пятимерной алгебры полумагических матриц и приводит к явной модели её четырёхмерного идеала как расщеплённой кватернионной алгебры.",
+              "Equality of row and column sums determines an invariant line and a complementary plane in three-dimensional space. This decomposition reveals the internal structure of the five-dimensional semimagic algebra and gives an explicit split-quaternion model of its four-dimensional ideal.",
             )}
           </p>
         </div>
@@ -39,11 +39,11 @@ export function SemimagicStructureTheoryPage() {
 
       <div className="proof-document topic-document semimagic-structure-theory-document">
         <section>
-          <h2>{text("1. Почему компонентов пять, а не четыре", "1. Why there are five components, not four")}</h2>
+          <h2>{text("1. Структурная задача", "1. The structural problem")}</h2>
           <p>
             {text(
-              "Пусть K — поле характеристики, отличной от 2 и 3, а SM₃(K) — алгебра полумагических матриц 3×3. По предыдущей статье каждый её элемент единственным образом записывается как S(E,x,y,z,w), поэтому dim SM₃(K)=5. Следовательно, вся эта алгебра не может быть кватернионной: кватернионная алгебра над K имеет размерность 4.",
-              "Let K be a field of characteristic other than 2 or 3, and let SM₃(K) be the algebra of semimagic 3×3 matrices. The preceding article gives every element uniquely as S(E,x,y,z,w), so dim SM₃(K)=5. The whole algebra therefore cannot be quaternionic: a quaternion algebra over K has dimension 4.",
+              "Пусть K — поле характеристики, отличной от 2 и 3, а SM₃(K) — алгебра полумагических матриц 3×3. По предыдущей статье каждый её элемент единственным образом записывается как S(E,x,y,z,w), поэтому dim SM₃(K)=5. Чтобы понять умножение в этой алгебре, отделим направление, отвечающее за общую сумму строк и столбцов, от преобразования на подпространстве нулевой суммы.",
+              "Let K be a field of characteristic other than 2 or 3, and let SM₃(K) be the algebra of semimagic 3×3 matrices. The preceding article gives every element uniquely as S(E,x,y,z,w), so dim SM₃(K)=5. To understand multiplication in this algebra, separate the direction carrying the common row and column sum from the action on the zero-sum subspace.",
             )}
           </p>
           <div className="theorem-block">
@@ -59,14 +59,14 @@ export function SemimagicStructureTheoryPage() {
           </div>
           <p>
             {text(
-              "Таким образом, сравнение с 1,i,j,k существует, но относится не ко всем пяти координатам сразу. Пятая координата образует отдельный одномерный идеал.",
-              "Thus a comparison with 1,i,j,k does exist, but it applies to four of the five algebraic directions. The fifth direction forms a separate one-dimensional ideal.",
+              "Одномерное слагаемое хранит общую сумму, а вся нетривиальная некоммутативная структура сосредоточена в четырёхмерном слагаемом. Следующие разделы выводят это разложение и затем строят в четырёхмерном идеале кватернионный базис.",
+              "The one-dimensional summand records the common sum, while all nontrivial noncommutative structure lies in the four-dimensional summand. The following sections derive this decomposition and then construct a quaternion basis in the four-dimensional ideal.",
             )}
           </p>
         </section>
 
         <section>
-          <h2>{text("2. Инвариантная прямая и нулевая плоскость", "2. The invariant line and zero-sum plane")}</h2>
+          <h2>{text("2. Инвариантная прямая и плоскость нулевой суммы", "2. The invariant line and zero-sum plane")}</h2>
           <p>
             {text(
               "Обозначим через e=(1,1,1)ᵀ и рассмотрим плоскость W в K³, состоящую из векторов с нулевой суммой координат:",
@@ -140,7 +140,7 @@ T&0\\
         </section>
 
         <section>
-          <h2>{text("3. Явный блок в наших координатах", "3. The explicit block in our coordinates")}</h2>
+          <h2>{text("3. Координатная форма изоморфизма", "3. The coordinate form of the isomorphism")}</h2>
           <p>
             {text(
               "Для A=S(E,x,y,z,w) скалярный блок равен общей сумме T=3E, а ограничение A|W в базисе (u,v) имеет матрицу",
@@ -159,8 +159,8 @@ T&0\\
 =\bigl(3E,B(x,y,z,w)\bigr).`}</Latex>
           <p>
             {text(
-              "Это не только инъекция. Если B имеет клетки a,b,c,d в порядке строк, то обратное отображение восстанавливает все пять координат:",
-              "This is not merely injective. If the row-major entries of B are a,b,c,d, the inverse map recovers all five coordinates:",
+              "Для доказательства биективности выпишем обратное отображение. Если B имеет клетки a,b,c,d в порядке строк, то все пять координат восстанавливаются однозначно:",
+              "To prove bijectivity, write the inverse map explicitly. If the row-major entries of B are a,b,c,d, all five coordinates are recovered uniquely:",
             )}
           </p>
           <div className="formula-scroll formula-scroll-wide">
@@ -299,11 +299,11 @@ ij=-ji=k,\qquad k^2=-\mathbf1_0.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("6. Почему это не кватернионы Гамильтона", "6. Why these are not Hamilton's quaternions")}</h2>
+          <h2>{text("6. Расщеплённая кватернионная алгебра", "6. The split quaternion algebra")}</h2>
           <p>
             {text(
-              "Над ℝ кватернионы Гамильтона удовлетворяют i²=j²=k²=−1 и образуют алгебру с делением. Здесь два генератора имеют квадрат +1. Более того,",
-              "Over ℝ, Hamilton's quaternions satisfy i²=j²=k²=−1 and form a division algebra. Here two generators square to +1. Moreover,",
+              "Полученная таблица задаёт расщеплённую, а не делительную кватернионную алгебру. Над ℝ кватернионы Гамильтона удовлетворяют i²=j²=k²=−1 и образуют алгебру с делением, тогда как здесь два генератора имеют квадрат +1. Кроме того,",
+              "The multiplication table defines a split quaternion algebra rather than a division algebra. Over ℝ, Hamilton's quaternions satisfy i²=j²=k²=−1 and form a division algebra, whereas here two generators square to +1. Moreover,",
             )}
           </p>
           <Latex display>{String.raw`(\mathbf1_0+i)(\mathbf1_0-i)
@@ -345,8 +345,8 @@ ij=-ji=k,\qquad k^2=-\mathbf1_0.`}</Latex>
 =9E\bigl(3z^2-3w^2-x^2+y^2\bigr).`}</Latex>
           <p>
             {text(
-              "Так формула, ранее называвшаяся нормой полумагического квадрата, получает точный структурный смысл: это произведение нормы одномерного блока на приведённую норму расщеплённого кватерниона.",
-              "Thus the formula previously called the norm of a semimagic square acquires an exact structural meaning: it is the product of the one-dimensional block norm and the reduced norm of a split quaternion.",
+              "Следовательно, определитель полумагической матрицы имеет точный структурный смысл: это произведение нормы одномерного блока на приведённую норму расщеплённого кватерниона.",
+              "Consequently, the determinant of a semimagic matrix has a precise structural meaning: it is the product of the one-dimensional block norm and the reduced norm of a split quaternion.",
             )}
           </p>
         </section>
