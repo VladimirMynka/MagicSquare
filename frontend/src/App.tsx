@@ -72,6 +72,7 @@ import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
 import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
+import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3578,6 +3579,10 @@ export function App() {
           element={<DirProgressionsTheoryPage />}
         />
         <Route path="theory/fmn-tfmn" element={<FmnTfmnTheoryPage />} />
+        <Route
+          path="theory/early-tf-families"
+          element={<EarlyTfFamiliesTheoryPage />}
+        />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"
           element={<SemimagicAlgebraTheoryPage />}

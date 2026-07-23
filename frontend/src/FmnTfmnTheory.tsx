@@ -424,12 +424,12 @@ T\,\frac{(m^2+n^2)^2}{4f(m,n)}
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/proofs/general">
-              {text("Общая теория масок 4/9 и 5/9", "General theory of 4/9 and 5/9 patterns")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/early-tf-families">
+              {text("Ранние семейства F1–F8", "The early F1–F8 families")}{" "}
               <span>→</span>
             </TheoryLink>
-            <TheoryLink className="button button-ghost" to="/theory/arithmetic-progressions-dir">
-              {text("Прогрессии квадратов и dir", "Progressions of squares and dir")}
+            <TheoryLink className="button button-ghost" to="/proofs/general">
+              {text("Общая теория масок 4/9 и 5/9", "General theory of 4/9 and 5/9 patterns")}
             </TheoryLink>
           </div>
         </section>

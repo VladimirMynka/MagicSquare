@@ -107,6 +107,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/early-tf-families": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -252,6 +256,20 @@ const STATIC_METADATA: Readonly<
       title: "fmn and tfmn: The Functions f and tf",
       description:
         "The fmn and tfmn constructions: the function f, its squarefree part tf, matching progression differences, and congruent-number elliptic curves.",
+      type: "Article",
+    },
+  },
+  "theory/early-tf-families": {
+    ru: {
+      title: "Ранние семейства F1–F8: явные совпадения tf",
+      description:
+        "Полные выводы семейств F1–F4, тождество F7, четвертичный подъём F8 и границы ранней упрощённой классификации совпадений tf.",
+      type: "Article",
+    },
+    en: {
+      title: "The Early F1–F8 Families: Explicit tf Coincidences",
+      description:
+        "Complete derivations of F1–F4, the F7 identity, the F8 quartic lift, and the scope of the early simplified classification of tf coincidences.",
       type: "Article",
     },
   },
@@ -613,6 +631,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/prime-divisors",
     "theory/arithmetic-progressions-dir",
     "theory/fmn-tfmn",
+    "theory/early-tf-families",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

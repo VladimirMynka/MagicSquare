@@ -128,6 +128,18 @@ export function TheoryIndexPage() {
         },
         {
           index: "3.3",
+          to: "/theory/early-tf-families",
+          title: text(
+            "Ранние семейства F1–F8",
+            "The early F1–F8 families",
+          ),
+          summary: text(
+            "Полные элементарные параметризации F1–F4, тождество F7, четвертичный подъём F8 и точные границы устаревшей упрощённой классификации.",
+            "Complete elementary parametrizations of F1–F4, the F7 identity, the F8 quartic lift, and the exact scope of the outdated simplified classification.",
+          ),
+        },
+        {
+          index: "3.4",
           to: "/proofs/general",
           title: text(
             "Общая теория масок 4/9 и 5/9",
