@@ -433,9 +433,12 @@ x(2P)
           </p>
 
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/f4-plus">
-              {text("Эллиптическая поверхность F4+", "The F4+ elliptic surface")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/tf-pair-generation">
+              {text("Генерация пар через F7+ и F4+", "Generating pairs with F7+ and F4+")}{" "}
               <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/f4-plus">
+              {text("Эллиптическая поверхность F4+", "The F4+ elliptic surface")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}

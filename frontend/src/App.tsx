@@ -75,6 +75,7 @@ import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
 import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { F7PlusTheoryPage } from "./F7PlusTheory";
 import { F4PlusTheoryPage } from "./F4PlusTheory";
+import { TfPairGenerationTheoryPage } from "./TfPairGenerationTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3595,6 +3596,10 @@ export function App() {
         />
         <Route path="theory/f7-plus" element={<F7PlusTheoryPage />} />
         <Route path="theory/f4-plus" element={<F4PlusTheoryPage />} />
+        <Route
+          path="theory/tf-pair-generation"
+          element={<TfPairGenerationTheoryPage />}
+        />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"
           element={<SemimagicAlgebraTheoryPage />}

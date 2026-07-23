@@ -408,9 +408,12 @@ E_T:\quad y^2=x^3-T^2x.`}</Latex>
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/f7-plus">
-              {text("F7+: эллиптическая поверхность", "F7+: the elliptic surface")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/tf-pair-generation">
+              {text("Генерация совпадений tf", "Generating equal tf values")}{" "}
               <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/f7-plus">
+              {text("Полная биекция F7+", "The complete F7+ bijection")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/early-tf-families">
               {text("Ранняя классификация", "The early classification")}

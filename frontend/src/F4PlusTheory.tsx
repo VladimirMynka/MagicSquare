@@ -794,12 +794,18 @@ R_x=(490,9800),\quad R_y=(294,3528).`}</Latex>
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/f7-plus">
+            <TheoryLink className="button button-primary" to="/theory/tf-pair-generation">
+              {text(
+                "Генерация пар через F4+ и F7+",
+                "Generating pairs with F4+ and F7+",
+              )}{" "}
+              <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/f7-plus">
               {text(
                 "Биекция с кривой конгруэнтного числа",
                 "The congruent-curve bijection",
-              )}{" "}
-              <span>→</span>
+              )}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text(

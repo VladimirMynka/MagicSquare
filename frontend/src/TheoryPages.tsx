@@ -187,6 +187,18 @@ export function TheoryIndexPage() {
             "Complete normalization of equal area square classes, a birational Weierstrass model, the resulting rational elliptic surface, and its quadratic K3 base change.",
           ),
         },
+        {
+          index: "4.3",
+          to: "/theory/tf-pair-generation",
+          title: text(
+            "F7+ и F4+: генерация совпадений tf",
+            "F7+ and F4+: generating equal tf values",
+          ),
+          summary: text(
+            "F7+ превращает известные точки фиксированной кривой в пары параметров, а F4+ порождает сам квадратный класс вместе с двумя начальными точками; групповой закон продолжает их в решётку решений.",
+            "F7+ turns known points on a fixed curve into parameter pairs, while F4+ produces the square class together with two seed points; the group law extends them to a lattice of solutions.",
+          ),
+        },
       ],
       continuation: text(
         "Далее: конструктивный взгляд F8/F9-like на ту же задачу.",

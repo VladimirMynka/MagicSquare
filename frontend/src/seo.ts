@@ -119,6 +119,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/tf-pair-generation": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -182,6 +186,20 @@ const STATIC_METADATA: Readonly<
       title: "Задача о магическом квадрате из квадратов 3×3",
       description:
         "Что такое магический квадрат из полных квадратов, почему задача 9/9 остаётся открытой и как маски 4/9 и 5/9 организуют частичные конструкции.",
+      type: "Article",
+    },
+  },
+  "theory/tf-pair-generation": {
+    ru: {
+      title: "F7+ и F4+: генерация пар с одинаковым tf",
+      description:
+        "Полный алгоритм генерации решений tf(a,b)=tf(c,d): F4+ создаёт общий квадратный класс и две начальные точки, а F7+ и групповой закон порождают новые пары.",
+      type: "Article",
+    },
+    en: {
+      title: "F7+ and F4+: Generating Parameter Pairs with Equal tf",
+      description:
+        "A complete workflow for generating tf(a,b)=tf(c,d): F4+ supplies a common square class and two seed points, while F7+ and the group law produce further pairs.",
       type: "Article",
     },
   },
@@ -670,6 +688,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/early-tf-families",
     "theory/f7-plus",
     "theory/f4-plus",
+    "theory/tf-pair-generation",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
