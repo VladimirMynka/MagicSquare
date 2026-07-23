@@ -41,6 +41,7 @@
 
 html {
   min-width: 320px;
+  overflow-x: clip;
   background: var(--canvas);
 }
 
@@ -2187,6 +2188,20 @@ main {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin: 24px 0;
+}
+
+.quaternion-basis-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.quaternion-table th,
+.quaternion-table td {
+  min-width: 72px;
+  text-align: center;
+}
+
+.quaternion-table {
+  min-width: 360px;
 }
 
 .basis-matrix-row > div {

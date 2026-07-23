@@ -139,10 +139,22 @@ export function TheoryIndexPage() {
             "The standard associated and balanced components, four product laws, the complete five-dimensional form, and exact decompositions.",
           ),
         },
+        {
+          index: "4.2",
+          to: "/theory/matrix-algebra/block-structure-split-quaternions",
+          title: text(
+            "Блочная структура и расщеплённые кватернионы",
+            "Block structure and split quaternions",
+          ),
+          summary: text(
+            "Изоморфизм SM₃(K)≅K⊕M₂(K), два центральных идемпотента, явный базис 1,i,j,k и точное отличие от кватернионов Гамильтона.",
+            "The isomorphism SM₃(K)≅K⊕M₂(K), two central idempotents, an explicit basis 1,i,j,k, and the exact distinction from Hamilton's quaternions.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: устройство алгебры, определитель и спектр, границы над ℤ и ℚ.",
-        "Next: the algebra structure, determinant and spectrum, and the boundary between ℤ and ℚ.",
+        "Далее: присоединённая матрица, спектр и точная структура целочисленной решётки.",
+        "Next: the adjugate, the spectrum, and the exact structure of the integral lattice.",
       ),
     },
   ] as const;

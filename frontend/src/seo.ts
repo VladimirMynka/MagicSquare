@@ -103,6 +103,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/matrix-algebra/block-structure-split-quaternions": {
+    published: "2026-07-23",
+    modified: "2026-07-23",
+  },
   news: {
     published: "2026-07-22",
     modified: "2026-07-22",
@@ -226,6 +230,20 @@ const STATIC_METADATA: Readonly<
       title: "Magic, Charming, and Semimagic 3×3 Squares",
       description:
         "A complete classification of semimagic 3×3 matrices, their associated and balanced components, four product laws, and exact decompositions into magic squares.",
+      type: "Article",
+    },
+  },
+  "theory/matrix-algebra/block-structure-split-quaternions": {
+    ru: {
+      title: "Блочная структура полумагических матриц и расщеплённые кватернионы",
+      description:
+        "Доказательство изоморфизма SM₃(K)≅K⊕M₂(K), явный базис 1,i,j,k идеала нулевой суммы, таблица умножения и расщеплённая норма.",
+      type: "Article",
+    },
+    en: {
+      title: "Block Structure of Semimagic Matrices and Split Quaternions",
+      description:
+        "A proof of SM₃(K)≅K⊕M₂(K), an explicit basis 1,i,j,k of the zero-sum ideal, its multiplication table, and the split norm.",
       type: "Article",
     },
   },
@@ -558,6 +576,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/residues",
     "theory/prime-divisors",
     "theory/matrix-algebra/magic-charming-semimagic",
+    "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
     "proofs/general",
     "orbits/4",

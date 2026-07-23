@@ -406,13 +406,17 @@ w=\frac{u+2v}{3}.
           </p>
           <p>
             {text(
-              "Следующие статьи цикла разберут изоморфизм с K⊕M₂(K), определитель и присоединённую матрицу, характеристический многочлен и точные различия между полем и целочисленной решёткой.",
-              "The next articles in the series will treat the isomorphism with K⊕M₂(K), the determinant and adjugate, the characteristic polynomial, and the exact differences between a field and the integral lattice.",
+              "Следующая статья строит изоморфизм с K⊕M₂(K), выделяет четырёхмерный идеал нулевой суммы и записывает в нём явный базис расщеплённых кватернионов 1,i,j,k.",
+              "The next article constructs the isomorphism with K⊕M₂(K), isolates the four-dimensional zero-sum ideal, and gives an explicit split-quaternion basis 1,i,j,k inside it.",
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory">
-              {text("К оглавлению циклов", "Back to the series contents")} <span>→</span>
+            <TheoryLink
+              className="button button-primary"
+              to="/theory/matrix-algebra/block-structure-split-quaternions"
+            >
+              {text("Блочная структура и кватернионы", "Block structure and quaternions")}{" "}
+              <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/magic-squares-3x3">
               {text("Общая форма M(E,x,y)", "The general form M(E,x,y)")}
