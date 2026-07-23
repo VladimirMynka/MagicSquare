@@ -297,15 +297,15 @@ const STATIC_METADATA: Readonly<
   },
   "theory/f4-plus": {
     ru: {
-      title: "F4+: эллиптическая поверхность пифагоровых площадей",
+      title: "F4+: поверхность пифагоровых площадей и ранг ≥ 2",
       description:
-        "Полная модель совпадающих квадратных классов площадей пифагоровых треугольников: бирациональная кубика, рациональная эллиптическая поверхность ранга 2, K3-замена базы и связь с проблемой конгруэнтных чисел.",
+        "Полная модель совпадающих квадратных классов пифагоровых площадей, рациональная эллиптическая поверхность, K3-замена базы и доказательство ранга не меньше 2 универсальной кривой конгруэнтного числа.",
       type: "Article",
     },
     en: {
-      title: "F4+: Elliptic Surface for Pythagorean Triangle Areas",
+      title: "F4+: Pythagorean-Area Surface and Generic Rank ≥ 2",
       description:
-        "A complete model for equal square classes of Pythagorean-triangle areas: a birational cubic, a rank-2 rational elliptic surface, its K3 base change, and the link to the congruent number problem.",
+        "A complete model for equal square classes of Pythagorean areas, its rational elliptic surface and K3 base change, and a proof that the universal congruent-number curve has rank at least 2.",
       type: "Article",
     },
   },

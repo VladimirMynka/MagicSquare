@@ -3463,8 +3463,8 @@ a+e+j=c+e+g=M.
           <Latex display>{String.raw`F(a,b)=\rho^2F(a,d)`}</Latex>
           <p>
             {text(
-              "В проекте введена эллиптическая поверхность F4+, рациональные точки которой систематически порождают пары представлений одного конгруэнтного класса. Для неё определены особые слои и доказано существование ровно двух независимых направлений рациональных семейств. Это даёт единый способ получать новые тождества между конгруумами и строить связанные с ними семейства магических квадратов, в том числе некоторые семейства 6/9.",
-              "The project introduces the F4+ elliptic surface, whose rational points systematically produce pairs of representations of the same congruent-number class. Its singular fibres are determined, and its rational families are proved to have exactly two independent directions. This provides a unified way to obtain new identities between congrua and construct related families of magic squares, including some 6/9 families.",
+              "В проекте введена полная F4+-модель пар пифагоровых площадей, отличающихся на рациональный квадрат. Её вспомогательная рациональная эллиптическая поверхность имеет точный ранг 2, а две пифагоровы параметризации задают две независимые точки на универсальной кривой конгруэнтного числа над полем функций F4+. Следовательно, эта кривая имеет ранг не меньше 2. Конструкция даёт единый способ получать тождества между конгруумами и связанные с ними семейства магических квадратов, в том числе некоторые семейства 6/9.",
+              "The project introduces the complete F4+ model for pairs of Pythagorean areas differing by a rational square. Its auxiliary rational elliptic surface has exact rank 2, while the two Pythagorean parametrizations define two independent points on the universal congruent-number curve over the function field of F4+. Consequently, that curve has rank at least 2. The construction gives a unified way to obtain identities between congrua and related families of magic squares, including some 6/9 families.",
             )}
           </p>
           <ul className="proof-references">
@@ -3473,6 +3473,14 @@ a+e+j=c+e+g=M.
                 {text(
                   "Три квадрата в арифметической прогрессии",
                   "Three squares in arithmetic progression",
+                )}
+              </Link>
+            </li>
+            <li>
+              <Link to="/theory/f4-plus">
+                {text(
+                  "F4+: полная модель и теорема о ранге",
+                  "F4+: complete model and rank theorem",
                 )}
               </Link>
             </li>

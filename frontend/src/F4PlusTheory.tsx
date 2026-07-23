@@ -30,8 +30,8 @@ export function F4PlusTheoryPage() {
           </h1>
           <p>
             {text(
-              "Совпадение рациональных квадратных классов площадей двух пифагоровых треугольников сводится к одной кубике с общим параметром. Её модель Вейерштрасса образует рациональную эллиптическую поверхность ранга Морделла—Вейля 2; после необходимой для исходной задачи квадратичной замены базы возникает эллиптическая K3-поверхность того же геометрического ранга.",
-              "Equality of rational square classes of two Pythagorean-triangle areas reduces to one cubic with a common parameter. Its Weierstrass model forms a rational elliptic surface of Mordell–Weil rank 2; the quadratic base change required by the original arithmetic problem produces an elliptic K3 surface of the same geometric rank.",
+              "Совпадение рациональных квадратных классов площадей двух пифагоровых треугольников сводится к одной кубике с общим параметром. Её модель Вейерштрасса образует рациональную эллиптическую поверхность ранга Морделла—Вейля 2; после квадратичной замены базы возникает эллиптическая K3-поверхность того же геометрического ранга. Две исходные параметризации одновременно задают две независимые точки на универсальной кривой конгруэнтного числа, поэтому над полем функций F4+ эта кривая имеет ранг не меньше 2.",
+              "Equality of rational square classes of two Pythagorean-triangle areas reduces to one cubic with a common parameter. Its Weierstrass model forms a rational elliptic surface of Mordell–Weil rank 2; a quadratic base change produces an elliptic K3 surface of the same geometric rank. The two original parametrizations also determine two independent points on the universal congruent-number curve, so that curve has rank at least 2 over the function field of F4+.",
             )}
           </p>
         </div>
@@ -547,45 +547,154 @@ Y^2=X^3-3\rho^4X+\rho^4(\rho^4+1).`}</Latex>
         <section>
           <h2>
             {text(
-              "9. Что именно получено для конгруэнтных чисел",
-              "9. What this gives for congruent numbers",
+              "9. Универсальная кривая конгруэнтного числа ранга не меньше 2",
+              "9. A universal congruent-number curve of rank at least 2",
             )}
           </h2>
           <p>
             {text(
-              "Рациональная точка вспомогательного слоя 𝓔_ρ восстанавливает тройку (a:b:d) и равенство",
-              "A rational point on the auxiliary fiber 𝓔_ρ recovers a triple (a:b:d) and an equality",
+              "У поверхности F4+ есть два разных эллиптических прочтения. Поверхность 𝓔_ρ описывает сами тройки параметров. Каждая такая тройка, в свою очередь, задаёт две точки на одной кривой конгруэнтного числа. Для нормировки a=1 запишем",
+              "F4+ has two distinct elliptic interpretations. The surface 𝓔_ρ parametrizes the triples themselves. Every such triple, in turn, gives two points on one congruent-number curve. In the normalization a=1, write",
             )}
           </p>
           <Latex display>{String.raw`
-f(a,b)=\rho^2f(a,d).`}</Latex>
+A=x(x^2-1),\qquad
+\mathcal C_A:\quad v^2=u^3-A^2u.`}</Latex>
           <p>
             {text(
-              "Если общий положительный квадратный класс представлен T и",
-              "If the common positive square class is represented by T and",
+              "На поверхности",
+              "On the surface",
             )}
           </p>
           <Latex display>{String.raw`
-f(a,b)=Tq_b^2,\qquad
-f(a,d)=Tq_d^2,\qquad
-q_b=\pm\rho q_d,`}</Latex>
+x^2-1=\rho^2y(x^2-y^2)`}</Latex>
           <p>
             {text(
-              "то две исходные параметризации дают точки одной кривой конгруэнтного числа C_T:",
-              "then the two original parametrizations give points on the same congruent-number curve C_T:",
+              "двум пифагоровым треугольникам отвечают следующие рациональные точки:",
+              "the two Pythagorean triangles give the following rational points:",
             )}
           </p>
           <Latex display>{String.raw`
-\left(
-\frac{Ta}{b},
-\frac{T^2q_b}{b^2}
-\right),
+R_x=
+\left(x^2(x^2-1),\,x^2(x^2-1)^2\right),
 \qquad
+R_y=
+\left(\rho^2x^2(x^2-y^2),\,
+\rho^3x^2(x^2-y^2)^2\right).`}</Latex>
+
+          <div className="theorem-block">
+            <h3>
+              {text(
+                "Теорема о двух независимых точках",
+                "Theorem on two independent points",
+              )}
+            </h3>
+            <p>
+              {text(
+                "Пусть K — поле функций неприводимой поверхности x²−1=ρ²y(x²−y²) над ℚ. Тогда Rₓ и Rᵧ принадлежат 𝓒_A(K) и независимы с точностью до кручения. В частности,",
+                "Let K be the function field over ℚ of the irreducible surface x²−1=ρ²y(x²−y²). Then Rₓ and Rᵧ lie in 𝓒_A(K) and are independent modulo torsion. In particular,",
+              )}
+            </p>
+            <Latex display>{String.raw`
+\operatorname{rank}\mathcal C_A(K)\ge 2.`}</Latex>
+          </div>
+
+          <h3>{text("Доказательство", "Proof")}</h3>
+          <p>
+            {text(
+              "Сначала заметим, что определяющий многочлен поверхности неприводим: как квадратный многочлен по ρ он мог бы разложиться над ℚ(x,y) только в том случае, если (x²−1)/(y(x²−y²)) было бы квадратом, но его порядок при y=0 равен −1.",
+              "First note that the defining polynomial of the surface is irreducible: as a quadratic polynomial in ρ, it could factor over ℚ(x,y) only if (x²−1)/(y(x²−y²)) were a square, but its order at y=0 is −1.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Подстановка Rₓ в уравнение 𝓒_A является стандартным переходом от пифагорова треугольника к кривой его площади. Для Rᵧ та же проверка после вынесения общих множителей сводится ровно к определяющему уравнению F4+:",
+              "Substitution of Rₓ into 𝓒_A is the standard passage from a Pythagorean triangle to the curve of its area. For Rᵧ, the same calculation, after removing common factors, reduces exactly to the defining equation of F4+:",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\begin{aligned}
+v(R_x)^2-u(R_x)^3+A^2u(R_x)&=0,\\
+v(R_y)^2-u(R_y)^3+A^2u(R_y)
+&=\rho^2x^4(x^2-y^2)
+\Bigl((x^2-1)^2-\rho^4y^2(x^2-y^2)^2\Bigr)\\
+&=\rho^2x^4(x^2-y^2)
+\bigl(x^2-1-\rho^2y(x^2-y^2)\bigr)
+\bigl(x^2-1+\rho^2y(x^2-y^2)\bigr)=0.
+\end{aligned}`}</Latex>
+          <p>
+            {text(
+              "так что последнее выражение обращается в нуль на поверхности. Для независимости достаточно одной хорошей специализации. Возьмём",
+              "so the last expression vanishes on the surface. A single good specialization is enough to prove independence. Take",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\rho=1,\qquad x=\frac73,\qquad y=\frac53,
+\qquad
+7^2=3^2+3\cdot5+5^2.`}</Latex>
+          <p>
+            {text(
+              "После общего масштабирования сторон на 9/2 получаются два прямоугольных треугольника (20,21,29) и (12,35,37), оба площади 210. Поэтому специализация универсальной кривой и двух секций равна",
+              "After scaling all sides by 9/2, this gives the right triangles (20,21,29) and (12,35,37), both of area 210. Hence the specialized universal curve and sections are",
+            )}
+          </p>
+          <Latex display>{String.raw`
+E_{210}:\quad v^2=u^3-210^2u,
+\qquad
+R_x=(490,9800),\quad R_y=(294,3528).`}</Latex>
+          <p>
+            {text(
+              "Используем стандартное отображение Куммера для кривой с полным рациональным 2-кручением; в точках 2-кручения берутся его обычные предельные значения:",
+              "Use the standard Kummer map for a curve with full rational 2-torsion, with its usual limiting values at the 2-torsion points:",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\delta:E_{210}(\mathbb Q)/2E_{210}(\mathbb Q)
+\longrightarrow
+(\mathbb Q^\times/\mathbb Q^{\times2})^2,
+\qquad
+(u,v)\longmapsto(u,u-210).`}</Latex>
+          <p>
+            {text(
+              "Для двух независимых точек 2-кручения T₀=(0,0), T₊=(210,0) и двух рассматриваемых точек квадратные классы равны",
+              "For the two independent 2-torsion points T₀=(0,0), T₊=(210,0) and the two points under consideration, the square classes are",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\delta(T_0)=(-1,-210),\quad
+\delta(T_+)=(210,2),\quad
+\delta(R_x)=(10,70),\quad
+\delta(R_y)=(6,21).`}</Latex>
+          <p>
+            {text(
+              "В базисе квадратных классов (−1,2,3,5,7) эти четыре элемента дают матрицу",
+              "In the square-class basis (−1,2,3,5,7), these four elements give the matrix",
+            )}
+          </p>
+          <div className="formula-scroll formula-scroll-wide">
+            <Latex display>{String.raw`
 \left(
-\frac{Ta}{d},
-\frac{T^2q_d}{d^2}
-\right)
-\in C_T(\mathbb Q).`}</Latex>
+\begin{array}{ccccc|ccccc}
+1&0&0&0&0&1&1&1&1&1\\
+0&1&1&1&1&0&1&0&0&0\\
+0&1&0&1&0&0&1&0&1&1\\
+0&1&1&0&0&0&0&1&0&1
+\end{array}
+\right),`}</Latex>
+          </div>
+          <p>
+            {text(
+              "имеющую ранг 4 над 𝔽₂. Кроме того, прямой подсчёт даёт #E₂₁₀(𝔽₁₁)=12 и #E₂₁₀(𝔽₁₃)=20. Поскольку обе редукции хорошие, порядок рационального кручения делит 4; видимые точки (0,0), (±210,0) уже образуют группу порядка 4. Следовательно, кручение в точности равно E₂₁₀[2]. В любом соотношении aRₓ+bRᵧ=T с T∈E₂₁₀[2] ранг матрицы заставляет a и b быть чётными, а T — нулём. Полученное соотношение можно разделить на 2 и повторить рассуждение; поэтому a и b делятся на любую степень 2 и равны нулю. Точки Rₓ и Rᵧ независимы.",
+              "It has rank 4 over 𝔽₂. Moreover, direct counting gives #E₂₁₀(𝔽₁₁)=12 and #E₂₁₀(𝔽₁₃)=20. Both reductions are good, so the order of the rational torsion divides 4; the visible points (0,0), (±210,0) already form a group of order 4. Thus the torsion is exactly E₂₁₀[2]. In any relation aRₓ+bRᵧ=T with T∈E₂₁₀[2], the matrix rank forces a and b to be even and T to vanish. Divide the resulting relation by 2 and repeat: a and b are divisible by every power of 2, hence zero. The points Rₓ and Rᵧ are independent.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Любое целочисленное отношение между универсальными секциями специализировалось бы в это отношение на E₂₁₀, что невозможно. Поэтому секции независимы над K.",
+              "Any integral relation between the universal sections would specialize to the same relation on E₂₁₀, which is impossible. Therefore the sections are independent over K.",
+            )}
+          </p>
+
           <div className="theorem-block">
             <h3>{text("Точная граница результата", "Exact scope of the result")}</h3>
             <ul>
@@ -597,14 +706,14 @@ q_b=\pm\rho q_d,`}</Latex>
               </li>
               <li>
                 {text(
-                  "Для фиксированного ρ эта модель не перечисляет автоматически все точки 𝓔_ρ(ℚ); группу Морделла—Вейля конкретного слоя всё ещё требуется определять.",
-                  "For fixed ρ, the model does not automatically enumerate all points of 𝓔_ρ(ℚ); the Mordell–Weil group of the individual fiber must still be determined.",
+                  "Две естественные точки независимы над полем функций полной F4+-поверхности; это отдельная теорема, не следствие ранга вспомогательной поверхности 𝓔_ρ.",
+                  "The two natural points are independent over the function field of the full F4+ surface; this is a separate theorem, not a consequence of the rank of the auxiliary surface 𝓔_ρ.",
                 )}
               </li>
               <li>
                 {text(
-                  "Ранг 2 относится к вспомогательной поверхности над функциональным полем. Он сам по себе не доказывает независимость двух полученных точек на C_T и не ограничивает сверху ранги специальных слоёв или дополнительных замен базы.",
-                  "Rank 2 belongs to the auxiliary surface over its function field. By itself it neither proves that the two resulting points on C_T are independent nor bounds the ranks of special fibers or further base changes.",
+                  "Теорема не утверждает, что независимость сохраняется при каждой рациональной специализации, и сама по себе не доказывает, что зависимые специализации имеют плотность нуль.",
+                  "The theorem does not say that independence survives every rational specialization, nor does it by itself prove that dependent specializations have density zero.",
                 )}
               </li>
             </ul>
@@ -614,31 +723,68 @@ q_b=\pm\rho q_d,`}</Latex>
         <section>
           <h2>
             {text(
-              "10. Известный слой, название и происхождение",
-              "10. The known layer, the name, and the origin",
+              "10. Соотношение с известными результатами",
+              "10. Relation to previous work",
             )}
           </h2>
+          <div className="literature-note">
+            <h3>{text("Что известно независимо от F4+", "What is known independently of F4+")}</h3>
+            <ul>
+              <li>
+                {text(
+                  "Мальвина Баика исследовала построение нескольких рациональных пифагоровых треугольников одной площади.",
+                  "Malvina Baica studied constructions of several rational Pythagorean triangles with one common area.",
+                )}{" "}
+                <a href="https://eudml.org/doc/46317" rel="noreferrer" target="_blank">
+                  {text("Статья 1988 года", "1988 paper")}
+                </a>.
+              </li>
+              <li>
+                {text(
+                  "Лоренц Хальбайзен и Норберт Хунгербюлер использовали конику a²=b²+bd+d² — слой ρ=1 нашей модели — для построения бесконечного семейства кривых конгруэнтных чисел ранга не меньше 2.",
+                  "Lorenz Halbeisen and Norbert Hungerbühler used the conic a²=b²+bd+d²—the ρ=1 layer of our model—to construct an infinite family of congruent-number curves of rank at least 2.",
+                )}{" "}
+                <a
+                  href="https://cs.uwaterloo.ca/journals/JIS/VOL22/Halbeisen/halb4.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {text("Статья 2019 года", "2019 paper")}
+                </a>.
+              </li>
+              <li>
+                {text(
+                  "Raiza Corpuz дала 2-десцентное доказательство классической связи nm²=uv(u²−v²) с кривой y²=x³−n²x и построила семейства ранга не меньше 2 и 3.",
+                  "Raiza Corpuz gave a 2-descent proof of the classical relation between nm²=uv(u²−v²) and y²=x³−n²x, and constructed families of rank at least 2 and 3.",
+                )}{" "}
+                <a href="https://arxiv.org/abs/2006.08113" rel="noreferrer" target="_blank">
+                  {text("Препринт 2020 года", "2020 preprint")}
+                </a>.
+              </li>
+              <li>
+                {text(
+                  "Рациональные эллиптические поверхности с четырьмя особыми слоями классифицированы Херфуртнером; конфигурация IV²I₂² присутствует в списке Перссона—Миранды. Поэтому абстрактный тип вспомогательной поверхности не заявляется как новый.",
+                  "Rational elliptic surfaces with four singular fibers were classified by Herfurtner; the configuration IV²I₂² occurs in the Persson–Miranda list. The abstract type of the auxiliary surface is therefore not claimed as new.",
+                )}{" "}
+                <a href="https://archive.mpim-bonn.mpg.de/id/eprint/860/" rel="noreferrer" target="_blank">
+                  Herfurtner
+                </a>
+                {" · "}
+                <a
+                  href="https://www.math.colostate.edu/~miranda/preprints/Perssonslist.pdf"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Miranda
+                </a>.
+              </li>
+            </ul>
+          </div>
+          <h3>{text("Что добавляет F4+", "What F4+ adds")}</h3>
           <p>
             {text(
-              "Коника τ=1, или a²=b²+bd+d², была использована Лоренцем Хальбайзеном и Норбертом Хунгербюлером для построения бесконечного семейства кривых конгруэнтных чисел ранга не меньше 2. Полная τ-поверхность выше продолжает этот слой, сохраняя произвольное квадратное отношение между двумя площадями.",
-              "The τ=1 conic, equivalently a²=b²+bd+d², was used by Lorenz Halbeisen and Norbert Hungerbühler to construct an infinite family of congruent-number curves of rank at least 2. The full τ-surface above extends this layer by retaining an arbitrary square ratio between the two areas.",
-            )}
-          </p>
-          <p>
-            <a
-              href="https://cs.uwaterloo.ca/journals/JIS/VOL22/Halbeisen/halb4.html"
-              rel="noreferrer"
-              target="_blank"
-            >
-              {text(
-                "Congruent Number Elliptic Curves Related to Integral Solutions of m²=n²+nl+l²",
-                "Congruent Number Elliptic Curves Related to Integral Solutions of m²=n²+nl+l²",
-              )}
-            </a>
-            {" — "}
-            {text(
-              "Journal of Integer Sequences 22 (2019), Article 19.3.1.",
-              "Journal of Integer Sequences 22 (2019), Article 19.3.1.",
+              "F4+ объединяет эти сюжеты в полной модели произвольного квадратного отношения двух пифагоровых площадей: доказывает нормализацию к общему первому параметру, даёт явную бирациональную координатную систему, определяет паспорт рациональной поверхности и её K3-замены базы, а также доказывает независимость двух естественных точек на универсальной кривой конгруэнтного числа. В перечисленных источниках такая полная конструкция и последняя теорема не обнаружены; это утверждение относится к приведённому обзору литературы и может уточняться при появлении более ранних источников.",
+              "F4+ unifies these themes in a complete model for an arbitrary square ratio between two Pythagorean areas: it proves normalization to a common first parameter, gives explicit birational coordinates, determines the passport of the rational surface and its K3 base change, and proves independence of the two natural points on the universal congruent-number curve. We did not find this complete construction or the final theorem in the sources listed above; that statement is relative to the literature reviewed here and may be refined if an earlier source is identified.",
             )}
           </p>
           <p>
