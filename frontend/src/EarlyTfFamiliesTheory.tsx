@@ -151,13 +151,13 @@ f(a+b,b)
 & (a,b) & (c,d)\\ \hline
 \mathrm{F1}
 & \lambda(m^2-2n^2,\;6n^2)
-& (2a,\;a+b)\\[2pt]
+& \lambda(2m^2-4n^2,\;m^2+4n^2)\\[2pt]
 \mathrm{F2}
 & \lambda(m^2+2n^2,\;6n^2)
-& (2a,\;a-b)\\[2pt]
+& \lambda(2m^2+4n^2,\;m^2-4n^2)\\[2pt]
 \mathrm{F3}
 & \lambda(m^2+2n^2,\;m^2-n^2)
-& (a+b,\;b)
+& \lambda(2m^2+n^2,\;m^2-n^2)
 \end{array}`}</Latex>
             <p>
               {text(
