@@ -40,8 +40,11 @@ import {
 } from "./lib/families";
 import {
   createSnapshot,
+  divideCoordinates,
   factorInteger,
   formatInteger,
+  greatestCommonDivisor,
+  greatestSquareDivisor,
   minimizeCoordinates,
   type Coordinates,
   type Position,
@@ -64,6 +67,13 @@ import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
 const PARAMETER_KEYS = ["a", "b", "c", "d"] as const;
+type FamilyRelation = "exact" | "derived";
+
+interface MinimizationNotice {
+  kind: "preserved" | "primitive" | "derived" | "unavailable";
+  dividedBy: bigint;
+  remainingDivisor: bigint;
+}
 
 const CELL_FORM_LATEX: Readonly<Record<string, string>> = {
   A: "E+x",
@@ -418,17 +428,31 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       searchParams.get(key) ?? (initialFamily ?? FAMILIES[0]).defaults[index],
   ) as unknown as ParameterStrings;
   let initialCoordinates: Coordinates;
+  let initialNormalization = 1n;
+  let initialFamilyRelation: FamilyRelation =
+    initialFamily && searchParams.get("derived") === "1" ? "derived" : "exact";
 
   try {
-    initialCoordinates = initialFamily
-      ? initialFamily.generate(initialParameters)
-      : [
-          BigInt(searchParams.get("e") ?? "5"),
-          BigInt(searchParams.get("x") ?? "3"),
-          BigInt(searchParams.get("y") ?? "1"),
-        ];
+    if (initialFamily) {
+      const generated = initialFamily.generate(initialParameters);
+      const requestedNormalization = BigInt(searchParams.get("norm") ?? "1");
+      initialNormalization =
+        requestedNormalization > 0n &&
+        generated.every((value) => value % requestedNormalization === 0n)
+          ? requestedNormalization
+          : 1n;
+      initialCoordinates = divideCoordinates(generated, initialNormalization);
+    } else {
+      initialCoordinates = [
+        BigInt(searchParams.get("e") ?? "5"),
+        BigInt(searchParams.get("x") ?? "3"),
+        BigInt(searchParams.get("y") ?? "1"),
+      ];
+    }
   } catch {
     initialParameters = (initialFamily ?? FAMILIES[0]).defaults;
+    initialNormalization = 1n;
+    initialFamilyRelation = "exact";
     initialCoordinates = initialFamily
       ? initialFamily.generate(initialParameters)
       : [5n, 3n, 1n];
@@ -451,6 +475,11 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   ]);
   const [scale, setScale] = useState("−1");
   const [factorized, setFactorized] = useState(false);
+  const [normalization, setNormalization] = useState(initialNormalization);
+  const [familyRelation, setFamilyRelation] =
+    useState<FamilyRelation>(initialFamilyRelation);
+  const [minimizationNotice, setMinimizationNotice] =
+    useState<MinimizationNotice | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const snapshot = useMemo(() => createSnapshot(coordinates), [coordinates]);
@@ -469,19 +498,33 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
     return () => window.cancelAnimationFrame(frame);
   }, [family]);
 
+  useEffect(() => {
+    setFactorized(
+      window.localStorage.getItem("magic-squares-factorized") === "true",
+    );
+  }, []);
+
   function persistFamily(
     nextFamily: FamilyDefinition,
     nextParameters: ParameterStrings,
+    nextNormalization = 1n,
+    nextRelation: FamilyRelation = "exact",
   ) {
-    const nextSearch = new URLSearchParams(
-      Object.fromEntries(
+    const nextSearch = new URLSearchParams({
+      family: nextFamily.id,
+      ...Object.fromEntries(
         PARAMETER_KEYS.map((key, index) => [key, nextParameters[index]]),
       ),
-    );
+    });
+    if (nextNormalization > 1n) {
+      nextSearch.set("norm", nextNormalization.toString());
+    }
+    if (nextRelation === "derived") {
+      nextSearch.set("derived", "1");
+    }
     navigate({
-      pathname: localePath(locale, orbitPath(nextFamily.id)),
+      pathname: localePath(locale, "/lab"),
       search: `?${nextSearch.toString()}`,
-      hash: "#family-proof",
     });
   }
 
@@ -508,6 +551,7 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
       nextCoordinates[2].toString(),
     ]);
     setFamily(nextFamily);
+    setMinimizationNotice(null);
     setError("");
   }
 
@@ -516,6 +560,8 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
     try {
       const nextCoordinates = nextFamily.generate(nextParameters);
       setCurrentCoordinates(nextCoordinates, nextFamily);
+      setNormalization(1n);
+      setFamilyRelation("exact");
       persistFamily(nextFamily, nextParameters);
     } catch {
       setError(
@@ -535,6 +581,9 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
 
   function selectManual() {
     setFamily(null);
+    setNormalization(1n);
+    setFamilyRelation("exact");
+    setMinimizationNotice(null);
     persistManual(coordinates);
   }
 
@@ -552,6 +601,8 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
         BigInt(coordinateInputs[2].replace("−", "-")),
       ];
       setCurrentCoordinates(nextCoordinates, null);
+      setNormalization(1n);
+      setFamilyRelation("exact");
       persistManual(nextCoordinates);
     } catch {
       setError(
@@ -591,11 +642,87 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
   ) {
     const nextCoordinates = transform(coordinates);
     setCurrentCoordinates(nextCoordinates, null);
+    setNormalization(1n);
+    setFamilyRelation("exact");
     persistManual(nextCoordinates);
   }
 
   function minimize() {
-    transformCoordinates(minimizeCoordinates);
+    if (!family) {
+      transformCoordinates(minimizeCoordinates);
+      return;
+    }
+    if (familyRelation === "derived") {
+      minimizeFully();
+      return;
+    }
+
+    const divisor = greatestCommonDivisor(...coordinates);
+    if (divisor < 2n) {
+      setMinimizationNotice({
+        kind: "primitive",
+        dividedBy: 1n,
+        remainingDivisor: 1n,
+      });
+      return;
+    }
+
+    const squareDivisor = greatestSquareDivisor(divisor);
+    if (squareDivisor === null) {
+      setMinimizationNotice({
+        kind: "unavailable",
+        dividedBy: 1n,
+        remainingDivisor: divisor,
+      });
+      return;
+    }
+
+    const nextCoordinates = divideCoordinates(coordinates, squareDivisor);
+    const nextNormalization = normalization * squareDivisor;
+    setCurrentCoordinates(nextCoordinates, family);
+    setNormalization(nextNormalization);
+    setFamilyRelation("exact");
+    setMinimizationNotice({
+      kind: "preserved",
+      dividedBy: squareDivisor,
+      remainingDivisor: divisor / squareDivisor,
+    });
+    persistFamily(family, parameters, nextNormalization, "exact");
+  }
+
+  function minimizeFully() {
+    const divisor = greatestCommonDivisor(...coordinates);
+    if (divisor < 2n) {
+      setMinimizationNotice({
+        kind: "primitive",
+        dividedBy: 1n,
+        remainingDivisor: 1n,
+      });
+      return;
+    }
+
+    const nextCoordinates = divideCoordinates(coordinates, divisor);
+    if (!family) {
+      setCurrentCoordinates(nextCoordinates, null);
+      persistManual(nextCoordinates);
+      return;
+    }
+
+    const nextSquarePositions = createSnapshot(nextCoordinates).squarePositions;
+    const maskStillHolds = family.positions.every((position) =>
+      nextSquarePositions.includes(position),
+    );
+    const nextRelation: FamilyRelation = maskStillHolds ? "exact" : "derived";
+    const nextNormalization = normalization * divisor;
+    setCurrentCoordinates(nextCoordinates, family);
+    setNormalization(nextNormalization);
+    setFamilyRelation(nextRelation);
+    setMinimizationNotice({
+      kind: nextRelation === "exact" ? "preserved" : "derived",
+      dividedBy: divisor,
+      remainingDivisor: 1n,
+    });
+    persistFamily(family, parameters, nextNormalization, nextRelation);
   }
 
   function multiply() {
@@ -620,6 +747,17 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
     await navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
+  }
+
+  function toggleFactorization() {
+    setFactorized((value) => {
+      const next = !value;
+      window.localStorage.setItem(
+        "magic-squares-factorized",
+        String(next),
+      );
+      return next;
+    });
   }
 
   return (
@@ -704,7 +842,9 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
             <div>
               {family ? (
                 <span className={`family-chip tone-${family.group}`}>
-                  {familyGroupLabel(family, locale)}
+                  {familyRelation === "exact"
+                    ? familyGroupLabel(family, locale)
+                    : text("производный квадрат", "derived square")}
                 </span>
               ) : (
                 <span className="family-chip manual-chip">
@@ -712,6 +852,12 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                 </span>
               )}
               <h2>{family ? family.title : "Magic3(E, x, y)"}</h2>
+              {family && normalization > 1n && (
+                <span className="family-normalization">
+                  {text("нормировка", "normalization")} ÷
+                  {formatInteger(normalization)}
+                </span>
+              )}
             </div>
             <button className="icon-button" type="button" onClick={copyLink}>
               {copied
@@ -771,7 +917,7 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                     <button
                       className="button button-quiet"
                       type="button"
-                      onClick={() => setFactorized((value) => !value)}
+                      onClick={toggleFactorization}
                     >
                       {factorized
                         ? text("Показать числа", "Show values")
@@ -786,6 +932,67 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                     </button>
                   </div>
                 </form>
+                {minimizationNotice && family && (
+                  <div
+                    className={`minimization-notice ${minimizationNotice.kind}`}
+                    role="status"
+                  >
+                    <strong>
+                      {minimizationNotice.kind === "primitive"
+                        ? text(
+                            "Квадрат уже примитивен",
+                            "The square is already primitive",
+                          )
+                        : minimizationNotice.kind === "derived"
+                          ? text(
+                              "Выполнена полная минимизация",
+                              "Full minimization applied",
+                            )
+                          : minimizationNotice.kind === "unavailable"
+                            ? text(
+                                "НОД слишком велик для быстрого разложения",
+                                "The gcd is too large for quick factorization",
+                              )
+                            : text(
+                                "Квадратная маска сохранена",
+                                "The square-valued mask is preserved",
+                              )}
+                    </strong>
+                    <p>
+                      {minimizationNotice.kind === "primitive"
+                        ? text(
+                            "Общий делитель координат равен 1.",
+                            "The coordinates have common divisor 1.",
+                          )
+                        : minimizationNotice.kind === "derived"
+                          ? text(
+                              `Координаты разделены на ${formatInteger(minimizationNotice.dividedBy)}. Квадрат остаётся связан с исходным семейством, но его квадратная маска больше не гарантируется.`,
+                              `The coordinates were divided by ${formatInteger(minimizationNotice.dividedBy)}. The square remains linked to its source family, but its square-valued mask is no longer guaranteed.`,
+                            )
+                          : minimizationNotice.kind === "unavailable"
+                            ? text(
+                                "Можно выполнить полную минимизацию, но она может снять квадратность отмеченных клеток.",
+                                "Full minimization is still available, but it may remove square-valuedness from the marked cells.",
+                              )
+                            : text(
+                                `Координаты разделены на квадратный делитель ${formatInteger(minimizationNotice.dividedBy)}.`,
+                                `The coordinates were divided by the square divisor ${formatInteger(minimizationNotice.dividedBy)}.`,
+                              )}
+                    </p>
+                    {minimizationNotice.remainingDivisor > 1n && (
+                      <button
+                        className="button button-quiet"
+                        type="button"
+                        onClick={minimizeFully}
+                      >
+                        {text(
+                          `Минимизировать полностью ÷${formatInteger(minimizationNotice.remainingDivisor)}`,
+                          `Minimize fully ÷${formatInteger(minimizationNotice.remainingDivisor)}`,
+                        )}
+                      </button>
+                    )}
+                  </div>
+                )}
                 <div className="transform-tools">
                   <span>{text("Преобразования", "Transformations")}</span>
                   <div>
@@ -841,10 +1048,20 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                         {text("Параметры", "Parameters")} {family.title}
                       </span>
                       <small>
-                        {text(
-                          "пресет пересчитывает E, x, y",
-                          "the preset recomputes E, x, and y",
-                        )}
+                        {familyRelation === "derived"
+                          ? text(
+                              "исходные параметры; применение восстановит семейство",
+                              "source parameters; applying them restores the family",
+                            )
+                          : normalization > 1n
+                            ? text(
+                                `формула применяется с нормировкой ÷${formatInteger(normalization)}`,
+                                `the formula is applied with normalization ÷${formatInteger(normalization)}`,
+                              )
+                            : text(
+                                "пресет пересчитывает E, x, y",
+                                "the preset recomputes E, x, and y",
+                              )}
                       </small>
                     </div>
                     <Pattern family={family} compact />
@@ -909,7 +1126,12 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                 </span>
                 <div>
                   <strong>
-                    {family
+                    {family && familyRelation === "derived"
+                      ? text(
+                          `Производный квадрат из семейства ${family.title}`,
+                          `Derived square from family ${family.title}`,
+                        )
+                      : family
                       ? family.proofStatus === "proof-core"
                         ? text("Символьный сертификат", "Symbolic certificate")
                         : family.proofStatus === "browser-certificate"
@@ -927,10 +1149,19 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                         )}
                   </strong>
                   <code>
-                    {family ? family.theorem : "square = Magic3(E, x, y)"}
+                    {family
+                      ? familyRelation === "derived"
+                        ? `source = ${family.title}; normalization ÷${normalization}`
+                        : family.theorem
+                      : "square = Magic3(E, x, y)"}
                   </code>
                   <p>
-                    {family
+                    {family && familyRelation === "derived"
+                      ? text(
+                          "Сохранены исходные параметры и доказательство семейства. Полная минимизация дала примитивный квадрат, но текущая маска проверяется заново и не наследуется автоматически.",
+                          "The source parameters and family proof are preserved. Full minimization produced a primitive square, but the current mask is checked afresh and is not inherited automatically.",
+                        )
+                      : family
                       ? familySummary(family, locale)
                       : text(
                           "Специальная квадратная маска не заявляется: исследуется произвольная целочисленная тройка.",

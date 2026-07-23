@@ -126,6 +126,42 @@ export function minimizeCoordinates(coordinates: Coordinates): Coordinates {
   return coordinates.map((value) => value / divisor) as unknown as Coordinates;
 }
 
+export function divideCoordinates(
+  coordinates: Coordinates,
+  divisor: bigint,
+): Coordinates {
+  if (divisor <= 0n) {
+    throw new Error("Coordinate divisor must be positive");
+  }
+  if (coordinates.some((value) => value % divisor !== 0n)) {
+    throw new Error("Coordinate divisor must divide every coordinate");
+  }
+  return coordinates.map((value) => value / divisor) as unknown as Coordinates;
+}
+
+export function greatestSquareDivisor(value: bigint): bigint | null {
+  let remainder = value < 0n ? -value : value;
+  if (remainder < 2n) return 1n;
+  if (isPerfectSquare(remainder)) return remainder;
+  if (remainder > FACTORIZATION_LIMIT) return null;
+
+  let squareDivisor = 1n;
+  let candidate = 2n;
+  while (candidate * candidate <= remainder) {
+    let power = 0;
+    while (remainder % candidate === 0n) {
+      remainder /= candidate;
+      power += 1;
+    }
+    const evenPower = power - (power % 2);
+    if (evenPower > 0) {
+      squareDivisor *= candidate ** BigInt(evenPower);
+    }
+    candidate = candidate === 2n ? 3n : candidate + 2n;
+  }
+  return squareDivisor;
+}
+
 const SUPERSCRIPT = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"] as const;
 
 function superscript(value: number): string {
