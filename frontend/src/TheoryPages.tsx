@@ -122,8 +122,8 @@ export function TheoryIndexPage() {
             "The fmn and tfmn functions",
           ),
           summary: text(
-            "Площади пифагоровых треугольников, квадратные классы, критерий согласования шагов двух прогрессий и эллиптическая кривая одного tfmn.",
-            "Areas of Pythagorean triangles, square classes, the criterion for matching two progression differences, and the elliptic curve of a tfmn value.",
+            "Площади пифагоровых треугольников, свободная от квадратов часть fmn, критерий согласования шагов двух прогрессий и эллиптическая кривая одного tfmn.",
+            "Areas of Pythagorean triangles, the squarefree part of fmn, the criterion for matching two progression differences, and the elliptic curve of a tfmn value.",
           ),
         },
         {

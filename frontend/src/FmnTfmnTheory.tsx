@@ -27,8 +27,8 @@ export function FmnTfmnTheoryPage() {
           </h1>
           <p>
             {text(
-              "Функция fmn(m,n) одновременно выражает площадь пифагорового треугольника и четверть шага параметризованной прогрессии квадратов. Функция tfmn(m,n) сохраняет только квадратный класс этой величины. Равенство двух tfmn является точным критерием того, что две прогрессии можно масштабировать до общего шага.",
-              "The function fmn(m,n) is simultaneously the area of a Pythagorean triangle and one quarter of the difference in a parametrized progression of squares. The function tfmn(m,n) retains only the square class of that quantity. Equality of two tfmn values is the exact criterion for scaling two progressions to a common difference.",
+              "Функция fmn(m,n) одновременно выражает площадь пифагорового треугольника и четверть шага параметризованной прогрессии квадратов. Функция tfmn(m,n) — свободная от квадратов часть fmn(m,n). Равенство двух tfmn является точным критерием того, что две прогрессии можно масштабировать до общего шага.",
+              "The function fmn(m,n) is simultaneously the area of a Pythagorean triangle and one quarter of the difference in a parametrized progression of squares. The function tfmn(m,n) is the squarefree part of fmn(m,n). Equality of two tfmn values is the exact criterion for scaling two progressions to a common difference.",
             )}
           </p>
         </div>
@@ -87,31 +87,49 @@ V-4f(m,n),\qquad V,\qquad V+4f(m,n),
         </section>
 
         <section>
-          <h2>{text("2. Квадратные классы", "2. Square classes")}</h2>
+          <h2>{text("2. Свободная от квадратов часть", "2. The squarefree part")}</h2>
           <p>
             {text(
-              "Для ненулевых рациональных чисел отношение «отличаются в рациональный квадрат раз» задаётся фактор-группой",
-              "For nonzero rational numbers, the relation “differ by a rational-square factor” is encoded by the quotient group",
+              "Для целого N≠0 обозначим через t(N) свободную от квадратов часть N. Это единственное свободное от квадратов целое число того же знака, для которого",
+              "For an integer N≠0, let t(N) denote the squarefree part of N. It is the unique squarefree integer with the same sign as N for which",
             )}
           </p>
           <Latex display>{String.raw`
-\mathbb Q^\times/(\mathbb Q^\times)^2,\qquad
-[a]=[b]\ \Longleftrightarrow\ \frac ab\in(\mathbb Q^\times)^2.`}</Latex>
+N=t(N)q^2,\qquad q\in\mathbb Z_{>0}.`}</Latex>
           <p>
             {text(
-              "Для целого N≠0 этот абстрактный класс имеет единственного знакового бесквадратного представителя. Если",
-              "For an integer N≠0, this abstract class has a unique signed squarefree representative. If",
+              "Через разложение N на простые эта часть записывается непосредственно. Если",
+              "It can be read directly from the prime factorization. If",
             )}
           </p>
           <Latex display>{String.raw`
 N=\operatorname{sgn}(N)\prod_p p^{e_p},`}</Latex>
-          <p>{text("то определим", "define")}</p>
+          <p>{text("то", "then")}</p>
           <Latex display>{String.raw`
-t(N)=\operatorname{sgn}(N)\prod_{e_p\ \mathrm{odd}}p.`}</Latex>
+t(N)=\operatorname{sgn}(N)\prod_{e_p\ \mathrm{odd}}p,
+\qquad
+q=\prod_p p^{\lfloor e_p/2\rfloor}.`}</Latex>
           <p>
             {text(
-              "Действительно, N=t(N)q², где q=∏p^{⌊eₚ/2⌋}. Чётности всех показателей простых и знак неизменны при умножении на ненулевой рациональный квадрат, поэтому t(N) определяется квадратным классом и определяет его однозначно.",
-              "Indeed, N=t(N)q² with q=∏p^{⌊eₚ/2⌋}. The parities of all prime exponents and the sign are unchanged by multiplication by a nonzero rational square, so t(N) is determined by the square class and determines it uniquely.",
+              "В произведение t(N) входят ровно те простые, которые входят в N в нечётной степени; остальные степени целиком поглощаются квадратом q². Это доказывает существование разложения. Его единственность следует из единственности разложения на простые: знак t(N) задан знаком N, а показатель каждого простого в свободной от квадратов части может быть только 0 или 1 и потому равен остатку eₚ по модулю 2.",
+              "The product t(N) contains exactly the primes occurring in N to an odd exponent; all remaining powers are absorbed by the square q². This proves existence. Uniqueness follows from unique prime factorization: the sign of t(N) is fixed by the sign of N, and the exponent of each prime in a squarefree part can only be 0 or 1, so it must equal eₚ modulo 2.",
+            )}
+          </p>
+          <p>
+            {text(
+              "На языке квадратных классов та же конструкция выражается эквивалентностью",
+              "In the language of square classes, the same construction is expressed by the equivalence",
+            )}
+          </p>
+          <Latex display>{String.raw`
+t(A)=t(B)
+\iff
+\frac AB\in(\mathbb Q^\times)^2,
+\qquad A,B\in\mathbb Z\setminus\{0\}.`}</Latex>
+          <p>
+            {text(
+              "Поэтому t(N) является каноническим целым представителем класса N в группе ℚ×/(ℚ×)². Эта абстрактная интерпретация будет полезна для доказательств, но сама функция t далее означает просто свободную от квадратов часть.",
+              "Thus t(N) is the canonical integral representative of the class of N in ℚ×/(ℚ×)². This abstract interpretation is useful in proofs, but the function t itself will simply mean the squarefree part.",
             )}
           </p>
           <div className="theorem-block">
@@ -121,8 +139,8 @@ t(N)=\operatorname{sgn}(N)\prod_{e_p\ \mathrm{odd}}p.`}</Latex>
 \qquad m,n\in\mathbb Z,\quad f(m,n)\ne0.`}</Latex>
             <p>
               {text(
-                "Таким образом, fmn хранит величину и масштаб, а tfmn — только её квадратный класс. При f(m,n)=0 прогрессия постоянна и tfmn не определяется.",
-                "Thus fmn retains magnitude and scale, whereas tfmn retains only the square class. When f(m,n)=0, the progression is constant and tfmn is undefined.",
+                "Таким образом, tfmn(m,n) — свободная от квадратов часть fmn(m,n). При f(m,n)=0 прогрессия постоянна и tfmn не определяется.",
+                "Thus tfmn(m,n) is the squarefree part of fmn(m,n). When f(m,n)=0, the progression is constant and tfmn is undefined.",
               )}
             </p>
           </div>
@@ -158,8 +176,8 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
 \frac{AB}{2}=\frac{mn(m^2-n^2)}{q^2}=T.`}</Latex>
           <p>
             {text(
-              "Следовательно, положительное tfmn-значение является квадратсвободным конгруэнтным числом. Здесь «каноничность» означает только выбор бесквадратного представителя квадратного класса: различные пары (m,n) могут задавать одно и то же T.",
-              "Therefore a positive tfmn value is a squarefree congruent number. Here “canonical” refers only to the choice of the squarefree representative of a square class: distinct pairs (m,n) may determine the same T.",
+              "Следовательно, положительное значение tfmn является свободной от квадратов частью площади и одновременно конгруэнтным числом. Различные пары (m,n) могут иметь одну и ту же свободную от квадратов часть и потому задавать одно и то же T.",
+              "Therefore a positive tfmn value is the squarefree part of the area and is also a congruent number. Distinct pairs (m,n) may have the same squarefree part and hence determine the same T.",
             )}
           </p>
         </section>
@@ -190,8 +208,8 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
           <h3>{text("Доказательство", "Proof")}</h3>
           <p>
             {text(
-              "Запишем Fᵢ=Tᵢqᵢ², где Tᵢ=t(Fᵢ) — знаковое бесквадратное число. Отношение F₁/F₂ является квадратом тогда и только тогда, когда совпадают знак и чётности показателей каждого простого, то есть T₁=T₂. Произведение F₁F₂ является положительным квадратом при том же условии.",
-              "Write Fᵢ=Tᵢqᵢ², where Tᵢ=t(Fᵢ) is signed and squarefree. The quotient F₁/F₂ is a square exactly when the sign and the parity of every prime exponent agree, that is, exactly when T₁=T₂. The product F₁F₂ is a positive square under the same condition.",
+              "Запишем Fᵢ=Tᵢqᵢ², где Tᵢ=t(Fᵢ) — свободная от квадратов часть Fᵢ. Отношение F₁/F₂ является квадратом тогда и только тогда, когда совпадают знак и чётности показателей каждого простого, то есть T₁=T₂. Произведение F₁F₂ является положительным квадратом при том же условии.",
+              "Write Fᵢ=Tᵢqᵢ², where Tᵢ=t(Fᵢ) is the squarefree part of Fᵢ. The quotient F₁/F₂ is a square exactly when the sign and the parity of every prime exponent agree, that is, exactly when T₁=T₂. The product F₁F₂ is a positive square under the same condition.",
             )}
           </p>
           <p>
