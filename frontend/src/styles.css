@@ -1509,7 +1509,7 @@ main {
   position: absolute;
   z-index: 12;
   top: calc(100% + 6px);
-  right: 0;
+  left: 0;
   width: min(390px, calc(100vw - 38px));
   max-height: min(70vh, 560px);
   overflow: auto;
