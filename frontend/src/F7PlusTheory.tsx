@@ -66,8 +66,8 @@ f(m,n)\in T(\mathbb Q^\times)^2
 \right\}.`}</Latex>
           <p>
             {text(
-              "Иными словами, [m:n] принадлежит 𝒫_T тогда и только тогда, когда для некоторого q∈ℚ× выполняется f(m,n)=Tq². При целочисленном представителе пары это равносильно tf(m,n)=T.",
-              "Thus [m:n] belongs to 𝒫_T exactly when f(m,n)=Tq² for some q∈ℚ×. For an integral representative of the pair, this is equivalent to tf(m,n)=T.",
+              "Иными словами, [m:n] принадлежит 𝒫_T тогда и только тогда, когда для некоторого q∈ℚ× выполняется f(m,n)=Tq², то есть tf(m,n)=T.",
+              "Thus [m:n] belongs to 𝒫_T exactly when f(m,n)=Tq² for some q∈ℚ×, equivalently tf(m,n)=T.",
             )}
           </p>
           <div className="theorem-block">

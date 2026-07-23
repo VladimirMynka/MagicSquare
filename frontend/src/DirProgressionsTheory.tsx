@@ -435,8 +435,8 @@ V=k^2c(m,n),\qquad
 [\Delta]=[f(m,n)].`}</Latex>
           <p>
             {text(
-              "Две параметризованные прогрессии можно масштабировать до одного и того же ненулевого шага тогда и только тогда, когда отношение их f-значений является рациональным квадратом. Для целых параметров этот класс можно кодировать свободной от квадратов частью f(m,n); именно отсюда далее возникает tfmn-подход.",
-              "Two parametrized progressions can be scaled to the same nonzero difference exactly when the ratio of their f-values is a rational square. For integral parameters this class can be encoded by the squarefree part of f(m,n); this is the source of the tfmn method developed later.",
+              "Две параметризованные прогрессии можно масштабировать до одного и того же ненулевого шага тогда и только тогда, когда отношение их f-значений является рациональным квадратом. Этот квадратный класс кодируется числом t(f(m,n)); именно отсюда далее возникает tfmn-подход.",
+              "Two parametrized progressions can be scaled to the same nonzero difference exactly when the ratio of their f-values is a rational square. This square class is encoded by t(f(m,n)); this is the source of the tfmn method developed later.",
             )}
           </p>
         </section>

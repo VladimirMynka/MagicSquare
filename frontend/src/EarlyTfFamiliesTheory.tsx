@@ -48,8 +48,8 @@ f(a,b)=ab(a-b)(a+b),\qquad
 \operatorname{tf}(a,b)=t\!\left(f(a,b)\right).`}</Latex>
           <p>
             {text(
-              "Пара (a,b) называется невырожденной, если ни один из четырёх множителей функции f не равен нулю. Для двух невырожденных целых пар равенство значений tf эквивалентно условию",
-              "A pair (a,b) is called nondegenerate when none of the four factors of f vanishes. For two nondegenerate integral pairs, equality of tf values is equivalent to",
+              "Пара (a,b) называется невырожденной, если ни один из четырёх множителей функции f не равен нулю. Для двух невырожденных рациональных пар равенство значений tf эквивалентно условию",
+              "A pair (a,b) is called nondegenerate when none of the four factors of f vanishes. For two nondegenerate rational pairs, equality of tf values is equivalent to",
             )}
           </p>
           <Latex display>{String.raw`
@@ -58,8 +58,8 @@ f(a,b)=ab(a-b)(a+b),\qquad
 \frac{f(a,b)}{f(c,d)}\in(\mathbb Q^\times)^2.`}</Latex>
           <p>
             {text(
-              "Все формулы ниже можно рассматривать над ℚ. После умножения каждой пары на общий знаменатель она становится целочисленной, а значение f умножается на четвёртую степень; квадратный класс и значение tf при этом не меняются.",
-              "All formulas below may be read over ℚ. Multiplying each pair by a common denominator makes it integral and multiplies f by a fourth power, so its square class and tf value are unchanged.",
+              "Все формулы ниже рассматриваются над ℚ. При умножении пары на λ∈ℚ× значение f умножается на λ⁴, поэтому квадратный класс и значение tf не меняются.",
+              "All formulas below are considered over ℚ. Scaling a pair by λ∈ℚ× multiplies f by λ⁴, so its square class and tf value are unchanged.",
             )}
           </p>
           <div className="theorem-block">

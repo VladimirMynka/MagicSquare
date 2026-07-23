@@ -90,53 +90,67 @@ V-4f(m,n),\qquad V,\qquad V+4f(m,n),
           <h2>{text("2. Свободная от квадратов часть", "2. The squarefree part")}</h2>
           <p>
             {text(
-              "Для целого N≠0 обозначим через t(N) свободную от квадратов часть N. Это единственное свободное от квадратов целое число того же знака, для которого",
-              "For an integer N≠0, let t(N) denote the squarefree part of N. It is the unique squarefree integer with the same sign as N for which",
+              "Для рационального r∈ℚ× обозначим через t(r) свободную от квадратов часть r. Это единственное свободное от квадратов целое число того же знака, для которого",
+              "For a rational number r∈ℚ×, let t(r) denote the squarefree part of r. It is the unique squarefree integer with the same sign as r for which",
             )}
           </p>
           <Latex display>{String.raw`
-N=t(N)q^2,\qquad q\in\mathbb Z_{>0}.`}</Latex>
+r=t(r)q^2,\qquad q\in\mathbb Q_{>0}.`}</Latex>
           <p>
             {text(
-              "Через разложение N на простые эта часть записывается непосредственно. Если",
-              "It can be read directly from the prime factorization. If",
+              "Запишем рациональное число через его p-адические показатели:",
+              "Write the rational number in terms of its p-adic valuations:",
             )}
           </p>
           <Latex display>{String.raw`
-N=\operatorname{sgn}(N)\prod_p p^{e_p},`}</Latex>
+r=\operatorname{sgn}(r)\prod_p p^{v_p(r)},
+\qquad v_p(r)\in\mathbb Z,`}</Latex>
           <p>{text("то", "then")}</p>
           <Latex display>{String.raw`
-t(N)=\operatorname{sgn}(N)\prod_{e_p\ \mathrm{odd}}p,
-\qquad
-q=\prod_p p^{\lfloor e_p/2\rfloor}.`}</Latex>
+t(r)=\operatorname{sgn}(r)
+\prod_{v_p(r)\ \mathrm{odd}}p.`}</Latex>
           <p>
             {text(
-              "В произведение t(N) входят ровно те простые, которые входят в N в нечётной степени; остальные степени целиком поглощаются квадратом q². Это доказывает существование разложения. Его единственность следует из единственности разложения на простые: знак t(N) задан знаком N, а показатель каждого простого в свободной от квадратов части может быть только 0 или 1 и потому равен остатку eₚ по модулю 2.",
-              "The product t(N) contains exactly the primes occurring in N to an odd exponent; all remaining powers are absorbed by the square q². This proves existence. Uniqueness follows from unique prime factorization: the sign of t(N) is fixed by the sign of N, and the exponent of each prime in a squarefree part can only be 0 or 1, so it must equal eₚ modulo 2.",
+              "Здесь нечётность имеет обычный смысл и для отрицательных показателей. После удаления из каждого vₚ(r) его остатка по модулю 2 все показатели становятся чётными, а оставшееся произведение является квадратом рационального числа. Единственность следует из того, что знак t(r) задан знаком r, а показатель каждого простого в квадратсвободном представителе может быть только 0 или 1 и обязан совпадать с vₚ(r) по модулю 2.",
+              "Parity has its usual meaning for negative valuations as well. Removing the residue of every vₚ(r) modulo 2 leaves only even exponents, and their product is a rational square. Uniqueness follows because the sign of t(r) is fixed by the sign of r, while every prime exponent in a squarefree representative can only be 0 or 1 and must agree with vₚ(r) modulo 2.",
             )}
           </p>
           <p>
             {text(
-              "На языке квадратных классов та же конструкция выражается эквивалентностью",
-              "In the language of square classes, the same construction is expressed by the equivalence",
+              "Для любой записи r=a/b с ненулевыми целыми a,b получается особенно простая формула:",
+              "For any representation r=a/b with nonzero integers a,b, this gives the particularly simple formula",
+            )}
+          </p>
+          <Latex display>{String.raw`
+t\!\left(\frac ab\right)=t(ab),`}</Latex>
+          <p>
+            {text(
+              "поскольку a/b=ab/b². Формула не зависит от выбора числителя и знаменателя: если a/b=c/d, то a/c=b/d, а потому ab/(cd)=(a/c)² — рациональный квадрат.",
+              "because a/b=ab/b². The formula is independent of the chosen numerator and denominator: if a/b=c/d, then a/c=b/d, and hence ab/(cd)=(a/c)² is a rational square.",
+            )}
+          </p>
+          <p>
+            {text(
+              "На языке квадратных классов это означает",
+              "In the language of square classes, this means",
             )}
           </p>
           <Latex display>{String.raw`
 t(A)=t(B)
 \iff
 \frac AB\in(\mathbb Q^\times)^2,
-\qquad A,B\in\mathbb Z\setminus\{0\}.`}</Latex>
+\qquad A,B\in\mathbb Q^\times.`}</Latex>
           <p>
             {text(
-              "Поэтому t(N) является каноническим целым представителем класса N в группе ℚ×/(ℚ×)². Эта абстрактная интерпретация будет полезна для доказательств, но сама функция t далее означает просто свободную от квадратов часть.",
-              "Thus t(N) is the canonical integral representative of the class of N in ℚ×/(ℚ×)². This abstract interpretation is useful in proofs, but the function t itself will simply mean the squarefree part.",
+              "Таким образом, t(r) является каноническим целым представителем класса r в группе ℚ×/(ℚ×)².",
+              "Thus t(r) is the canonical integral representative of the class of r in ℚ×/(ℚ×)².",
             )}
           </p>
           <div className="theorem-block">
             <h3>{text("Определение функции tf", "Definition of the function tf")}</h3>
             <Latex display>{String.raw`
 \operatorname{tf}(m,n)=t\!\left(f(m,n)\right),
-\qquad m,n\in\mathbb Z,\quad f(m,n)\ne0.`}</Latex>
+\qquad m,n\in\mathbb Q,\quad f(m,n)\ne0.`}</Latex>
             <p>
               {text(
                 "Таким образом, tf(m,n) — свободная от квадратов часть f(m,n). При f(m,n)=0 прогрессия постоянна и tf не определяется.",
