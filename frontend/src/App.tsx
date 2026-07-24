@@ -259,9 +259,6 @@ function AppShell() {
         </nav>
         <div className="header-meta">
           <LanguageSwitcher />
-          <span className="release-pill">
-            <i /> alpha · 0.6.0
-          </span>
         </div>
       </header>
 

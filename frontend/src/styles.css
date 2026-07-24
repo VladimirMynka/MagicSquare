@@ -176,23 +176,6 @@ button {
   box-shadow: inset 0 -2px 0 var(--brick);
 }
 
-.release-pill {
-  justify-self: end;
-  color: var(--muted);
-  font: 10px/1.2 var(--mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.release-pill i {
-  width: 7px;
-  height: 7px;
-  display: inline-block;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: var(--sage);
-}
-
 .header-meta {
   justify-self: end;
   display: flex;
@@ -4725,10 +4708,6 @@ main {
     margin-top: -8px;
     transform: translateY(17px);
     box-shadow: 0 6px 18px rgba(72, 63, 48, 0.08);
-  }
-
-  .release-pill {
-    display: none;
   }
 
   .header-meta {
