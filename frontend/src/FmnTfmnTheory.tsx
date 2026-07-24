@@ -15,20 +15,20 @@ export function FmnTfmnTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Частичные квадратные конфигурации · 3.2",
-              "Partial square configurations · 3.2",
+              "Частичные квадратные конфигурации · 3.3",
+              "Partial square configurations · 3.3",
             )}
           </p>
           <h1>
             {text(
-              "fmn и tfmn",
-              "fmn and tfmn",
+              "fmn и tfmn в задаче 6/9",
+              "fmn and tfmn in the 6/9 problem",
             )}
           </h1>
           <p>
             {text(
-              "fmn и tfmn — названия двух связанных конструкций; сами функции обозначаются f и tf. Функция f(m,n) одновременно выражает площадь пифагорового треугольника и четверть шага параметризованной прогрессии квадратов, а tf(m,n)=t(f(m,n)) является свободной от квадратов частью f(m,n). Равенство двух значений tf служит точным критерием того, что две прогрессии можно масштабировать до общего шага.",
-              "fmn and tfmn are the names of two related constructions; the functions themselves are denoted by f and tf. The function f(m,n) is simultaneously the area of a Pythagorean triangle and one quarter of the difference in a parametrized progression of squares, while tf(m,n)=t(f(m,n)) is the squarefree part of f(m,n). Equality of two tf values is the exact criterion for scaling two progressions to a common difference.",
+              "Метод возникает при построении конфигураций 6/9 из двух параллельных прогрессий квадратов: их шаги должны совпасть. fmn и tfmn — названия связанных конструкций, а сами функции обозначаются f и tf. Значение f(m,n) задаёт четверть шага прогрессии, а tf(m,n)=t(f(m,n)) хранит ровно тот квадратный класс, который определяет возможность согласовать два шага.",
+              "The method arises when a 6/9 configuration is built from two parallel progressions of squares: their differences must agree. fmn and tfmn are the names of the related constructions, while the functions themselves are denoted by f and tf. The value f(m,n) gives one quarter of a progression difference, and tf(m,n)=t(f(m,n)) records exactly the square class that determines whether two differences can be matched.",
             )}
           </p>
         </div>
@@ -36,7 +36,51 @@ export function FmnTfmnTheoryPage() {
 
       <div className="proof-document topic-document fmn-tfmn-theory-document">
         <section>
-          <h2>{text("1. Площадь и шаг прогрессии", "1. Area and progression difference")}</h2>
+          <h2>{text("1. От масок к задаче tfmn", "1. From square patterns to the tfmn problem")}</h2>
+          <p>
+            {text(
+              "Общая теория масок сначала классифицирует конфигурации 4/9 и 5/9 и переводит квадратность выбранных клеток в системы квадрик. Следующий уровень — 6/9. Среди его позиционных типов выделяются маски, являющиеся объединением двух непересекающихся арифметических прогрессий одного направления. С точностью до поворотов и отражений имеются два таких типа; их можно представить как",
+              "The general theory of square-valued patterns first classifies the 4/9 and 5/9 configurations and translates squarehood of the selected entries into systems of quadrics. The next level is 6/9. Among its positional types are patterns formed by two disjoint arithmetic progressions in the same direction. Up to rotations and reflections there are two such types, represented by",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\underbrace{AEJ}_{\mathrm{AP}}\sqcup
+\underbrace{BFG}_{\mathrm{AP}}=ABEFGJ,
+\qquad
+\underbrace{AFH}_{\mathrm{AP}}\sqcup
+\underbrace{BDJ}_{\mathrm{AP}}=ABDFHJ.`}</Latex>
+          <p>
+            {text(
+              "В общей форме магического квадрата прогрессии внутри каждой пары параллельны и имеют один и тот же ориентированный шаг. Если первая прогрессия параметризована парой (m,n) и масштабом u, а вторая — парой (p,q) и масштабом v, то их шаги имеют вид",
+              "In the general form of a magic square, the two progressions in each pair are parallel and have the same oriented difference. If the first progression is parametrized by (m,n) with scale u and the second by (p,q) with scale v, their differences have the form",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\Delta_1=4u^2f(m,n),\qquad
+\Delta_2=4v^2f(p,q).`}</Latex>
+          <p>
+            {text(
+              "Поэтому первая обязательная задача для такого 6/9 состоит в решении уравнения",
+              "Thus the first necessary problem for such a 6/9 configuration is to solve",
+            )}
+          </p>
+          <Latex display>{String.raw`
+u^2f(m,n)=v^2f(p,q).`}</Latex>
+          <p>
+            {text(
+              "Оно разрешимо в ненулевых рациональных масштабах u,v ровно тогда, когда f(m,n) и f(p,q) принадлежат одному квадратному классу. Функция tf вводится именно как каноническая координата этого класса. После согласования шагов остаются условия совместного размещения обеих прогрессий в одном магическом квадрате; метод tfmn решает необходимую арифметическую часть задачи 6/9, но не подменяет всю систему.",
+              "It is solvable in nonzero rational scales u and v exactly when f(m,n) and f(p,q) lie in the same square class. The function tf is introduced precisely as a canonical coordinate of that class. Once the differences have been matched, the two progressions must still satisfy the placement conditions of a single magic square; the tfmn method solves the necessary arithmetic part of the 6/9 problem, not the entire system.",
+            )}
+          </p>
+          <div className="topic-actions">
+            <TheoryLink className="button button-ghost" to="/proofs/general">
+              {text("Предшествующая теория масок", "Preceding theory of square patterns")}
+            </TheoryLink>
+          </div>
+        </section>
+
+        <section>
+          <h2>{text("2. Площадь и шаг прогрессии", "2. Area and progression difference")}</h2>
           <p>
             {text("Для ненулевых рациональных m,n положим", "For nonzero rational m,n, define")}
           </p>
@@ -87,7 +131,7 @@ V-4f(m,n),\qquad V,\qquad V+4f(m,n),
         </section>
 
         <section>
-          <h2>{text("2. Свободная от квадратов часть", "2. The squarefree part")}</h2>
+          <h2>{text("3. Свободная от квадратов часть", "3. The squarefree part")}</h2>
           <p>
             {text(
               "Для рационального r∈ℚ× обозначим через t(r) свободную от квадратов часть r. Это единственное свободное от квадратов целое число того же знака, для которого",
@@ -161,7 +205,7 @@ t(A)=t(B)
         </section>
 
         <section>
-          <h2>{text("3. tf(m,n) как конгруэнтное число", "3. tf(m,n) as a congruent number")}</h2>
+          <h2>{text("4. tf(m,n) как конгруэнтное число", "4. tf(m,n) as a congruent number")}</h2>
           <p>
             {text(
               "Пусть m>n>0 — целые числа и",
@@ -197,7 +241,7 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("4. Критерии равенства значений tf", "4. Criteria for equality of tf values")}</h2>
+          <h2>{text("5. Критерии равенства значений tf", "5. Criteria for equality of tf values")}</h2>
           <div className="theorem-block">
             <h3>{text("Теорема", "Theorem")}</h3>
             <p>
@@ -235,7 +279,7 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("5. Согласование масштабов прогрессий", "5. Matching the scales of progressions")}</h2>
+          <h2>{text("6. Согласование масштабов прогрессий", "6. Matching the scales of progressions")}</h2>
           <p>
             {text(
               "Умножение всех трёх членов прогрессии квадратов на λ² сохраняет квадратность и умножает её шаг на λ². Поэтому для двух параметрических прогрессий со значениями F₁=f(m₁,n₁) и F₂=f(m₂,n₂) общий ориентированный шаг существует тогда и только тогда, когда найдутся ненулевые α,β∈ℚ такие, что",
@@ -269,7 +313,7 @@ H=\frac{m^2+n^2}{q}.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("6. Симметрии параметров", "6. Parameter symmetries")}</h2>
+          <h2>{text("7. Симметрии параметров", "7. Parameter symmetries")}</h2>
           <p>
             {text(
               "Часть равенств значений tf возникает из замен параметров, которые не меняют квадратный класс или только обращают ориентацию прогрессии:",
@@ -335,7 +379,7 @@ f(m+n,m-n)
         </section>
 
         <section>
-          <h2>{text("7. Саморекурсия функции tf", "7. The self-recurrence of tf")}</h2>
+          <h2>{text("8. Саморекурсия функции tf", "8. The self-recurrence of tf")}</h2>
           <p>
             {text(
               "Одна прогрессия квадратов сама задаёт новую пару параметров. Положим",
@@ -370,7 +414,7 @@ f(V,D)
         </section>
 
         <section>
-          <h2>{text("8. От фиксированного tf к F7+", "8. From fixed tf to F7+")}</h2>
+          <h2>{text("9. От фиксированного tf к F7+", "9. From fixed tf to F7+")}</h2>
           <p>
             {text(
               "Фиксированное положительное значение T=tf(m,n) задаёт конгруэнтную эллиптическую кривую",
@@ -394,7 +438,7 @@ E_T:\quad y^2=x^3-T^2x.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("9. От метода tfmn к конфигурациям 6/9", "9. From the tfmn method to 6/9 configurations")}</h2>
+          <h2>{text("10. Что остаётся от задачи 6/9", "10. What remains of the 6/9 problem")}</h2>
           <p>
             {text(
               "Равенство значений tf решает задачу согласования шагов двух прогрессий квадратов. Чтобы разместить обе прогрессии в одном магическом квадрате, необходимо дополнительно согласовать их средние члены, общие клетки и линейные координаты E,x,y. Эти условия зависят от позиционного типа конфигурации.",

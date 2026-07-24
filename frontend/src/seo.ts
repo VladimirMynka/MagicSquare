@@ -105,7 +105,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   "theory/fmn-tfmn": {
     published: "2026-07-23",
-    modified: "2026-07-23",
+    modified: "2026-07-24",
   },
   "theory/early-tf-families": {
     published: "2026-07-23",
@@ -309,15 +309,15 @@ const STATIC_METADATA: Readonly<
   },
   "theory/fmn-tfmn": {
     ru: {
-      title: "fmn и tfmn: функции f и tf",
+      title: "fmn и tfmn в задаче 6/9",
       description:
-        "Конструкции fmn и tfmn: функция f, её свободная от квадратов часть tf, согласование шагов прогрессий и конгруэнтные эллиптические кривые.",
+        "Метод fmn и tfmn для двух параллельных прогрессий квадратов в конфигурациях 6/9: функция f, квадратный класс tf, согласование шагов и конгруэнтные кривые.",
       type: "Article",
     },
     en: {
-      title: "fmn and tfmn: The Functions f and tf",
+      title: "fmn and tfmn in the 6/9 Magic-Square Problem",
       description:
-        "The fmn and tfmn constructions: the function f, its squarefree part tf, matching progression differences, and congruent-number elliptic curves.",
+        "The fmn and tfmn method for two parallel progressions of squares in 6/9 configurations: the function f, the square class tf, difference matching, and congruent-number curves.",
       type: "Article",
     },
   },

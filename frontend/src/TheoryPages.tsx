@@ -98,12 +98,24 @@ export function TheoryIndexPage() {
         "Partial square configurations",
       ),
       summary: text(
-        "Позиционные типы, квадратичные системы и полнота параметрических семейств.",
-        "Positional types, quadratic systems, and completeness of parametric families.",
+        "От классификации масок 4/9 и 5/9 к прогрессиям квадратов, конфигурациям 6/9 и методу tfmn.",
+        "From the classification of 4/9 and 5/9 patterns to progressions of squares, 6/9 configurations, and the tfmn method.",
       ),
       chapters: [
         {
           index: "3.1",
+          to: "/proofs/general",
+          title: text(
+            "Общая теория масок 4/9 и 5/9",
+            "General theory of the 4/9 and 5/9 patterns",
+          ),
+          summary: text(
+            "Орбиты D₄, исключение E,x,y, квадратичные системы, цветовые опоры и критерии полноты параметризаций.",
+            "D₄ orbits, elimination of E,x,y, quadratic systems, colored supports, and criteria for completeness of parametrizations.",
+          ),
+        },
+        {
+          index: "3.2",
           to: "/theory/arithmetic-progressions-dir",
           title: text(
             "Арифметические прогрессии квадратов и dir-функция",
@@ -115,19 +127,19 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "3.2",
+          index: "3.3",
           to: "/theory/fmn-tfmn",
           title: text(
-            "fmn и tfmn",
-            "fmn and tfmn",
+            "fmn и tfmn в задаче 6/9",
+            "fmn and tfmn in the 6/9 problem",
           ),
           summary: text(
-            "Функция f, свободная от квадратов часть tf, критерий согласования шагов двух прогрессий и эллиптическая кривая фиксированного значения tf.",
-            "The function f, its squarefree part tf, the criterion for matching two progression differences, and the elliptic curve of a fixed tf value.",
+            "Две параллельные прогрессии в 6/9, функция f, свободная от квадратов часть tf, критерий согласования шагов и эллиптическая кривая фиксированного tf.",
+            "Two parallel progressions in a 6/9 pattern, the function f, its squarefree part tf, the difference-matching criterion, and the elliptic curve of a fixed tf value.",
           ),
         },
         {
-          index: "3.3",
+          index: "3.4",
           to: "/theory/early-tf-families",
           title: text(
             "Ранние семейства F1–F8",
@@ -136,18 +148,6 @@ export function TheoryIndexPage() {
           summary: text(
             "Полные элементарные параметризации F1–F4, тождество F7, четвертичный подъём F8 и точные границы устаревшей упрощённой классификации.",
             "Complete elementary parametrizations of F1–F4, the F7 identity, the F8 quartic lift, and the exact scope of the outdated simplified classification.",
-          ),
-        },
-        {
-          index: "3.4",
-          to: "/proofs/general",
-          title: text(
-            "Общая теория масок 4/9 и 5/9",
-            "General theory of the 4/9 and 5/9 patterns",
-          ),
-          summary: text(
-            "Орбиты D₄, исключение E,x,y, квадратичные системы, цветовые опоры и критерии полноты параметризаций.",
-            "D₄ orbits, elimination of E,x,y, quadratic systems, colored supports, and criteria for completeness of parametrizations.",
           ),
         },
       ],

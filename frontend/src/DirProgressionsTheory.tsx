@@ -15,8 +15,8 @@ export function DirProgressionsTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Частичные квадратные конфигурации · 3.1",
-              "Partial square configurations · 3.1",
+              "Частичные квадратные конфигурации · 3.2",
+              "Partial square configurations · 3.2",
             )}
           </p>
           <h1>

@@ -2870,13 +2870,16 @@ function GeneralTheoryPage() {
   const proofs = commonProofs(locale);
   return (
     <article className="page proof-page general-theory-page">
-      <Link className="back-link" to="/lab">
-        ← {text("К лаборатории", "Back to the laboratory")}
+      <Link className="back-link" to="/theory#partial-configurations">
+        ← {text("К циклу о частичных конфигурациях", "Back to the partial-configurations series")}
       </Link>
       <header className="proof-page-header">
         <div>
           <p className="eyebrow">
-            {text("Общая часть доказательства", "General proof chapter")}
+            {text(
+              "Частичные квадратные конфигурации · 3.1",
+              "Partial square configurations · 3.1",
+            )}
           </p>
           <h1>{text("Орбиты и квадрики 4/9 → 5/9", "Orbits and quadrics: 4/9 → 5/9")}</h1>
           <p>
@@ -3066,6 +3069,18 @@ function GeneralTheoryPage() {
               "An individual proof must do more than verify the two quadrics: it must derive their joint root parametrization. Coverage is reported separately as proved, algorithmically recoverable through gcds and signs, or still unknown. Verifying an identity alone does not prove completeness.",
             )}
           </p>
+          <div className="topic-actions">
+            <Link className="button button-primary" to="/theory/arithmetic-progressions-dir">
+              {text(
+                "Далее: прогрессии квадратов и dir",
+                "Next: progressions of squares and dir",
+              )}{" "}
+              <span>→</span>
+            </Link>
+            <Link className="button button-ghost" to="/lab">
+              {text("Открыть атлас масок", "Open the pattern atlas")}
+            </Link>
+          </div>
         </section>
       </div>
     </article>
