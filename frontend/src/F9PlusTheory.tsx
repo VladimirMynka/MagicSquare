@@ -27,8 +27,8 @@ export function F9PlusTheoryPage() {
           </h1>
           <p>
             {text(
-              "Однородная квадратичная подстановка превращает равенство квадратных классов двух пифагоровых площадей в условие квадратности одной бинарной квартиты. Все подстановки, для которых это сокращение является полиномиальным тождеством, образуют конечное линейное расположение.",
-              "A homogeneous quadratic substitution turns equality of two Pythagorean-area square classes into a single binary-quartic square condition. All substitutions for which this cancellation is a polynomial identity form a finite linear arrangement.",
+              "Пары с одинаковым tf можно искать, подставляя вместо одной пары параметров квадратичные выражения от другой. Простейший пример приводит к кривой y²=x³−2x; его обобщение превращает поиск подходящих подстановок в конечную линейную задачу.",
+              "Pairs with equal tf can be sought by replacing one parameter pair with quadratic expressions in the other. The simplest example leads to the curve y²=x³−2x; generalizing it turns the search for suitable substitutions into a finite linear problem.",
             )}
           </p>
         </div>
@@ -36,7 +36,7 @@ export function F9PlusTheoryPage() {
 
       <div className="proof-document topic-document f9-plus-theory-document">
         <section>
-          <h2>{text("1. Прямой остаточный механизм", "1. The direct residual mechanism")}</h2>
+          <h2>{text("1. Поиск решений через подстановки", "1. Searching for solutions by substitution")}</h2>
           <p>
             {text(
               "Для рациональной пары положим",
@@ -47,22 +47,69 @@ export function F9PlusTheoryPage() {
 f(a,b)=ab(a-b)(a+b)=ab(a^2-b^2).`}</Latex>
           <p>
             {text(
-              "Ищется подстановка, которая сопоставляет исходной паре (a,b) новую пару (C(a,b),D(a,b)) так, чтобы отношение соответствующих значений f сокращалось до одного однородного многочлена q:",
-              "We seek a substitution sending the initial pair (a,b) to a new pair (C(a,b),D(a,b)) such that the quotient of the corresponding f-values reduces to one homogeneous polynomial q:",
+              "Один из способов получить две пары с одинаковым tf состоит в том, чтобы выразить новую пару (c,d) через исходные параметры (a,b) и потребовать",
+              "One way to obtain two pairs with the same tf is to express a new pair (c,d) in terms of the original parameters (a,b) and require",
             )}
           </p>
           <Latex display>{String.raw`
-f(C(a,b),D(a,b))=f(a,b)\,q(a,b).`}</Latex>
+\frac{f(c,d)}{f(a,b)}=y^2.`}</Latex>
           <p>
             {text(
-              "Тогда совпадение tf определяется единственным остаточным условием q(a,b)=s². Обозначение F9+ историческое; здесь оно относится ко всему слою таких квадратичных подстановок, а не к одной формуле.",
-              "Then equality of tf values is governed by the single residual condition q(a,b)=s². The label F9+ is historical; here it denotes the entire layer of such quadratic substitutions, not one formula.",
+              "В семействах F1, F2 и F3 линейные подстановки сводят остаточное условие к рациональным коникам и дают полные элементарные параметризации. Здесь рассматривается следующий уровень: квадратичные подстановки, остаточное условие которых в невырожденном случае задаёт кривую рода 1 и после выбора рациональной точки — эллиптическую кривую.",
+              "In the F1, F2, and F3 families, linear substitutions reduce the residual condition to rational conics and yield complete elementary parametrizations. Here we consider the next level: quadratic substitutions whose residual condition, in the nondegenerate case, defines a genus-one curve and, after choosing a rational point, an elliptic curve.",
             )}
           </p>
         </section>
 
         <section>
-          <h2>{text("2. Общая квадратичная подстановка", "2. The general quadratic substitution")}</h2>
+          <h2>{text("2. Базовый пример F9", "2. The basic F9 example")}</h2>
+          <p>
+            {text(
+              "Эмпирический подбор приводит к подстановке",
+              "An empirical search leads to the substitution",
+            )}
+          </p>
+          <Latex display>{String.raw`
+c=a^2-b^2,\qquad d=b^2.`}</Latex>
+          <p>
+            {text(
+              "Она не делает значения f тождественно равными. Вместо этого прямое раскрытие даёт точное сокращение",
+              "It does not make the two f-values identically equal. Instead, direct expansion gives the exact cancellation",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\begin{aligned}
+f(a^2-b^2,b^2)
+&=f(a,b)\,ab(a^2-2b^2),\\
+\frac{f(a^2-b^2,b^2)}{f(a,b)}
+&=ab(a^2-2b^2).
+\end{aligned}`}</Latex>
+          <p>
+            {text(
+              "Следовательно, эта подстановка сохраняет tf ровно на рациональных решениях",
+              "Consequently, this substitution preserves tf precisely on the rational solutions of",
+            )}
+          </p>
+          <Latex display>{String.raw`
+s^2=ab(a^2-2b^2).`}</Latex>
+          <p>
+            {text(
+              "При b≠0 нормировка x=a/b, y=s/b² превращает условие в эллиптическую кривую",
+              "For b≠0, the normalization x=a/b and y=s/b² turns the condition into the elliptic curve",
+            )}
+          </p>
+          <Latex display>{String.raw`
+y^2=x^3-2x.`}</Latex>
+          <p>
+            {text(
+              "Этот пример подсказывает общий вопрос: какие однородные квадратичные формы C и D позволяют сократить f(C,D)/f(a,b) до одного полиномиального остатка?",
+              "This example suggests the general question: which homogeneous quadratic forms C and D allow f(C,D)/f(a,b) to cancel to a single polynomial residual?",
+            )}
+          </p>
+        </section>
+
+        <section>
+          <h2>{text("3. Общая квадратичная подстановка", "3. The general quadratic substitution")}</h2>
           <p>
             {text(
               "Пусть C и D — произвольные однородные квадратичные формы над ℚ:",
@@ -99,7 +146,7 @@ f(a,b)=a\,b\,(a-b)(a+b).`}</Latex>
         </section>
 
         <section>
-          <h2>{text("3. Теорема сокращения", "3. The cancellation theorem")}</h2>
+          <h2>{text("4. Теорема сокращения", "4. The cancellation theorem")}</h2>
           <div className="theorem-block">
             <h3>{text("Теорема F9+", "F9+ theorem")}</h3>
             <p>
@@ -128,7 +175,7 @@ f(a,b)=a\,b\,(a-b)(a+b).`}</Latex>
         </section>
 
         <section>
-          <h2>{text("4. Конечное линейное расположение", "4. The finite linear arrangement")}</h2>
+          <h2>{text("5. Конечное линейное расположение", "5. The finite linear arrangement")}</h2>
           <p>
             {text(
               "Для каждой из четырёх базовых прямых имеется четыре выбора исчезающего множителя. Получаются 4⁴=256 назначений. Каждое назначение задаёт четыре линейных условия на шесть коэффициентов A,B,C₀,E,F,G.",
@@ -158,10 +205,24 @@ C=0,\qquad D=0,\qquad C=D,\qquad C=-D.`}</Latex>
               )}
             </p>
           </div>
+          <p>
+            {text(
+              "Базовый F9 входит в это расположение как точка одномерной ветви",
+              "The basic F9 construction belongs to this arrangement as a point on the one-dimensional branch",
+            )}
+          </p>
+          <Latex display>{String.raw`
+C=a^2-b^2,\qquad D=b^2+\lambda ab.`}</Latex>
+          <p>
+            {text(
+              "При λ=0 восстанавливается подстановка предыдущего раздела. Поэтому исходный F9 является частным случаем общего слоя F9+, а не отдельной от него конструкцией.",
+              "At λ=0 this recovers the substitution of the preceding section. Thus the original F9 is a special case of the general F9+ layer, not a separate construction.",
+            )}
+          </p>
         </section>
 
         <section>
-          <h2>{text("5. Остаточная квартита и точный критерий tf", "5. The residual quartic and the exact tf criterion")}</h2>
+          <h2>{text("6. Остаточная квартита и точный критерий tf", "6. The residual quartic and the exact tf criterion")}</h2>
           <p>
             {text(
               "На любой невырожденной ветви частное",
@@ -201,7 +262,7 @@ z^2=q(r,1).`}</Latex>
         </section>
 
         <section>
-          <h2>{text("6. Почему возникают кривые рода 1", "6. Why genus-one curves appear")}</h2>
+          <h2>{text("7. Почему возникают кривые рода 1", "7. Why genus-one curves appear")}</h2>
           <p>
             {text(
               "Если квартита q(r,1) квадратсвободна и имеет степень 3 или 4, гладкая проективная модель кривой z²=q(r,1) имеет род 1. Её факторизация определяет не род, а доступность рациональной исходной точки и структуру 2-кручения.",
@@ -259,7 +320,7 @@ z^2=q(r,1).`}</Latex>
         </section>
 
         <section>
-          <h2>{text("7. Точная область полноты", "7. Exact completeness boundary")}</h2>
+          <h2>{text("8. Точная область полноты", "8. Exact completeness boundary")}</h2>
           <div className="theorem-block">
             <h3>{text("Что классифицировано полностью", "What is classified completely")}</h3>
             <p>
@@ -278,7 +339,7 @@ z^2=q(r,1).`}</Latex>
         </section>
 
         <section>
-          <h2>{text("8. Роль F9+", "8. The role of F9+")}</h2>
+          <h2>{text("9. Роль F9+", "9. The role of F9+")}</h2>
           <p>
             {text(
               "F4+ и F7+ описывают все решения в двух универсальных системах координат, но сами по себе не перечисляют рациональные точки. F9+ решает другую задачу: он выделяет явные однопараметрические слои, на которых поиск пар переносится на конкретные кривые рода 1. Рациональные точки этих кривых непосредственно порождают пары с совпадающим tf.",
