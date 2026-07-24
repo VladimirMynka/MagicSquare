@@ -85,7 +85,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   theory: {
     published: "2026-07-22",
-    modified: "2026-07-23",
+    modified: "2026-07-24",
   },
   "theory/magic-squares-3x3": {
     published: "2026-07-22",
@@ -109,7 +109,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   "theory/early-tf-families": {
     published: "2026-07-23",
-    modified: "2026-07-23",
+    modified: "2026-07-24",
   },
   "theory/f7-plus": {
     published: "2026-07-23",
@@ -121,7 +121,15 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   "theory/tf-pair-generation": {
     published: "2026-07-23",
-    modified: "2026-07-23",
+    modified: "2026-07-24",
+  },
+  "theory/f9-plus": {
+    published: "2026-07-24",
+    modified: "2026-07-24",
+  },
+  "theory/f9-plus-elliptic-layers": {
+    published: "2026-07-24",
+    modified: "2026-07-24",
   },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
@@ -200,6 +208,34 @@ const STATIC_METADATA: Readonly<
       title: "F7+ and F4+: Generating Parameter Pairs with Equal tf",
       description:
         "A complete workflow for generating tf(a,b)=tf(c,d): F4+ supplies a common square class and two seed points, while F7+ and the group law produce further pairs.",
+      type: "Article",
+    },
+  },
+  "theory/f9-plus": {
+    ru: {
+      title: "F9+: квадратичные подстановки и теорема сокращения",
+      description:
+        "Полная классификация однородных квадратичных подстановок с точным сокращением f(C,D)/f(a,b), 204 невырожденные ветви и остаточные кривые рода 1.",
+      type: "Article",
+    },
+    en: {
+      title: "F9+: Quadratic Substitutions and the Cancellation Theorem",
+      description:
+        "A complete classification of homogeneous quadratic substitutions with exact cancellation of f(C,D)/f(a,b), 204 nondegenerate branches, and residual genus-one curves.",
+      type: "Article",
+    },
+  },
+  "theory/f9-plus-elliptic-layers": {
+    ru: {
+      title: "Эллиптические слои F9+: от y²=x³−2x к семействам кривых",
+      description:
+        "Базовая биекция F9, доказательство бесконечности, подлинные однопараметрические семейства квадратичных подстановок и их связь с F4+ и F7+.",
+      type: "Article",
+    },
+    en: {
+      title: "The Elliptic Layers of F9+: From y²=x³−2x to Families of Curves",
+      description:
+        "The basic F9 bijection, a proof of infinitude, genuine one-parameter families of quadratic substitutions, and their relation to F4+ and F7+.",
       type: "Article",
     },
   },
@@ -689,6 +725,8 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/f7-plus",
     "theory/f4-plus",
     "theory/tf-pair-generation",
+    "theory/f9-plus",
+    "theory/f9-plus-elliptic-layers",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

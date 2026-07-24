@@ -199,10 +199,34 @@ export function TheoryIndexPage() {
             "F7+ turns known points on a fixed curve into parameter pairs, while F4+ produces the square class together with two seed points; the group law extends them to a lattice of solutions.",
           ),
         },
+        {
+          index: "4.4",
+          to: "/theory/f9-plus",
+          title: text(
+            "F9+: квадратичные подстановки и теорема сокращения",
+            "F9+: quadratic substitutions and the cancellation theorem",
+          ),
+          summary: text(
+            "Полная классификация однородных квадратичных подстановок с точным полиномиальным сокращением, 204 невырожденные проективные ветви и остаточная квартита как точный критерий совпадения tf.",
+            "A complete classification of homogeneous quadratic substitutions with exact polynomial cancellation, 204 nondegenerate projective branches, and the residual quartic as an exact criterion for equal tf values.",
+          ),
+        },
+        {
+          index: "4.5",
+          to: "/theory/f9-plus-elliptic-layers",
+          title: text(
+            "Эллиптические слои F9+",
+            "The elliptic layers of F9+",
+          ),
+          summary: text(
+            "Базовая кривая y²=x³−2x, подлинные однопараметрические семейства, известные квадратичные слои и их вложение в F4+ с последующим переходом к F7+.",
+            "The basic curve y²=x³−2x, genuine one-parameter families, recorded quadratic layers, and their embedding into F4+ followed by the passage to F7+.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: конструктивный взгляд F8/F9-like на ту же задачу.",
-        "Next: the constructive F8/F9-like viewpoint on the same problem.",
+        "Далее: нормовые подъёмы F8+ и остальные конструктивные слои.",
+        "Next: the F8+ norm lifts and the remaining constructive layers.",
       ),
     },
     {

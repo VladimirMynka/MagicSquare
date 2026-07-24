@@ -384,6 +384,9 @@ P+Q=(240,-1800),\qquad
             <TheoryLink className="button button-ghost" to="/theory/f4-plus">
               {text("Геометрия и ранг F4+", "Geometry and rank of F4+")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/f9-plus">
+              {text("К конструктивным слоям F9+", "Continue to the constructive F9+ layers")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению", "Theory contents")}
             </TheoryLink>

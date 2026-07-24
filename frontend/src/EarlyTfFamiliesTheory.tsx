@@ -555,6 +555,9 @@ y^2
             <TheoryLink className="button button-ghost" to="/theory/f4-plus">
               {text("Современная теория F4+", "The modern F4+ theory")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/f9-plus">
+              {text("Квадратические слои F9+", "The quadratic F9+ layers")}
+            </TheoryLink>
           </div>
         </section>
       </div>

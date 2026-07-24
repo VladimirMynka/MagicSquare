@@ -76,6 +76,8 @@ import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { F7PlusTheoryPage } from "./F7PlusTheory";
 import { F4PlusTheoryPage } from "./F4PlusTheory";
 import { TfPairGenerationTheoryPage } from "./TfPairGenerationTheory";
+import { F9PlusTheoryPage } from "./F9PlusTheory";
+import { F9EllipticLayersTheoryPage } from "./F9EllipticLayersTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3599,6 +3601,11 @@ export function App() {
         <Route
           path="theory/tf-pair-generation"
           element={<TfPairGenerationTheoryPage />}
+        />
+        <Route path="theory/f9-plus" element={<F9PlusTheoryPage />} />
+        <Route
+          path="theory/f9-plus-elliptic-layers"
+          element={<F9EllipticLayersTheoryPage />}
         />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"
