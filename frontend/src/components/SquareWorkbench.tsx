@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useLocale } from "../i18n";
 import {
   formatInteger,
@@ -18,6 +19,7 @@ export function SquareWorkbench({
   factorized = false,
   factorizations = [],
   cellTones = {},
+  footer,
 }: {
   coordinates: Coordinates;
   snapshot: SquareSnapshot;
@@ -27,6 +29,7 @@ export function SquareWorkbench({
   factorized?: boolean;
   factorizations?: readonly (string | undefined)[];
   cellTones?: Readonly<Partial<Record<Position, SquareCellTone>>>;
+  footer?: ReactNode;
 }) {
   const { text } = useLocale();
   const hasDeclaredMask = declaredPositions.length > 0;
@@ -120,6 +123,7 @@ export function SquareWorkbench({
           ok={snapshot.entriesDistinct}
         />
       </div>
+      {footer}
     </div>
   );
 }

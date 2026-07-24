@@ -4,6 +4,13 @@ import {
   type SquareCellTone,
 } from "./components/SquareWorkbench";
 import {
+  LaboratoryControls,
+  LaboratoryLayout,
+  LaboratoryToolbar,
+  LaboratoryWorkbench,
+  LaboratoryWorkspace,
+} from "./components/LaboratoryLayout";
+import {
   FactorizationWarningDialog,
   useSquareFactorization,
 } from "./components/SquareFactorization";
@@ -434,8 +441,8 @@ export function SixNineLabPage() {
   const rightError = pairError(rightInfo, text);
 
   return (
-    <div className="page six-nine-lab-page">
-      <div className="six-nine-heading">
+    <div className="page lab-page six-nine-lab-page">
+      <div className="lab-heading">
         <div>
           <p className="eyebrow">
             {text("Математическая мастерская · β", "Mathematical workbench · β")}
@@ -450,12 +457,70 @@ export function SixNineLabPage() {
         </p>
       </div>
 
-      <nav className="six-nine-level-nav" aria-label={text("Режим лаборатории", "Laboratory mode")}>
-        <TheoryLink to="/lab">4/9 · 5/9</TheoryLink>
-        <span>6/9 · β</span>
-      </nav>
+      <LaboratoryLayout className="six-nine-laboratory-layout">
+        <aside className="family-panel six-nine-family-panel">
+          <div className="panel-label">
+            <span>{text("Режим и классы", "Mode and classes")}</span>
+            <small>2 {text("класса", "classes")}</small>
+          </div>
+          <div
+            className="family-level-tabs six-nine-level-tabs"
+            aria-label={text("Уровень квадратной маски", "Square-mask level")}
+          >
+            <TheoryLink className="six-nine-back-tab" to="/lab">
+              4/9 · 5/9
+            </TheoryLink>
+            <button className="active" type="button">
+              6/9 · β
+            </button>
+          </div>
+          <div className="family-list">
+            <button
+              className={`family-button ${kind === "ACEFGH" ? "active" : ""}`}
+              type="button"
+              onClick={() => {
+                setKind("ACEFGH");
+                setPrimitive(false);
+              }}
+            >
+              <span className="six-nine-family-mark">I</span>
+              <span>
+                <strong>ACEFGH</strong>
+                <small>≃ ABEFGJ</small>
+              </span>
+              <i>→</i>
+            </button>
+            <button
+              className={`family-button ${kind === "ABDFHJ" ? "active" : ""}`}
+              type="button"
+              onClick={() => {
+                setKind("ABDFHJ");
+                setPrimitive(false);
+              }}
+            >
+              <span className="six-nine-family-mark">II</span>
+              <span>
+                <strong>ABDFHJ</strong>
+                <small>{text("параллельные прогрессии", "parallel progressions")}</small>
+              </span>
+              <i>→</i>
+            </button>
+          </div>
+        </aside>
 
-      <section className="six-nine-workspace">
+        <LaboratoryWorkspace>
+          <LaboratoryToolbar>
+            <div>
+              <span className="family-chip tone-red-blue">6/9 · tfmn</span>
+              <h2>{kind}</h2>
+            </div>
+            <TheoryLink className="icon-button" to="/theory/fmn-tfmn">
+              {text("Почему это работает", "Why this works")} ↗
+            </TheoryLink>
+          </LaboratoryToolbar>
+
+          <LaboratoryWorkbench className="six-nine-standard-workbench">
+            <LaboratoryControls className="six-nine-control-desk">
         <header className="six-nine-source-bar">
           <div>
             <span>{text("Заполнить рабочие пары", "Fill the working pairs")}</span>
@@ -668,7 +733,6 @@ export function SixNineLabPage() {
           </div>
         </section>
 
-        <div className="six-nine-output-grid">
           <section className="six-nine-placement">
             <header>
               <div>
@@ -685,28 +749,6 @@ export function SixNineLabPage() {
                 </p>
               </details>
             </header>
-            <div className="six-nine-kind-tabs">
-              <button
-                className={kind === "ACEFGH" ? "active" : ""}
-                type="button"
-                onClick={() => {
-                  setKind("ACEFGH");
-                  setPrimitive(false);
-                }}
-              >
-                I · ACEFGH <small>≃ ABEFGJ</small>
-              </button>
-              <button
-                className={kind === "ABDFHJ" ? "active" : ""}
-                type="button"
-                onClick={() => {
-                  setKind("ABDFHJ");
-                  setPrimitive(false);
-                }}
-              >
-                II · ABDFHJ
-              </button>
-            </div>
             <div className="progression-equations">
               <span>
                 {FIRST_PROGRESSION[kind].join("—")}
@@ -751,32 +793,22 @@ export function SixNineLabPage() {
                 </small>
               </span>
             </label>
-          </section>
-
-          <section className="six-nine-shared-result">
-            {coordinates && snapshot ? (
-              <SquareWorkbench
-                coordinates={coordinates}
-                snapshot={snapshot}
-                declaredPositions={declared}
-                maskLabel={kind}
-                targetSquareCount={6}
-                factorized={squareFactorization.factorized}
-                factorizations={squareFactorization.factorizations}
-                cellTones={cellTones}
-              />
-            ) : (
-              <div className="six-nine-result-empty">
-                {text(
-                  "Для построения квадрата нужны две пары одного tf",
-                  "Two pairs with the same tf are required to build a square",
-                )}
-              </div>
-            )}
+            <div className="tool-actions primary-actions six-nine-result-actions">
+              <button
+                className="button button-quiet"
+                disabled={!snapshot}
+                type="button"
+                onClick={squareFactorization.toggle}
+              >
+                {squareFactorization.factorized
+                  ? text("Показать числа", "Show values")
+                  : text("Факторизовать", "Factor")}
+              </button>
+            </div>
             {squareFactorization.factorized &&
               squareFactorization.running && (
                 <div
-                  className="factorization-progress six-nine-factorization-progress"
+                  className="factorization-progress"
                   role="status"
                 >
                   <span>
@@ -800,26 +832,43 @@ export function SixNineLabPage() {
                 {squareFactorization.error}
               </p>
             )}
-            <footer className="six-nine-result-footer">
-              <span><i className="one" /> {FIRST_PROGRESSION[kind].join("—")}</span>
-              <span><i className="two" /> {SECOND_PROGRESSION[kind].join("—")}</span>
-              <button
-                className="six-nine-factorization-toggle"
-                disabled={!snapshot}
-                type="button"
-                onClick={squareFactorization.toggle}
-              >
-                {squareFactorization.factorized
-                  ? text("Показать числа", "Show values")
-                  : text("Факторизовать", "Factor")}
-              </button>
-              <TheoryLink to="/theory/fmn-tfmn">
-                {text("Почему это работает", "Why this works")} →
-              </TheoryLink>
-            </footer>
           </section>
-        </div>
-      </section>
+            </LaboratoryControls>
+
+            {coordinates && snapshot ? (
+              <SquareWorkbench
+                coordinates={coordinates}
+                snapshot={snapshot}
+                declaredPositions={declared}
+                maskLabel={kind}
+                targetSquareCount={6}
+                factorized={squareFactorization.factorized}
+                factorizations={squareFactorization.factorizations}
+                cellTones={cellTones}
+                footer={
+                  <footer className="six-nine-result-footer">
+                    <span>
+                      <i className="one" />{" "}
+                      {FIRST_PROGRESSION[kind].join("—")}
+                    </span>
+                    <span>
+                      <i className="two" />{" "}
+                      {SECOND_PROGRESSION[kind].join("—")}
+                    </span>
+                  </footer>
+                }
+              />
+            ) : (
+              <div className="square-desk six-nine-result-empty">
+                {text(
+                  "Для построения квадрата нужны две пары одного tf",
+                  "Two pairs with the same tf are required to build a square",
+                )}
+              </div>
+            )}
+          </LaboratoryWorkbench>
+        </LaboratoryWorkspace>
+      </LaboratoryLayout>
       {squareFactorization.warning && (
         <FactorizationWarningDialog
           warning={squareFactorization.warning}

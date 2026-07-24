@@ -932,9 +932,7 @@ main {
 }
 
 .six-nine-lab-page {
-  width: min(1640px, 100%);
-  padding-top: 50px;
-  padding-bottom: 90px;
+  width: min(1700px, 100%);
 }
 
 .six-nine-heading {
@@ -989,6 +987,95 @@ main {
   border: 1px solid var(--line-strong);
   background: var(--paper);
   box-shadow: var(--shadow);
+}
+
+.six-nine-level-tabs {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.six-nine-level-tabs a {
+  min-height: 31px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  color: var(--graphite-soft);
+  font: 9px var(--mono);
+}
+
+.six-nine-level-tabs a:hover {
+  color: var(--brick);
+}
+
+.six-nine-family-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  color: var(--brick);
+  background:
+    linear-gradient(135deg, transparent 48%, var(--line) 49%, var(--line) 51%, transparent 52%),
+    var(--paper-strong);
+  font: 600 11px var(--mono);
+}
+
+.six-nine-control-desk .six-nine-source-bar {
+  min-height: 0;
+  align-items: stretch;
+  flex-direction: column;
+  padding: 20px;
+  background: transparent;
+}
+
+.six-nine-control-desk .six-nine-generators {
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: 1fr;
+}
+
+.six-nine-control-desk .six-nine-pair-stage {
+  grid-template-columns: 1fr;
+}
+
+.six-nine-control-desk .tf-bridge {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  justify-items: start;
+  border-right: 0;
+  border-left: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.six-nine-control-desk .tf-bridge strong {
+  text-align: left;
+}
+
+.six-nine-control-desk .f7-pair-tools {
+  grid-template-columns: 1fr;
+}
+
+.six-nine-control-desk .f7-pair-tools > div {
+  border-top: 1px solid var(--line-strong);
+  border-left: 0;
+}
+
+.six-nine-control-desk .f7-latest-pair,
+.six-nine-control-desk .pair-bank {
+  grid-template-columns: 1fr;
+}
+
+.six-nine-control-desk .f7-latest-pair > header,
+.six-nine-control-desk .pair-bank > header {
+  border-right: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.six-nine-control-desk .six-nine-placement {
+  border-right: 0;
+}
+
+.six-nine-result-actions {
+  padding: 0 14px 14px;
 }
 
 .six-nine-source-bar {
@@ -1697,15 +1784,11 @@ main {
   padding: clamp(18px, 2.2vw, 30px);
 }
 
-.six-nine-shared-result .result-cell {
-  aspect-ratio: 1.35;
-}
-
-.six-nine-shared-result .result-cell.tone-one {
+.six-nine-standard-workbench .result-cell.tone-one {
   background: color-mix(in srgb, var(--brick-soft) 19%, var(--paper-strong));
 }
 
-.six-nine-shared-result .result-cell.tone-two {
+.six-nine-standard-workbench .result-cell.tone-two {
   background: color-mix(in srgb, var(--blue) 23%, var(--paper-strong));
 }
 

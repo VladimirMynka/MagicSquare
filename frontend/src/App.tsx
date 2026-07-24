@@ -22,6 +22,13 @@ import {
 } from "react-router-dom";
 import { Latex } from "./components/Latex";
 import {
+  LaboratoryControls,
+  LaboratoryLayout,
+  LaboratoryToolbar,
+  LaboratoryWorkbench,
+  LaboratoryWorkspace,
+} from "./components/LaboratoryLayout";
+import {
   FactorizationWarningDialog,
   useSquareFactorization,
 } from "./components/SquareFactorization";
@@ -880,7 +887,7 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
         </p>
       </div>
 
-      <div className="lab-layout">
+      <LaboratoryLayout>
         <aside className="family-panel">
           <div className="panel-label">
             <span>{text("Режим и семейства", "Mode and families")}</span>
@@ -946,8 +953,8 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
           </div>
         </aside>
 
-        <section className="workspace">
-          <div className="workspace-toolbar">
+        <LaboratoryWorkspace>
+          <LaboratoryToolbar>
             <div>
               {family ? (
                 <span className={`family-chip tone-${family.group}`}>
@@ -973,10 +980,10 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                 ? text("Скопировано", "Copied")
                 : text("Поделиться ↗", "Share ↗")}
             </button>
-          </div>
+          </LaboratoryToolbar>
 
-          <div className="workbench-grid">
-            <aside className="control-desk">
+          <LaboratoryWorkbench>
+            <LaboratoryControls>
               <section className="tool-section coordinate-section">
                 <div className="tool-section-heading">
                   <div>
@@ -1438,7 +1445,7 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                   {error || squareFactorization.error}
                 </p>
               )}
-            </aside>
+            </LaboratoryControls>
 
             <SquareWorkbench
               coordinates={coordinates}
@@ -1449,9 +1456,9 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
               factorized={squareFactorization.factorized}
               factorizations={squareFactorization.factorizations}
             />
-          </div>
-        </section>
-      </div>
+          </LaboratoryWorkbench>
+        </LaboratoryWorkspace>
+      </LaboratoryLayout>
 
       {family && (
         <section className="inline-family-proof" id="family-proof">
