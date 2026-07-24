@@ -68,6 +68,7 @@ import {
   type Locale,
 } from "./i18n";
 import { TimelinePage } from "./TimelinePage";
+import { SixNineLabPage } from "./SixNineLab";
 import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
@@ -1094,6 +1095,12 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
                 {level}/9 · 23
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => navigate(localePath(locale, "/lab/6"))}
+            >
+              6/9 · β
+            </button>
           </div>
           <div className="family-list">
             <button
@@ -3631,6 +3638,7 @@ export function App() {
           element={<SemimagicStructureTheoryPage />}
         />
         <Route path="lab" element={<LabPage />} />
+        <Route path="lab/6" element={<SixNineLabPage />} />
         <Route path="families/:familyId" element={<FamilyRedirect />} />
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />
         <Route path="orbits/5" element={<OrbitLevelPage level={5} />} />

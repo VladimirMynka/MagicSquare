@@ -139,6 +139,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "lab/6": {
+    published: "2026-07-24",
+    modified: "2026-07-24",
+  },
   news: {
     published: "2026-07-22",
     modified: "2026-07-22",
@@ -195,6 +199,20 @@ const STATIC_METADATA: Readonly<
       description:
         "Что такое магический квадрат из полных квадратов, почему задача 9/9 остаётся открытой и как маски 4/9 и 5/9 организуют частичные конструкции.",
       type: "Article",
+    },
+  },
+  "lab/6": {
+    ru: {
+      title: "Калькулятор магических квадратов 6/9 — F4+, F7+ и F9+",
+      description:
+        "Точный калькулятор конструкций 6/9: пары с одинаковым tf, генераторы F4+ и F9+, эллиптические операции F7+ и два параллельных класса магических квадратов.",
+      type: "WebApplication",
+    },
+    en: {
+      title: "6/9 Magic Square Calculator — F4+, F7+, and F9+",
+      description:
+        "An exact 6/9 construction calculator with equal-tf pairs, F4+ and F9+ generators, F7+ elliptic operations, and two parallel magic-square classes.",
+      type: "WebApplication",
     },
   },
   "theory/tf-pair-generation": {
@@ -730,6 +748,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
+    "lab/6",
     "proofs/general",
     "orbits/4",
     "orbits/5",
