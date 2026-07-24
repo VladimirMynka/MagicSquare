@@ -319,6 +319,9 @@ function AppShell() {
         </div>
         <nav aria-label={text("Сведения о проекте", "Project information")}>
           <Link to="/timeline">{text("Хронология", "Timeline")}</Link>
+          <Link to="/about#ai-use">
+            {text("Использование ИИ", "Use of AI")}
+          </Link>
           <Link to="/about#copyright">
             {text("Авторство и условия", "Attribution and terms")}
           </Link>
@@ -3376,8 +3379,8 @@ a+e+j=c+e+g=M.
         <section id="copyright" className="copyright-section">
           <h3>
             {text(
-              "4. Авторы, благодарности и распространение",
-              "4. Authors, acknowledgements, and redistribution",
+              "4. Авторы, использование ИИ и распространение",
+              "4. Authors, use of AI, and redistribution",
             )}
           </h3>
           <h4>{text("Авторы", "Authors")}</h4>
@@ -3406,6 +3409,56 @@ a+e+j=c+e+g=M.
             {text(
               "Отдельная благодарность Алексею Халину (Институт проблем передачи информации им. А. А. Харкевича РАН, ИППИ РАН) за консультацию и ранние проверки, а также активным участникам локального математического сообщества.",
               "Special thanks to Alexey Khalin (Kharkevich Institute for Information Transmission Problems of the Russian Academy of Sciences, IITP RAS) for consultation and early checks, and to the active participants in the local mathematics community.",
+            )}
+          </p>
+          <h4 id="ai-use">
+            {text(
+              "Использование искусственного интеллекта",
+              "Use of artificial intelligence",
+            )}
+          </h4>
+          <p>
+            {text(
+              "Математические результаты, представленные на сайте, за исключением случаев, явно отмеченных в хронологии, получены человеческими авторами, перечисленными выше.",
+              "The mathematical results presented on this site, except where explicitly noted in the timeline, were obtained by the human authors listed above.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Искусственный интеллект использовался:",
+              "Artificial intelligence was used:",
+            )}
+          </p>
+          <ul className="rights-list">
+            <li>
+              {text(
+                "при подготовке и редактировании окончательных текстов;",
+                "to prepare and edit the final texts;",
+              )}
+            </li>
+            <li>
+              {text(
+                "для реконструкции математических утверждений и доказательств по внутренним заметкам и переписке авторов;",
+                "to reconstruct mathematical statements and proofs from the authors’ internal notes and correspondence;",
+              )}
+            </li>
+            <li>
+              {text(
+                "для интеллектуального поиска по редкой и слабо индексируемой научной литературе, сопоставления независимо полученных результатов с известными работами и приведения терминологии к общепринятой. Обычный библиографический поиск здесь затруднён самой математической формой материала: формулы плохо поддаются поиску, а понятия, независимо введённые в ходе исследования, первоначально ещё не были связаны с терминологией существующей литературы.",
+                "for assisted search across rare and poorly indexed scientific literature, comparison of independently obtained results with known work, and alignment with established terminology. Conventional bibliographic search is hindered here by the mathematical form of the material itself: formulas are difficult to search, while concepts introduced independently during the research were not initially connected to the terminology used in the existing literature.",
+              )}
+            </li>
+          </ul>
+          <p>
+            {text(
+              "Все опубликованные материалы неоднократно вычитывались основным автором. Вместе с тем редакционные исправления также вносились посредством ИИ как инструмента исполнения. Поэтому автоматические системы могут классифицировать тексты сайта как сгенерированные искусственным интеллектом; такая классификация сама по себе не отражает происхождение изложенных математических результатов.",
+              "All published materials were read and reviewed repeatedly by the lead author. Editorial corrections were nevertheless also applied through AI as an execution tool. Automated systems may therefore classify the site’s texts as AI-generated; such a classification does not by itself reflect the origin of the mathematical results presented.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Если искусственный интеллект участвовал непосредственно в содержательной части исследования, это отмечается отдельно в хронологии с указанием использованной модели и распределения работы между человеком и ИИ.",
+              "Whenever artificial intelligence contributed directly to the substantive research, the timeline records this separately, naming the model used and explaining the division of work between the human and AI participants.",
             )}
           </p>
           <h4>Copyright</h4>

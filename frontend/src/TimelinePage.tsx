@@ -135,6 +135,12 @@ export function TimelinePage() {
             "This page reconstructs the history of the research, from its first ideas and constructions to the proofs and the present form of the problem.",
           )}
         </p>
+        <p>
+          {text(
+            "Случаи непосредственного участия искусственного интеллекта в содержательной части исследования отмечаются у соответствующего события с указанием модели и распределения работы.",
+            "Any direct contribution of artificial intelligence to the substantive research is identified in the corresponding event, together with the model used and the division of work.",
+          )}
+        </p>
       </header>
 
       <div className="timeline-summary" id="timeline-instructions">

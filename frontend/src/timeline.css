@@ -59,6 +59,10 @@ END_CONTRACT */
   background: #eee6da !important;
 }
 
+.copyright-section #ai-use {
+  scroll-margin-top: 28px;
+}
+
 .copyright-section h4 {
   margin: 28px 0 10px;
   color: var(--graphite);
