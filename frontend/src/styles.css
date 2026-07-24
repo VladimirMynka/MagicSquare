@@ -1750,6 +1750,41 @@ main {
   background: var(--blue);
 }
 
+.six-nine-factorization-toggle {
+  min-height: 28px;
+  padding: 5px 9px;
+  border: 1px solid var(--line-strong);
+  color: var(--graphite-soft);
+  background: var(--paper);
+  cursor: pointer;
+  font: 9px var(--mono);
+}
+
+.six-nine-factorization-toggle:hover:not(:disabled) {
+  border-color: var(--brick);
+  color: var(--brick);
+}
+
+.six-nine-factorization-toggle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.six-nine-factorization-progress {
+  margin: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.six-nine-factorization-error {
+  margin: 0;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--brick);
+  font: 9px/1.4 var(--mono);
+}
+
 .six-nine-result-footer a {
   margin-left: auto;
   color: var(--brick);

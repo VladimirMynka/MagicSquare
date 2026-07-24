@@ -3,6 +3,10 @@ import {
   SquareWorkbench,
   type SquareCellTone,
 } from "./components/SquareWorkbench";
+import {
+  FactorizationWarningDialog,
+  useSquareFactorization,
+} from "./components/SquareFactorization";
 import { useLocale } from "./i18n";
 import {
   addCongruentPoints,
@@ -192,6 +196,11 @@ export function SixNineLabPage() {
     () => (coordinates ? createSnapshot(coordinates) : null),
     [coordinates],
   );
+  const factorizationValues = useMemo(
+    () => snapshot?.cells.map((cell) => cell.value) ?? [],
+    [snapshot],
+  );
+  const squareFactorization = useSquareFactorization(factorizationValues);
 
   const declared = DECLARED_POSITIONS[kind];
   const maskConfirmed =
@@ -752,6 +761,8 @@ export function SixNineLabPage() {
                 declaredPositions={declared}
                 maskLabel={kind}
                 targetSquareCount={6}
+                factorized={squareFactorization.factorized}
+                factorizations={squareFactorization.factorizations}
                 cellTones={cellTones}
               />
             ) : (
@@ -762,9 +773,46 @@ export function SixNineLabPage() {
                 )}
               </div>
             )}
+            {squareFactorization.factorized &&
+              squareFactorization.running && (
+                <div
+                  className="factorization-progress six-nine-factorization-progress"
+                  role="status"
+                >
+                  <span>
+                    <i aria-hidden="true" />
+                    {text(
+                      "Факторизация выполняется в фоне",
+                      "Factoring in the background",
+                    )}
+                  </span>
+                  <button
+                    className="button button-quiet"
+                    type="button"
+                    onClick={squareFactorization.cancel}
+                  >
+                    {text("Отменить", "Cancel")}
+                  </button>
+                </div>
+              )}
+            {squareFactorization.error && (
+              <p className="six-nine-factorization-error" role="alert">
+                {squareFactorization.error}
+              </p>
+            )}
             <footer className="six-nine-result-footer">
               <span><i className="one" /> {FIRST_PROGRESSION[kind].join("—")}</span>
               <span><i className="two" /> {SECOND_PROGRESSION[kind].join("—")}</span>
+              <button
+                className="six-nine-factorization-toggle"
+                disabled={!snapshot}
+                type="button"
+                onClick={squareFactorization.toggle}
+              >
+                {squareFactorization.factorized
+                  ? text("Показать числа", "Show values")
+                  : text("Факторизовать", "Factor")}
+              </button>
               <TheoryLink to="/theory/fmn-tfmn">
                 {text("Почему это работает", "Why this works")} →
               </TheoryLink>
@@ -772,6 +820,13 @@ export function SixNineLabPage() {
           </section>
         </div>
       </section>
+      {squareFactorization.warning && (
+        <FactorizationWarningDialog
+          warning={squareFactorization.warning}
+          onCancel={squareFactorization.cancel}
+          onContinue={squareFactorization.continue}
+        />
+      )}
     </div>
   );
 }
