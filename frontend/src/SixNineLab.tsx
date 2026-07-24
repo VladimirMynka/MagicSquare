@@ -37,6 +37,7 @@ import {
   greatestCommonDivisor,
   greatestSquareDivisor,
   minimizeCoordinates,
+  POSITIONS,
   type Coordinates,
   type Position,
 } from "./lib/magicSquare";
@@ -233,10 +234,10 @@ export function SixNineLabPage() {
     () =>
       Object.fromEntries([
         ...FIRST_PROGRESSION[kind].map(
-          (position) => [position, "one"] as const,
+          (position) => [position, "red-light"] as const,
         ),
         ...SECOND_PROGRESSION[kind].map(
-          (position) => [position, "two"] as const,
+          (position) => [position, "red-dark"] as const,
         ),
       ]) as Partial<Record<Position, SquareCellTone>>,
     [kind],
@@ -476,14 +477,14 @@ export function SixNineLabPage() {
           </div>
           <div className="family-list">
             <button
-              className={`family-button ${kind === "ACEFGH" ? "active" : ""}`}
+              className={`family-button tone-red-red ${kind === "ACEFGH" ? "active" : ""}`}
               type="button"
               onClick={() => {
                 setKind("ACEFGH");
                 setPrimitive(false);
               }}
             >
-              <span className="six-nine-family-mark">I</span>
+              <SixNineMiniMask kind="ACEFGH" />
               <span>
                 <strong>ACEFGH</strong>
                 <small>≃ ABEFGJ</small>
@@ -491,14 +492,14 @@ export function SixNineLabPage() {
               <i>→</i>
             </button>
             <button
-              className={`family-button ${kind === "ABDFHJ" ? "active" : ""}`}
+              className={`family-button tone-red-red ${kind === "ABDFHJ" ? "active" : ""}`}
               type="button"
               onClick={() => {
                 setKind("ABDFHJ");
                 setPrimitive(false);
               }}
             >
-              <span className="six-nine-family-mark">II</span>
+              <SixNineMiniMask kind="ABDFHJ" />
               <span>
                 <strong>ABDFHJ</strong>
                 <small>{text("параллельные прогрессии", "parallel progressions")}</small>
@@ -511,7 +512,7 @@ export function SixNineLabPage() {
         <LaboratoryWorkspace>
           <LaboratoryToolbar>
             <div>
-              <span className="family-chip tone-red-blue">6/9 · tfmn</span>
+              <span className="family-chip tone-red-red">6/9 · tfmn</span>
               <h2>{kind}</h2>
             </div>
             <TheoryLink className="icon-button" to="/theory/fmn-tfmn">
@@ -848,11 +849,11 @@ export function SixNineLabPage() {
                 footer={
                   <footer className="six-nine-result-footer">
                     <span>
-                      <i className="one" />{" "}
+                      <i className="red-light" />{" "}
                       {FIRST_PROGRESSION[kind].join("—")}
                     </span>
                     <span>
-                      <i className="two" />{" "}
+                      <i className="red-dark" />{" "}
                       {SECOND_PROGRESSION[kind].join("—")}
                     </span>
                   </footer>
@@ -877,6 +878,28 @@ export function SixNineLabPage() {
         />
       )}
     </div>
+  );
+}
+
+function SixNineMiniMask({ kind }: { kind: ParallelSixNineKind }) {
+  const first = FIRST_PROGRESSION[kind];
+  const second = SECOND_PROGRESSION[kind];
+
+  return (
+    <span className="six-nine-mini-mask" aria-hidden="true">
+      {POSITIONS.map((position) => (
+        <i
+          className={
+            first.includes(position)
+              ? "red-light"
+              : second.includes(position)
+                ? "red-dark"
+                : ""
+          }
+          key={position}
+        />
+      ))}
+    </span>
   );
 }
 

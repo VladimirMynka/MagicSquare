@@ -8,7 +8,7 @@ import {
   type SquareSnapshot,
 } from "../lib/magicSquare";
 
-export type SquareCellTone = "one" | "two";
+export type SquareCellTone = "red-light" | "red-dark";
 
 export function SquareWorkbench({
   coordinates,

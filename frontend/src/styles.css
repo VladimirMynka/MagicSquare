@@ -1006,17 +1006,37 @@ main {
   color: var(--brick);
 }
 
-.six-nine-family-mark {
+.six-nine-mini-mask {
   width: 42px;
   height: 42px;
   display: grid;
-  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4px;
   border: 1px solid var(--line-strong);
-  color: var(--brick);
-  background:
-    linear-gradient(135deg, transparent 48%, var(--line) 49%, var(--line) 51%, transparent 52%),
-    var(--paper-strong);
-  font: 600 11px var(--mono);
+  background: var(--paper-strong);
+}
+
+.six-nine-mini-mask i {
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--paper-muted);
+}
+
+.six-nine-mini-mask i.red-light {
+  border-color: color-mix(in srgb, var(--brick-soft) 72%, var(--line));
+  background: color-mix(in srgb, var(--brick-soft) 78%, var(--paper-strong));
+}
+
+.six-nine-mini-mask i.red-dark {
+  border-color: color-mix(in srgb, var(--brick) 72%, var(--line));
+  background: color-mix(in srgb, var(--brick) 76%, var(--paper-strong));
+}
+
+.six-nine-family-panel .family-button.active {
+  box-shadow:
+    inset 3px 0 0 var(--brick-soft),
+    inset -3px 0 0 var(--brick);
 }
 
 .six-nine-control-desk .six-nine-source-bar {
@@ -1024,7 +1044,7 @@ main {
   align-items: stretch;
   flex-direction: column;
   padding: 20px;
-  background: transparent;
+  background: color-mix(in srgb, var(--paper-muted) 46%, transparent);
 }
 
 .six-nine-control-desk .six-nine-generators {
@@ -1130,11 +1150,13 @@ main {
   gap: 7px;
   padding: 6px;
   border: 1px solid var(--line-strong);
+  border-top: 3px solid var(--graphite-soft);
   background: var(--paper-strong);
 }
 
 .six-nine-generator > strong {
   padding: 0 5px;
+  color: var(--graphite);
   font: 600 11px var(--mono);
 }
 
@@ -1151,6 +1173,24 @@ main {
 .six-nine-generator button:hover {
   border-color: var(--brick);
   color: var(--brick);
+  background: var(--paper-strong);
+}
+
+.six-nine-generator input:focus,
+.tf-pair-inputs input:focus {
+  outline: 2px solid color-mix(in srgb, var(--blue-deep) 58%, transparent);
+  outline-offset: -2px;
+}
+
+.six-nine-generator button:focus-visible,
+.tf-pair-editor button:focus-visible,
+.tf-bridge button:focus-visible,
+.f7-pair-tools button:focus-visible,
+.f7-latest-pair button:focus-visible,
+.pair-bank button:focus-visible,
+.six-nine-factorization-toggle:focus-visible {
+  outline: 2px solid var(--blue-deep);
+  outline-offset: 2px;
 }
 
 .f4-generator-inputs {
@@ -1227,6 +1267,14 @@ main {
   background: var(--paper-strong);
 }
 
+.tf-pair-editor:first-child {
+  box-shadow: inset 3px 0 0 var(--brick-soft);
+}
+
+.tf-pair-editor:last-child {
+  box-shadow: inset -3px 0 0 var(--brick);
+}
+
 .tf-pair-editor > header {
   display: flex;
   align-items: center;
@@ -1267,7 +1315,7 @@ main {
 .tf-pair-editor > header button {
   min-width: 36px;
   min-height: 28px;
-  color: var(--blue-deep);
+  color: var(--graphite-soft);
   font-size: 9px;
 }
 
@@ -1360,7 +1408,7 @@ main {
 }
 
 .tf-pair-editor.has-error {
-  box-shadow: inset 0 -3px 0 var(--brick-soft);
+  box-shadow: inset 0 -3px 0 var(--brick);
 }
 
 .tf-bridge {
@@ -1387,8 +1435,9 @@ main {
 }
 
 .tf-bridge.ok > span {
-  color: var(--blue-deep);
-  border-color: var(--blue);
+  color: #40523e;
+  border-color: #7e997a;
+  background: #dfe8dc;
 }
 
 .tf-bridge strong {
@@ -1408,6 +1457,10 @@ main {
   align-items: stretch;
   border-bottom: 1px solid var(--line-strong);
   background: var(--panel-deep);
+}
+
+.f7-pair-tools > header {
+  box-shadow: inset 3px 0 0 var(--graphite-soft);
 }
 
 .f7-pair-tools > header,
@@ -1473,6 +1526,9 @@ main {
   border-left: 1px solid var(--line);
   background: var(--paper);
   font-size: 12px;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .f7-pair-tools > div button:first-child {
@@ -1531,8 +1587,8 @@ main {
   justify-content: space-between;
   gap: 14px;
   padding: 8px 11px;
-  border: 1px solid var(--blue);
-  background: color-mix(in srgb, var(--blue) 15%, var(--paper-strong));
+  border: 1px solid #9baa96;
+  background: color-mix(in srgb, var(--sage) 24%, var(--paper-strong));
 }
 
 .f7-latest-pair article strong {
@@ -1612,6 +1668,10 @@ main {
   background: var(--paper-strong);
 }
 
+.pair-bank article:hover {
+  border-color: var(--graphite-soft);
+}
+
 .pair-bank article strong {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1651,6 +1711,9 @@ main {
 
 .six-nine-placement > header {
   border-bottom: 1px solid var(--line-strong);
+  box-shadow:
+    inset 3px 0 0 var(--brick-soft),
+    inset -3px 0 0 var(--brick);
 }
 
 .six-nine-kind-tabs {
@@ -1706,7 +1769,7 @@ main {
 }
 
 .progression-equations span:last-child {
-  color: var(--blue-deep);
+  color: var(--brick);
 }
 
 .progression-equations b {
@@ -1784,12 +1847,20 @@ main {
   padding: clamp(18px, 2.2vw, 30px);
 }
 
-.six-nine-standard-workbench .result-cell.tone-one {
-  background: color-mix(in srgb, var(--brick-soft) 19%, var(--paper-strong));
+.six-nine-standard-workbench .result-cell.tone-red-light {
+  background: color-mix(in srgb, var(--brick-soft) 20%, var(--paper-strong));
 }
 
-.six-nine-standard-workbench .result-cell.tone-two {
-  background: color-mix(in srgb, var(--blue) 23%, var(--paper-strong));
+.six-nine-standard-workbench .result-cell.tone-red-dark {
+  background: color-mix(in srgb, var(--brick) 14%, var(--paper-strong));
+}
+
+.six-nine-standard-workbench .result-cell.tone-red-light.is-square {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brick-soft) 56%, transparent);
+}
+
+.six-nine-standard-workbench .result-cell.tone-red-dark.is-square {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brick) 50%, transparent);
 }
 
 .six-nine-result-empty {
@@ -1825,12 +1896,12 @@ main {
   display: inline-block;
 }
 
-.six-nine-result-footer i.one {
+.six-nine-result-footer i.red-light {
   background: var(--brick-soft);
 }
 
-.six-nine-result-footer i.two {
-  background: var(--blue);
+.six-nine-result-footer i.red-dark {
+  background: var(--brick);
 }
 
 .six-nine-factorization-toggle {
