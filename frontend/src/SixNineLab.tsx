@@ -1,8 +1,15 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  SquareWorkbench,
+  type SquareCellTone,
+} from "./components/SquareWorkbench";
 import { useLocale } from "./i18n";
 import {
   addCongruentPoints,
   congruentPointToPair,
+  f4PairsFromParameters,
+  f4SeedCatalog,
+  f9PairsFromMultiple,
   inspectTfPair,
   negateCongruentPoint,
   pairToCongruentPoint,
@@ -31,10 +38,11 @@ interface BankPair {
   readonly id: string;
   readonly pair: TfPair;
   readonly source: string;
+  readonly tf: bigint;
 }
 
 const F4_PRESET: PairInputs = ["7", "3", "7", "5"];
-const F9_PRESET: PairInputs = ["9", "4", "65", "16"];
+const PAIR_STORE_KEY = "magic-squares-six-nine-pair-store";
 
 const DECLARED_POSITIONS: Readonly<Record<ParallelSixNineKind, readonly Position[]>> = {
   ACEFGH: ["A", "C", "E", "F", "G", "H"],
@@ -62,6 +70,29 @@ function parsePair(first: string, second: string): TfPair | null {
 
 function pairId(pair: TfPair): string {
   return `${pair.m}:${pair.n}`;
+}
+
+function storedPairs(): readonly BankPair[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const records = JSON.parse(
+      window.localStorage.getItem(PAIR_STORE_KEY) ?? "[]",
+    ) as readonly {
+      id: string;
+      m: string;
+      n: string;
+      source: string;
+      tf: string;
+    }[];
+    return records.map((record) => ({
+      id: record.id,
+      pair: { m: BigInt(record.m), n: BigInt(record.n) },
+      source: record.source,
+      tf: BigInt(record.tf),
+    }));
+  } catch {
+    return [];
+  }
 }
 
 function reducePreservingSquares(coordinates: Coordinates): Coordinates {
@@ -92,8 +123,29 @@ export function SixNineLabPage() {
   const [inputs, setInputs] = useState<PairInputs>(F4_PRESET);
   const [signs, setSigns] = useState<PairSigns>([1, 1]);
   const [sources, setSources] = useState<[string, string]>(["F4+", "F4+"]);
-  const [bank, setBank] = useState<readonly BankPair[]>([]);
+  const [latestPair, setLatestPair] = useState<BankPair | null>(null);
+  const [pairStore, setPairStore] = useState<readonly BankPair[]>(storedPairs);
+  const [f4Parameters, setF4Parameters] = useState<
+    readonly [string, string, string]
+  >(["7", "3", "5"]);
+  const [f9Multiple, setF9Multiple] = useState("2");
+  const [generatorError, setGeneratorError] = useState("");
   const [primitive, setPrimitive] = useState(false);
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      PAIR_STORE_KEY,
+      JSON.stringify(
+        pairStore.map((record) => ({
+          id: record.id,
+          m: record.pair.m.toString(),
+          n: record.pair.n.toString(),
+          source: record.source,
+          tf: record.tf.toString(),
+        })),
+      ),
+    );
+  }, [pairStore]);
 
   const leftPair = useMemo(
     () => parsePair(inputs[0], inputs[1]),
@@ -157,6 +209,22 @@ export function SixNineLabPage() {
         rightInfo.squareMultiplier *
         rightInfo.squareMultiplier
       : null;
+  const matchingStore =
+    leftInfo?.tf === null || leftInfo?.tf === undefined
+      ? []
+      : pairStore.filter((record) => record.tf === leftInfo.tf);
+  const cellTones = useMemo(
+    () =>
+      Object.fromEntries([
+        ...FIRST_PROGRESSION[kind].map(
+          (position) => [position, "one"] as const,
+        ),
+        ...SECOND_PROGRESSION[kind].map(
+          (position) => [position, "two"] as const,
+        ),
+      ]) as Partial<Record<Position, SquareCellTone>>,
+    [kind],
+  );
 
   function updateInput(index: number, value: string) {
     const next = [...inputs] as PairInputs;
@@ -167,14 +235,90 @@ export function SixNineLabPage() {
       nextSources[index < 2 ? 0 : 1] = text("вручную", "manual");
       return nextSources;
     });
+    setLatestPair(null);
     setPrimitive(false);
   }
 
-  function applyPreset(next: PairInputs, source: string) {
-    setInputs(next);
+  function applyPairInfos(
+    pairInfos: readonly [TfPairInfo, TfPairInfo],
+    source: string,
+  ) {
+    setInputs([
+      pairInfos[0].pair.m.toString(),
+      pairInfos[0].pair.n.toString(),
+      pairInfos[1].pair.m.toString(),
+      pairInfos[1].pair.n.toString(),
+    ]);
     setSources([source, source]);
     setSigns([1, 1]);
+    setLatestPair(null);
+    setGeneratorError("");
     setPrimitive(false);
+  }
+
+  function applyF4() {
+    if (!f4Parameters.every((value) => /^-?\d+$/.test(value))) {
+      setGeneratorError(
+        text("Параметры F4+ должны быть целыми", "F4+ parameters must be integers"),
+      );
+      return;
+    }
+    const pairInfos = f4PairsFromParameters(
+      BigInt(f4Parameters[0]),
+      BigInt(f4Parameters[1]),
+      BigInt(f4Parameters[2]),
+    );
+    if (!pairInfos) {
+      setGeneratorError(
+        text(
+          "Эти параметры F4+ не дают двух различных пар одного tf",
+          "These F4+ parameters do not give two distinct pairs with the same tf",
+        ),
+      );
+      return;
+    }
+    applyPairInfos(pairInfos, "F4+");
+  }
+
+  function randomizeF4() {
+    const catalog = f4SeedCatalog();
+    const seed = catalog[Math.floor(Math.random() * catalog.length)];
+    if (!seed) return;
+    const next = [
+      seed.u.toString(),
+      seed.v.toString(),
+      seed.w.toString(),
+    ] as const;
+    setF4Parameters(next);
+    const pairInfos = f4PairsFromParameters(seed.u, seed.v, seed.w);
+    if (pairInfos) applyPairInfos(pairInfos, "F4+ · random");
+  }
+
+  function applyF9() {
+    if (!/^-?\d+$/.test(f9Multiple)) {
+      setGeneratorError(
+        text("Номер точки F9+ должен быть целым", "The F9+ point number must be an integer"),
+      );
+      return;
+    }
+    const pairInfos = f9PairsFromMultiple(Number(f9Multiple));
+    if (!pairInfos) {
+      setGeneratorError(
+        text(
+          "Эта кратная точка слишком велика для браузерной факторизации",
+          "This point multiple is too large for browser factorization",
+        ),
+      );
+      return;
+    }
+    applyPairInfos(pairInfos, `F9+ · ${f9Multiple}G`);
+  }
+
+  function randomizeF9() {
+    const multiple = 1 + Math.floor(Math.random() * 4);
+    setF9Multiple(String(multiple));
+    const pairInfos = f9PairsFromMultiple(multiple);
+    if (pairInfos) applyPairInfos(pairInfos, `F9+ · ${multiple}G`);
   }
 
   function swapWithin(slot: 0 | 1) {
@@ -182,6 +326,7 @@ export function SixNineLabPage() {
     const next = [...inputs] as PairInputs;
     [next[offset], next[offset + 1]] = [next[offset + 1], next[offset]];
     setInputs(next);
+    setLatestPair(null);
     setPrimitive(false);
   }
 
@@ -189,6 +334,7 @@ export function SixNineLabPage() {
     setInputs([inputs[2], inputs[3], inputs[0], inputs[1]]);
     setSources([sources[1], sources[0]]);
     setSigns([signs[1], signs[0]]);
+    setLatestPair(null);
     setPrimitive(false);
   }
 
@@ -196,6 +342,7 @@ export function SixNineLabPage() {
     const next = [...signs] as PairSigns;
     next[slot] = next[slot] === 1 ? -1 : 1;
     setSigns(next);
+    setLatestPair(null);
   }
 
   function derive(
@@ -237,12 +384,9 @@ export function SixNineLabPage() {
       id: `${pairId(pair)}:${source}`,
       pair,
       source,
+      tf: leftInfo.tf,
     };
-    setBank((current) =>
-      current.some((item) => pairId(item.pair) === pairId(pair))
-        ? current
-        : [...current, record],
-    );
+    setLatestPair(record);
   }
 
   function loadBankPair(record: BankPair, slot: 0 | 1) {
@@ -254,7 +398,27 @@ export function SixNineLabPage() {
     const nextSources = [...sources] as [string, string];
     nextSources[slot] = record.source;
     setSources(nextSources);
+    setLatestPair(null);
     setPrimitive(false);
+  }
+
+  function saveLatestPair() {
+    if (!latestPair) return;
+    setPairStore((current) =>
+      current.some(
+        (record) =>
+          record.tf === latestPair.tf &&
+          pairId(record.pair) === pairId(latestPair.pair),
+      )
+        ? current
+        : [...current, latestPair],
+    );
+  }
+
+  function removeStoredPair(record: BankPair) {
+    setPairStore((current) =>
+      current.filter((candidate) => candidate.id !== record.id),
+    );
   }
 
   const leftError = pairError(leftInfo, text);
@@ -288,15 +452,67 @@ export function SixNineLabPage() {
             <span>{text("Заполнить рабочие пары", "Fill the working pairs")}</span>
             <small>{text("два решения одного tf", "two solutions with the same tf")}</small>
           </div>
-          <div>
-            <button type="button" onClick={() => applyPreset(F4_PRESET, "F4+")}>
-              F4+ <small>tf = 210</small>
-            </button>
-            <button type="button" onClick={() => applyPreset(F9_PRESET, "F9+")}>
-              F9+ <small>tf = 65</small>
-            </button>
+          <div className="six-nine-generators">
+            <section className="six-nine-generator">
+              <strong>F4+</strong>
+              <div className="f4-generator-inputs">
+                <span>[</span>
+                {f4Parameters.map((value, index) => (
+                  <label key={index}>
+                    <span>{index === 0 ? "u" : index === 1 ? "v" : "w"}</span>
+                    <input
+                      inputMode="numeric"
+                      value={value}
+                      onChange={(event) => {
+                        const next = [...f4Parameters] as [string, string, string];
+                        next[index] = event.target.value;
+                        setF4Parameters(next);
+                      }}
+                    />
+                  </label>
+                ))}
+                <span>]</span>
+              </div>
+              <button type="button" onClick={applyF4}>
+                → P,Q
+              </button>
+              <button
+                type="button"
+                title={text("Случайная точка F4+", "Random F4+ point")}
+                onClick={randomizeF4}
+              >
+                ↻
+              </button>
+            </section>
+            <section className="six-nine-generator">
+              <strong>F9+</strong>
+              <label className="f9-generator-input">
+                <span>k</span>
+                <input
+                  inputMode="numeric"
+                  value={f9Multiple}
+                  onChange={(event) => setF9Multiple(event.target.value)}
+                />
+                <i>G</i>
+              </label>
+              <button type="button" onClick={applyF9}>
+                → P,Q
+              </button>
+              <button
+                type="button"
+                title={text("Случайная кратная точка", "Random point multiple")}
+                onClick={randomizeF9}
+              >
+                ↻
+              </button>
+            </section>
           </div>
         </header>
+        {generatorError && (
+          <p className="six-nine-generator-error" role="alert">
+            {generatorError}
+          </p>
+        )}
 
         <div className="six-nine-pair-stage">
           <PairEditor
@@ -367,23 +583,76 @@ export function SixNineLabPage() {
           </div>
         </section>
 
-        <section className="pair-bank">
+        <section className="f7-latest-pair">
           <header>
-            <span>{text("Другие пары того же tf", "Other pairs with the same tf")}</span>
+            <span>{text("Последний результат F7+", "Latest F7+ result")}</span>
             <small>
-              {bank.length
-                ? text("поставьте результат в P или Q", "place a result into P or Q")
-                : text("получите первую пару кнопками F7+", "derive the first pair with F7+")}
+              {latestPair
+                ? latestPair.source
+                : text("выберите операцию выше", "choose an operation above")}
             </small>
           </header>
           <div>
-            {bank.map((record) => (
+            {latestPair ? (
+              <article>
+                <strong>
+                  [{formatInteger(latestPair.pair.m)}:
+                  {formatInteger(latestPair.pair.n)}]
+                </strong>
+                <span>
+                  <button type="button" onClick={() => loadBankPair(latestPair, 0)}>
+                    → P
+                  </button>
+                  <button type="button" onClick={() => loadBankPair(latestPair, 1)}>
+                    → Q
+                  </button>
+                  <button type="button" onClick={saveLatestPair}>
+                    + {text("сохранить", "save")}
+                  </button>
+                </span>
+              </article>
+            ) : (
+              <span className="f7-latest-empty">—</span>
+            )}
+          </div>
+        </section>
+
+        <section className={`pair-bank ${matchingStore.length ? "" : "empty"}`}>
+          <header>
+            <span>
+              {text("Сохранённые пары", "Saved pairs")}
+              {leftInfo?.tf !== null && leftInfo?.tf !== undefined
+                ? ` · tf=${formatInteger(leftInfo.tf)}`
+                : ""}
+            </span>
+            <small>
+              {matchingStore.length
+                ? text("поставьте пару в P или Q", "place a pair into P or Q")
+                : text("сохранённых пар этого tf пока нет", "no saved pairs for this tf")}
+            </small>
+          </header>
+          <div>
+            {matchingStore.map((record) => (
               <article key={record.id}>
-                <strong>[{formatInteger(record.pair.m)}:{formatInteger(record.pair.n)}]</strong>
+                <strong>
+                  [{formatInteger(record.pair.m)}:
+                  {formatInteger(record.pair.n)}]
+                </strong>
                 <small>{record.source}</small>
                 <span>
-                  <button type="button" onClick={() => loadBankPair(record, 0)}>→ P</button>
-                  <button type="button" onClick={() => loadBankPair(record, 1)}>→ Q</button>
+                  <button type="button" onClick={() => loadBankPair(record, 0)}>
+                    → P
+                  </button>
+                  <button type="button" onClick={() => loadBankPair(record, 1)}>
+                    → Q
+                  </button>
+                  <button
+                    type="button"
+                    title={text("Удалить из стора", "Remove from store")}
+                    onClick={() => removeStoredPair(record)}
+                  >
+                    ×
+                  </button>
                 </span>
               </article>
             ))}
@@ -475,40 +744,25 @@ export function SixNineLabPage() {
             </label>
           </section>
 
-          <section className="six-nine-square">
-            <header>
-              <div>
-                <span>Magic3</span>
-                <small>
-                  {coordinates
-                    ? `E=${formatInteger(coordinates[0])}, x=${formatInteger(coordinates[1])}, y=${formatInteger(coordinates[2])}`
-                    : text("нет согласованного результата", "no compatible result")}
-                </small>
+          <section className="six-nine-shared-result">
+            {coordinates && snapshot ? (
+              <SquareWorkbench
+                coordinates={coordinates}
+                snapshot={snapshot}
+                declaredPositions={declared}
+                maskLabel={kind}
+                targetSquareCount={6}
+                cellTones={cellTones}
+              />
+            ) : (
+              <div className="six-nine-result-empty">
+                {text(
+                  "Для построения квадрата нужны две пары одного tf",
+                  "Two pairs with the same tf are required to build a square",
+                )}
               </div>
-              <strong>{snapshot ? `${snapshot.squarePositions.length}/9` : "—"}</strong>
-            </header>
-            <div className="six-nine-result-grid">
-              {snapshot
-                ? snapshot.cells.map((cell) => {
-                    const inFirst = FIRST_PROGRESSION[kind].includes(cell.position);
-                    const inSecond = SECOND_PROGRESSION[kind].includes(cell.position);
-                    return (
-                      <div
-                        className={`${cell.isSquare ? "is-square" : ""} ${inFirst ? "progression-one" : ""} ${inSecond ? "progression-two" : ""}`}
-                        key={cell.position}
-                      >
-                        <span>{cell.position}</span>
-                        <strong className={formatInteger(cell.value).length > 13 ? "small" : ""}>
-                          {formatInteger(cell.value)}
-                        </strong>
-                      </div>
-                    );
-                  })
-                : Array.from({ length: 9 }, (_, index) => (
-                    <div className="empty" key={index}>—</div>
-                  ))}
-            </div>
-            <footer>
+            )}
+            <footer className="six-nine-result-footer">
               <span><i className="one" /> {FIRST_PROGRESSION[kind].join("—")}</span>
               <span><i className="two" /> {SECOND_PROGRESSION[kind].join("—")}</span>
               <TheoryLink to="/theory/fmn-tfmn">

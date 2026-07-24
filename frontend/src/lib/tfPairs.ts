@@ -27,6 +27,13 @@ export interface CongruentPoint {
   readonly y: Rational;
 }
 
+export interface F4Seed {
+  readonly u: bigint;
+  readonly v: bigint;
+  readonly w: bigint;
+  readonly tf: bigint;
+}
+
 export type ParallelSixNineKind = "ACEFGH" | "ABDFHJ";
 
 const FACTOR_INPUT_LIMIT = 1_000_000_000n;
@@ -197,6 +204,14 @@ export function addCongruentPoints(
   right: CongruentPoint | null,
   tf: bigint,
 ): CongruentPoint | null {
+  return addShortWeierstrassPoints(left, right, -(tf * tf));
+}
+
+function addShortWeierstrassPoints(
+  left: CongruentPoint | null,
+  right: CongruentPoint | null,
+  linearCoefficient: bigint,
+): CongruentPoint | null {
   if (left === null) return right;
   if (right === null) return left;
 
@@ -215,7 +230,7 @@ export function addCongruentPoints(
       multiplyRational(left.x, left.x),
     );
     slope = divideRational(
-      subtractRational(threeXSquare, rational(tf * tf)),
+      addIntegerToRational(threeXSquare, linearCoefficient),
       multiplyRational(rational(2n), left.y),
     );
   } else {
@@ -236,6 +251,16 @@ export function addCongruentPoints(
   return { x, y };
 }
 
+function addIntegerToRational(
+  value: Rational,
+  integer: bigint,
+): Rational {
+  return rational(
+    value.numerator + integer * value.denominator,
+    value.denominator,
+  );
+}
+
 export function negateCongruentPoint(
   point: CongruentPoint | null,
 ): CongruentPoint | null {
@@ -253,6 +278,102 @@ export function congruentPointToPair(
     m: point.x.numerator,
     n: tf * point.x.denominator,
   });
+}
+
+export function f4PairsFromParameters(
+  u: bigint,
+  v: bigint,
+  w: bigint,
+): readonly [TfPairInfo, TfPairInfo] | null {
+  const left = inspectTfPair({ m: u, n: v });
+  const right = inspectTfPair({ m: u, n: w });
+  if (
+    left.error ||
+    right.error ||
+    left.tf === null ||
+    right.tf !== left.tf ||
+    (left.pair.m === right.pair.m && left.pair.n === right.pair.n)
+  ) {
+    return null;
+  }
+  return [left, right];
+}
+
+const f4CatalogCache = new Map<number, readonly F4Seed[]>();
+
+export function f4SeedCatalog(limit = 64): readonly F4Seed[] {
+  const cached = f4CatalogCache.get(limit);
+  if (cached) return cached;
+  const seeds: F4Seed[] = [];
+  for (let u = 3n; u <= BigInt(limit); u += 1n) {
+    const byTf = new Map<bigint, TfPairInfo[]>();
+    for (let v = 1n; v < u; v += 1n) {
+      if (gcd(u, v) !== 1n) continue;
+      const info = inspectTfPair({ m: u, n: v });
+      if (info.error || info.tf === null || info.tf <= 0n) continue;
+      const bucket = byTf.get(info.tf) ?? [];
+      bucket.push(info);
+      byTf.set(info.tf, bucket);
+    }
+    for (const [tf, bucket] of byTf) {
+      for (let left = 0; left < bucket.length; left += 1) {
+        for (let right = left + 1; right < bucket.length; right += 1) {
+          if (absolute(bucket[left].f) === absolute(bucket[right].f)) continue;
+          seeds.push({
+            u,
+            v: bucket[left].pair.n,
+            w: bucket[right].pair.n,
+            tf,
+          });
+        }
+      }
+    }
+  }
+  f4CatalogCache.set(limit, seeds);
+  return seeds;
+}
+
+export function f9PairsFromMultiple(
+  multiple: number,
+): readonly [TfPairInfo, TfPairInfo] | null {
+  if (!Number.isSafeInteger(multiple) || multiple === 0) return null;
+  let coefficient = Math.abs(multiple);
+  let addend: CongruentPoint | null = {
+    x: rational(2n),
+    y: rational(multiple < 0 ? -2n : 2n),
+  };
+  let point: CongruentPoint | null = null;
+  while (coefficient > 0) {
+    if (coefficient % 2 === 1) {
+      point = addShortWeierstrassPoints(point, addend, -2n);
+    }
+    coefficient = Math.floor(coefficient / 2);
+    if (coefficient > 0) {
+      addend = addShortWeierstrassPoints(addend, addend, -2n);
+    }
+  }
+  if (point === null) return null;
+  const first = normalizePair({
+    m: point.x.numerator,
+    n: point.x.denominator,
+  });
+  const second = normalizePair({
+    m:
+      point.x.numerator * point.x.numerator -
+      point.x.denominator * point.x.denominator,
+    n: point.x.denominator * point.x.denominator,
+  });
+  const left = inspectTfPair(first);
+  const right = inspectTfPair(second);
+  if (
+    left.error ||
+    right.error ||
+    left.tf === null ||
+    right.tf !== left.tf
+  ) {
+    return null;
+  }
+  return [left, right];
 }
 
 function squareSumSquare(pair: TfPair): bigint {
