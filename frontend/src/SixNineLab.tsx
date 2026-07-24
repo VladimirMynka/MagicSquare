@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   SquareWorkbench,
   type SquareCellTone,
@@ -6,6 +7,7 @@ import {
 import {
   LaboratoryControls,
   LaboratoryLayout,
+  LaboratoryLevelNavigation,
   LaboratoryToolbar,
   LaboratoryWorkbench,
   LaboratoryWorkspace,
@@ -14,7 +16,7 @@ import {
   FactorizationWarningDialog,
   useSquareFactorization,
 } from "./components/SquareFactorization";
-import { useLocale } from "./i18n";
+import { localePath, useLocale } from "./i18n";
 import {
   addCongruentPoints,
   congruentPointToPair,
@@ -130,7 +132,8 @@ function pairError(
 }
 
 export function SixNineLabPage() {
-  const { text } = useLocale();
+  const { locale, text } = useLocale();
+  const navigate = useNavigate();
   const [kind, setKind] = useState<ParallelSixNineKind>("ABDFHJ");
   const [inputs, setInputs] = useState<PairInputs>(F4_PRESET);
   const [signs, setSigns] = useState<PairSigns>([1, 1]);
@@ -464,17 +467,14 @@ export function SixNineLabPage() {
             <span>{text("Режим и классы", "Mode and classes")}</span>
             <small>2 {text("класса", "classes")}</small>
           </div>
-          <div
-            className="family-level-tabs six-nine-level-tabs"
-            aria-label={text("Уровень квадратной маски", "Square-mask level")}
-          >
-            <TheoryLink className="six-nine-back-tab" to="/lab">
-              4/9 · 5/9
-            </TheoryLink>
-            <button className="active" type="button">
-              6/9 · β
-            </button>
-          </div>
+          <LaboratoryLevelNavigation
+            activeLevel={6}
+            onSelectLevel={(level) => {
+              if (level < 6) {
+                navigate(localePath(locale, `/lab?level=${level}`));
+              }
+            }}
+          />
           <div className="family-list">
             <button
               className={`family-button tone-red-red ${kind === "ACEFGH" ? "active" : ""}`}

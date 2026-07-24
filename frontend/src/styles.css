@@ -989,23 +989,6 @@ main {
   box-shadow: var(--shadow);
 }
 
-.six-nine-level-tabs {
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-}
-
-.six-nine-level-tabs a {
-  min-height: 31px;
-  display: grid;
-  place-items: center;
-  border: 1px solid transparent;
-  color: var(--graphite-soft);
-  font: 9px var(--mono);
-}
-
-.six-nine-level-tabs a:hover {
-  color: var(--brick);
-}
-
 .six-nine-mini-mask {
   width: 42px;
   height: 42px;

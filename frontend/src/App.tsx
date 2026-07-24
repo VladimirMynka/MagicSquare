@@ -24,6 +24,7 @@ import { Latex } from "./components/Latex";
 import {
   LaboratoryControls,
   LaboratoryLayout,
+  LaboratoryLevelNavigation,
   LaboratoryToolbar,
   LaboratoryWorkbench,
   LaboratoryWorkspace,
@@ -514,7 +515,7 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
 
   const [family, setFamily] = useState<FamilyDefinition | null>(initialFamily);
   const [catalogLevel, setCatalogLevel] = useState<FamilyLevel>(
-    initialFamily?.level ?? 5,
+    initialFamily?.level ?? (searchParams.get("level") === "4" ? 4 : 5),
   );
   const [parameters, setParameters] =
     useState<ParameterStrings>(initialParameters);
@@ -895,27 +896,16 @@ function LabPage({ routeFamilyId }: { routeFamilyId?: string } = {}) {
               {catalogFamilies.length} {text("орбиты", "orbits")}
             </small>
           </div>
-          <div
-            className="family-level-tabs"
-            aria-label={text("Уровень квадратной маски", "Square-mask level")}
-          >
-            {([4, 5] as const).map((level) => (
-              <button
-                className={catalogLevel === level ? "active" : ""}
-                type="button"
-                onClick={() => setCatalogLevel(level)}
-                key={level}
-              >
-                {level}/9 · 23
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => navigate(localePath(locale, "/lab/6"))}
-            >
-              6/9 · β
-            </button>
-          </div>
+          <LaboratoryLevelNavigation
+            activeLevel={catalogLevel}
+            onSelectLevel={(level) => {
+              if (level === 6) {
+                navigate(localePath(locale, "/lab/6"));
+              } else {
+                setCatalogLevel(level);
+              }
+            }}
+          />
           <div className="family-list">
             <button
               className={`family-button manual-family ${family === null ? "active" : ""}`}
