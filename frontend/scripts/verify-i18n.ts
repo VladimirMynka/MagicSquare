@@ -197,7 +197,7 @@ COMPLEXITY: 2
 END_CONTRACT */
 function verifyEnglishRoutes(): number {
   const routes: Readonly<Record<string, string>> = {
-    "/en": "Square entries in 3×3 magic squares",
+    "/en": "Does a 3×3 magic square of nine distinct perfect squares exist?",
     "/en/lab?family=befgj": "Family BEFGJ",
     "/en/theory": "Theory contents",
     "/en/squares-of-squares": "The 3×3 magic square of squares",
@@ -241,7 +241,9 @@ function verifyEnglishRoutes(): number {
     ),
   );
   invariant(
-    russianHome.includes("Квадратные элементы в магических квадратах 3×3"),
+    russianHome.includes(
+      "Существует ли магический квадрат 3×3 из девяти различных полных квадратов?",
+    ),
     "/ru is missing its Russian home-page copy",
   );
   invariant(

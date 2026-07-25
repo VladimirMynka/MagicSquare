@@ -322,50 +322,11 @@ function HomePage() {
       ),
     },
     {
-      ratio: "7/9–9/9",
-      status: text("частичные результаты", "partial results"),
+      ratio: "9/9",
+      status: text("открытая задача", "open problem"),
       description: text(
-        "Отдельные конструкции, ограничения и открытые задачи.",
-        "Individual constructions, restrictions, and open problems.",
-      ),
-    },
-  ] as const;
-
-  const recentSections = [
-    {
-      index: "5.2",
-      to: "/theory/6-9/abcdej",
-      title: text(
-        "Маска ABCDEJ",
-        "The ABCDEJ pattern",
-      ),
-      description: text(
-        "Квартика рода 1, K3-якобиан и явное семейство из неторсионного сечения.",
-        "A genus-one quartic, its K3 Jacobian, and an explicit family from a non-torsion section.",
-      ),
-    },
-    {
-      index: "5.1",
-      to: "/theory/6-9/abcdeh",
-      title: text(
-        "Маска ABCDEH",
-        "The ABCDEH pattern",
-      ),
-      description: text(
-        "Две прогрессии квадратов, общая квартика и два независимых сечения.",
-        "Two progressions of squares, a common quartic, and two independent sections.",
-      ),
-    },
-    {
-      index: "4.5",
-      to: "/theory/f9-plus-elliptic-layers",
-      title: text(
-        "Эллиптические слои F9+",
-        "Elliptic layers of F9+",
-      ),
-      description: text(
-        "Однопараметрические семейства и их связь с F4+ и F7+.",
-        "One-parameter families and their relation to F4+ and F7+.",
+        "Неизвестны ни искомый квадрат, ни доказательство его невозможности.",
+        "Neither the required square nor a proof of its impossibility is known.",
       ),
     },
   ] as const;
@@ -376,28 +337,28 @@ function HomePage() {
         <div className="hero-copy">
           <p className="eyebrow">
             {text(
-              "Исследование рациональных магических квадратов",
-              "A study of rational magic squares",
+              "Открытая математическая задача 9/9",
+              "The open 9/9 problem",
             )}
           </p>
           <h1>
             {text(
-              "Квадратные элементы в магических квадратах 3×3",
-              "Square entries in 3×3 magic squares",
+              "Существует ли магический квадрат 3×3 из девяти различных полных квадратов?",
+              "Does a 3×3 magic square of nine distinct perfect squares exist?",
             )}
           </h1>
           <p className="hero-lead">
             {text(
-              "На сайте систематизированы определения, доказательства, классификации квадратных масок, параметрические семейства и вычислительные инструменты для магических квадратов порядка 3.",
-              "This site collects definitions, proofs, classifications of square-valued patterns, parametric families, and computational tools for magic squares of order 3.",
+              "Искомый целочисленный квадрат должен состоять из положительных попарно различных квадратов целых чисел. Ни такой квадрат, ни доказательство его невозможности пока не известны.",
+              "The required integral square must have nine positive, pairwise distinct perfect-square entries. Neither such a square nor a proof of its impossibility is currently known.",
             )}
           </p>
           <div className="hero-actions">
-            <Link className="button button-primary" to="/theory">
-              {text("Оглавление теории", "Theory contents")} <span>→</span>
+            <Link className="button button-primary" to="/squares-of-squares">
+              {text("Постановка задачи", "Problem statement")} <span>→</span>
             </Link>
-            <Link className="button button-ghost" to="/lab">
-              {text("Калькуляторы", "Calculators")}
+            <Link className="button button-ghost" to="/theory">
+              {text("Материалы исследования", "Research materials")}
             </Link>
           </div>
         </div>
@@ -408,19 +369,25 @@ function HomePage() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">
-              {text("Область исследования", "Scope of the study")}
+              {text("Подход к задаче", "Approach to the problem")}
             </p>
             <h2>
               {text(
-                "Состояние основных задач",
-                "Status of the main problems",
+                "Частичные конфигурации",
+                "Partial configurations",
               )}
             </h2>
           </div>
-          <Link className="text-link" to="/timeline">
-            {text("Хронология", "Timeline")} <span>→</span>
+          <Link className="text-link" to="/squares-of-squares">
+            {text("Определения", "Definitions")} <span>→</span>
           </Link>
         </div>
+        <p className="home-section-introduction">
+          {text(
+            "Чтобы разделить позиционные и арифметические ограничения задачи 9/9, рассматриваются квадраты k/9, в которых квадратами являются только выбранные клетки. Классификации и параметризации этих масок не решают исходную задачу, но описывают её частичные случаи.",
+            "To separate the positional and arithmetic restrictions of the 9/9 problem, the study considers k/9 squares in which only selected entries are required to be squares. Classifications and parametrizations of these patterns do not solve the original problem, but describe its partial cases.",
+          )}
+        </p>
         <div className="research-status-grid">
           {researchStates.map((item) => (
             <article className="research-status-card" key={item.ratio}>
@@ -429,6 +396,105 @@ function HomePage() {
               <p>{item.description}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              {text(
+                "Результаты, возникшие по ходу исследования",
+                "Results arising from the investigation",
+              )}
+            </p>
+            <h2>{text("Побочные направления", "Related results")}</h2>
+          </div>
+        </div>
+        <p className="home-section-introduction">
+          {text(
+            "Изучение частичных конфигураций привело к самостоятельным результатам, которые не сводятся к задаче 9/9.",
+            "The study of partial configurations led to independent results that are not limited to the 9/9 problem.",
+          )}
+        </p>
+        <div className="home-section-grid">
+          <article className="home-section-card">
+            <span>I</span>
+            <h3>
+              {text(
+                "Квадратные классы и конгруэнтные числа",
+                "Square classes and congruent numbers",
+              )}
+            </h3>
+            <p>
+              {text(
+                "Функции f и tf, точная связь пар параметров с кривыми y²=x³−T²x и методы F4+, F7+ и F9+.",
+                "The functions f and tf, the exact relation between parameter pairs and the curves y²=x³−T²x, and the F4+, F7+, and F9+ methods.",
+              )}
+            </p>
+            <nav
+              aria-label={text(
+                "Квадратные классы и конгруэнтные числа",
+                "Square classes and congruent numbers",
+              )}
+            >
+              <Link to="/theory/f7-plus">F7+</Link>
+              <Link to="/theory/f4-plus">F4+</Link>
+              <Link to="/theory/f9-plus">F9+</Link>
+            </nav>
+          </article>
+          <article className="home-section-card">
+            <span>II</span>
+            <h3>
+              {text(
+                "Эллиптические поверхности 6/9",
+                "Elliptic surfaces for 6/9 patterns",
+              )}
+            </h3>
+            <p>
+              {text(
+                "Квартики рода 1, их якобианы, ранги сечений и явные однопараметрические семейства.",
+                "Genus-one quartics, their Jacobians, section ranks, and explicit one-parameter families.",
+              )}
+            </p>
+            <nav
+              aria-label={text(
+                "Эллиптические поверхности 6/9",
+                "Elliptic surfaces for 6/9 patterns",
+              )}
+            >
+              <Link to="/theory/6-9/abcdeh">ABCDEH</Link>
+              <Link to="/theory/6-9/abcdej">ABCDEJ</Link>
+            </nav>
+          </article>
+          <article className="home-section-card">
+            <span>III</span>
+            <h3>
+              {text(
+                "Алгебра магических матриц",
+                "Algebra of magic matrices",
+              )}
+            </h3>
+            <p>
+              {text(
+                "Пятимерная алгебра полумагических квадратов, её разложение и связь с расщеплёнными кватернионами.",
+                "The five-dimensional algebra of semimagic squares, its decomposition, and its relation to split quaternions.",
+              )}
+            </p>
+            <nav
+              aria-label={text(
+                "Алгебра магических матриц",
+                "Algebra of magic matrices",
+              )}
+            >
+              <Link to="/theory/matrix-algebra/magic-charming-semimagic">
+                {text("Умножение", "Products")}
+              </Link>
+              <Link to="/theory/matrix-algebra/block-structure-split-quaternions">
+                K⊕M₂(K)
+              </Link>
+            </nav>
+          </article>
         </div>
       </section>
 
@@ -484,50 +550,6 @@ function HomePage() {
           </article>
         </div>
       </section>
-
-      <section className="section-block">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">
-              {text("Последние добавленные разделы", "Recently added sections")}
-            </p>
-            <h2>{text("Текущая линия работы", "Current line of work")}</h2>
-          </div>
-          <Link className="text-link" to="/theory">
-            {text("Полное оглавление", "Full contents")} <span>→</span>
-          </Link>
-        </div>
-        <div className="recent-theory-list">
-          {recentSections.map((section) => (
-            <Link className="recent-theory-item" to={section.to} key={section.to}>
-              <span>{section.index}</span>
-              <div>
-                <h3>{section.title}</h3>
-                <p>{section.description}</p>
-              </div>
-              <i>→</i>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="home-method-note">
-        <div>
-          <p className="eyebrow">{text("Статус утверждений", "Status of claims")}</p>
-          <h2>
-            {text(
-              "Примеры и доказательства разделены",
-              "Examples and proofs are kept separate",
-            )}
-          </h2>
-        </div>
-        <p>
-          {text(
-            "Вычислительные примеры используются как иллюстрации и сертификаты конкретных объектов. Общие утверждения сопровождаются символическим или структурным доказательством; незакрытые места обозначаются как пробелы или гипотезы.",
-            "Computational examples are used as illustrations and certificates for specific objects. General claims are accompanied by symbolic or structural proofs; unresolved points are marked as gaps or conjectures.",
-          )}
-        </p>
-      </section>
     </div>
   );
 }
@@ -541,11 +563,14 @@ function HeroSquare() {
   return (
     <div
       className="hero-visual"
-      aria-label={text("Пример маски ABCDG", "An example of the ABCDG pattern")}
+      aria-label={text(
+        "Частичный случай 5/9 с маской ABCDG",
+        "A partial 5/9 case with the ABCDG pattern",
+      )}
     >
       <div className="hero-square-label">
         <span>ABCDG</span>
-        <small>{text("пример маски 5/9", "a 5/9 pattern example")}</small>
+        <small>{text("частичный случай 5/9", "a partial 5/9 case")}</small>
       </div>
       <div className="hero-square-grid">
         {values.map((value, index) => (
@@ -573,7 +598,7 @@ function HeroSquare() {
         </span>
       </div>
       <div className="proof-stamp">
-        <span>5/9</span> {text("квадратных элементов", "square entries")}
+        <span>5/9</span> {text("квадратов", "squares")}
       </div>
     </div>
   );

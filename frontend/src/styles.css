@@ -520,6 +520,14 @@ main {
   line-height: 1.62;
 }
 
+.home-section-introduction {
+  max-width: 880px;
+  margin: -8px 0 34px;
+  color: var(--graphite-soft);
+  font-size: 16px;
+  line-height: 1.72;
+}
+
 .home-section-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -578,71 +586,6 @@ main {
 .home-section-card nav a:hover {
   border-color: var(--graphite-soft);
   background: var(--paper-strong);
-}
-
-.recent-theory-list {
-  border-top: 1px solid var(--line);
-}
-
-.recent-theory-item {
-  display: grid;
-  grid-template-columns: 68px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 24px;
-  padding: 25px 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.recent-theory-item:hover {
-  background: var(--paper);
-}
-
-.recent-theory-item > span {
-  color: var(--muted);
-  font: 11px var(--mono);
-}
-
-.recent-theory-item h3 {
-  margin: 0;
-  color: var(--graphite);
-  font: 500 27px/1.1 var(--serif);
-}
-
-.recent-theory-item p {
-  margin: 8px 0 0;
-  color: var(--graphite-soft);
-  font-size: 14px;
-  line-height: 1.55;
-}
-
-.recent-theory-item i {
-  color: var(--muted);
-  font-style: normal;
-}
-
-.home-method-note {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  align-items: start;
-  gap: clamp(34px, 7vw, 100px);
-  margin: 38px 0 82px;
-  padding: 38px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.home-method-note h2 {
-  margin: 0;
-  color: var(--graphite);
-  font: 500 clamp(28px, 3vw, 40px)/1.08 var(--serif);
-  letter-spacing: -0.025em;
-}
-
-.home-method-note > p {
-  margin: 20px 0 0;
-  color: var(--graphite-soft);
-  font-size: 15px;
-  line-height: 1.72;
 }
 
 .text-link {
@@ -5325,11 +5268,6 @@ main {
     grid-column: 1 / -1;
   }
 
-  .home-method-note {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
   .feature-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -5522,21 +5460,6 @@ main {
 
   .home-section-card:last-child {
     grid-column: auto;
-  }
-
-  .recent-theory-item {
-    grid-template-columns: 42px minmax(0, 1fr);
-    gap: 14px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .recent-theory-item h3 {
-    font-size: 24px;
-  }
-
-  .recent-theory-item i {
-    display: none;
   }
 
   .section-heading {

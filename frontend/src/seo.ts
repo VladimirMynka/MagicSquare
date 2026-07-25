@@ -191,15 +191,15 @@ const STATIC_METADATA: Readonly<
 > = {
   "": {
     en: {
-      title: "Square Entries in Rational 3×3 Magic Squares",
+      title: "The Open 3×3 Magic Square of Squares Problem",
       description:
-        "Definitions, proofs, pattern classifications, parametric families, elliptic surfaces, and computational tools for rational 3×3 magic squares with square entries.",
+        "Research on the open problem of a 3×3 magic square with nine distinct perfect-square entries, its partial k/9 configurations, and related arithmetic and algebraic results.",
       type: "WebSite",
     },
     ru: {
-      title: "Квадратные элементы в рациональных магических квадратах 3×3",
+      title: "Открытая задача о магическом квадрате из девяти квадратов",
       description:
-        "Определения, доказательства, классификации масок, параметрические семейства, эллиптические поверхности и вычислительные инструменты для рациональных магических квадратов 3×3.",
+        "Исследование открытой задачи о магическом квадрате 3×3 из девяти различных полных квадратов, частичных конфигураций k/9 и связанных арифметических и алгебраических результатов.",
       type: "WebSite",
     },
   },
