@@ -128,6 +128,18 @@ export function TheoryIndexPage() {
         },
         {
           index: "3.3",
+          to: "/theory/6-9-patterns",
+          title: text(
+            "Маски 6/9: шестнадцать позиционных типов",
+            "6/9 patterns: the sixteen positional types",
+          ),
+          summary: text(
+            "Доказательство числа орбит, три независимые квадрики каждой маски, восемь прогрессий магического квадрата и точная граница двух параллельных tfmn-классов.",
+            "A proof of the orbit count, the three independent quadrics of every pattern, the eight progressions in a magic square, and the exact scope of the two parallel tfmn classes.",
+          ),
+        },
+        {
+          index: "3.4",
           to: "/theory/fmn-tfmn",
           title: text(
             "fmn и tfmn в задаче 6/9",
@@ -139,7 +151,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "3.4",
+          index: "3.5",
           to: "/theory/early-tf-families",
           title: text(
             "Ранние семейства F1–F8",

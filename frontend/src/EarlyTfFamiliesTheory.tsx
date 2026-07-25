@@ -15,8 +15,8 @@ export function EarlyTfFamiliesTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Частичные квадратные конфигурации · 3.4",
-              "Partial square configurations · 3.4",
+              "Частичные квадратные конфигурации · 3.5",
+              "Partial square configurations · 3.5",
             )}
           </p>
           <h1>

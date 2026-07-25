@@ -3513,6 +3513,72 @@ main {
   margin-top: 24px;
 }
 
+.six-nine-orbit-table {
+  min-width: 620px;
+}
+
+.six-nine-orbit-table td code {
+  color: inherit;
+  font: 12px var(--mono);
+}
+
+.six-nine-theory-mask-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 220px));
+  gap: 22px;
+  margin: 28px 0;
+}
+
+.six-nine-theory-mask {
+  margin: 0;
+}
+
+.six-nine-theory-mask-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  aspect-ratio: 1;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.six-nine-theory-mask-grid span {
+  display: grid;
+  place-items: center;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font: 10px var(--mono);
+}
+
+.six-nine-theory-mask-grid span:nth-child(3n) {
+  border-right: 0;
+}
+
+.six-nine-theory-mask-grid span:nth-child(n + 7) {
+  border-bottom: 0;
+}
+
+.six-nine-theory-mask-grid .is-active {
+  color: var(--graphite);
+}
+
+.six-nine-theory-mask-grid .group-first {
+  background: color-mix(in srgb, var(--brick-soft) 24%, var(--paper));
+  box-shadow: inset 0 0 0 2px var(--brick-soft);
+}
+
+.six-nine-theory-mask-grid .group-second {
+  background: color-mix(in srgb, var(--blue) 22%, var(--paper));
+  box-shadow: inset 0 0 0 2px var(--blue);
+}
+
+.six-nine-theory-mask figcaption {
+  margin-top: 9px;
+  color: var(--graphite-soft);
+  font: 10px/1.45 var(--mono);
+  text-align: center;
+}
+
 .formula-scroll {
   max-width: 100%;
   overflow-x: auto;

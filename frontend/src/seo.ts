@@ -103,6 +103,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-23",
     modified: "2026-07-23",
   },
+  "theory/6-9-patterns": {
+    published: "2026-07-25",
+    modified: "2026-07-25",
+  },
   "theory/fmn-tfmn": {
     published: "2026-07-23",
     modified: "2026-07-24",
@@ -322,6 +326,20 @@ const STATIC_METADATA: Readonly<
       title: "Arithmetic Progressions of Squares and the dir Function",
       description:
         "A complete parametrization of three rational and integral squares in arithmetic progression, the eight progressions in a magic 3×3 square, and the exact dir(m,n) formula.",
+      type: "Article",
+    },
+  },
+  "theory/6-9-patterns": {
+    ru: {
+      title: "Маски 6/9: шестнадцать типов магических квадратов",
+      description:
+        "Полная классификация 16 позиционных типов 6/9 с доказательством по лемме Бёрнсайда, тремя квадриками каждой маски и двумя параллельными tfmn-классами.",
+      type: "Article",
+    },
+    en: {
+      title: "6/9 Magic-Square Patterns: The Sixteen Positional Types",
+      description:
+        "A complete classification of the 16 positional 6/9 types, with a Burnside-lemma proof, three quadrics for every pattern, and the two parallel tfmn classes.",
       type: "Article",
     },
   },
@@ -738,6 +756,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/residues",
     "theory/prime-divisors",
     "theory/arithmetic-progressions-dir",
+    "theory/6-9-patterns",
     "theory/fmn-tfmn",
     "theory/early-tf-families",
     "theory/f7-plus",

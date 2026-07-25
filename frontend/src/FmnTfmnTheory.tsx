@@ -15,8 +15,8 @@ export function FmnTfmnTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Частичные квадратные конфигурации · 3.3",
-              "Partial square configurations · 3.3",
+              "Частичные квадратные конфигурации · 3.4",
+              "Partial square configurations · 3.4",
             )}
           </p>
           <h1>
@@ -73,8 +73,8 @@ u^2f(m,n)=v^2f(p,q).`}</Latex>
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-ghost" to="/proofs/general">
-              {text("Предшествующая теория масок", "Preceding theory of square patterns")}
+            <TheoryLink className="button button-ghost" to="/theory/6-9-patterns">
+              {text("Предшествующая теория масок 6/9", "Preceding theory of 6/9 patterns")}
             </TheoryLink>
           </div>
         </section>

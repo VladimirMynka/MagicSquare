@@ -461,8 +461,8 @@ V=k^2c(m,n),\qquad
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/fmn-tfmn">
-              {text("fmn и tfmn", "fmn and tfmn")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/6-9-patterns">
+              {text("Далее: маски 6/9", "Next: 6/9 patterns")}{" "}
               <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/proofs/general">

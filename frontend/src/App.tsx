@@ -82,6 +82,7 @@ import { SixNineLabPage } from "./SixNineLab";
 import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
+import { SixNinePatternsTheoryPage } from "./SixNinePatternsTheory";
 import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
 import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { F7PlusTheoryPage } from "./F7PlusTheory";
@@ -3226,6 +3227,10 @@ export function App() {
         <Route
           path="theory/arithmetic-progressions-dir"
           element={<DirProgressionsTheoryPage />}
+        />
+        <Route
+          path="theory/6-9-patterns"
+          element={<SixNinePatternsTheoryPage />}
         />
         <Route path="theory/fmn-tfmn" element={<FmnTfmnTheoryPage />} />
         <Route
