@@ -276,10 +276,22 @@ export function TheoryIndexPage() {
             "The gluing of AEJ and BDJ, the residual quartic, a 2I₄+8I₂ K3 surface, a non-torsion section, and an explicit polynomial family from 2P.",
           ),
         },
+        {
+          index: "5.3",
+          to: "/theory/6-9/abcdfh",
+          title: text(
+            "ABCDFH: две прогрессии и палиндромная квартика",
+            "ABCDFH: two progressions and a palindromic quartic",
+          ),
+          summary: text(
+            "Склейка AFH и CDH условием BDFH, расщеплённая K3-поверхность 2I₄+8I₂, точный сертификат неторсионности и явное полиномиальное семейство.",
+            "The AFH and CDH progressions glued by BDFH, a split 2I₄+8I₂ K3 surface, an exact non-torsion certificate, and an explicit polynomial family.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: ABCDFH, ABCDHJ, общий слой ABCEGH/ABCEGJ, затем треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
-        "Next: ABCDFH, ABCDHJ, the common ABCEGH/ABCEGJ layer, then the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+        "Далее: ABCDHJ, общий слой ABCEGH/ABCEGJ, затем треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
+        "Next: ABCDHJ, the common ABCEGH/ABCEGJ layer, then the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
       ),
     },
     {

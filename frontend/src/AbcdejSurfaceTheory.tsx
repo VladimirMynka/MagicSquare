@@ -280,8 +280,8 @@ p^2(p-1)^2(p+1)^2R(p)^4\cdot
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/orbits/6">
-              {text("К полному атласу 6/9", "Open the complete 6/9 atlas")} <span>→</span>
+            <TheoryLink className="button button-primary" to="/theory/6-9/abcdfh">
+              {text("Далее: поверхность ABCDFH", "Next: the ABCDFH surface")} <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdeh">
               {text("Предыдущая поверхность: ABCDEH", "Previous surface: ABCDEH")}

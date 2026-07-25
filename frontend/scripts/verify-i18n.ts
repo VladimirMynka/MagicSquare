@@ -206,6 +206,7 @@ function verifyEnglishRoutes(): number {
     "/en/theory/prime-divisors": "Prime divisors in a minimal 9/9 square",
     "/en/theory/6-9/abcdeh": "The ABCDEH Pattern",
     "/en/theory/6-9/abcdej": "The ABCDEJ Pattern",
+    "/en/theory/6-9/abcdfh": "The ABCDFH Pattern",
     "/en/theory/matrix-algebra/magic-charming-semimagic": "Magic, charming, and semimagic squares",
     "/en/theory/matrix-algebra/block-structure-split-quaternions": "Block structure and split quaternions",
     "/en/orbits/4": "Four square entries: 23 orbits",

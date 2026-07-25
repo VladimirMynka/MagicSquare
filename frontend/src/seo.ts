@@ -147,6 +147,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-25",
     modified: "2026-07-25",
   },
+  "theory/6-9/abcdfh": {
+    published: "2026-07-25",
+    modified: "2026-07-25",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -298,6 +302,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCDEJ: An Elliptic K3 Surface and an Infinite Family",
       description:
         "A complete derivation of the ABCDEJ pattern: two progressions of squares, a genus-one quartic, its split K3 Jacobian, a non-torsion section, and a polynomial parametrization.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcdfh": {
+    ru: {
+      title: "ABCDFH: палиндромная квартика и эллиптическая K3-поверхность",
+      description:
+        "Полный вывод маски ABCDFH: две прогрессии квадратов, палиндромная квартика рода 1, расщеплённый K3-якобиан, неторсионное сечение и явное полиномиальное семейство.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCDFH: A Palindromic Quartic and an Elliptic K3 Surface",
+      description:
+        "A complete derivation of the ABCDFH pattern: two progressions of squares, a palindromic genus-one quartic, its split K3 Jacobian, a non-torsion section, and an explicit polynomial family.",
       type: "Article",
     },
   },
@@ -820,6 +838,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/f9-plus-elliptic-layers",
     "theory/6-9/abcdeh",
     "theory/6-9/abcdej",
+    "theory/6-9/abcdfh",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
