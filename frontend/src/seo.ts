@@ -77,7 +77,7 @@ const INITIAL_PUBLICATION: PublicationDates = {
 const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   "": {
     published: "2026-07-21",
-    modified: "2026-07-23",
+    modified: "2026-07-25",
   },
   "squares-of-squares": {
     published: "2026-07-22",
@@ -191,15 +191,15 @@ const STATIC_METADATA: Readonly<
 > = {
   "": {
     en: {
-      title: "3×3 Magic Square of Squares — Proof Atlas",
+      title: "Square Entries in Rational 3×3 Magic Squares",
       description:
-        "Explore the 3×3 magic square of squares problem through an interactive calculator, 46 symmetry orbits, exact parametrizations, and complete proofs.",
+        "Definitions, proofs, pattern classifications, parametric families, elliptic surfaces, and computational tools for rational 3×3 magic squares with square entries.",
       type: "WebSite",
     },
     ru: {
-      title: "Магический квадрат из квадратов 3×3 — атлас доказательств",
+      title: "Квадратные элементы в рациональных магических квадратах 3×3",
       description:
-        "Интерактивное исследование магического квадрата из квадратов 3×3: калькулятор, 46 орбит симметрии, точные параметризации и полные доказательства.",
+        "Определения, доказательства, классификации масок, параметрические семейства, эллиптические поверхности и вычислительные инструменты для рациональных магических квадратов 3×3.",
       type: "WebSite",
     },
   },

@@ -197,7 +197,7 @@ COMPLEXITY: 2
 END_CONTRACT */
 function verifyEnglishRoutes(): number {
   const routes: Readonly<Record<string, string>> = {
-    "/en": "Magic squares you can do more than look at",
+    "/en": "Square entries in 3×3 magic squares",
     "/en/lab?family=befgj": "Family BEFGJ",
     "/en/theory": "Theory contents",
     "/en/squares-of-squares": "The 3×3 magic square of squares",
@@ -241,7 +241,7 @@ function verifyEnglishRoutes(): number {
     ),
   );
   invariant(
-    russianHome.includes("Магические квадраты, которые можно не только увидеть"),
+    russianHome.includes("Квадратные элементы в магических квадратах 3×3"),
     "/ru is missing its Russian home-page copy",
   );
   invariant(

@@ -37,7 +37,6 @@ import { SquareWorkbench } from "./components/SquareWorkbench";
 import { news, newsBySlug, type NewsArticle } from "./content/news";
 import { familyProof } from "./content/familyProofs";
 import {
-  COMMON_PROOFS,
   MAGIC3_LATEX,
   commonProofById,
   commonProofs,
@@ -46,7 +45,6 @@ import {
   FAMILIES,
   FIVE_FAMILIES,
   FOUR_FAMILIES,
-  familyById,
   familyGroupLabel,
   familyOrbitDescription,
   familySummary,
@@ -297,55 +295,110 @@ function AppShell() {
 }
 
 function HomePage() {
-  const { locale, text } = useLocale();
-  const articles = news(locale);
-  const latestArticle = articles[0];
+  const { text } = useLocale();
+  const researchStates = [
+    {
+      ratio: "4/9",
+      status: text("полная классификация", "complete classification"),
+      description: text(
+        "23 орбиты квадратных масок и параметрические семейства.",
+        "23 square-pattern orbits and their parametric families.",
+      ),
+    },
+    {
+      ratio: "5/9",
+      status: text("полная классификация", "complete classification"),
+      description: text(
+        "23 орбиты квадратных масок и общие методы их параметризации.",
+        "23 square-pattern orbits and general parametrization methods.",
+      ),
+    },
+    {
+      ratio: "6/9",
+      status: text("исследование продолжается", "work in progress"),
+      description: text(
+        "Атлас позиционных типов, tfmn-классы и отдельные эллиптические поверхности.",
+        "An atlas of positional types, tfmn classes, and individual elliptic surfaces.",
+      ),
+    },
+    {
+      ratio: "7/9–9/9",
+      status: text("частичные результаты", "partial results"),
+      description: text(
+        "Отдельные конструкции, ограничения и открытые задачи.",
+        "Individual constructions, restrictions, and open problems.",
+      ),
+    },
+  ] as const;
+
+  const recentSections = [
+    {
+      index: "5.2",
+      to: "/theory/6-9/abcdej",
+      title: text(
+        "Маска ABCDEJ",
+        "The ABCDEJ pattern",
+      ),
+      description: text(
+        "Квартика рода 1, K3-якобиан и явное семейство из неторсионного сечения.",
+        "A genus-one quartic, its K3 Jacobian, and an explicit family from a non-torsion section.",
+      ),
+    },
+    {
+      index: "5.1",
+      to: "/theory/6-9/abcdeh",
+      title: text(
+        "Маска ABCDEH",
+        "The ABCDEH pattern",
+      ),
+      description: text(
+        "Две прогрессии квадратов, общая квартика и два независимых сечения.",
+        "Two progressions of squares, a common quartic, and two independent sections.",
+      ),
+    },
+    {
+      index: "4.5",
+      to: "/theory/f9-plus-elliptic-layers",
+      title: text(
+        "Эллиптические слои F9+",
+        "Elliptic layers of F9+",
+      ),
+      description: text(
+        "Однопараметрические семейства и их связь с F4+ и F7+.",
+        "One-parameter families and their relation to F4+ and F7+.",
+      ),
+    },
+  ] as const;
+
   return (
     <div className="page home-page">
       <section className="hero">
         <div className="hero-copy">
           <p className="eyebrow">
             {text(
-              "Параметрические семейства · карта доказательств",
-              "Parametric families · proof map",
+              "Исследование рациональных магических квадратов",
+              "A study of rational magic squares",
             )}
           </p>
           <h1>
             {text(
-              "Магические квадраты, которые можно не только увидеть.",
-              "Magic squares you can do more than look at.",
+              "Квадратные элементы в магических квадратах 3×3",
+              "Square entries in 3×3 magic squares",
             )}
           </h1>
           <p className="hero-lead">
             {text(
-              "Интерактивный атлас связывает каждый генератор с его квадратной маской, формулой, полным LaTeX-доказательством и честным статусом формализации.",
-              "The interactive atlas connects every generator to its square-valued mask, formulas, complete LaTeX proof, and an honest formalization status.",
+              "На сайте систематизированы определения, доказательства, классификации квадратных масок, параметрические семейства и вычислительные инструменты для магических квадратов порядка 3.",
+              "This site collects definitions, proofs, classifications of square-valued patterns, parametric families, and computational tools for magic squares of order 3.",
             )}
           </p>
           <div className="hero-actions">
-            <Link className="button button-primary" to="/lab">
-              {text("Открыть лабораторию", "Open the laboratory")} <span>↗</span>
+            <Link className="button button-primary" to="/theory">
+              {text("Оглавление теории", "Theory contents")} <span>→</span>
             </Link>
-            <Link className="button button-ghost" to="/theory">
-              {text("Как устроены доказательства", "How the proofs work")}
+            <Link className="button button-ghost" to="/lab">
+              {text("Калькуляторы", "Calculators")}
             </Link>
-          </div>
-          <div
-            className="hero-stats"
-            aria-label={text("Статистика проекта", "Project statistics")}
-          >
-            <div>
-              <strong>23 + 23</strong>
-              <span>{text("орбиты 4/9 и 5/9", "4/9 and 5/9 orbits")}</span>
-            </div>
-            <div>
-              <strong>5/9</strong>
-              <span>{text("квадратная маска", "square-valued mask")}</span>
-            </div>
-            <div>
-              <strong>{COMMON_PROOFS.length}</strong>
-              <span>{text("общие леммы", "shared lemmas")}</span>
-            </div>
           </div>
         </div>
         <HeroSquare />
@@ -354,72 +407,127 @@ function HomePage() {
       <section className="section-block">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Proof-backed catalog</p>
+            <p className="eyebrow">
+              {text("Область исследования", "Scope of the study")}
+            </p>
             <h2>
               {text(
-                "От формулы к квадрату — без разрыва",
-                "From formula to square, without a gap",
+                "Состояние основных задач",
+                "Status of the main problems",
               )}
             </h2>
           </div>
-          <Link className="text-link" to="/lab">
-            {text("Все семейства", "All families")} <span>→</span>
+          <Link className="text-link" to="/timeline">
+            {text("Хронология", "Timeline")} <span>→</span>
           </Link>
         </div>
-        <div className="feature-grid">
-          {["abehj", "abcdh", "abcdg"].map(familyById).map((family, index) => (
-            <Link
-              className={`feature-card tone-${family.group}`}
-              to={`${orbitPath(family.id)}#family-proof`}
-              key={family.id}
-            >
-              <span className="feature-index">0{index + 1}</span>
-              <Pattern family={family} />
+        <div className="research-status-grid">
+          {researchStates.map((item) => (
+            <article className="research-status-card" key={item.ratio}>
+              <strong>{item.ratio}</strong>
+              <span>{item.status}</span>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">{text("Материалы сайта", "Site contents")}</p>
+            <h2>{text("Разделы", "Sections")}</h2>
+          </div>
+        </div>
+        <div className="home-section-grid">
+          <article className="home-section-card">
+            <span>I</span>
+            <h3>{text("Теория", "Theory")}</h3>
+            <p>
+              {text(
+                "Последовательное изложение от общей формы магического квадрата до эллиптических поверхностей.",
+                "A sequential account from the general form of a magic square to elliptic surfaces.",
+              )}
+            </p>
+            <Link className="text-link" to="/theory">
+              {text("Оглавление", "Contents")} <span>→</span>
+            </Link>
+          </article>
+          <article className="home-section-card">
+            <span>II</span>
+            <h3>{text("Атласы масок", "Pattern atlases")}</h3>
+            <p>
+              {text(
+                "Орбиты квадратных позиций с условиями, статусами и ссылками на выводы.",
+                "Orbits of square positions with equations, statuses, and links to derivations.",
+              )}
+            </p>
+            <nav aria-label={text("Атласы масок", "Pattern atlases")}>
+              <Link to="/orbits/4">4/9</Link>
+              <Link to="/orbits/5">5/9</Link>
+              <Link to="/orbits/6">6/9</Link>
+            </nav>
+          </article>
+          <article className="home-section-card">
+            <span>III</span>
+            <h3>{text("Вычисления", "Computations")}</h3>
+            <p>
+              {text(
+                "Калькуляторы для параметрических семейств, масок 6/9 и операций с магическими квадратами.",
+                "Calculators for parametric families, 6/9 patterns, and operations on magic squares.",
+              )}
+            </p>
+            <nav aria-label={text("Калькуляторы", "Calculators")}>
+              <Link to="/lab">4/9–5/9</Link>
+              <Link to="/lab/6">6/9</Link>
+            </nav>
+          </article>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              {text("Последние добавленные разделы", "Recently added sections")}
+            </p>
+            <h2>{text("Текущая линия работы", "Current line of work")}</h2>
+          </div>
+          <Link className="text-link" to="/theory">
+            {text("Полное оглавление", "Full contents")} <span>→</span>
+          </Link>
+        </div>
+        <div className="recent-theory-list">
+          {recentSections.map((section) => (
+            <Link className="recent-theory-item" to={section.to} key={section.to}>
+              <span>{section.index}</span>
               <div>
-                <span className="family-kind">
-                  {familyGroupLabel(family, locale)}
-                </span>
-                <h3>{family.title}</h3>
-                <p>{familySummary(family, locale)}</p>
+                <h3>{section.title}</h3>
+                <p>{section.description}</p>
               </div>
-              <span className="feature-arrow">↗</span>
+              <i>→</i>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="manifesto">
-        <p className="eyebrow">
-          {text("Исследовательский принцип", "Research principle")}
-        </p>
-        <blockquote>
-          {text(
-            "«Если символического доказательства ещё нет, это пробел, а не результат».",
-            "“If a symbolic proof does not exist yet, that is a gap—not a result.”",
-          )}
-        </blockquote>
+      <section className="home-method-note">
+        <div>
+          <p className="eyebrow">{text("Статус утверждений", "Status of claims")}</p>
+          <h2>
+            {text(
+              "Примеры и доказательства разделены",
+              "Examples and proofs are kept separate",
+            )}
+          </h2>
+        </div>
         <p>
           {text(
-            "Интерфейс показывает вычисление. Proof-core отвечает за утверждение. Поэтому красивые примеры не подменяют тождества, а статус каждой конструкции виден пользователю.",
-            "The interface displays computations; proof-core is responsible for claims. Attractive examples never substitute for identities, and every construction exposes its status.",
+            "Вычислительные примеры используются как иллюстрации и сертификаты конкретных объектов. Общие утверждения сопровождаются символическим или структурным доказательством; незакрытые места обозначаются как пробелы или гипотезы.",
+            "Computational examples are used as illustrations and certificates for specific objects. General claims are accompanied by symbolic or structural proofs; unresolved points are marked as gaps or conjectures.",
           )}
         </p>
       </section>
-
-      {latestArticle ? (
-        <section className="section-block latest-section">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{text("Журнал проекта", "Project journal")}</p>
-              <h2>{text("Последнее обновление", "Latest update")}</h2>
-            </div>
-            <Link className="text-link" to="/news">
-              {text("Все новости", "All news")} <span>→</span>
-            </Link>
-          </div>
-          <NewsCard article={latestArticle} featured />
-        </section>
-      ) : null}
     </div>
   );
 }
@@ -433,11 +541,11 @@ function HeroSquare() {
   return (
     <div
       className="hero-visual"
-      aria-label={text("Точный квадрат ABCDG", "Exact ABCDG square")}
+      aria-label={text("Пример маски ABCDG", "An example of the ABCDG pattern")}
     >
       <div className="hero-square-label">
         <span>ABCDG</span>
-        <small>{text("точный сертификат", "exact certificate")}</small>
+        <small>{text("пример маски 5/9", "a 5/9 pattern example")}</small>
       </div>
       <div className="hero-square-grid">
         {values.map((value, index) => (
@@ -465,7 +573,7 @@ function HeroSquare() {
         </span>
       </div>
       <div className="proof-stamp">
-        <span>✓</span> proof-core
+        <span>5/9</span> {text("квадратных элементов", "square entries")}
       </div>
     </div>
   );
