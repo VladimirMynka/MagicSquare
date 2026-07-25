@@ -264,10 +264,22 @@ export function TheoryIndexPage() {
             "A simultaneous parametrization of BEH and CDH, the residual quartic, its split Jacobian with configuration 2I₄+8I₂, and the proved rank bound 2≤rank≤4.",
           ),
         },
+        {
+          index: "5.2",
+          to: "/theory/6-9/abcdej",
+          title: text(
+            "ABCDEJ: общая вершина двух прогрессий",
+            "ABCDEJ: two progressions with a common endpoint",
+          ),
+          summary: text(
+            "Склейка AEJ и BDJ, остаточная квартика, K3-поверхность 2I₄+8I₂, неторсионное сечение и явное полиномиальное семейство из 2P.",
+            "The gluing of AEJ and BDJ, the residual quartic, a 2I₄+8I₂ K3 surface, a non-torsion section, and an explicit polynomial family from 2P.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: ABCDEJ, ABCDFH, ABCDHJ, общий слой ABCEGH/ABCEGJ, затем треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
-        "Next: ABCDEJ, ABCDFH, ABCDHJ, the common ABCEGH/ABCEGJ layer, then the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+        "Далее: ABCDFH, ABCDHJ, общий слой ABCEGH/ABCEGJ, затем треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
+        "Next: ABCDFH, ABCDHJ, the common ABCEGH/ABCEGJ layer, then the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
       ),
     },
     {

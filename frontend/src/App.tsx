@@ -92,6 +92,7 @@ import { TfPairGenerationTheoryPage } from "./TfPairGenerationTheory";
 import { F9PlusTheoryPage } from "./F9PlusTheory";
 import { F9EllipticLayersTheoryPage } from "./F9EllipticLayersTheory";
 import { AbcdehSurfaceTheoryPage } from "./AbcdehSurfaceTheory";
+import { AbcdejSurfaceTheoryPage } from "./AbcdejSurfaceTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3259,6 +3260,10 @@ export function App() {
         <Route
           path="theory/6-9/abcdeh"
           element={<AbcdehSurfaceTheoryPage />}
+        />
+        <Route
+          path="theory/6-9/abcdej"
+          element={<AbcdejSurfaceTheoryPage />}
         />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"

@@ -319,8 +319,8 @@ h&=R(p)U(p).
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/orbits/6">
-              {text("К полному атласу 6/9", "Open the complete 6/9 atlas")} <span>→</span>
+            <TheoryLink className="button button-primary" to="/theory/6-9/abcdej">
+              {text("Далее: поверхность ABCDEJ", "Next: the ABCDEJ surface")} <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/f7-plus">
               {text("Цикл F7+, F4+ и F9+", "The F7+, F4+, and F9+ series")}
