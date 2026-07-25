@@ -5440,6 +5440,167 @@ main {
 
 }
 
+@media (min-width: 1221px) and (max-height: 900px) {
+  .lab-page {
+    padding-top: 20px;
+    padding-bottom: 44px;
+  }
+
+  .lab-heading,
+  .six-nine-heading {
+    min-height: 64px;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 14px;
+  }
+
+  .lab-heading h1,
+  .six-nine-heading h1 {
+    font-size: clamp(38px, 4vw, 54px);
+  }
+
+  .lab-heading .eyebrow {
+    margin-bottom: 5px;
+  }
+
+  .lab-heading > p,
+  .six-nine-heading > p {
+    max-width: 520px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  .lab-layout {
+    height: clamp(500px, calc(100svh - 188px), 712px);
+    align-items: stretch;
+  }
+
+  .family-panel {
+    height: 100%;
+    max-height: none;
+    position: static;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-label {
+    min-height: 50px;
+  }
+
+  .family-level-tabs {
+    flex: 0 0 auto;
+  }
+
+  .family-list {
+    min-height: 0;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .workspace {
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .workspace-toolbar {
+    min-height: 60px;
+    flex: 0 0 auto;
+    padding: 9px 16px;
+  }
+
+  .workspace-toolbar h2 {
+    font-size: 21px;
+  }
+
+  .workbench-grid {
+    min-height: 0;
+    flex: 1;
+  }
+
+  .control-desk,
+  .square-desk {
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--brick-soft) var(--panel);
+    scrollbar-width: thin;
+  }
+
+  .square-desk {
+    background: var(--paper-strong);
+  }
+
+  .coordinate-ledger span {
+    gap: 3px;
+    padding: 9px 13px;
+  }
+
+  .coordinate-ledger small {
+    font-size: 11px;
+  }
+
+  .coordinate-ledger strong {
+    font-size: 14px;
+  }
+
+  .square-stage {
+    --square-grid-width: clamp(
+      300px,
+      calc((100svh - 450px) * 1.1),
+      560px
+    );
+    flex: 0 0 auto;
+    padding: 14px 18px;
+  }
+
+  .stage-meta {
+    margin-bottom: 8px;
+  }
+
+  .square-legend {
+    margin-top: 8px;
+    font-size: 9px;
+  }
+
+  .verification-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .status-card,
+  .status-card:last-child {
+    min-height: 44px;
+    gap: 7px;
+    padding: 7px 9px;
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 0;
+  }
+
+  .status-card:last-child {
+    border-right: 0;
+  }
+
+  .status-card > span {
+    width: 21px;
+    height: 21px;
+    font-size: 9px;
+  }
+
+  .status-card small {
+    display: none;
+  }
+
+  .status-card strong {
+    font-size: 8px;
+    line-height: 1.25;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
