@@ -40,6 +40,12 @@ export function SixNineAtlasPage() {
             )}
           </p>
           <p>
+            {text(
+              "Статус карточки фиксирует сильнейший доказанный результат. Название со стрелкой открывает полный вывод: для непараллельных масок — собственную статью о поверхности, для ABDFHJ и ABEFGJ — общий цикл tfmn, F4+, F7+ и F9+.",
+              "Each card records the strongest proved result. A title followed by an arrow opens the full derivation: an individual surface article for a nonparallel pattern, and the common tfmn, F4+, F7+, and F9+ series for ABDFHJ and ABEFGJ.",
+            )}
+          </p>
+          <p>
             <TheoryLink className="general-proof-link" to="/theory/6-9-patterns">
               {text(
                 "Доказательство полноты классификации и достаточности трёх квадрик",

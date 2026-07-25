@@ -7,6 +7,7 @@ import {
   type SixNinePattern,
 } from "../content/sixNinePatterns";
 import { useLocale } from "../i18n";
+import { TheoryLink } from "../TheoryPages";
 
 const POSITIONS = Array.from("ABCDEFGHJ");
 
@@ -165,12 +166,21 @@ export function SixNineOrbitAtlas({
                   </span>
                   <AtlasPattern pattern={pattern} />
                   <div>
-                    <a
-                      className="orbit-atlas-title"
-                      href={`#mask-${pattern.mask.toLowerCase()}`}
-                    >
-                      {pattern.mask}
-                    </a>
+                    {pattern.theoryPath ? (
+                      <TheoryLink
+                        className="orbit-atlas-title"
+                        to={pattern.theoryPath}
+                      >
+                        {pattern.mask} →
+                      </TheoryLink>
+                    ) : (
+                      <a
+                        className="orbit-atlas-title"
+                        href={`#mask-${pattern.mask.toLowerCase()}`}
+                      >
+                        {pattern.mask}
+                      </a>
+                    )}
                     <p>
                       {text("дополнение", "complement")}: {pattern.complement}
                     </p>

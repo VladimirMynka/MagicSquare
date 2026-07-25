@@ -139,6 +139,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-24",
     modified: "2026-07-24",
   },
+  "theory/6-9/abcdeh": {
+    published: "2026-07-25",
+    modified: "2026-07-25",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -262,6 +266,20 @@ const STATIC_METADATA: Readonly<
       title: "The Elliptic Layers of F9+: From y²=x³−2x to Families of Curves",
       description:
         "The basic F9 bijection, a proof of infinitude, genuine one-parameter families of quadratic substitutions, and their relation to F4+ and F7+.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcdeh": {
+    ru: {
+      title: "ABCDEH: эллиптическая K3-поверхность для маски 6/9",
+      description:
+        "Полный вывод маски ABCDEH: две прогрессии квадратов, остаточная квартика рода 1, расщеплённый якобиан K3, два независимых сечения и явная параметризация.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCDEH: An Elliptic K3 Surface for a 6/9 Pattern",
+      description:
+        "A complete derivation of the ABCDEH pattern: two progressions of squares, a residual genus-one quartic, its split K3 Jacobian, two independent sections, and an explicit parametrization.",
       type: "Article",
     },
   },
@@ -782,6 +800,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/tf-pair-generation",
     "theory/f9-plus",
     "theory/f9-plus-elliptic-layers",
+    "theory/6-9/abcdeh",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

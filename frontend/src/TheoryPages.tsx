@@ -237,12 +237,41 @@ export function TheoryIndexPage() {
         },
       ],
       continuation: text(
-        "Далее: нормовые подъёмы F8+ и остальные конструктивные слои.",
-        "Next: the F8+ norm lifts and the remaining constructive layers.",
+        "Далее основная линия возвращается к отдельным маскам 6/9: F-цикл уже даёт необходимый язык эллиптических кривых и поверхностей.",
+        "The main line next returns to the individual 6/9 patterns: the F-series has now supplied the required language of elliptic curves and surfaces.",
       ),
     },
     {
       index: "V",
+      title: text(
+        "Эллиптические поверхности 6/9",
+        "Elliptic surfaces for 6/9 patterns",
+      ),
+      summary: text(
+        "Полные выводы для отдельных непараллельных масок: от трёх квадратичных условий через квартику рода 1 к якобиану, паспорту поверхности и явным семействам решений.",
+        "Complete derivations for individual nonparallel patterns: from three quadratic conditions through a genus-one quartic to its Jacobian, surface passport, and explicit solution families.",
+      ),
+      chapters: [
+        {
+          index: "5.1",
+          to: "/theory/6-9/abcdeh",
+          title: text(
+            "ABCDEH: две прогрессии и K3-поверхность",
+            "ABCDEH: two progressions and a K3 surface",
+          ),
+          summary: text(
+            "Одновременная параметризация BEH и CDH, остаточная квартика, расщеплённый якобиан с конфигурацией 2I₄+8I₂ и доказанная граница ранга 2≤rank≤4.",
+            "A simultaneous parametrization of BEH and CDH, the residual quartic, its split Jacobian with configuration 2I₄+8I₂, and the proved rank bound 2≤rank≤4.",
+          ),
+        },
+      ],
+      continuation: text(
+        "Далее: ABCDEJ, ABCDFH, ABCDHJ, общий слой ABCEGH/ABCEGJ, затем треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
+        "Next: ABCDEJ, ABCDFH, ABCDHJ, the common ABCEGH/ABCEGJ layer, then the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+      ),
+    },
+    {
+      index: "VI",
       title: text(
         "Алгебра матричного умножения",
         "Matrix multiplication algebra",
@@ -253,7 +282,7 @@ export function TheoryIndexPage() {
       ),
       chapters: [
         {
-          index: "5.1",
+          index: "6.1",
           to: "/theory/matrix-algebra/magic-charming-semimagic",
           title: text(
             "Магические, чарующие и полумагические квадраты",
@@ -265,7 +294,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "5.2",
+          index: "6.2",
           to: "/theory/matrix-algebra/block-structure-split-quaternions",
           title: text(
             "Блочная структура и расщеплённые кватернионы",
@@ -309,7 +338,9 @@ export function TheoryIndexPage() {
                 : group.index === "IV"
                   ? "elliptic-tfmn"
                   : group.index === "V"
-                    ? "matrix-algebra"
+                    ? "six-nine-surfaces"
+                    : group.index === "VI"
+                      ? "matrix-algebra"
                   : undefined
             }
             key={group.index}

@@ -325,7 +325,10 @@ y_F(r)=\frac{rD(r)}{C(r)},
             </p>
           </div>
           <nav className="proof-navigation" aria-label={text("Навигация по теории", "Theory navigation")}>
-            <TheoryLink className="button button-primary" to="/theory/f9-plus">
+            <TheoryLink className="button button-primary" to="/theory/6-9/abcdeh">
+              {text("Далее: поверхность ABCDEH", "Next: the ABCDEH surface")} <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/f9-plus">
               {text("Общая теорема F9+", "The general F9+ theorem")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/f7-plus">

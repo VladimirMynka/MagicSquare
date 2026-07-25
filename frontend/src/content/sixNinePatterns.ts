@@ -32,6 +32,7 @@ export interface SixNinePattern {
   note: LocalizedSixNineText;
   status: SixNineResearchStatus;
   statusText: LocalizedSixNineText;
+  theoryPath?: string;
 }
 
 export const SIX_NINE_SHAPE_LABELS: Readonly<
@@ -105,11 +106,12 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Пересекающийся red–red–yellow с общей клеткой H.",
       en: "An intersecting red-red-yellow type with shared entry H.",
     },
-    status: "conic",
+    status: "elliptic",
     statusText: {
-      ru: "Склейка двух коник",
-      en: "Fiber product of two conics",
+      ru: "K3: 2I₄+8I₂; 2≤rank≤4",
+      en: "K3: 2I₄+8I₂; 2≤rank≤4",
     },
+    theoryPath: "/theory/6-9/abcdeh",
   },
   {
     mask: "ABCDEJ",
@@ -124,10 +126,10 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Две пересекающиеся прогрессии и жёлтая склейка.",
       en: "Two intersecting progressions and a yellow compatibility relation.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 2I₄+8I₂; 1≤rank≤4",
+      en: "K3: 2I₄+8I₂; 1≤rank≤4",
     },
   },
   {
@@ -162,10 +164,10 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Пересекающийся red–red–yellow с общей клеткой H.",
       en: "An intersecting red-red-yellow type with shared entry H.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 2I₄+8I₂; 1≤rank≤4",
+      en: "K3: 2I₄+8I₂; 1≤rank≤4",
     },
   },
   {
@@ -200,10 +202,10 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Пересекающаяся пара прогрессий с общей клеткой D.",
       en: "An intersecting pair of progressions with shared entry D.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 2I₄+8I₂; 1≤rank≤4",
+      en: "K3: 2I₄+8I₂; 1≤rank≤4",
     },
   },
   {
@@ -216,13 +218,13 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       { id: "ACEH", kind: "yellow", support: "ACEH", latex: "a^2+c^2=e^2+h^2" },
     ],
     note: {
-      ru: "Две прогрессии с общим центром E и жёлтая связь.",
-      en: "Two progressions with common center E and a yellow relation.",
+      ru: "Та же квартика K3, что у ABCEGJ, с другим чтением клеток.",
+      en: "The same K3 quartic as ABCEGJ, with a different cell interpretation.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 2I₄+8I₂; 2≤rank≤4",
+      en: "K3: 2I₄+8I₂; 2≤rank≤4",
     },
   },
   {
@@ -235,13 +237,13 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       { id: "BEGJ", kind: "yellow", support: "BEGJ", latex: "b^2+e^2=g^2+j^2" },
     ],
     note: {
-      ru: "Две прогрессии через E и независимая гауссова норма.",
-      en: "Two progressions through E and an independent Gaussian norm.",
+      ru: "Та же квартика K3, что у ABCEGH, с другим чтением клеток.",
+      en: "The same K3 quartic as ABCEGH, with a different cell interpretation.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 2I₄+8I₂; 2≤rank≤4",
+      en: "K3: 2I₄+8I₂; 2≤rank≤4",
     },
   },
   {
@@ -278,8 +280,8 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     },
     status: "elliptic",
     statusText: {
-      ru: "Квартика рода 1 и якобиан",
-      en: "Genus-one quartic and Jacobian",
+      ru: "K3: 4I₄+4I₂; 1≤rank≤2",
+      en: "K3: 4I₄+4I₂; 1≤rank≤2",
     },
   },
   {
@@ -295,10 +297,10 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Другой топологический тип трёх красных условий.",
       en: "A different topology of three red conditions.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 4I₄+4I₂; 1≤rank≤2",
+      en: "K3: 4I₄+4I₂; 1≤rank≤2",
     },
   },
   {
@@ -319,6 +321,7 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "tfmn-параметризация",
       en: "tfmn parametrization",
     },
+    theoryPath: "/theory/fmn-tfmn",
   },
   {
     mask: "ABEFGH",
@@ -333,10 +336,10 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Треугольник из трёх попарных квадратных средних.",
       en: "A triangle of three pairwise square means.",
     },
-    status: "family",
+    status: "elliptic",
     statusText: {
-      ru: "Поверхность Лежандра и семейство",
-      en: "Legendre surface and family",
+      ru: "K3: 4I₄+4I₂; 1≤rank≤2",
+      en: "K3: 4I₄+4I₂; 1≤rank≤2",
     },
   },
   {
@@ -357,5 +360,6 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "tfmn-параметризация",
       en: "tfmn parametrization",
     },
+    theoryPath: "/theory/fmn-tfmn",
   },
 ];

@@ -1,4 +1,5 @@
 import { Latex } from "./components/Latex";
+import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { SixNineOrbitAtlas } from "./components/SixNineOrbitAtlas";
 import {
   SIX_NINE_PATTERNS,
@@ -7,7 +8,6 @@ import {
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
 
-const POSITIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "J"] as const;
 const SHAPE_COUNTS = {
   triangle: SIX_NINE_PATTERNS.filter(
     (pattern) => sixNineShapeClass(pattern) === "triangle",
@@ -16,42 +16,6 @@ const SHAPE_COUNTS = {
     (pattern) => sixNineShapeClass(pattern) === "rectangle",
   ).length,
 };
-
-function SixNineMask({
-  caption,
-  first,
-  mask,
-  second,
-}: {
-  caption: string;
-  first: string;
-  mask: string;
-  second: string;
-}) {
-  return (
-    <figure className="six-nine-theory-mask">
-      <div aria-label={caption} className="six-nine-theory-mask-grid">
-        {POSITIONS.map((position) => {
-          const active = mask.includes(position);
-          const group = first.includes(position)
-            ? "group-first"
-            : second.includes(position)
-              ? "group-second"
-              : "";
-          return (
-            <span
-              className={`${active ? "is-active" : ""} ${group}`.trim()}
-              key={position}
-            >
-              {position}
-            </span>
-          );
-        })}
-      </div>
-      <figcaption>{caption}</figcaption>
-    </figure>
-  );
-}
 
 export function SixNinePatternsTheoryPage() {
   const { text } = useLocale();
@@ -267,13 +231,13 @@ y:\;&ABDFHJ,\ ACEFGH,\ BCDEGJ.
             )}
           </p>
           <div className="six-nine-theory-mask-pair">
-            <SixNineMask
+            <SixNineMaskDiagram
               caption={text("ABEFGJ: AEJ и BFG", "ABEFGJ: AEJ and BFG")}
               first="AEJ"
               mask="ABEFGJ"
               second="BFG"
             />
-            <SixNineMask
+            <SixNineMaskDiagram
               caption={text("ABDFHJ: AFH и BDJ", "ABDFHJ: AFH and BDJ")}
               first="AFH"
               mask="ABDFHJ"
