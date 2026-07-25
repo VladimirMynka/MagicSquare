@@ -83,6 +83,7 @@ import { ResiduesTheoryPage, TheoryIndexPage } from "./TheoryPages";
 import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
 import { SixNinePatternsTheoryPage } from "./SixNinePatternsTheory";
+import { SixNineAtlasPage } from "./SixNineAtlasPage";
 import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
 import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { F7PlusTheoryPage } from "./F7PlusTheory";
@@ -2025,6 +2026,11 @@ function SquaresOfSquaresPage() {
               <strong>{text("23 орбиты пяти клеток", "23 five-cell orbits")}</strong>
               <i>→</i>
             </Link>
+            <Link to="/orbits/6">
+              <span>6/9</span>
+              <strong>{text("16 орбит шести клеток", "16 six-cell orbits")}</strong>
+              <i>→</i>
+            </Link>
           </div>
         </section>
 
@@ -2999,6 +3005,7 @@ a+e+j=c+e+g=M.
           </p>
           <ul className="proof-references">
             <li><Link to="/orbits/5">{text("Атлас позиционных типов 5/9", "Atlas of the 5/9 positional types")}</Link></li>
+            <li><Link to="/orbits/6">{text("Атлас позиционных типов 6/9", "Atlas of the 6/9 positional types")}</Link></li>
             <li><Link to="/proofs/general">{text("Общая теория частичных квадратных масок", "General theory of partial square patterns")}</Link></li>
           </ul>
 
@@ -3261,6 +3268,7 @@ export function App() {
         <Route path="families/:familyId" element={<FamilyRedirect />} />
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />
         <Route path="orbits/5" element={<OrbitLevelPage level={5} />} />
+        <Route path="orbits/6" element={<SixNineAtlasPage />} />
         <Route path="orbits/:level/:familyId" element={<OrbitFamilyPage />} />
         <Route path="proofs/general" element={<GeneralTheoryPage />} />
         <Route path="proofs/:proofId" element={<CommonProofPage />} />

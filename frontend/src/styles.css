@@ -3513,15 +3513,6 @@ main {
   margin-top: 24px;
 }
 
-.six-nine-orbit-table {
-  min-width: 620px;
-}
-
-.six-nine-orbit-table td code {
-  color: inherit;
-  font: 12px var(--mono);
-}
-
 .six-nine-theory-mask-pair {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 220px));
@@ -3563,13 +3554,13 @@ main {
 }
 
 .six-nine-theory-mask-grid .group-first {
-  background: color-mix(in srgb, var(--brick-soft) 24%, var(--paper));
-  box-shadow: inset 0 0 0 2px var(--brick-soft);
+  background: #f0d2ce;
+  box-shadow: inset 0 0 0 2px #c86e67;
 }
 
 .six-nine-theory-mask-grid .group-second {
-  background: color-mix(in srgb, var(--blue) 22%, var(--paper));
-  box-shadow: inset 0 0 0 2px var(--blue);
+  background: #e4b2ad;
+  box-shadow: inset 0 0 0 2px #91463f;
 }
 
 .six-nine-theory-mask figcaption {
@@ -3577,6 +3568,216 @@ main {
   color: var(--graphite-soft);
   font: 10px/1.45 var(--mono);
   text-align: center;
+}
+
+.six-nine-orbit-atlas {
+  --atlas-cell-width: 232px;
+  --six-nine-red-light: #e0aaa5;
+  --six-nine-red-mid: #c86e67;
+  --six-nine-red-dark: #91463f;
+  --six-nine-yellow: #cfb56d;
+  --six-nine-blue-light: #83a9b8;
+  --six-nine-blue-dark: #527b8d;
+  --six-nine-blue: var(--six-nine-blue-light);
+  --six-nine-brown: #a3775d;
+}
+
+.six-nine-atlas-entry {
+  --tone-a: var(--line-strong);
+  --tone-b: var(--line);
+  min-height: 382px;
+}
+
+.six-nine-atlas-entry.status-conic {
+  --tone-a: var(--wheat);
+  --tone-b: var(--brick-soft);
+}
+
+.six-nine-atlas-entry.status-elliptic,
+.six-nine-atlas-entry.status-family {
+  --tone-a: var(--brick);
+  --tone-b: var(--wheat);
+}
+
+.six-nine-atlas-entry.status-tfmn {
+  --tone-a: var(--brick-soft);
+  --tone-b: var(--brick);
+}
+
+.six-nine-atlas-pattern {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.six-nine-atlas-pattern i {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: var(--paper-strong);
+  font: normal 5px var(--mono);
+}
+
+.six-nine-atlas-pattern i.active {
+  color: var(--graphite);
+}
+
+.six-nine-atlas-signature {
+  min-height: 38px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 3px;
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.six-nine-atlas-signature span {
+  padding: 2px 4px;
+  border: 1px solid currentColor;
+  color: var(--graphite-soft);
+  background: var(--paper);
+  font: 5px var(--mono);
+  white-space: nowrap;
+}
+
+.six-nine-atlas-signature .red-light {
+  border-color: var(--six-nine-red-light);
+  background: color-mix(in srgb, var(--six-nine-red-light) 24%, var(--paper));
+}
+
+.six-nine-atlas-signature .red-mid {
+  border-color: var(--six-nine-red-mid);
+  background: color-mix(in srgb, var(--six-nine-red-mid) 20%, var(--paper));
+}
+
+.six-nine-atlas-signature .red-dark {
+  border-color: var(--six-nine-red-dark);
+  background: color-mix(in srgb, var(--six-nine-red-dark) 16%, var(--paper));
+}
+
+.six-nine-atlas-signature .yellow {
+  border-color: var(--six-nine-yellow);
+  background: color-mix(in srgb, var(--six-nine-yellow) 20%, var(--paper));
+}
+
+.six-nine-atlas-signature .blue-light,
+.six-nine-atlas-signature .blue-dark {
+  border-color: var(--six-nine-blue-dark);
+  background: color-mix(in srgb, var(--six-nine-blue-light) 18%, var(--paper));
+}
+
+.six-nine-atlas-signature .brown {
+  border-color: var(--six-nine-brown);
+  background: color-mix(in srgb, var(--six-nine-brown) 18%, var(--paper));
+}
+
+.orbit-atlas-6 .orbit-atlas-system {
+  min-height: 116px;
+}
+
+.orbit-atlas-6 .orbit-atlas-quadrics {
+  min-height: 96px;
+}
+
+.orbit-atlas-relation.red-mid {
+  --relation-ink: var(--six-nine-red-mid);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.red-light {
+  --relation-ink: var(--six-nine-red-light);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.red-dark {
+  --relation-ink: var(--six-nine-red-dark);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.yellow {
+  --relation-ink: var(--six-nine-yellow);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.blue-light {
+  --relation-ink: var(--six-nine-blue-light);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.blue-dark {
+  --relation-ink: var(--six-nine-blue-dark);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.brown {
+  --relation-ink: var(--six-nine-brown);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation .latex.display {
+  font-size: 6px;
+}
+
+.orbit-atlas-legend .six-nine-red {
+  background: linear-gradient(
+    90deg,
+    var(--six-nine-red-light) 0 33%,
+    var(--six-nine-red-mid) 33% 66%,
+    var(--six-nine-red-dark) 66%
+  );
+}
+
+.orbit-atlas-legend .six-nine-yellow {
+  background: var(--six-nine-yellow);
+}
+
+.orbit-atlas-legend .six-nine-blue {
+  background: var(--six-nine-blue-light);
+}
+
+.orbit-atlas-legend .six-nine-brown {
+  background: var(--six-nine-brown);
+}
+
+.six-nine-atlas-status-legend {
+  margin-left: auto;
+}
+
+.six-nine-atlas-note {
+  min-height: 61px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+  padding-top: 7px;
+}
+
+.proof-document .six-nine-atlas-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 6px;
+  line-height: 1.35;
+}
+
+.six-nine-atlas-note strong {
+  width: max-content;
+  max-width: 100%;
+  padding: 3px 5px;
+  color: var(--graphite-soft);
+  background: var(--paper-muted);
+  font: 6px/1.25 var(--mono);
+}
+
+.six-nine-atlas-note strong.status-conic {
+  color: #735d22;
+  background: color-mix(in srgb, var(--wheat) 24%, var(--paper));
+}
+
+.six-nine-atlas-note strong.status-elliptic,
+.six-nine-atlas-note strong.status-family,
+.six-nine-atlas-note strong.status-tfmn {
+  color: var(--brick);
+  background: color-mix(in srgb, var(--brick-soft) 20%, var(--paper));
 }
 
 .formula-scroll {

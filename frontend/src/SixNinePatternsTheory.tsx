@@ -1,27 +1,9 @@
 import { Latex } from "./components/Latex";
+import { SixNineOrbitAtlas } from "./components/SixNineOrbitAtlas";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
 
 const POSITIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "J"] as const;
-
-const SIX_NINE_ORBITS = [
-  ["ABCDEF", "GHJ", "DEF"],
-  ["ABCDEG", "FHJ", "CEG"],
-  ["ABCDEH", "FGJ", "BEH, CDH"],
-  ["ABCDEJ", "FGH", "AEJ, BDJ"],
-  ["ABCDFG", "EHJ", "BFG"],
-  ["ABCDFH", "EGJ", "AFH, CDH"],
-  ["ABCDGJ", "EFH", "BDJ"],
-  ["ABCDHJ", "EFG", "BDJ, CDH"],
-  ["ABCEGH", "DFJ", "BEH, CEG"],
-  ["ABCEGJ", "DFH", "AEJ, CEG"],
-  ["ABCGHJ", "DEF", "—"],
-  ["ABDEFH", "CGJ", "AFH, BEH, DEF"],
-  ["ABDEFJ", "CGH", "AEJ, BDJ, DEF"],
-  ["ABDFHJ", "CEG", "AFH, BDJ"],
-  ["ABEFGH", "CDJ", "AFH, BEH, BFG"],
-  ["ABEFGJ", "CDH", "AEJ, BFG"],
-] as const;
 
 function SixNineMask({
   caption,
@@ -180,8 +162,8 @@ N_{6/9}=N_{3/9}
           <h2>{text("4. Все позиционные типы", "4. All positional types")}</h2>
           <p>
             {text(
-              "В таблице выбран по одному каноническому представителю каждой орбиты. Последний столбец перечисляет все трёхчленные арифметические прогрессии, целиком содержащиеся в маске; их смысл будет выведен ниже.",
-              "The table chooses one canonical representative from each orbit. The last column lists every three-term arithmetic progression contained in the pattern; their meaning is derived below.",
+              "В атласе выбран по одному каноническому представителю каждой орбиты. Для него выписаны исходная система из шести квадратных клеток, три предпочтительных независимых отношения и сильнейший доказанный результат. Цвет обозначает тип квадрики, а разные оттенки одного цвета — разные условия того же типа.",
+              "The atlas chooses one canonical representative from each orbit. It records the original six-square system, three preferred independent relations, and the strongest result proved so far. Color denotes the type of quadric, while shades of one color distinguish separate conditions of the same type.",
             )}
           </p>
           <p>
@@ -190,26 +172,12 @@ N_{6/9}=N_{3/9}
               "Applying the eight elements of D₄ to each three-cell complement never produces the complement in another row: the rows are distinguished by center membership, the numbers of corners and edge cells, and their adjacency or opposition. Hence the table contains sixteen distinct orbits, and the Burnside count proves that the list is exhaustive.",
             )}
           </p>
-          <div className="domain-table-wrap">
-            <table className="domain-table six-nine-orbit-table">
-              <thead>
-                <tr>
-                  <th>{text("Маска 6/9", "6/9 pattern")}</th>
-                  <th>{text("Дополнение", "Complement")}</th>
-                  <th>{text("Прогрессии", "Progressions")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {SIX_NINE_ORBITS.map(([mask, complement, progressions]) => (
-                  <tr key={mask}>
-                    <td><code>{mask}</code></td>
-                    <td><code>{complement}</code></td>
-                    <td><code>{progressions}</code></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SixNineOrbitAtlas
+            title={text(
+              "Все 16 орбит и тройки квадрик 6/9",
+              "All 16 orbits and triples of quadrics for 6/9",
+            )}
+          />
         </section>
 
         <section>
@@ -310,6 +278,9 @@ y:\;&ABDFHJ,\ ACEFGH,\ BCDEGJ.
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/lab/6">
               {text("Открыть конструктор 6/9", "Open the 6/9 constructor")}
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/orbits/6">
+              {text("Открыть атлас отдельно", "Open the standalone atlas")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/proofs/general">
               {text("Теория масок 4/9 и 5/9", "Theory of 4/9 and 5/9 patterns")}

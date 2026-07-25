@@ -87,7 +87,7 @@ export function LaboratoryLevelNavigation({
           onClick={() => onSelectLevel(level)}
           key={level}
         >
-          {level}/9 · {level < 6 ? "23" : "β"}
+          {level}/9 · {level < 6 ? "23" : "16"}
         </button>
       ))}
     </div>

@@ -107,6 +107,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-25",
     modified: "2026-07-25",
   },
+  "orbits/6": {
+    published: "2026-07-25",
+    modified: "2026-07-25",
+  },
   "theory/fmn-tfmn": {
     published: "2026-07-23",
     modified: "2026-07-24",
@@ -340,6 +344,20 @@ const STATIC_METADATA: Readonly<
       title: "6/9 Magic-Square Patterns: The Sixteen Positional Types",
       description:
         "A complete classification of the 16 positional 6/9 types, with a Burnside-lemma proof, three quadrics for every pattern, and the two parallel tfmn classes.",
+      type: "Article",
+    },
+  },
+  "orbits/6": {
+    ru: {
+      title: "Атлас 6/9: все 16 позиционных типов",
+      description:
+        "Полный атлас 16 орбит масок 6/9: исходные системы, три независимые квадрики, цветовые сигнатуры и текущий статус параметризации.",
+      type: "Article",
+    },
+    en: {
+      title: "6/9 Atlas: All 16 Positional Types",
+      description:
+        "A complete atlas of the 16 orbits of 6/9 patterns: original systems, three independent quadrics, colored signatures, and parametrization status.",
       type: "Article",
     },
   },
@@ -771,6 +789,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "proofs/general",
     "orbits/4",
     "orbits/5",
+    "orbits/6",
     ...FAMILIES.map((family) => `orbits/${family.level}/${family.id}`),
     ...COMMON_PROOFS.map((proof) => `proofs/${proof.id}`),
     "news",
