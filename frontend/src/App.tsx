@@ -92,6 +92,7 @@ import { F9EllipticLayersTheoryPage } from "./F9EllipticLayersTheory";
 import { AbcdehSurfaceTheoryPage } from "./AbcdehSurfaceTheory";
 import { AbcdejSurfaceTheoryPage } from "./AbcdejSurfaceTheory";
 import { AbcdfhSurfaceTheoryPage } from "./AbcdfhSurfaceTheory";
+import { AbcdhjSurfaceTheoryPage } from "./AbcdhjSurfaceTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -467,6 +468,7 @@ function HomePage() {
               <Link to="/theory/6-9/abcdeh">ABCDEH</Link>
               <Link to="/theory/6-9/abcdej">ABCDEJ</Link>
               <Link to="/theory/6-9/abcdfh">ABCDFH</Link>
+              <Link to="/theory/6-9/abcdhj">ABCDHJ</Link>
             </nav>
           </article>
           <article className="home-section-card">
@@ -3151,8 +3153,8 @@ a+e+j=c+e+g=M.
           </h4>
           <p>
             {text(
-              "Для двух позиционных типов 6/9, образованных параллельными тройками квадратов в арифметических прогрессиях, построены развитые параметризации: квадратные классы разностей двух прогрессий согласуются методом tfmn. Для нетфмн-типа ABEFGH система сведена к эллиптической поверхности, являющейся обратным образом семейства Лежандра; рациональная секция и её кратные порождают явные семейства решений. Для типов ABCDEH, ABCDEJ и ABCDFH получены расслоения кривыми рода 1, расщеплённые K3-якобианы и явные порождающие семейства; для ABDEFH построена эллиптическая модель. Полного решения всех 16 позиционных типов пока нет.",
-              "For two 6/9 positional types formed by parallel triples of squares in arithmetic progression, the project constructs developed parametrizations by matching the square classes of the two common differences through the tfmn method. For the non-tfmn type ABEFGH, the system is reduced to an elliptic surface obtained as a pullback of the Legendre family; a rational section and its multiples generate explicit families of solutions. For ABCDEH, ABCDEJ, and ABCDFH, genus-one fibrations, split K3 Jacobians, and explicit generating families have been obtained; an elliptic model is available for ABDEFH. A complete solution of all 16 positional types is not yet known.",
+              "Для двух позиционных типов 6/9, образованных параллельными тройками квадратов в арифметических прогрессиях, построены развитые параметризации: квадратные классы разностей двух прогрессий согласуются методом tfmn. Для нетфмн-типа ABEFGH система сведена к эллиптической поверхности, являющейся обратным образом семейства Лежандра; рациональная секция и её кратные порождают явные семейства решений. Для типов ABCDEH, ABCDEJ, ABCDFH и ABCDHJ получены расслоения кривыми рода 1, расщеплённые K3-якобианы и явные порождающие семейства; для ABDEFH построена эллиптическая модель. Полного решения всех 16 позиционных типов пока нет.",
+              "For two 6/9 positional types formed by parallel triples of squares in arithmetic progression, the project constructs developed parametrizations by matching the square classes of the two common differences through the tfmn method. For the non-tfmn type ABEFGH, the system is reduced to an elliptic surface obtained as a pullback of the Legendre family; a rational section and its multiples generate explicit families of solutions. For ABCDEH, ABCDEJ, ABCDFH, and ABCDHJ, genus-one fibrations, split K3 Jacobians, and explicit generating families have been obtained; an elliptic model is available for ABDEFH. A complete solution of all 16 positional types is not yet known.",
             )}
           </p>
 
@@ -3403,6 +3405,10 @@ export function App() {
         <Route
           path="theory/6-9/abcdfh"
           element={<AbcdfhSurfaceTheoryPage />}
+        />
+        <Route
+          path="theory/6-9/abcdhj"
+          element={<AbcdhjSurfaceTheoryPage />}
         />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"

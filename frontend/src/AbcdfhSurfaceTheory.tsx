@@ -327,8 +327,8 @@ p^2(p-1)^2(p+1)^2R(p)^4K(p)^2.`}</Latex>
             </p>
           </div>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/orbits/6">
-              {text("К полному атласу 6/9", "Open the complete 6/9 atlas")} <span>→</span>
+            <TheoryLink className="button button-primary" to="/theory/6-9/abcdhj">
+              {text("Далее: поверхность ABCDHJ", "Next: the ABCDHJ surface")} <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdej">
               {text("Предыдущая поверхность: ABCDEJ", "Previous surface: ABCDEJ")}
