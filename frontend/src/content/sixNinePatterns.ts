@@ -288,6 +288,7 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "K3: 4I₄+4I₂; 1≤rank≤2",
       en: "K3: 4I₄+4I₂; 1≤rank≤2",
     },
+    theoryPath: "/theory/6-9/abdefh",
   },
   {
     mask: "ABDEFJ",

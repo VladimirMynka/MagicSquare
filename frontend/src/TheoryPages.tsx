@@ -312,10 +312,22 @@ export function TheoryIndexPage() {
             "Two patterns with shared center E lead to the same quartic and the same split 2I₄+8I₂ K3 surface; two explicit sections are independent, and one polynomial family yields solutions to both patterns.",
           ),
         },
+        {
+          index: "5.6",
+          to: "/theory/6-9/abdefh",
+          title: text(
+            "ABDEFH: три прогрессии квадратов",
+            "ABDEFH: three progressions of squares",
+          ),
+          summary: text(
+            "Две прогрессии с общим центром E и третья связь между их концами приводят к правильно твистованной квартике, расщеплённой K3-поверхности 4I₄+4I₂ и явному неторсионному семейству.",
+            "Two progressions sharing the center E and a third relation between their endpoints lead to a correctly twisted quartic, a split 4I₄+4I₂ K3 surface, and an explicit non-torsion family.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
-        "Next: the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+        "Далее: треугольные ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
+        "Next: the triangular ABDEFJ and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
       ),
     },
     {

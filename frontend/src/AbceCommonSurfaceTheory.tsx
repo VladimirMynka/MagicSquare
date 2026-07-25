@@ -388,6 +388,9 @@ e&=C U_C,& g&=R U_C,& j&=C U_R.
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdhj">
               {text("Предыдущая поверхность: ABCDHJ", "Previous surface: ABCDHJ")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abdefh">
+              {text("Следующая поверхность: ABDEFH", "Next surface: ABDEFH")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>
