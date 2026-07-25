@@ -96,6 +96,7 @@ import { AbcdhjSurfaceTheoryPage } from "./AbcdhjSurfaceTheory";
 import { AbceCommonSurfaceTheoryPage } from "./AbceCommonSurfaceTheory";
 import { AbdefhSurfaceTheoryPage } from "./AbdefhSurfaceTheory";
 import { AbdefjSurfaceTheoryPage } from "./AbdefjSurfaceTheory";
+import { AbefghSurfaceTheoryPage } from "./AbefghSurfaceTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -475,6 +476,7 @@ function HomePage() {
               <Link to="/theory/6-9/abcegh-abcegj">ABCEGH / ABCEGJ</Link>
               <Link to="/theory/6-9/abdefh">ABDEFH</Link>
               <Link to="/theory/6-9/abdefj">ABDEFJ</Link>
+              <Link to="/theory/6-9/abefgh">ABEFGH</Link>
             </nav>
           </article>
           <article className="home-section-card">
@@ -3427,6 +3429,10 @@ export function App() {
         <Route
           path="theory/6-9/abdefj"
           element={<AbdefjSurfaceTheoryPage />}
+        />
+        <Route
+          path="theory/6-9/abefgh"
+          element={<AbefghSurfaceTheoryPage />}
         />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"

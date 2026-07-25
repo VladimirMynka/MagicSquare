@@ -324,6 +324,9 @@ a^2+j^2=2e^2.`}</Latex>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abdefh">
               {text("Предыдущая поверхность: ABDEFH", "Previous surface: ABDEFH")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abefgh">
+              {text("Следующая поверхность: ABEFGH", "Next surface: ABEFGH")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>

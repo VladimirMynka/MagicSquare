@@ -336,10 +336,22 @@ export function TheoryIndexPage() {
             "The DEF and AEJ progressions sharing the center E, linked by the BJD progression, lead to a palindromic quartic, a split 4I₄+4I₂ K3 surface, and an explicit non-torsion family.",
           ),
         },
+        {
+          index: "5.8",
+          to: "/theory/6-9/abefgh",
+          title: text(
+            "ABEFGH: треугольник попарных средних",
+            "ABEFGH: a triangle of pairwise means",
+          ),
+          summary: text(
+            "Три попарные прогрессии сводятся к уравнению r(x)r(z)=r(y), обратному образу семейства Лежандра, K3-поверхности 4I₄+4I₂ и явному полиномиальному семейству.",
+            "Three pairwise progressions reduce to r(x)r(z)=r(y), a pullback of the Legendre family, a 4I₄+4I₂ K3 surface, and an explicit polynomial family.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: треугольная ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
-        "Next: the triangular ABEFGH case. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+        "Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+. Для остальных позиционных типов опубликованные выводы пока не дают полного покрытия.",
+        "The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+. For the remaining positional types, the published derivations do not yet give complete coverage.",
       ),
     },
     {
