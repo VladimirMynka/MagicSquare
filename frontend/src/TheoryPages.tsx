@@ -324,10 +324,22 @@ export function TheoryIndexPage() {
             "Two progressions sharing the center E and a third relation between their endpoints lead to a correctly twisted quartic, a split 4I₄+4I₂ K3 surface, and an explicit non-torsion family.",
           ),
         },
+        {
+          index: "5.7",
+          to: "/theory/6-9/abdefj",
+          title: text(
+            "ABDEFJ: цепочка трёх прогрессий",
+            "ABDEFJ: a chain of three progressions",
+          ),
+          summary: text(
+            "Прогрессии DEF и AEJ с общим центром E, связанные прогрессией BJD, приводят к палиндромной квартике, расщеплённой K3-поверхности 4I₄+4I₂ и явному неторсионному семейству.",
+            "The DEF and AEJ progressions sharing the center E, linked by the BJD progression, lead to a palindromic quartic, a split 4I₄+4I₂ K3 surface, and an explicit non-torsion family.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: треугольные ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
-        "Next: the triangular ABDEFJ and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+        "Далее: треугольная ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
+        "Next: the triangular ABEFGH case. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
       ),
     },
     {

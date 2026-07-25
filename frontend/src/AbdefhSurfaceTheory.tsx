@@ -349,6 +349,9 @@ b^2+h^2=2e^2.`}</Latex>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcegh-abcegj">
               {text("Предыдущая поверхность: ABCEGH / ABCEGJ", "Previous surface: ABCEGH / ABCEGJ")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abdefj">
+              {text("Следующая поверхность: ABDEFJ", "Next surface: ABDEFJ")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>

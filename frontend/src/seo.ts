@@ -163,6 +163,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-25",
     modified: "2026-07-25",
   },
+  "theory/6-9/abdefj": {
+    published: "2026-07-25",
+    modified: "2026-07-25",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -370,6 +374,20 @@ const STATIC_METADATA: Readonly<
       title: "ABDEFH: Three Progressions and an Elliptic K3 Surface",
       description:
         "A complete derivation of the triangular ABDEFH pattern: a correctly twisted quartic, a split 4I₄+4I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abdefj": {
+    ru: {
+      title: "ABDEFJ: цепочка прогрессий и эллиптическая K3-поверхность",
+      description:
+        "Полный вывод треугольной маски ABDEFJ: палиндромная квартика, расщеплённый K3-якобиан 4I₄+4I₂, неторсионное сечение и явная полиномиальная параметризация.",
+      type: "Article",
+    },
+    en: {
+      title: "ABDEFJ: A Chain of Progressions and an Elliptic K3 Surface",
+      description:
+        "A complete derivation of the triangular ABDEFJ pattern: a palindromic quartic, a split 4I₄+4I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
       type: "Article",
     },
   },
@@ -896,6 +914,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abcdhj",
     "theory/6-9/abcegh-abcegj",
     "theory/6-9/abdefh",
+    "theory/6-9/abdefj",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
