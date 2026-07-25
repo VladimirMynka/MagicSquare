@@ -1,6 +1,8 @@
 import { Latex } from "./Latex";
 import {
   SIX_NINE_PATTERNS,
+  SIX_NINE_SHAPE_LABELS,
+  sixNineShapeClass,
   type SixNineCondition,
   type SixNinePattern,
 } from "../content/sixNinePatterns";
@@ -203,9 +205,18 @@ export function SixNineOrbitAtlas({
 
                 <div className="six-nine-atlas-note">
                   <p>{pattern.note[locale]}</p>
-                  <strong className={`status-${pattern.status}`}>
-                    {pattern.statusText[locale]}
-                  </strong>
+                  <div className="six-nine-atlas-badges">
+                    {sixNineShapeClass(pattern) && (
+                      <span
+                        className={`shape-${sixNineShapeClass(pattern)}`}
+                      >
+                        {SIX_NINE_SHAPE_LABELS[sixNineShapeClass(pattern)!][locale]}
+                      </span>
+                    )}
+                    <strong className={`status-${pattern.status}`}>
+                      {pattern.statusText[locale]}
+                    </strong>
+                  </div>
                 </div>
               </article>
             ))}

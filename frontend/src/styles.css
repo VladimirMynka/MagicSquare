@@ -3782,6 +3782,43 @@ main {
   padding-top: 7px;
 }
 
+.six-nine-atlas-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.six-nine-atlas-badges > span,
+.six-nine-shape-taxonomy strong {
+  padding: 3px 5px;
+  color: var(--graphite-soft);
+  font: 6px/1.25 var(--mono);
+}
+
+.six-nine-atlas-badges .shape-triangle,
+.six-nine-shape-taxonomy .shape-triangle strong {
+  background: color-mix(in srgb, var(--six-nine-red-mid) 21%, var(--paper));
+}
+
+.six-nine-atlas-badges .shape-rectangle,
+.six-nine-shape-taxonomy .shape-rectangle strong {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--six-nine-red-mid) 21%, var(--paper)) 0 66%,
+    color-mix(in srgb, var(--six-nine-yellow-light) 28%, var(--paper)) 66%
+  );
+}
+
+.six-nine-atlas-badges .shape-trapezoid,
+.six-nine-shape-taxonomy .shape-trapezoid strong {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--six-nine-red-mid) 21%, var(--paper)) 0 66%,
+    color-mix(in srgb, var(--six-nine-blue-light) 25%, var(--paper)) 66%
+  );
+}
+
 .proof-document .six-nine-atlas-note p {
   margin: 0;
   color: var(--muted);
@@ -3796,6 +3833,50 @@ main {
   color: var(--graphite-soft);
   background: var(--paper-muted);
   font: 6px/1.25 var(--mono);
+}
+
+.six-nine-shape-taxonomy {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 20px 0;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.six-nine-shape-taxonomy > span {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border-right: 1px solid var(--line);
+}
+
+.six-nine-shape-taxonomy > span:last-child {
+  border-right: 0;
+}
+
+.six-nine-shape-taxonomy code {
+  overflow-x: auto;
+  color: var(--muted);
+  font: 8px var(--mono);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .six-nine-shape-taxonomy {
+    grid-template-columns: 1fr;
+  }
+
+  .six-nine-shape-taxonomy > span {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .six-nine-shape-taxonomy > span:last-child {
+    border-bottom: 0;
+  }
 }
 
 .six-nine-atlas-note strong.status-conic {

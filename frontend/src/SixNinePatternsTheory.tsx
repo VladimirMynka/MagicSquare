@@ -1,9 +1,24 @@
 import { Latex } from "./components/Latex";
 import { SixNineOrbitAtlas } from "./components/SixNineOrbitAtlas";
+import {
+  SIX_NINE_PATTERNS,
+  sixNineShapeClass,
+} from "./content/sixNinePatterns";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
 
 const POSITIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "J"] as const;
+const SHAPE_COUNTS = {
+  triangle: SIX_NINE_PATTERNS.filter(
+    (pattern) => sixNineShapeClass(pattern) === "triangle",
+  ).length,
+  rectangle: SIX_NINE_PATTERNS.filter(
+    (pattern) => sixNineShapeClass(pattern) === "rectangle",
+  ).length,
+  trapezoid: SIX_NINE_PATTERNS.filter(
+    (pattern) => sixNineShapeClass(pattern) === "trapezoid",
+  ).length,
+};
 
 function SixNineMask({
   caption,
@@ -170,6 +185,32 @@ N_{6/9}=N_{3/9}
             {text(
               "Применение восьми элементов D₄ к каждому трёхклеточному дополнению не переводит его в дополнение другой строки: это различается по наличию центра, числу углов и сторон и их взаимной смежности или противоположности. Следовательно, перед нами шестнадцать различных орбит; вычисление по Бёрнсайду доказывает, что список исчерпывающий.",
               "Applying the eight elements of D₄ to each three-cell complement never produces the complement in another row: the rows are distinguished by center membership, the numbers of corners and edge cells, and their adjacency or opposition. Hence the table contains sixteen distinct orbits, and the Burnside count proves that the list is exhaustive.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Для краткого описания цветовой сигнатуры введём геометрические названия. Они относятся к тройке выбранных квадрик, а не к форме шестиклеточной маски:",
+              "For concise descriptions of color signatures, we introduce geometric names. They refer to the selected triple of quadrics, not to the shape of the six-cell pattern:",
+            )}
+          </p>
+          <div className="six-nine-shape-taxonomy">
+            <span className="shape-triangle">
+              <code>red–red–red</code>
+              <strong>{text("треугольные", "triangular")}</strong>
+            </span>
+            <span className="shape-rectangle">
+              <code>red–red–yellow</code>
+              <strong>{text("прямоугольные", "rectangular")}</strong>
+            </span>
+            <span className="shape-trapezoid">
+              <code>red–red–blue</code>
+              <strong>{text("трапециевидные", "trapezoidal")}</strong>
+            </span>
+          </div>
+          <p>
+            {text(
+              `Среди предпочтительных базисов атласа треугольных типов ${SHAPE_COUNTS.triangle}, прямоугольных — ${SHAPE_COUNTS.rectangle}. Трапециевидных среди них нет, но название сохраняется для общей классификации цветовых базисов.`,
+              `Among the preferred bases in the atlas, ${SHAPE_COUNTS.triangle} types are triangular and ${SHAPE_COUNTS.rectangle} are rectangular. None of these bases is trapezoidal, but the name remains part of the general classification of colored bases.`,
             )}
           </p>
           <SixNineOrbitAtlas
