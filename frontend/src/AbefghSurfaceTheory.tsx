@@ -1,4 +1,5 @@
 import { Latex } from "./components/Latex";
+import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
@@ -291,26 +292,35 @@ f&=R_XR_ZR_Y,& g&=R_XR_ZC_Y,& h&=R_XL_ZR_Y.
           <h2>{text("8. Точный положительный пример", "8. An exact positive example")}</h2>
           <p>
             {text(
-              "При x=2, после удаления общего множителя корней, семейство даёт",
-              "At x=2, after removing the common factor of the square roots, the family gives",
+              "При x=2, после удаления общего множителя корней, семейство даёт следующий магический квадрат. Знаки корней не влияют на его клетки.",
+              "At x=2, after removing the common factor of the square roots, the family gives the following magic square. Root signs do not affect its entries.",
             )}
           </p>
-          <Latex display>{String.raw`
-(a,b,e,f,g,h)=(-5383,-1081,5405,833,-965,7567).`}</Latex>
-          <p>
-            {text(
-              "Знаки корней не влияют на клетки. Восстановленный магический квадрат равен",
-              "The signs of the roots do not affect the entries. The reconstructed magic square is",
+          <ExactMagicSquareExample
+            ariaLabel={text(
+              "Точный квадрат ABEFGH с факторизациями квадратных клеток",
+              "An exact ABEFGH square with factored square entries",
             )}
-          </p>
-          <div className="formula-scroll formula-scroll-wide">
-            <Latex display>{String.raw`
-\begin{pmatrix}
-28976689&1168561&57496825\\
-57734161&29214025&693889\\
-931225&57259489&29451361
-\end{pmatrix}.`}</Latex>
-          </div>
+            roots={{
+              A: "5383",
+              B: "1081",
+              E: "5405",
+              F: "833",
+              G: "965",
+              H: "7567",
+            }}
+            values={[
+              "28976689",
+              "1168561",
+              "57496825",
+              "57734161",
+              "29214025",
+              "693889",
+              "931225",
+              "57259489",
+              "29451361",
+            ]}
+          />
           <p>
             {text(
               "Его магическая сумма равна 87 642 075. Все клетки положительны и попарно различны; полными квадратами являются ровно A,B,E,F,G,H. Это точный невырожденный сертификат маски ABEFGH.",

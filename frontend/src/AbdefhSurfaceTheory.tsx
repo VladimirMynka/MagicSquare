@@ -1,4 +1,5 @@
 import { Latex } from "./components/Latex";
+import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
@@ -320,21 +321,35 @@ b^2+h^2=2e^2.`}</Latex>
           <h2>{text("8. Точный положительный пример", "8. An exact positive example")}</h2>
           <p>
             {text(
-              "При t=−2 после деления корней на их общий множитель 5 получаем",
-              "At t=−2, after dividing the roots by their common factor 5, one obtains",
+              "При t=−2 после деления корней на их общий множитель 5 получаем следующий магический квадрат.",
+              "At t=−2, after dividing the roots by their common factor 5, one obtains the following magic square.",
             )}
           </p>
-          <Latex display>{String.raw`
-(a,b,d,e,f,h)=
-(12205,12607,20951,14965,2993,16999).`}</Latex>
-          <div className="formula-scroll formula-scroll-wide">
-            <Latex display>{String.raw`
-\begin{pmatrix}
-148962025&158936449&363955201\\
-438944401&223951225&8958049\\
-83947249&288966001&298940425
-\end{pmatrix}.`}</Latex>
-          </div>
+          <ExactMagicSquareExample
+            ariaLabel={text(
+              "Точный квадрат ABDEFH с факторизациями квадратных клеток",
+              "An exact ABDEFH square with factored square entries",
+            )}
+            roots={{
+              A: "12205",
+              B: "12607",
+              D: "20951",
+              E: "14965",
+              F: "2993",
+              H: "16999",
+            }}
+            values={[
+              "148962025",
+              "158936449",
+              "363955201",
+              "438944401",
+              "223951225",
+              "8958049",
+              "83947249",
+              "288966001",
+              "298940425",
+            ]}
+          />
           <p>
             {text(
               "Магическая сумма равна 671 853 675. Все девять клеток положительны и попарно различны; полными квадратами являются ровно A,B,D,E,F,H. Это точный невырожденный сертификат маски ABDEFH.",

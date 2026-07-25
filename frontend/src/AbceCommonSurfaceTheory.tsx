@@ -1,4 +1,5 @@
 import { Latex } from "./components/Latex";
+import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
@@ -342,38 +343,66 @@ e&=C U_C,& g&=R U_C,& j&=C U_R.
           <h2>{text("8. Парный положительный пример", "8. A paired positive example")}</h2>
           <p>
             {text(
-              "При p=−7 общее сечение даёт сразу два положительных магических квадрата. Для ABCEGH корни выбранных клеток равны",
-              "At p=−7 the shared section gives two positive magic squares at once. For ABCEGH the selected-entry roots are",
+              "При p=−7 общее сечение даёт сразу два положительных магических квадрата. Первое прочтение соответствует маске ABCEGH.",
+              "At p=−7 the shared section gives two positive magic squares at once. The first reading corresponds to the ABCEGH pattern.",
             )}
           </p>
-          <Latex display>{String.raw`
-(a,b,c,e,g,h)=
-(14242447,16648975,22465979,18117725,12320053,19476025),`}</Latex>
-          <div className="formula-scroll formula-scroll-wide">
-            <Latex display>{String.raw`
-\begin{pmatrix}
-202847296547809&277188368550625&504720212428441\\
-630124875056257&328251959175625&26379043294993\\
-151783705922809&379315549800625&453656621803441
-\end{pmatrix}.`}</Latex>
-          </div>
+          <ExactMagicSquareExample
+            ariaLabel={text(
+              "Точный квадрат ABCEGH с факторизациями квадратных клеток",
+              "An exact ABCEGH square with factored square entries",
+            )}
+            roots={{
+              A: "14242447",
+              B: "16648975",
+              C: "22465979",
+              E: "18117725",
+              G: "12320053",
+              H: "19476025",
+            }}
+            values={[
+              "202847296547809",
+              "277188368550625",
+              "504720212428441",
+              "630124875056257",
+              "328251959175625",
+              "26379043294993",
+              "151783705922809",
+              "379315549800625",
+              "453656621803441",
+            ]}
+          />
           <p>
             {text(
-              "В прочтении ABCEGJ корни A и B меняются ролями, а последний корень занимает J:",
-              "In the ABCEGJ reading the roots in A and B exchange roles, and the final root occupies J:",
+              "Во втором прочтении A и B меняются ролями, а последний квадратный корень занимает J; получается маска ABCEGJ.",
+              "In the second reading A and B exchange roles, while the final square root occupies J, giving the ABCEGJ pattern.",
             )}
           </p>
-          <Latex display>{String.raw`
-(a,b,c,e,g,j)=
-(16648975,14242447,22465979,18117725,12320053,19476025),`}</Latex>
-          <div className="formula-scroll formula-scroll-wide">
-            <Latex display>{String.raw`
-\begin{pmatrix}
-277188368550625&202847296547809&504720212428441\\
-555783803053441&328251959175625&100720115297809\\
-151783705922809&453656621803441&379315549800625
-\end{pmatrix}.`}</Latex>
-          </div>
+          <ExactMagicSquareExample
+            ariaLabel={text(
+              "Точный квадрат ABCEGJ с факторизациями квадратных клеток",
+              "An exact ABCEGJ square with factored square entries",
+            )}
+            roots={{
+              A: "16648975",
+              B: "14242447",
+              C: "22465979",
+              E: "18117725",
+              G: "12320053",
+              J: "19476025",
+            }}
+            values={[
+              "277188368550625",
+              "202847296547809",
+              "504720212428441",
+              "555783803053441",
+              "328251959175625",
+              "100720115297809",
+              "151783705922809",
+              "453656621803441",
+              "379315549800625",
+            ]}
+          />
           <p>
             {text(
               "Оба квадрата имеют магическую сумму 984 755 877 526 875, девять различных положительных клеток и ровно шесть квадратных клеток в заявленной маске.",

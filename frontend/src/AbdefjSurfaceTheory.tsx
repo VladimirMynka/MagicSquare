@@ -1,4 +1,5 @@
 import { Latex } from "./components/Latex";
+import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
@@ -289,27 +290,35 @@ a^2+j^2=2e^2.`}</Latex>
           <h2>{text("8. Точный положительный пример", "8. An exact positive example")}</h2>
           <p>
             {text(
-              "При t=2 после деления корней на их общий множитель 2 получаем",
-              "At t=2, after dividing the roots by their common factor 2, one obtains",
+              "При t=2 после деления корней на их общий множитель 2 получаем следующий квадрат. Знаки корней не влияют на клетки.",
+              "At t=2, after dividing the roots by their common factor 2, one obtains the following square. Root signs do not affect the entries.",
             )}
           </p>
-          <Latex display>{String.raw`
-(a,b,d,e,f,j)=
-(10565,1841,-1513,7565,10591,-1685).`}</Latex>
-          <p>
-            {text(
-              "Знаки корней не влияют на клетки квадрата. Восстановленная матрица имеет вид",
-              "The signs of the square roots do not affect the entries. The reconstructed matrix is",
+          <ExactMagicSquareExample
+            ariaLabel={text(
+              "Точный квадрат ABDEFJ с факторизациями квадратных клеток",
+              "An exact ABDEFJ square with factored square entries",
             )}
-          </p>
-          <div className="formula-scroll formula-scroll-wide">
-            <Latex display>{String.raw`
-\begin{pmatrix}
-111619225&3389281&56679169\\
-2289169&57229225&112169281\\
-57779281&111069169&2839225
-\end{pmatrix}.`}</Latex>
-          </div>
+            roots={{
+              A: "10565",
+              B: "1841",
+              D: "1513",
+              E: "7565",
+              F: "10591",
+              J: "1685",
+            }}
+            values={[
+              "111619225",
+              "3389281",
+              "56679169",
+              "2289169",
+              "57229225",
+              "112169281",
+              "57779281",
+              "111069169",
+              "2839225",
+            ]}
+          />
           <p>
             {text(
               "Магическая сумма равна 171 687 675. Все девять клеток положительны и попарно различны; полными квадратами являются ровно A,B,D,E,F,J. Это точный невырожденный сертификат маски ABDEFJ.",

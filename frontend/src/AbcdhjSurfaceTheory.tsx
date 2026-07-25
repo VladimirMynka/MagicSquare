@@ -1,4 +1,5 @@
 import { Latex } from "./components/Latex";
+import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
 import { TheoryLink } from "./TheoryPages";
@@ -292,25 +293,35 @@ a^2+j^2=b^2+h^2.`}</Latex>
           <h2>{text("7. Точный положительный пример", "7. An exact positive example")}</h2>
           <p>
             {text(
-              "При p=−2 корни выбранных клеток, с опущенными знаками, равны",
-              "At p=−2 the selected-entry roots, with signs omitted, are",
+              "При p=−2 семейство даёт следующий положительный магический квадрат; знаки корней опущены.",
+              "At p=−2 the family gives the following positive magic square; root signs are omitted.",
             )}
           </p>
-          <Latex display>{String.raw`
-(a,b,c,d,h,j)=
-(4565,\ 2303,\ 3029,\ 329,\ 4271,\ 1645).`}</Latex>
-          <p>
-            {text(
-              "Восстановленный магический квадрат имеет вид",
-              "The reconstructed magic square is",
+          <ExactMagicSquareExample
+            ariaLabel={text(
+              "Точный квадрат ABCDHJ с факторизациями квадратных клеток",
+              "An exact ABCDHJ square with factored square entries",
             )}
-          </p>
-          <Latex display>{String.raw`
-\begin{pmatrix}
-20839225&5303809&9174841\\
-108241&11772625&23437009\\
-14370409&18241441&2706025
-\end{pmatrix}.`}</Latex>
+            roots={{
+              A: "4565",
+              B: "2303",
+              C: "3029",
+              D: "329",
+              H: "4271",
+              J: "1645",
+            }}
+            values={[
+              "20839225",
+              "5303809",
+              "9174841",
+              "108241",
+              "11772625",
+              "23437009",
+              "14370409",
+              "18241441",
+              "2706025",
+            ]}
+          />
           <p>
             {text(
               "Его магическая сумма равна 35 317 875. Ровно клетки A,B,C,D,H,J являются попарно различными полными квадратами; E,F,G положительны и квадратами не являются. Это точный сертификат одного невырожденного решения 6/9.",
