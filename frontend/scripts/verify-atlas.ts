@@ -381,15 +381,14 @@ for (const orbit of sixNineOrbits) {
 SIX_NINE_PATTERNS.forEach(verifySixNinePattern);
 
 const shapeCounts = Object.fromEntries(
-  ["triangle", "rectangle", "trapezoid"].map((shape) => [
+  ["triangle", "rectangle"].map((shape) => [
     shape,
     SIX_NINE_PATTERNS.filter((pattern) => sixNineShapeClass(pattern) === shape).length,
   ]),
 );
 invariant(shapeCounts.triangle === 3, "6/9 atlas must contain three triangular types");
 invariant(shapeCounts.rectangle === 8, "6/9 atlas must contain eight rectangular types");
-invariant(shapeCounts.trapezoid === 0, "6/9 atlas must contain no trapezoidal type");
 
 console.log(
-  "Verified 23 D4 orbits for 4/9, 23 D4 orbits for 5/9, 16 D4 orbits for 6/9, 69 lower-level relations, 48 ranked 6/9 relations, the 3/8/0 shape taxonomy, and 46 exact defaults.",
+  "Verified 23 D4 orbits for 4/9, 23 D4 orbits for 5/9, 16 D4 orbits for 6/9, 69 lower-level relations, 48 ranked 6/9 relations, the 3/8 shape taxonomy, and 46 exact defaults.",
 );

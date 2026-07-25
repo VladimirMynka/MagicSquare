@@ -15,9 +15,6 @@ const SHAPE_COUNTS = {
   rectangle: SIX_NINE_PATTERNS.filter(
     (pattern) => sixNineShapeClass(pattern) === "rectangle",
   ).length,
-  trapezoid: SIX_NINE_PATTERNS.filter(
-    (pattern) => sixNineShapeClass(pattern) === "trapezoid",
-  ).length,
 };
 
 function SixNineMask({
@@ -202,15 +199,11 @@ N_{6/9}=N_{3/9}
               <code>red–red–yellow</code>
               <strong>{text("прямоугольные", "rectangular")}</strong>
             </span>
-            <span className="shape-trapezoid">
-              <code>red–red–blue</code>
-              <strong>{text("трапециевидные", "trapezoidal")}</strong>
-            </span>
           </div>
           <p>
             {text(
-              `Среди предпочтительных базисов атласа треугольных типов ${SHAPE_COUNTS.triangle}, прямоугольных — ${SHAPE_COUNTS.rectangle}. Трапециевидных среди них нет, но название сохраняется для общей классификации цветовых базисов.`,
-              `Among the preferred bases in the atlas, ${SHAPE_COUNTS.triangle} types are triangular and ${SHAPE_COUNTS.rectangle} are rectangular. None of these bases is trapezoidal, but the name remains part of the general classification of colored bases.`,
+              `Среди предпочтительных базисов атласа треугольных типов ${SHAPE_COUNTS.triangle}, прямоугольных — ${SHAPE_COUNTS.rectangle}. В частности, оба параметризованных tfmn-класса ABEFGJ и ABDFHJ являются прямоугольными.`,
+              `Among the preferred bases in the atlas, ${SHAPE_COUNTS.triangle} types are triangular and ${SHAPE_COUNTS.rectangle} are rectangular. In particular, both parametrized tfmn classes, ABEFGJ and ABDFHJ, are rectangular.`,
             )}
           </p>
           <SixNineOrbitAtlas

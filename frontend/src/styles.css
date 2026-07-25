@@ -3810,15 +3810,6 @@ main {
   );
 }
 
-.six-nine-atlas-badges .shape-trapezoid,
-.six-nine-shape-taxonomy .shape-trapezoid strong {
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--six-nine-red-mid) 21%, var(--paper)) 0 66%,
-    color-mix(in srgb, var(--six-nine-blue-light) 25%, var(--paper)) 66%
-  );
-}
-
 .proof-document .six-nine-atlas-note p {
   margin: 0;
   color: var(--muted);
@@ -3837,7 +3828,7 @@ main {
 
 .six-nine-shape-taxonomy {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 20px 0;
   border: 1px solid var(--line-strong);
   background: var(--paper);

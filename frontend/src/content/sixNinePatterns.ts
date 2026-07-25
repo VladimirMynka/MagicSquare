@@ -10,7 +10,7 @@ export type SixNineResearchStatus =
   | "elliptic"
   | "family"
   | "tfmn";
-export type SixNineShapeClass = "triangle" | "rectangle" | "trapezoid";
+export type SixNineShapeClass = "triangle" | "rectangle";
 
 export interface LocalizedSixNineText {
   ru: string;
@@ -39,7 +39,6 @@ export const SIX_NINE_SHAPE_LABELS: Readonly<
 > = {
   triangle: { ru: "Треугольный", en: "Triangular" },
   rectangle: { ru: "Прямоугольный", en: "Rectangular" },
-  trapezoid: { ru: "Трапециевидный", en: "Trapezoidal" },
 };
 
 export function sixNineShapeClass(
@@ -49,10 +48,8 @@ export function sixNineShapeClass(
   const yellow = pattern.conditions.filter(
     (condition) => condition.kind === "yellow",
   ).length;
-  const blue = pattern.conditions.filter((condition) => condition.kind === "blue").length;
   if (red === 3) return "triangle";
   if (red === 2 && yellow === 1) return "rectangle";
-  if (red === 2 && blue === 1) return "trapezoid";
   return null;
 }
 
