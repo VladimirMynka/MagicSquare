@@ -208,6 +208,7 @@ function verifyEnglishRoutes(): number {
     "/en/theory/6-9/abcdej": "The ABCDEJ Pattern",
     "/en/theory/6-9/abcdfh": "The ABCDFH Pattern",
     "/en/theory/6-9/abcdhj": "The ABCDHJ Pattern",
+    "/en/theory/6-9/abcegh-abcegj": "The ABCEGH and ABCEGJ Patterns",
     "/en/theory/matrix-algebra/magic-charming-semimagic": "Magic, charming, and semimagic squares",
     "/en/theory/matrix-algebra/block-structure-split-quaternions": "Block structure and split quaternions",
     "/en/orbits/4": "Four square entries: 23 orbits",

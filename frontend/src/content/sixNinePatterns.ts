@@ -229,6 +229,7 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "K3: 2I₄+8I₂; 2≤rank≤4",
       en: "K3: 2I₄+8I₂; 2≤rank≤4",
     },
+    theoryPath: "/theory/6-9/abcegh-abcegj",
   },
   {
     mask: "ABCEGJ",
@@ -248,6 +249,7 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "K3: 2I₄+8I₂; 2≤rank≤4",
       en: "K3: 2I₄+8I₂; 2≤rank≤4",
     },
+    theoryPath: "/theory/6-9/abcegh-abcegj",
   },
   {
     mask: "ABCGHJ",

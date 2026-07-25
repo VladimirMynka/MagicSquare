@@ -354,6 +354,9 @@ p^2(p-1)^2(p+1)^2R(p)^4K(p)^2.`}</Latex>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdfh">
               {text("Предыдущая поверхность: ABCDFH", "Previous surface: ABCDFH")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abcegh-abcegj">
+              {text("Следующая поверхность: ABCEGH / ABCEGJ", "Next surface: ABCEGH / ABCEGJ")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>

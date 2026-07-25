@@ -300,10 +300,22 @@ export function TheoryIndexPage() {
             "The BDJ and CDH progressions glued by ABHJ, a palindromic quartic, a split 2I₄+8I₂ K3 surface, and a non-torsion section derived from a tangent parabola.",
           ),
         },
+        {
+          index: "5.5",
+          to: "/theory/6-9/abcegh-abcegj",
+          title: text(
+            "ABCEGH и ABCEGJ: одна поверхность, два прочтения",
+            "ABCEGH and ABCEGJ: one surface, two readings",
+          ),
+          summary: text(
+            "Две маски с общим центром E приводят к одной квартике и одной расщеплённой K3-поверхности 2I₄+8I₂; две явные секции независимы, а одно полиномиальное семейство даёт решения обеих масок.",
+            "Two patterns with shared center E lead to the same quartic and the same split 2I₄+8I₂ K3 surface; two explicit sections are independent, and one polynomial family yields solutions to both patterns.",
+          ),
+        },
       ],
       continuation: text(
-        "Далее: общий слой ABCEGH/ABCEGJ, затем треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
-        "Next: the common ABCEGH/ABCEGJ layer, then the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
+        "Далее: треугольные ABDEFH, ABDEFJ и ABEFGH. Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+.",
+        "Next: the triangular ABDEFH, ABDEFJ, and ABEFGH cases. The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+.",
       ),
     },
     {

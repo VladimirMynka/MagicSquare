@@ -155,6 +155,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-25",
     modified: "2026-07-25",
   },
+  "theory/6-9/abcegh-abcegj": {
+    published: "2026-07-25",
+    modified: "2026-07-25",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -334,6 +338,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCDHJ: A Palindromic Quartic and an Elliptic K3 Surface",
       description:
         "A complete derivation of the ABCDHJ pattern: two progressions sharing D, a palindromic quartic, its split K3 Jacobian, a non-torsion section, and an explicit polynomial family.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcegh-abcegj": {
+    ru: {
+      title: "ABCEGH и ABCEGJ: общая эллиптическая K3-поверхность",
+      description:
+        "Полный совместный вывод масок ABCEGH и ABCEGJ: одна квартика рода 1, расщеплённый K3-якобиан 2I₄+8I₂, две независимые секции и общая полиномиальная параметризация.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCEGH and ABCEGJ: A Shared Elliptic K3 Surface",
+      description:
+        "A joint derivation of the ABCEGH and ABCEGJ patterns: one genus-one quartic, a split 2I₄+8I₂ K3 Jacobian, two independent sections, and a shared polynomial parametrization.",
       type: "Article",
     },
   },
@@ -858,6 +876,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abcdej",
     "theory/6-9/abcdfh",
     "theory/6-9/abcdhj",
+    "theory/6-9/abcegh-abcegj",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
