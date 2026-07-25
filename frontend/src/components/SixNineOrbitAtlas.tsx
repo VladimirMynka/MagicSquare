@@ -24,6 +24,7 @@ const CONDITION_LABELS = {
   red: { ru: "прогрессия квадратов", en: "progression of squares" },
   yellow: { ru: "гауссова норма", en: "Gaussian norm" },
   blue: { ru: "норма x²+2y²", en: "x²+2y² norm" },
+  green: { ru: "диагональная квадрика", en: "diagonal quadric" },
   brown: { ru: "дополнительная квадрика", en: "additional quadric" },
 } as const;
 
@@ -50,6 +51,11 @@ function relationTone(
     return sameKind.length === 1 || kindIndex === 0
       ? "blue-light"
       : "blue-dark";
+  }
+  if (condition.kind === "yellow") {
+    return sameKind.length === 1 || kindIndex === 0
+      ? "yellow-light"
+      : "yellow-dark";
   }
   return condition.kind;
 }
@@ -118,7 +124,7 @@ export function SixNineOrbitAtlas({
           )}
         </p>
         <div className="orbit-atlas-legend">
-          {(["red", "yellow", "blue", "brown"] as const).map((kind) => (
+          {(["red", "yellow", "blue"] as const).map((kind) => (
             <span key={kind}>
               <i className={`proof-swatch six-nine-${kind}`} />
               {CONDITION_LABELS[kind][locale]}

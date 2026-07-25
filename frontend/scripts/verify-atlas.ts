@@ -26,6 +26,16 @@ const CELL_FORMS: Readonly<Record<Position, readonly [number, number, number]>> 
   J: [1, -1, 0],
 };
 
+const COLOR_PRIORITY: Readonly<Record<string, number>> = {
+  red: 0,
+  yellow: 1,
+  blue: 2,
+  green: 3,
+  brown: 4,
+  "dark-gray": 5,
+  "light-gray": 6,
+};
+
 function invariant(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(message);
 }
@@ -140,6 +150,96 @@ function matrixRank(vectors: readonly (readonly number[])[]): number {
   return rank;
 }
 
+function normalizeVector(vector: readonly number[]): string {
+  const divisor = vector.reduce((current, value) => {
+    const absolute = Math.abs(value);
+    if (absolute === 0) return current;
+    let left = current;
+    let right = absolute;
+    while (right !== 0) [left, right] = [right, left % right];
+    return left;
+  }, 0) || 1;
+  const reduced = vector.map((value) => value / divisor);
+  const first = reduced.find((value) => value !== 0) ?? 1;
+  return reduced.map((value) => (first < 0 ? -value : value)).join(",");
+}
+
+interface ColoredRelationCandidate {
+  kind: string;
+  vector: readonly number[];
+  key: string;
+}
+
+function coloredCandidates(pattern: SixNinePattern): readonly ColoredRelationCandidate[] {
+  const positions = [...pattern.mask] as Position[];
+  const candidates = new Map<string, ColoredRelationCandidate>();
+  for (const family of FOUR_FAMILIES) {
+    const coefficients = parseRelation(family.justifications[0].relationLatex);
+    for (const reflected of [false, true]) {
+      for (let rotation = 0; rotation < 4; rotation += 1) {
+        const transformed = Object.fromEntries(
+          POSITIONS.map((position) => [position, 0]),
+        ) as Record<Position, number>;
+        for (const position of POSITIONS) {
+          transformed[transformPosition(position, rotation, reflected)] =
+            coefficients[position];
+        }
+        const support = POSITIONS.filter((position) => transformed[position] !== 0);
+        if (!support.every((position) => positions.includes(position))) continue;
+        const vector = positions.map((position) => transformed[position]);
+        const key = normalizeVector(vector);
+        candidates.set(`${family.group}:${key}`, {
+          kind: family.group,
+          vector,
+          key,
+        });
+      }
+    }
+  }
+  return [...candidates.values()];
+}
+
+function verifyColorPriority(
+  pattern: SixNinePattern,
+  selectedVectors: readonly (readonly number[])[],
+) {
+  const candidates = coloredCandidates(pattern);
+  const candidateKeys = new Set(
+    candidates.map((candidate) => `${candidate.kind}:${candidate.key}`),
+  );
+  pattern.conditions.forEach((condition, index) => {
+    invariant(
+      candidateKeys.has(`${condition.kind}:${normalizeVector(selectedVectors[index])}`),
+      `${pattern.mask}: ${condition.kind}(${condition.support}) is not a known colored relation`,
+    );
+  });
+
+  const preferred: ColoredRelationCandidate[] = [];
+  for (const candidate of [...candidates].sort(
+    (left, right) => COLOR_PRIORITY[left.kind] - COLOR_PRIORITY[right.kind],
+  )) {
+    if (
+      matrixRank([...preferred.map((item) => item.vector), candidate.vector]) >
+      preferred.length
+    ) {
+      preferred.push(candidate);
+      if (preferred.length === 3) break;
+    }
+  }
+  invariant(preferred.length === 3, `${pattern.mask}: colored inventory has rank below 3`);
+
+  const selectedProfile = pattern.conditions
+    .map((condition) => COLOR_PRIORITY[condition.kind])
+    .sort((left, right) => left - right);
+  const preferredProfile = preferred
+    .map((candidate) => COLOR_PRIORITY[candidate.kind])
+    .sort((left, right) => left - right);
+  invariant(
+    selectedProfile.join(",") === preferredProfile.join(","),
+    `${pattern.mask}: selected colors violate priority; got ${selectedProfile}, expected ${preferredProfile}`,
+  );
+}
+
 function verifyOrbitCensus(families: readonly FamilyDefinition[], level: 4 | 5) {
   const allOrbits = new Set(
     combinations(POSITIONS, level).map((mask) => canonicalMask(mask)),
@@ -245,6 +345,7 @@ function verifySixNinePattern(pattern: SixNinePattern) {
     matrixRank(vectors) === 3,
     `${pattern.mask}: defining quadrics are dependent`,
   );
+  verifyColorPriority(pattern, vectors);
 
   const redSupports = pattern.conditions
     .filter((condition) => condition.kind === "red")
@@ -279,5 +380,5 @@ for (const orbit of sixNineOrbits) {
 SIX_NINE_PATTERNS.forEach(verifySixNinePattern);
 
 console.log(
-  "Verified 23 D4 orbits for 4/9, 23 D4 orbits for 5/9, 16 D4 orbits for 6/9, 94 relation bases, and 46 exact defaults.",
+  "Verified 23 D4 orbits for 4/9, 23 D4 orbits for 5/9, 16 D4 orbits for 6/9, 69 lower-level relations, 48 ranked 6/9 relations, and 46 exact defaults.",
 );

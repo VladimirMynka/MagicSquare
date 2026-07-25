@@ -3575,10 +3575,13 @@ main {
   --six-nine-red-light: #e0aaa5;
   --six-nine-red-mid: #c86e67;
   --six-nine-red-dark: #91463f;
-  --six-nine-yellow: #cfb56d;
+  --six-nine-yellow-light: #dec987;
+  --six-nine-yellow-dark: #a98d3d;
+  --six-nine-yellow: var(--six-nine-yellow-light);
   --six-nine-blue-light: #83a9b8;
   --six-nine-blue-dark: #527b8d;
   --six-nine-blue: var(--six-nine-blue-light);
+  --six-nine-green: #71866c;
   --six-nine-brown: #a3775d;
 }
 
@@ -3662,15 +3665,22 @@ main {
   background: color-mix(in srgb, var(--six-nine-red-dark) 16%, var(--paper));
 }
 
-.six-nine-atlas-signature .yellow {
-  border-color: var(--six-nine-yellow);
-  background: color-mix(in srgb, var(--six-nine-yellow) 20%, var(--paper));
+.six-nine-atlas-signature .yellow,
+.six-nine-atlas-signature .yellow-light,
+.six-nine-atlas-signature .yellow-dark {
+  border-color: var(--six-nine-yellow-dark);
+  background: color-mix(in srgb, var(--six-nine-yellow-light) 20%, var(--paper));
 }
 
 .six-nine-atlas-signature .blue-light,
 .six-nine-atlas-signature .blue-dark {
   border-color: var(--six-nine-blue-dark);
   background: color-mix(in srgb, var(--six-nine-blue-light) 18%, var(--paper));
+}
+
+.six-nine-atlas-signature .green {
+  border-color: var(--six-nine-green);
+  background: color-mix(in srgb, var(--six-nine-green) 18%, var(--paper));
 }
 
 .six-nine-atlas-signature .brown {
@@ -3702,12 +3712,24 @@ main {
   --relation-ink: var(--six-nine-yellow);
 }
 
+.six-nine-orbit-atlas .orbit-atlas-relation.yellow-light {
+  --relation-ink: var(--six-nine-yellow-light);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.yellow-dark {
+  --relation-ink: var(--six-nine-yellow-dark);
+}
+
 .six-nine-orbit-atlas .orbit-atlas-relation.blue-light {
   --relation-ink: var(--six-nine-blue-light);
 }
 
 .six-nine-orbit-atlas .orbit-atlas-relation.blue-dark {
   --relation-ink: var(--six-nine-blue-dark);
+}
+
+.six-nine-orbit-atlas .orbit-atlas-relation.green {
+  --relation-ink: var(--six-nine-green);
 }
 
 .six-nine-orbit-atlas .orbit-atlas-relation.brown {
@@ -3728,11 +3750,19 @@ main {
 }
 
 .orbit-atlas-legend .six-nine-yellow {
-  background: var(--six-nine-yellow);
+  background: linear-gradient(
+    90deg,
+    var(--six-nine-yellow-light) 0 50%,
+    var(--six-nine-yellow-dark) 50%
+  );
 }
 
 .orbit-atlas-legend .six-nine-blue {
   background: var(--six-nine-blue-light);
+}
+
+.orbit-atlas-legend .six-nine-green {
+  background: var(--six-nine-green);
 }
 
 .orbit-atlas-legend .six-nine-brown {

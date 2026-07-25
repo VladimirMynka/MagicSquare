@@ -1,4 +1,9 @@
-export type SixNineConditionKind = "red" | "yellow" | "blue" | "brown";
+export type SixNineConditionKind =
+  | "red"
+  | "yellow"
+  | "blue"
+  | "green"
+  | "brown";
 export type SixNineResearchStatus =
   | "system"
   | "conic"
@@ -55,11 +60,11 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     conditions: [
       { id: "CEG", kind: "red", support: "CEG", latex: "c^2+g^2=2e^2" },
       { id: "ACDE", kind: "yellow", support: "ACDE", latex: "a^2+d^2=c^2+e^2" },
-      { id: "BCDE", kind: "blue", support: "BCDE", latex: "b^2+2c^2=d^2+2e^2" },
+      { id: "ABEG", kind: "yellow", support: "ABEG", latex: "a^2+b^2=e^2+g^2" },
     ],
     note: {
-      ru: "Та же жёлто-голубая база с прогрессией CEG.",
-      en: "The same yellow-blue base with the CEG progression.",
+      ru: "Прогрессия CEG и две независимые гауссовы нормы.",
+      en: "The CEG progression and two independent Gaussian norms.",
     },
     status: "system",
     statusText: {
@@ -111,12 +116,12 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     progressions: ["BFG"],
     conditions: [
       { id: "BFG", kind: "red", support: "BFG", latex: "b^2+f^2=2g^2" },
+      { id: "BCDG", kind: "yellow", support: "BCDG", latex: "b^2+c^2=d^2+g^2" },
       { id: "ACFG", kind: "blue", support: "ACFG", latex: "2a^2+g^2=c^2+2f^2" },
-      { id: "ABDF", kind: "blue", support: "ABDF", latex: "2a^2+b^2=d^2+2f^2" },
     ],
     note: {
-      ru: "Одна прогрессия и две голубые квадрики без центральной клетки.",
-      en: "One progression and two blue quadrics without the central entry.",
+      ru: "Прогрессия, гауссова норма и норма x²+2y² без центральной клетки.",
+      en: "A progression, a Gaussian norm, and an x²+2y² norm without the center.",
     },
     status: "system",
     statusText: {
@@ -150,11 +155,11 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     conditions: [
       { id: "BDJ", kind: "red", support: "BDJ", latex: "b^2+d^2=2j^2" },
       { id: "ACGJ", kind: "yellow", support: "ACGJ", latex: "a^2+j^2=c^2+g^2" },
-      { id: "ABCG", kind: "brown", support: "ABCG", latex: "2a^2+2b^2=c^2+3g^2" },
+      { id: "BCDG", kind: "yellow", support: "BCDG", latex: "b^2+c^2=d^2+g^2" },
     ],
     note: {
-      ru: "Смешанный красно-жёлто-коричневый тип.",
-      en: "A mixed red-yellow-brown type.",
+      ru: "Одна прогрессия и две независимые гауссовы нормы.",
+      en: "One progression and two independent Gaussian norms.",
     },
     status: "system",
     statusText: {
@@ -207,11 +212,11 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     conditions: [
       { id: "CEG", kind: "red", support: "CEG", latex: "c^2+g^2=2e^2" },
       { id: "AEJ", kind: "red", support: "AEJ", latex: "a^2+j^2=2e^2" },
-      { id: "ABCG", kind: "brown", support: "ABCG", latex: "2a^2+2b^2=c^2+3g^2" },
+      { id: "BEGJ", kind: "yellow", support: "BEGJ", latex: "b^2+e^2=g^2+j^2" },
     ],
     note: {
-      ru: "Две прогрессии через E и коричневая третья квадрика.",
-      en: "Two progressions through E and a brown third quadric.",
+      ru: "Две прогрессии через E и независимая гауссова норма.",
+      en: "Two progressions through E and an independent Gaussian norm.",
     },
     status: "system",
     statusText: {
@@ -226,11 +231,11 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     conditions: [
       { id: "ACGJ", kind: "yellow", support: "ACGJ", latex: "a^2+j^2=c^2+g^2" },
       { id: "ABHJ", kind: "yellow", support: "ABHJ", latex: "a^2+j^2=b^2+h^2" },
-      { id: "ABCG", kind: "brown", support: "ABCG", latex: "2a^2+2b^2=c^2+3g^2" },
+      { id: "ACHJ", kind: "blue", support: "ACHJ", latex: "a^2+2c^2=2h^2+j^2" },
     ],
     note: {
-      ru: "Единственный бескрасный представитель.",
-      en: "The unique representative without a red progression.",
+      ru: "Единственный бескрасный представитель: две гауссовы и одна голубая нормы.",
+      en: "The unique pattern without a red progression: two Gaussian and one blue norm.",
     },
     status: "system",
     statusText: {
