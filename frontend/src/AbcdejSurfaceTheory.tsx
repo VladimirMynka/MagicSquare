@@ -35,12 +35,13 @@ export function AbcdejSurfaceTheoryPage() {
         </div>
         <SixNineMaskDiagram
           caption={text(
-            "ABCDEJ: прогрессии AEJ и BDJ пересекаются в J",
-            "ABCDEJ: the AEJ and BDJ progressions meet at J",
+            "ABCDEJ: красные AEJ, BDJ; жёлтая ACDE",
+            "ABCDEJ: red AEJ, BDJ; yellow ACDE",
           )}
           first="AEJ"
           mask="ABCDEJ"
           second="BDJ"
+          third="ACDE"
         />
       </header>
 

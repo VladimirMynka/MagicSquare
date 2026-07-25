@@ -35,12 +35,13 @@ export function AbcdfhSurfaceTheoryPage() {
         </div>
         <SixNineMaskDiagram
           caption={text(
-            "ABCDFH: прогрессии AFH и CDH пересекаются в H",
-            "ABCDFH: the AFH and CDH progressions meet at H",
+            "ABCDFH: красные AFH, CDH; жёлтая BDFH",
+            "ABCDFH: red AFH, CDH; yellow BDFH",
           )}
           first="AFH"
           mask="ABCDFH"
           second="CDH"
+          third="BDFH"
         />
       </header>
 
