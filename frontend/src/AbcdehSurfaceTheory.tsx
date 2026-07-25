@@ -180,7 +180,7 @@ X_2&=-12(7p^4+12p^3+14p^2-12p+7).
         </section>
 
         <section>
-          <h2>{text("5. Два независимых сечения", "5. Two independent sections")}</h2>
+          <h2>{text("5. Два независимых сечения и бесконечная подгруппа", "5. Two independent sections and an infinite subgroup")}</h2>
           <p>
             {text(
               "Кроме базовой точки q=1, квартика имеет симметричную пару точек",
@@ -194,6 +194,22 @@ V=\pm\frac{(p^2+2p-1)^2}{p^2}.`}</Latex>
             {text(
               "Стандартное преобразование отмеченной квартики в модель Вейерштрасса переводит два выбора знака в два сечения. Их независимость проверяется не численным перебором: при специализации p=3 их образы вместе с двумя классами 2-кручения имеют ранг 4 в точном куммеровом отображении. Поэтому два сечения независимы над ℚ(p).",
               "The standard pointed-quartic transformation maps the two sign choices to two sections of the Weierstrass model. Their independence is not inferred from numerical sampling: at p=3 their images together with two 2-torsion classes have rank 4 in the exact Kummer map. Hence the two sections are independent over ℚ(p).",
+            )}
+          </p>
+          <p>
+            {text(
+              "Обозначим одно из этих сечений через P. Оно неторсионно, поэтому",
+              "Denote one of these sections by P. It is non-torsion, hence",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\langle 2P\rangle
+=\{\,2nP:n\in\mathbb Z\,\}
+\cong\mathbb Z.`}</Latex>
+          <p>
+            {text(
+              "Каждое кратное 2nP возвращается по обратному бирациональному преобразованию в рациональную точку (qₙ(p),Vₙ(p)) квартики, а затем — по формулам раздела 3 — в решение ABCDEH. Тем самым одно неторсионное сечение задаёт бесконечную последовательность рациональных параметризаций, а не единственный числовой пример.",
+              "Every multiple 2nP returns under the inverse birational map to a rational quartic point (qₙ(p),Vₙ(p)), and then, through the formulas of Section 3, to an ABCDEH solution. Thus one non-torsion section produces an infinite sequence of rational parametrizations, not a single numerical example.",
             )}
           </p>
         </section>
@@ -233,29 +249,59 @@ V=\pm\frac{(p^2+2p-1)^2}{p^2}.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("7. Точный пример", "7. An exact example")}</h2>
+          <h2>{text("7. Явная параметризация из сечения 2P", "7. An explicit parametrization from the section 2P")}</h2>
           <p>
             {text(
-              "Возьмём p=3, q=−12. Квартика даёт V=266. Формулы конструкции дают корни",
-              "Take p=3 and q=−12. The quartic gives V=266. The construction formulas give the roots",
+              "Первое нетривиальное чётное кратное уже даёт однопараметрическое семейство. В нём p остаётся свободным, а q и V больше не выбираются:",
+              "The first nontrivial even multiple already gives a one-parameter family. Here p remains free, while q and V are no longer chosen independently:",
             )}
           </p>
           <Latex display>{String.raw`
-(a,b,c,d,e,h)=(266,238,2030,2338,1190,1666).`}</Latex>
+\begin{aligned}
+q(p)&=-\frac{p^4+p^3-p+1}{p(p^2-2p-1)},\\
+V(p)&=-\frac{(p^2+1)A_0(p)}
+{p^2(p^2-2p-1)^2},
+\end{aligned}`}</Latex>
           <p>
             {text(
-              "После общего деления на 14 получаем примитивное представление",
-              "After dividing by the common factor 14, one obtains the primitive representation",
+              "где для компактности положим",
+              "where, for compactness, put",
             )}
           </p>
           <Latex display>{String.raw`
-(a,b,c,d,e,h)=(19,17,145,167,85,119).`}</Latex>
+\begin{aligned}
+A_0(p)={}&p^8-2p^7-10p^6-10p^5+10p^4\\
+&+10p^3-10p^2+2p+1,\\
+U(p)={}&p^8+2p^6+8p^5+2p^4-8p^3+2p^2+1,\\
+C_0(p)={}&p^8+2p^7+2p^6-6p^5+2p^4\\
+&+6p^3+2p^2-2p+1,\\
+D_0(p)={}&p^8+4p^7-2p^6-4p^5-6p^4\\
+&+4p^3-2p^2-4p+1.
+\end{aligned}`}</Latex>
           <p>
             {text(
-              "Подстановка в исходные три уравнения является точным сертификатом именно этого примера; общая корректность следует из тождественного вывода выше.",
-              "Substitution into the three initial equations is an exact certificate for this particular example; general correctness follows from the symbolic derivation above.",
+              "После умножения всех корней на общий знаменатель p²L(p)² получаем полностью полиномиальную параметризацию:",
+              "After multiplying all roots by the common denominator p²L(p)², one obtains the completely polynomial parametrization",
             )}
           </p>
+          <Latex display>{String.raw`
+\begin{aligned}
+a&=-C(p)A_0(p),&
+b&=L(p)U(p),\\
+c&=R(p)C_0(p),&
+d&=R(p)D_0(p),\\
+e&=C(p)U(p),&
+h&=R(p)U(p).
+\end{aligned}`}</Latex>
+          <div className="theorem-block">
+            <h3>{text("Тождественная корректность", "Identity-level correctness")}</h3>
+            <p>
+              {text(
+                "Эти шесть многочленов тождественно удовлетворяют всем трём уравнениям ABCDEH. За исключением конечного набора вырожденных значений p они дают невырожденные рациональные квадраты. Следующие семейства получаются тем же способом из 4P,6P,… посредством группового закона якобиана.",
+                "These six polynomials identically satisfy all three ABCDEH equations. Outside a finite set of degenerate p-values they give nondegenerate rational squares. Further families arise in the same way from 4P,6P,… via the Jacobian group law.",
+              )}
+            </p>
+          </div>
         </section>
 
         <section>
