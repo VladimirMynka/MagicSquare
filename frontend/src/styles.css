@@ -4004,6 +4004,185 @@ main {
   background: color-mix(in srgb, var(--brick-soft) 20%, var(--paper));
 }
 
+.synthesis-atlas {
+  display: grid;
+  gap: 24px;
+  margin: 26px 0 30px;
+}
+
+.synthesis-atlas-group {
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.synthesis-atlas-group > header {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--paper-muted);
+}
+
+.synthesis-atlas-group > header > span {
+  display: grid;
+  place-items: center;
+  border-right: 1px solid var(--line-strong);
+  color: var(--brick);
+  font: 600 12px/1 var(--mono);
+}
+
+.synthesis-atlas-group > header > div {
+  padding: 13px 15px;
+}
+
+.synthesis-atlas-group > header h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+}
+
+.proof-document .synthesis-atlas-group > header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.synthesis-atlas-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.synthesis-atlas-card {
+  min-width: 0;
+  padding: 15px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.synthesis-atlas-card:nth-child(2n) {
+  border-right: 0;
+}
+
+.synthesis-atlas-card:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.synthesis-atlas-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  border-right: 0;
+}
+
+.synthesis-atlas-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.synthesis-atlas-card-header > a {
+  color: var(--graphite);
+  font: 600 13px/1.2 var(--mono);
+  text-decoration: none;
+}
+
+.synthesis-atlas-card-header > a:hover {
+  color: var(--brick);
+}
+
+.synthesis-profile {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.synthesis-profile i {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: var(--graphite);
+  font: 600 7px/1 var(--mono);
+  font-style: normal;
+}
+
+.synthesis-profile .profile-r {
+  background: color-mix(in srgb, var(--six-nine-red-mid) 42%, var(--paper));
+}
+
+.synthesis-profile .profile-y {
+  background: color-mix(in srgb, var(--six-nine-yellow-light) 58%, var(--paper));
+}
+
+.synthesis-profile .profile-b {
+  background: color-mix(in srgb, var(--six-nine-blue-light) 54%, var(--paper));
+}
+
+.proof-document .synthesis-atlas-card > p {
+  min-height: 34px;
+  margin: 9px 0 12px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.synthesis-atlas-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.synthesis-atlas-card dl > div {
+  min-width: 0;
+  padding: 8px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.synthesis-atlas-card dt {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font: 6px/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.synthesis-atlas-card dd {
+  margin: 0;
+  color: var(--graphite-soft);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.synthesis-passport-table td:not(:first-child),
+.synthesis-passport-table th:not(:first-child) {
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .synthesis-atlas-group > header {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .synthesis-atlas-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .synthesis-atlas-card,
+  .synthesis-atlas-card:nth-child(2n),
+  .synthesis-atlas-card:nth-last-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .synthesis-atlas-card:last-child,
+  .synthesis-atlas-card:last-child:nth-child(odd) {
+    grid-column: auto;
+    border-bottom: 0;
+  }
+}
+
 .formula-scroll {
   max-width: 100%;
   overflow-x: auto;

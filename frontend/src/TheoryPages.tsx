@@ -420,10 +420,22 @@ export function TheoryIndexPage() {
             "Two Gaussian norms and one blue norm define a smooth intersection of three quadrics, a split 4I₄+4I₂ fibration, a non-torsion section, and an explicit degree-14 family.",
           ),
         },
+        {
+          index: "5.15",
+          to: "/theory/6-9/synthesis",
+          title: text(
+            "Общая геометрия 6/9: расширенный атлас",
+            "The general geometry of 6/9: an expanded atlas",
+          ),
+          summary: text(
+            "Все 16 типов упорядочены по сложности условий и сведены к четырём K3-сериям; статья объясняет лестницу рангов, родные секции и точный смысл аналогов F4+ и F9+.",
+            "All 16 types are ordered by condition complexity and organized into four K3 series; the article explains the rank ladder, native sections, and the precise meaning of F4+ and F9+ analogues.",
+          ),
+        },
       ],
       continuation: text(
-        "Цикл покрывает все 16 позиционных типов 6/9: для каждого опубликованы точная система и её геометрическое приведение.",
-        "The series covers all 16 positional 6/9 types: an exact system and its geometric reduction are published for each.",
+        "Цикл покрывает все 16 позиционных типов 6/9 и завершён общей классификацией их K3-геометрии.",
+        "The series covers all 16 positional 6/9 types and concludes with a general classification of their K3 geometry.",
       ),
     },
     {

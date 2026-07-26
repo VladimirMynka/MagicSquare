@@ -54,6 +54,15 @@ export function SixNineAtlasPage() {
               →
             </TheoryLink>
           </p>
+          <p>
+            <TheoryLink className="general-proof-link" to="/theory/6-9/synthesis">
+              {text(
+                "Расширенный атлас: K3-паспорта, ранги, секции и связь с F4+/F9+",
+                "Expanded atlas: K3 passports, ranks, sections, and the relation to F4+/F9+",
+              )}{" "}
+              →
+            </TheoryLink>
+          </p>
           <SixNineOrbitAtlas
             title={text(
               "Все 16 орбит и тройки квадрик 6/9",

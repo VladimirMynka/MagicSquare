@@ -380,6 +380,9 @@ D(q)=(q-1)(q+1)^2(q^2+1)^2
             <TheoryLink className="button button-primary" to="/orbits/6">
               {text("К полному атласу 6/9", "Open the complete 6/9 atlas")} <span>→</span>
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/synthesis">
+              {text("Итоги цикла: общая геометрия 6/9", "Series conclusion: the general geometry of 6/9")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdgj">
               {text("Предыдущая поверхность: ABCDGJ", "Previous surface: ABCDGJ")}
             </TheoryLink>

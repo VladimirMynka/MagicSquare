@@ -195,6 +195,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-26",
     modified: "2026-07-26",
   },
+  "theory/6-9/synthesis": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -514,6 +518,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCGHJ: The Red-Free Pattern and a 4I₄+4I₂ K3 Surface",
       description:
         "A complete derivation of ABCGHJ: a smooth intersection of three quadrics, a Gaussian chart, a split 4I₄+4I₂ K3 surface, a non-torsion section, and a degree-14 family.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/synthesis": {
+    ru: {
+      title: "Общая геометрия 6/9: расширенный атлас K3-поверхностей",
+      description:
+        "Синтетическая классификация всех 16 типов 6/9: порядок сложности, четыре K3-серии, паспорта слоёв, границы ранга, общие секции и аналоги F4+ и F9+.",
+      type: "Article",
+    },
+    en: {
+      title: "The General Geometry of 6/9: An Expanded Atlas of K3 Surfaces",
+      description:
+        "A synthetic classification of all 16 types of 6/9: complexity order, four K3 series, fiber passports, rank bounds, generic sections, and F4+/F9+ analogues.",
       type: "Article",
     },
   },
@@ -1048,6 +1066,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abcdfg",
     "theory/6-9/abcdgj",
     "theory/6-9/abcghj",
+    "theory/6-9/synthesis",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
