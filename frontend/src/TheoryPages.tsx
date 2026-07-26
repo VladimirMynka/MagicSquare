@@ -396,10 +396,22 @@ export function TheoryIndexPage() {
             "The BFG progression, a Gaussian norm, and an x²+2y² norm again give an even quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
           ),
         },
+        {
+          index: "5.13",
+          to: "/theory/6-9/abcdgj",
+          title: text(
+            "ABCDGJ: одна прогрессия и две гауссовы нормы",
+            "ABCDGJ: one progression and two Gaussian norms",
+          ),
+          summary: text(
+            "Прогрессия BDJ и две жёлтые нормы ACGJ/BCDG сводятся к чётной квартике, расщеплённому K3-якобиану 12I₂, неторсионной секции и явному семейству степени 18.",
+            "The BDJ progression and the two yellow norms ACGJ/BCDG reduce to an even quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and an explicit degree-18 family.",
+          ),
+        },
       ],
       continuation: text(
-        "Для двух оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
-        "Two remaining positional types are not yet covered by the published derivations.",
+        "Не покрыт опубликованным выводом один позиционный тип: ABCGHJ, единственная маска цикла без красной прогрессии.",
+        "One positional type remains without a published derivation: ABCGHJ, the only pattern in the series with no red progression.",
       ),
     },
     {

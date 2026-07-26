@@ -29,8 +29,8 @@ export function AbcdfgSurfaceTheoryPage() {
           </h1>
           <p>
             {text(
-              "Первый трёхцветный тип цикла сочетает прогрессию BFG, гауссову норму BCDG и норму x²+2y² на ACFG. После параметризации красной строки две оставшиеся квадрики сводятся к чётной кривой рода 1. Её якобиан — расщеплённая эллиптическая K3-поверхность 12I₂ с неторсионной секцией.",
-              "The first three-color type in the series combines the BFG progression, the Gaussian norm on BCDG, and an x²+2y² norm on ACFG. After parametrizing the red equation, the remaining two quadrics reduce to an even genus-one curve. Its Jacobian is a split 12I₂ elliptic K3 surface with a non-torsion section.",
+              "Ещё один трёхцветный тип цикла сочетает прогрессию BFG, гауссову норму BCDG и норму x²+2y² на ACFG. После параметризации красной строки две оставшиеся квадрики сводятся к чётной кривой рода 1. Её якобиан — расщеплённая эллиптическая K3-поверхность 12I₂ с неторсионной секцией.",
+              "Another three-color type in the series combines the BFG progression, the Gaussian norm on BCDG, and an x²+2y² norm on ACFG. After parametrizing the red equation, the remaining two quadrics reduce to an even genus-one curve. Its Jacobian is a split 12I₂ elliptic K3 surface with a non-torsion section.",
             )}
           </p>
         </div>
@@ -435,6 +435,9 @@ g&=-C\,D_8Q_8.
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdeg">
               {text("Предыдущая поверхность: ABCDEG", "Previous surface: ABCDEG")}
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abcdgj">
+              {text("Следующая поверхность: ABCDGJ", "Next surface: ABCDGJ")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}

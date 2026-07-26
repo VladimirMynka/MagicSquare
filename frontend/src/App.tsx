@@ -101,6 +101,7 @@ import { AbcdefSurfaceTheoryPage } from "./AbcdefSurfaceTheory";
 import { ParallelTfmnKummerTheoryPage } from "./ParallelTfmnKummerTheory";
 import { AbcdegSurfaceTheoryPage } from "./AbcdegSurfaceTheory";
 import { AbcdfgSurfaceTheoryPage } from "./AbcdfgSurfaceTheory";
+import { AbcdgjSurfaceTheoryPage } from "./AbcdgjSurfaceTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3454,6 +3455,10 @@ export function App() {
         <Route
           path="theory/6-9/abcdfg"
           element={<AbcdfgSurfaceTheoryPage />}
+        />
+        <Route
+          path="theory/6-9/abcdgj"
+          element={<AbcdgjSurfaceTheoryPage />}
         />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"

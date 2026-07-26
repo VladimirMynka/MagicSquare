@@ -187,6 +187,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-26",
     modified: "2026-07-26",
   },
+  "theory/6-9/abcdgj": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -478,6 +482,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCDFG: Red, Yellow, and Blue Quadrics on a 12I₂ K3 Surface",
       description:
         "A complete derivation of the three-color ABCDFG pattern: a progression, two distinct norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcdgj": {
+    ru: {
+      title: "ABCDGJ: одна прогрессия, две гауссовы нормы и K3-поверхность 12I₂",
+      description:
+        "Полный вывод маски ABCDGJ: прогрессия BDJ, две жёлтые нормы, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и семейство степени 18.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCDGJ: One Progression, Two Gaussian Norms, and a 12I₂ K3 Surface",
+      description:
+        "A complete derivation of the ABCDGJ pattern: the BDJ progression, two yellow norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
       type: "Article",
     },
   },
@@ -1010,6 +1028,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abefgj-abdfhj",
     "theory/6-9/abcdeg",
     "theory/6-9/abcdfg",
+    "theory/6-9/abcdgj",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
