@@ -4068,6 +4068,23 @@ main {
   vertical-align: super;
 }
 
+.exact-magic-cell strong.exact-magic-cell-integer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 0.28em;
+  line-height: 1.25;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.exact-magic-cell-integer span {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .exact-magic-cell strong.exact-magic-cell-factorization {
   width: 100%;
   display: flex;

@@ -16,6 +16,18 @@ function formatInteger(value: string): string {
   return `${negative ? "−" : ""}${grouped}`;
 }
 
+function GroupedInteger({ value }: { value: string }) {
+  const groups = formatInteger(value).split("\u202f");
+
+  return (
+    <strong className="exact-magic-cell-integer" aria-label={groups.join(" ")}>
+      {groups.map((group, index) => (
+        <span key={`${index}-${group}`}>{group}</span>
+      ))}
+    </strong>
+  );
+}
+
 function factorPositiveInteger(value: bigint): PrimePower[] {
   const factors: PrimePower[] = [];
   let remaining = value;
@@ -95,7 +107,7 @@ export function ExactMagicSquareExample({
             >
               <span className="exact-magic-cell-label">{label}</span>
               {absoluteRoot === null ? (
-                <strong>{formatInteger(values[index])}</strong>
+                <GroupedInteger value={values[index]} />
               ) : (
                 <SquareFactorization root={absoluteRoot} />
               )}
