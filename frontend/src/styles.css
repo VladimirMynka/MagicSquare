@@ -4080,8 +4080,7 @@ main {
 }
 
 .exact-magic-cell-factorization span {
-  display: inline-flex;
-  align-items: baseline;
+  display: inline-block;
   white-space: nowrap;
 }
 
