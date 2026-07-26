@@ -1,29 +1,49 @@
 const POSITIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "J"] as const;
 
+type RelationKind = "red" | "yellow" | "blue";
+
+function relationPalette(kind: RelationKind, index: number) {
+  if (kind === "red") {
+    return [
+      {
+        fill: "var(--six-nine-mask-red-light)",
+        stroke: "var(--six-nine-mask-red-light-stroke)",
+      },
+      {
+        fill: "var(--six-nine-mask-red-dark)",
+        stroke: "var(--six-nine-mask-red-dark-stroke)",
+      },
+      {
+        fill: "var(--six-nine-mask-red-third)",
+        stroke: "var(--six-nine-mask-red-third-stroke)",
+      },
+    ][index];
+  }
+  if (kind === "blue") {
+    return {
+      fill: "var(--six-nine-mask-blue)",
+      stroke: "var(--six-nine-mask-blue-stroke)",
+    };
+  }
+  return {
+    fill: "var(--six-nine-mask-yellow)",
+    stroke: "var(--six-nine-mask-yellow-stroke)",
+  };
+}
+
 function relationStyle(
-  inFirst: boolean,
-  inSecond: boolean,
-  inThird: boolean,
-  thirdKind: "red" | "yellow",
+  memberships: readonly boolean[],
+  kinds: readonly RelationKind[],
 ) {
-  const fills = [
-    inFirst ? "var(--six-nine-mask-red-light)" : null,
-    inSecond ? "var(--six-nine-mask-red-dark)" : null,
-    inThird
-      ? thirdKind === "red"
-        ? "var(--six-nine-mask-red-third)"
-        : "var(--six-nine-mask-yellow)"
-      : null,
-  ].filter((color): color is string => color !== null);
-  const strokes = [
-    inFirst ? "var(--six-nine-mask-red-light-stroke)" : null,
-    inSecond ? "var(--six-nine-mask-red-dark-stroke)" : null,
-    inThird
-      ? thirdKind === "red"
-        ? "var(--six-nine-mask-red-third-stroke)"
-        : "var(--six-nine-mask-yellow-stroke)"
-      : null,
-  ].filter((color): color is string => color !== null);
+  const palettes = memberships
+    .map((included, index) =>
+      included ? relationPalette(kinds[index], index) : null,
+    )
+    .filter((palette): palette is { fill: string; stroke: string } =>
+      palette !== null
+    );
+  const fills = palettes.map((palette) => palette.fill);
+  const strokes = palettes.map((palette) => palette.stroke);
 
   if (fills.length === 0) return undefined;
 
@@ -44,17 +64,21 @@ function relationStyle(
 export function SixNineMaskDiagram({
   caption,
   first = "",
+  firstKind = "red",
   mask,
   second = "",
+  secondKind = "red",
   third = "",
   thirdKind = "yellow",
 }: {
   caption: string;
   first?: string;
+  firstKind?: RelationKind;
   mask: string;
   second?: string;
+  secondKind?: RelationKind;
   third?: string;
-  thirdKind?: "red" | "yellow";
+  thirdKind?: RelationKind;
 }) {
   return (
     <figure className="six-nine-theory-mask">
@@ -63,7 +87,10 @@ export function SixNineMaskDiagram({
           const inFirst = first.includes(position);
           const inSecond = second.includes(position);
           const inThird = third.includes(position);
-          const style = relationStyle(inFirst, inSecond, inThird, thirdKind);
+          const style = relationStyle(
+            [inFirst, inSecond, inThird],
+            [firstKind, secondKind, thirdKind],
+          );
           return (
             <span
               className={mask.includes(position) ? "is-active" : ""}

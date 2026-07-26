@@ -348,10 +348,22 @@ export function TheoryIndexPage() {
             "Three pairwise progressions reduce to r(x)r(z)=r(y), a pullback of the Legendre family, a 4I₄+4I₂ K3 surface, and an explicit polynomial family.",
           ),
         },
+        {
+          index: "5.9",
+          to: "/theory/6-9/abcdef",
+          title: text(
+            "ABCDEF: чётная квартика и поверхность 12I₂",
+            "ABCDEF: an even quartic and a 12I₂ surface",
+          ),
+          summary: text(
+            "Прогрессия DEF и две нормы на блоке CDE сводятся к чётной квартике, расщеплённой K3-поверхности 12I₂, неторсионной секции и явному полиномиальному семейству.",
+            "The DEF progression and two norms on the CDE block reduce to an even quartic, a split 12I₂ K3 surface, a non-torsion section, and an explicit polynomial family.",
+          ),
+        },
       ],
       continuation: text(
-        "Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+. Для остальных позиционных типов опубликованные выводы пока не дают полного покрытия.",
-        "The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+. For the remaining positional types, the published derivations do not yet give complete coverage.",
+        "Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+. Для четырёх оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
+        "The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+. Four remaining positional types are not yet covered by the published derivations.",
       ),
     },
     {

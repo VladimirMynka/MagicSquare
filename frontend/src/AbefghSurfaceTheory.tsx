@@ -329,8 +329,8 @@ f&=R_XR_ZR_Y,& g&=R_XR_ZC_Y,& h&=R_XL_ZR_Y.
           </p>
 
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/orbits/6">
-              {text("К полному атласу 6/9", "Open the complete 6/9 atlas")} <span>→</span>
+            <TheoryLink className="button button-primary" to="/theory/6-9/abcdef">
+              {text("Следующая поверхность: ABCDEF", "Next surface: ABCDEF")} <span>→</span>
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abdefj">
               {text("Предыдущая поверхность: ABDEFJ", "Previous surface: ABDEFJ")}

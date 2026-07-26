@@ -171,6 +171,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-25",
     modified: "2026-07-25",
   },
+  "theory/6-9/abcdef": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -406,6 +410,20 @@ const STATIC_METADATA: Readonly<
       title: "ABEFGH: A Triangle of Means and an Elliptic K3 Surface",
       description:
         "A complete derivation of the triangular ABEFGH pattern: the equation r(x)r(z)=r(y), a Legendre-family pullback, the 4I₄+4I₂ K3 passport, a non-torsion section, and a polynomial parametrization.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcdef": {
+    ru: {
+      title: "ABCDEF: чётная квартика и эллиптическая K3-поверхность 12I₂",
+      description:
+        "Полный вывод маски ABCDEF: прогрессия квадратов, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и явная полиномиальная параметризация.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCDEF: An Even Quartic and a 12I₂ Elliptic K3 Surface",
+      description:
+        "A complete derivation of the ABCDEF pattern: a progression of squares, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
       type: "Article",
     },
   },
@@ -934,6 +952,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abdefh",
     "theory/6-9/abdefj",
     "theory/6-9/abefgh",
+    "theory/6-9/abcdef",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

@@ -3651,6 +3651,8 @@ main {
   --six-nine-mask-red-third-stroke: #703a35;
   --six-nine-mask-yellow: #efe2ad;
   --six-nine-mask-yellow-stroke: #a98d3d;
+  --six-nine-mask-blue: #bad2dc;
+  --six-nine-mask-blue-stroke: #527b8d;
   margin: 0;
 }
 

@@ -68,11 +68,12 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Одна прогрессия и две квадрики на общем блоке C,D,E.",
       en: "One progression and two quadrics on the shared C,D,E block.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 12I₂; 1≤rank≤6",
+      en: "K3: 12I₂; 1≤rank≤6",
     },
+    theoryPath: "/theory/6-9/abcdef",
   },
   {
     mask: "ABCDEG",
