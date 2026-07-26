@@ -417,6 +417,9 @@ r(r^2-1)=\rho^2s(s^2-1).`}</Latex>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdef">
               {text("Предыдущая поверхность: ABCDEF", "Previous surface: ABCDEF")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abcdeg">
+              {text("Следующая поверхность: ABCDEG", "Next surface: ABCDEG")}
+            </TheoryLink>
           </div>
         </section>
       </div>

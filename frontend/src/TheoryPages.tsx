@@ -372,10 +372,22 @@ export function TheoryIndexPage() {
             "Parametrizing the two parallel progressions turns the yellow quadric exactly into equality of tf; the two patterns are linearly equivalent and define Km(E×E) for E:y²=x³−x.",
           ),
         },
+        {
+          index: "5.11",
+          to: "/theory/6-9/abcdeg",
+          title: text(
+            "ABCDEG: две гауссовы склейки и поверхность 12I₂",
+            "ABCDEG: two Gaussian gluings and a 12I₂ surface",
+          ),
+          summary: text(
+            "Центральная прогрессия CEG и две жёлтые квадрики дают чётную квартику рода 1, расщеплённый K3-якобиан, неторсионную секцию и явное семейство степени 18.",
+            "The central CEG progression and two yellow quadrics give an even genus-one quartic, a split K3 Jacobian, a non-torsion section, and an explicit degree-18 family.",
+          ),
+        },
       ],
       continuation: text(
-        "Для четырёх оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
-        "Four remaining positional types are not yet covered by the published derivations.",
+        "Для трёх оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
+        "Three remaining positional types are not yet covered by the published derivations.",
       ),
     },
     {

@@ -77,7 +77,7 @@ const INITIAL_PUBLICATION: PublicationDates = {
 const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   "": {
     published: "2026-07-21",
-    modified: "2026-07-25",
+    modified: "2026-07-26",
   },
   "squares-of-squares": {
     published: "2026-07-22",
@@ -176,6 +176,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     modified: "2026-07-26",
   },
   "theory/6-9/abefgj-abdfhj": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
+  "theory/6-9/abcdeg": {
     published: "2026-07-26",
     modified: "2026-07-26",
   },
@@ -442,6 +446,20 @@ const STATIC_METADATA: Readonly<
       title: "ABEFGJ and ABDFHJ: A Shared tfmn Kummer K3 Surface",
       description:
         "A complete joint derivation of the two parallel 6/9 patterns: parametrized red conics, exact sufficiency of equal tf, a linear equivalence of placements, and the Kummer surface Km(E×E).",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcdeg": {
+    ru: {
+      title: "ABCDEG: две гауссовы склейки и эллиптическая K3-поверхность 12I₂",
+      description:
+        "Полный вывод маски ABCDEG: центральная прогрессия, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и полиномиальное семейство степени 18.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCDEG: Two Gaussian Gluings and a 12I₂ Elliptic K3 Surface",
+      description:
+        "A complete derivation of the ABCDEG pattern: a central progression, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 polynomial family.",
       type: "Article",
     },
   },
@@ -972,6 +990,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abefgh",
     "theory/6-9/abcdef",
     "theory/6-9/abefgj-abdfhj",
+    "theory/6-9/abcdeg",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

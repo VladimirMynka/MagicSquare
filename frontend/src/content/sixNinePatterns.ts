@@ -88,11 +88,12 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Прогрессия CEG и две независимые гауссовы нормы.",
       en: "The CEG progression and two independent Gaussian norms.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 12I₂; 1≤rank≤6",
+      en: "K3: 12I₂; 1≤rank≤6",
     },
+    theoryPath: "/theory/6-9/abcdeg",
   },
   {
     mask: "ABCDEH",
