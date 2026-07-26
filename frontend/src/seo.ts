@@ -333,13 +333,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDEH: эллиптическая K3-поверхность для маски 6/9",
       description:
-        "Подробный вывод выбранной модели ABCDEH: две прогрессии квадратов, остаточная квартика рода 1, расщеплённый якобиан K3, два независимых сечения и явная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDEH: две прогрессии квадратов, остаточная квартика рода 1, расщеплённый якобиан K3, два независимых сечения и явная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABCDEH: An Elliptic K3 Surface for a 6/9 Pattern",
       description:
-        "A detailed derivation of a chosen ABCDEH model: two progressions of squares, a residual genus-one quartic, its split K3 Jacobian, two independent sections, and an explicit parametrization; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDEH model: two progressions of squares, a residual genus-one quartic, its split K3 Jacobian, two independent sections, and an explicit parametrization.",
       type: "Article",
     },
   },
@@ -347,13 +347,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDEJ: эллиптическая K3-поверхность и бесконечное семейство",
       description:
-        "Подробный вывод выбранной модели ABCDEJ: две прогрессии квадратов, квартика рода 1, расщеплённый K3-якобиан, неторсионное сечение и полиномиальная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDEJ: две прогрессии квадратов, квартика рода 1, расщеплённый K3-якобиан, неторсионное сечение и полиномиальная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABCDEJ: An Elliptic K3 Surface and an Infinite Family",
       description:
-        "A detailed derivation of a chosen ABCDEJ model: two progressions of squares, a genus-one quartic, its split K3 Jacobian, a non-torsion section, and a polynomial parametrization; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDEJ model: two progressions of squares, a genus-one quartic, its split K3 Jacobian, a non-torsion section, and a polynomial parametrization.",
       type: "Article",
     },
   },
@@ -361,13 +361,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDFH: палиндромная квартика и эллиптическая K3-поверхность",
       description:
-        "Подробный вывод выбранной модели ABCDFH: две прогрессии квадратов, палиндромная квартика рода 1, расщеплённый K3-якобиан, неторсионное сечение и явное полиномиальное семейство; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDFH: две прогрессии квадратов, палиндромная квартика рода 1, расщеплённый K3-якобиан, неторсионное сечение и явное полиномиальное семейство.",
       type: "Article",
     },
     en: {
       title: "ABCDFH: A Palindromic Quartic and an Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCDFH model: two progressions of squares, a palindromic genus-one quartic, its split K3 Jacobian, a non-torsion section, and an explicit polynomial family; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDFH model: two progressions of squares, a palindromic genus-one quartic, its split K3 Jacobian, a non-torsion section, and an explicit polynomial family.",
       type: "Article",
     },
   },
@@ -375,13 +375,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDHJ: палиндромная квартика и эллиптическая K3-поверхность",
       description:
-        "Подробный вывод выбранной модели ABCDHJ: две прогрессии с общей клеткой D, палиндромная квартика, расщеплённый K3-якобиан, неторсионное сечение и явное полиномиальное семейство; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDHJ: две прогрессии с общей клеткой D, палиндромная квартика, расщеплённый K3-якобиан, неторсионное сечение и явное полиномиальное семейство.",
       type: "Article",
     },
     en: {
       title: "ABCDHJ: A Palindromic Quartic and an Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCDHJ model: two progressions sharing D, a palindromic quartic, its split K3 Jacobian, a non-torsion section, and an explicit polynomial family; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDHJ model: two progressions sharing D, a palindromic quartic, its split K3 Jacobian, a non-torsion section, and an explicit polynomial family.",
       type: "Article",
     },
   },
@@ -389,13 +389,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCEGH и ABCEGJ: общая эллиптическая K3-поверхность",
       description:
-        "Подробный совместный вывод выбранной модели ABCEGH и ABCEGJ: одна квартика рода 1, расщеплённый K3-якобиан 2I₄+8I₂, две независимые секции и общая полиномиальная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный совместный вывод выбранной модели ABCEGH и ABCEGJ: одна квартика рода 1, расщеплённый K3-якобиан 2I₄+8I₂, две независимые секции и общая полиномиальная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABCEGH and ABCEGJ: A Shared Elliptic K3 Surface",
       description:
-        "A detailed joint derivation of a chosen ABCEGH and ABCEGJ model: one genus-one quartic, a split 2I₄+8I₂ K3 Jacobian, two independent sections, and a shared polynomial parametrization; global rational-point coverage is not claimed.",
+        "A detailed joint derivation of a chosen ABCEGH and ABCEGJ model: one genus-one quartic, a split 2I₄+8I₂ K3 Jacobian, two independent sections, and a shared polynomial parametrization.",
       type: "Article",
     },
   },
@@ -403,13 +403,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABDEFH: три прогрессии и эллиптическая K3-поверхность",
       description:
-        "Подробный вывод выбранной модели ABDEFH: правильно твистованная квартика, расщеплённый K3-якобиан 4I₄+4I₂, неторсионное сечение и явная полиномиальная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABDEFH: правильно твистованная квартика, расщеплённый K3-якобиан 4I₄+4I₂, неторсионное сечение и явная полиномиальная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABDEFH: Three Progressions and an Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABDEFH model: a correctly twisted quartic, a split 4I₄+4I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABDEFH model: a correctly twisted quartic, a split 4I₄+4I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
       type: "Article",
     },
   },
@@ -417,13 +417,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABDEFJ: цепочка прогрессий и эллиптическая K3-поверхность",
       description:
-        "Подробный вывод выбранной модели ABDEFJ: палиндромная квартика, расщеплённый K3-якобиан 4I₄+4I₂, неторсионное сечение и явная полиномиальная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABDEFJ: палиндромная квартика, расщеплённый K3-якобиан 4I₄+4I₂, неторсионное сечение и явная полиномиальная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABDEFJ: A Chain of Progressions and an Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABDEFJ model: a palindromic quartic, a split 4I₄+4I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABDEFJ model: a palindromic quartic, a split 4I₄+4I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
       type: "Article",
     },
   },
@@ -431,13 +431,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABEFGH: треугольник средних и эллиптическая K3-поверхность",
       description:
-        "Подробный вывод выбранной модели ABEFGH: уравнение r(x)r(z)=r(y), обратный образ нормальной формы Лежандра, K3-паспорт 4I₄+4I₂, неторсионная секция и полиномиальная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABEFGH: уравнение r(x)r(z)=r(y), обратный образ нормальной формы Лежандра, K3-паспорт 4I₄+4I₂, неторсионная секция и полиномиальная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABEFGH: A Triangle of Means and an Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABEFGH model: the equation r(x)r(z)=r(y), a Legendre-normal-form pullback, the 4I₄+4I₂ K3 passport, a non-torsion section, and a polynomial parametrization; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABEFGH model: the equation r(x)r(z)=r(y), a Legendre-normal-form pullback, the 4I₄+4I₂ K3 passport, a non-torsion section, and a polynomial parametrization.",
       type: "Article",
     },
   },
@@ -445,13 +445,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDEF: чётная квартика и эллиптическая K3-поверхность 12I₂",
       description:
-        "Подробный вывод выбранной модели ABCDEF: прогрессия квадратов, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и явная полиномиальная параметризация; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDEF: прогрессия квадратов, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и явная полиномиальная параметризация.",
       type: "Article",
     },
     en: {
       title: "ABCDEF: An Even Quartic and a 12I₂ Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCDEF model: a progression of squares, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDEF model: a progression of squares, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
       type: "Article",
     },
   },
@@ -473,13 +473,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDEG: две гауссовы склейки и эллиптическая K3-поверхность 12I₂",
       description:
-        "Подробный вывод выбранной модели ABCDEG: центральная прогрессия, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и полиномиальное семейство степени 18; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDEG: центральная прогрессия, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и полиномиальное семейство степени 18.",
       type: "Article",
     },
     en: {
       title: "ABCDEG: Two Gaussian Gluings and a 12I₂ Elliptic K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCDEG model: a central progression, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 polynomial family; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDEG model: a central progression, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 polynomial family.",
       type: "Article",
     },
   },
@@ -487,13 +487,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDFG: красная, жёлтая и голубая квадрики на K3-поверхности 12I₂",
       description:
-        "Подробный вывод выбранной модели ABCDFG: прогрессия, две различные нормы, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и семейство степени 18; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDFG: прогрессия, две различные нормы, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и семейство степени 18.",
       type: "Article",
     },
     en: {
       title: "ABCDFG: Red, Yellow, and Blue Quadrics on a 12I₂ K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCDFG model: a progression, two distinct norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDFG model: a progression, two distinct norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
       type: "Article",
     },
   },
@@ -501,13 +501,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCDGJ: одна прогрессия, две гауссовы нормы и K3-поверхность 12I₂",
       description:
-        "Подробный вывод выбранной модели ABCDGJ: прогрессия BDJ, две жёлтые нормы, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и семейство степени 18; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCDGJ: прогрессия BDJ, две жёлтые нормы, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и семейство степени 18.",
       type: "Article",
     },
     en: {
       title: "ABCDGJ: One Progression, Two Gaussian Norms, and a 12I₂ K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCDGJ model: the BDJ progression, two yellow norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCDGJ model: the BDJ progression, two yellow norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
       type: "Article",
     },
   },
@@ -515,13 +515,13 @@ const STATIC_METADATA: Readonly<
     ru: {
       title: "ABCGHJ: бескрасная маска и K3-поверхность 4I₄+4I₂",
       description:
-        "Подробный вывод выбранной модели ABCGHJ: гладкое пересечение трёх квадрик, гауссова карта, расщеплённая K3-поверхность 4I₄+4I₂, неторсионная секция и семейство степени 14; полнота всех рациональных точек не утверждается.",
+        "Подробный вывод выбранной модели ABCGHJ: гладкое пересечение трёх квадрик, гауссова карта, расщеплённая K3-поверхность 4I₄+4I₂, неторсионная секция и семейство степени 14.",
       type: "Article",
     },
     en: {
       title: "ABCGHJ: The Red-Free Pattern and a 4I₄+4I₂ K3 Surface",
       description:
-        "A detailed derivation of a chosen ABCGHJ model: a smooth intersection of three quadrics, a Gaussian chart, a split 4I₄+4I₂ K3 surface, a non-torsion section, and a degree-14 family; global rational-point coverage is not claimed.",
+        "A detailed derivation of a chosen ABCGHJ model: a smooth intersection of three quadrics, a Gaussian chart, a split 4I₄+4I₂ K3 surface, a non-torsion section, and a degree-14 family.",
       type: "Article",
     },
   },

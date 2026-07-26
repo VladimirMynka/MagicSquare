@@ -66,8 +66,8 @@ y^2=x^3+A x^2+B x+C.`}</Latex>
           <h2>{text("2. Слой, сечение и полная поверхность", "2. Fibers, sections, and the total surface")}</h2>
           <p>
             {text(
-              "Эллиптическая поверхность — это поверхность 𝓔 с морфизмом π:𝓔→C на базовую кривую C, общий слой которого является гладкой кривой рода 1, вместе с нулевым сечением. В наших моделях C обычно равна ℙ¹, а её координата обозначается p, q, t или k.",
-              "An elliptic surface is a surface 𝓔 equipped with a morphism π:𝓔→C to a base curve C whose generic fiber is a smooth genus-one curve, together with a zero section. In our models C is usually ℙ¹, with coordinate p, q, t, or k.",
+              "Эллиптическая поверхность — это поверхность 𝓔 с морфизмом π:𝓔→C на базовую кривую C, общий слой которого является гладкой кривой рода 1, вместе с нулевым сечением. В рассматриваемых моделях C обычно равна ℙ¹, а её координата обозначается p, q, t или k.",
+              "An elliptic surface is a surface 𝓔 equipped with a morphism π:𝓔→C to a base curve C whose generic fiber is a smooth genus-one curve, together with a zero section. In the models considered here, C is usually ℙ¹, with coordinate p, q, t, or k.",
             )}
           </p>
           <Latex display>{String.raw`

@@ -3061,14 +3061,14 @@ a+e+j=c+e+g=M.
           </p>
           <p>
             {text(
-              "Однако один квадрат 7/9 уже известен и сам по себе не решает слабую задачу. Слабая задача состоит в том, чтобы найти другой, нетривиально новый квадрат 7/9 либо доказать, что известный квадрат единственен с точностью до естественных эквивалентностей. В рассмотренной для этого сайта литературе не найдено ни второго класса, ни доказательства единственности; это библиографически ограниченная формулировка статуса.",
-              "However, one 7/9 square is already known and does not by itself solve the weak problem. The weak problem is to find another, nontrivially new 7/9 square or to prove that the known square is unique up to the natural equivalences. The literature reviewed for this site contains neither a second class nor a uniqueness proof; this status statement is explicitly limited to that bibliography.",
+              "Известен один класс квадратов 7/9; существуют ли другие, неизвестно.",
+              "One class of 7/9 squares is known; whether any others exist is unknown.",
             )}
           </p>
           <p>
             {text(
-              "Известен следующий квадрат 7/9 Бремнера—Сэллоуза:",
-              "The following Bremner–Sallows 7/9 square is known:",
+              "Представителем известного класса является квадрат Бремнера—Сэллоуза:",
+              "A representative of the known class is the Bremner–Sallows square:",
             )}
           </p>
           <Latex display>{String.raw`\mathcal B=\begin{pmatrix}
@@ -3152,8 +3152,8 @@ a+e+j=c+e+g=M.
           <h3>{text("3. Основные результаты", "3. Main results")}</h3>
           <p>
             {text(
-              "Ниже перечислены результаты, которые, по изученным нами публикациям и каталогам, ранее не были представлены в таком объёме или в такой форме. Это утверждение относится к доступному нам корпусу источников и может уточняться по мере библиографической проверки.",
-              "The results below have not, to the best of our knowledge from the publications and catalogues examined, previously appeared with the same scope or in the same form. This statement is limited to the sources available to us and may be refined as the bibliographic review continues.",
+              "Ниже перечислены основные результаты проекта. Для каждого результата указаны точный объём доказанного утверждения, его ограничения и ссылки на подробный вывод.",
+              "The principal results of the project are listed below. Each result is accompanied by the precise scope of the proved statement, its limitations, and links to the detailed derivation.",
             )}
           </p>
 
@@ -3189,8 +3189,8 @@ a+e+j=c+e+g=M.
           </p>
           <p>
             {text(
-              "Бремнер ранее рассмотрел те же шестнадцать конфигураций как пересечения трёх квадрик и доказал существование бесконечных семейств для каждой из них. Представленный здесь корпус организует конфигурации по цветовым профилям, выписывает выбранные эллиптические карты и паспорта, отделяет глобально полную параллельную пару от остальных карт и даёт воспроизводимые формулы семейств. Поэтому приоритет относится к конкретным дополнительным утверждениям, а не к самому числу шестнадцать или существованию семейств 6/9.",
-              "Bremner previously treated the same sixteen configurations as intersections of three quadrics and proved the existence of infinite families for each. The corpus presented here organizes them by color profile, gives chosen elliptic charts and passports, separates the globally complete parallel pair from the remaining charts, and records reproducible family formulas. Any priority claim therefore concerns specific additional statements, not the number sixteen or the existence of 6/9 families itself.",
+              "Бремнер представил все шестнадцать конфигураций 6/9 как пересечения трёх квадрик в ℙ⁵ и для каждой связанной поверхности указал эллиптическое расслоение, дающее однопараметрическое бесконечное семейство. Для одной конфигурации он доказал, что поверхность является гладкой K3, нашёл особые слои с паспортом 4I₄+4I₂ и вычислил ранг 2 над полем функций и ранг 20 решётки Нерона—Севери. Настоящий атлас приводит явные модели и доказанные характеристики всех шестнадцати масок; для двух параллельных масок дополнительно получена полная tfmn-классификация невырожденных рациональных решений.",
+              "Bremner represented all sixteen 6/9 configurations as intersections of three quadrics in ℙ⁵ and identified on each associated surface an elliptic fibration that yields an infinite one-parameter family. For one configuration he proved that the surface is a smooth K3, found the singular fibers with passport 4I₄+4I₂, and computed rank 2 over the function field and rank 20 for the Néron–Severi lattice. The present atlas records explicit models and proved characteristics for all sixteen patterns; for the two parallel patterns it additionally gives a complete tfmn classification of nondegenerate rational solutions.",
             )}
           </p>
 

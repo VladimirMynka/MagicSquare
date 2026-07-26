@@ -425,8 +425,8 @@ export function SixNineSynthesisTheoryPage() {
 \mathrm{red}<\mathrm{yellow}<\mathrm{blue}.`}</Latex>
           <p>
             {text(
-              "Это порядок сложности, обратный редакционному порядку предпочтения цветов в общем атласе, где красный ставится выше жёлтого, а жёлтый выше голубого. Внутри профиля RRY параллельный случай поставлен раньше пересекающегося: после параметризации двух красных коник он полностью решается одним равенством tf.",
-              "This complexity order is the reverse of the editorial color preference used in the general atlas, where red is preferred to yellow and yellow to blue. Within the RRY profile, the parallel case precedes the intersecting one: after parametrizing the two red conics, it is completely solved by one equality of tf.",
+              "Порядок сложности и порядок выбора представителя орбиты независимы. Сложность определяется числом и связностью условий, а цветовой порядок красный—жёлтый—голубой служит для единообразной записи масок. Внутри профиля RRY параллельный случай поставлен раньше пересекающегося: после параметризации двух красных коник он полностью решается одним равенством tf.",
+              "The complexity order and the choice of an orbit representative are independent. Complexity is determined by the number and incidence of the conditions, while the red–yellow–blue color order provides a uniform notation for the patterns. Within the RRY profile, the parallel case precedes the intersecting one: after parametrizing the two red conics, it is completely solved by one equality of tf.",
             )}
           </p>
           <div className="theorem-block">
