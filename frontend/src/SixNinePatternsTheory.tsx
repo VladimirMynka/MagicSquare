@@ -248,8 +248,8 @@ y:\;&ABDFHJ,\ ACEFGH,\ BCDEGJ.
             <h3>{text("Точная граница tfmn", "The exact scope of tfmn")}</h3>
             <p>
               {text(
-                "Среди шестнадцати позиционных типов ровно ABEFGJ и ABDFHJ являются объединениями двух непересекающихся параллельных прогрессий. В каждой из них локальная параметризация обеих прогрессий приводит к сравнению квадратных классов их шагов — уравнению равенства значений tf. Это два хорошо разработанных tfmn-класса 6/9.",
-                "Among the sixteen positional types, exactly ABEFGJ and ABDFHJ are unions of two disjoint parallel progressions. In each, parametrizing the two progressions reduces the comparison of their differences to equality of their tf values. These are the two well-developed tfmn classes of 6/9.",
+                "Среди шестнадцати позиционных типов ровно ABEFGJ и ABDFHJ являются объединениями двух непересекающихся параллельных прогрессий. После параметризации обеих красных коник третья квадрика в точности утверждает равенство их ориентированных шагов. Поэтому равенство tf необходимо и достаточно для обеих масок, а их пространства решений являются двумя линейными прочтениями одной Kummer–K3-поверхности.",
+                "Among the sixteen positional types, exactly ABEFGJ and ABDFHJ are unions of two disjoint parallel progressions. After both red conics are parametrized, the third quadric states exactly that their oriented differences agree. Equality of tf is therefore necessary and sufficient for both patterns, and their solution spaces are two linear readings of one Kummer K3 surface.",
               )}
             </p>
           </div>
@@ -270,9 +270,12 @@ y:\;&ABDFHJ,\ ACEFGH,\ BCDEGJ.
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/fmn-tfmn">
-              {text("Далее: fmn и tfmn", "Next: fmn and tfmn")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/6-9/abefgj-abdfhj">
+              {text("Общая поверхность параллельных масок", "The shared surface of the parallel patterns")}{" "}
               <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/fmn-tfmn">
+              {text("Арифметика fmn и tfmn", "The arithmetic of fmn and tfmn")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/lab/6">
               {text("Открыть конструктор 6/9", "Open the 6/9 constructor")}

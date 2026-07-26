@@ -440,6 +440,12 @@ x(2P)
             <TheoryLink className="button button-ghost" to="/theory/f4-plus">
               {text("Эллиптическая поверхность F4+", "The F4+ elliptic surface")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abefgj-abdfhj">
+              {text(
+                "F7+ на общей поверхности двух масок 6/9",
+                "F7+ on the shared surface of two 6/9 patterns",
+              )}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>

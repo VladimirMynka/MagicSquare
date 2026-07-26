@@ -807,6 +807,12 @@ R_x=(490,9800),\quad R_y=(294,3528).`}</Latex>
                 "The congruent-curve bijection",
               )}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abefgj-abdfhj">
+              {text(
+                "F4+ на общей поверхности двух масок 6/9",
+                "F4+ on the shared surface of two 6/9 patterns",
+              )}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text(
                 "К оглавлению теории",

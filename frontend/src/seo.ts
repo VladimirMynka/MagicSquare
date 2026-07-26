@@ -85,7 +85,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   theory: {
     published: "2026-07-22",
-    modified: "2026-07-24",
+    modified: "2026-07-26",
   },
   "theory/magic-squares-3x3": {
     published: "2026-07-22",
@@ -105,15 +105,15 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   "theory/6-9-patterns": {
     published: "2026-07-25",
-    modified: "2026-07-25",
+    modified: "2026-07-26",
   },
   "orbits/6": {
     published: "2026-07-25",
-    modified: "2026-07-25",
+    modified: "2026-07-26",
   },
   "theory/fmn-tfmn": {
     published: "2026-07-23",
-    modified: "2026-07-24",
+    modified: "2026-07-26",
   },
   "theory/early-tf-families": {
     published: "2026-07-23",
@@ -172,6 +172,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     modified: "2026-07-25",
   },
   "theory/6-9/abcdef": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
+  "theory/6-9/abefgj-abdfhj": {
     published: "2026-07-26",
     modified: "2026-07-26",
   },
@@ -424,6 +428,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCDEF: An Even Quartic and a 12I₂ Elliptic K3 Surface",
       description:
         "A complete derivation of the ABCDEF pattern: a progression of squares, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and an explicit polynomial parametrization.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abefgj-abdfhj": {
+    ru: {
+      title: "ABEFGJ и ABDFHJ: общая Kummer–K3-поверхность tfmn",
+      description:
+        "Полный совместный вывод двух параллельных масок 6/9: параметризация красных коник, точная достаточность равенства tf, линейная эквивалентность размещений и Kummer-поверхность Km(E×E).",
+      type: "Article",
+    },
+    en: {
+      title: "ABEFGJ and ABDFHJ: A Shared tfmn Kummer K3 Surface",
+      description:
+        "A complete joint derivation of the two parallel 6/9 patterns: parametrized red conics, exact sufficiency of equal tf, a linear equivalence of placements, and the Kummer surface Km(E×E).",
       type: "Article",
     },
   },
@@ -953,6 +971,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abdefj",
     "theory/6-9/abefgh",
     "theory/6-9/abcdef",
+    "theory/6-9/abefgj-abdfhj",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

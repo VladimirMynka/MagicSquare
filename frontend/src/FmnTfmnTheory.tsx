@@ -60,21 +60,24 @@ export function FmnTfmnTheoryPage() {
 \Delta_2=4v^2f(p,q).`}</Latex>
           <p>
             {text(
-              "Поэтому первая обязательная задача для такого 6/9 состоит в решении уравнения",
-              "Thus the first necessary problem for such a 6/9 configuration is to solve",
+              "Третья независимая квадрика каждой из этих двух масок утверждает ровно равенство ориентированных шагов. Поэтому после параметризации красных коник вся оставшаяся система состоит из одного уравнения",
+              "The third independent quadric of each of these two patterns states exactly that their oriented differences agree. Hence, after parametrizing the red conics, the entire residual system is the single equation",
             )}
           </p>
           <Latex display>{String.raw`
 u^2f(m,n)=v^2f(p,q).`}</Latex>
           <p>
             {text(
-              "Оно разрешимо в ненулевых рациональных масштабах u,v ровно тогда, когда f(m,n) и f(p,q) принадлежат одному квадратному классу. Функция tf вводится именно как каноническая координата этого класса. После согласования шагов остаются условия совместного размещения обеих прогрессий в одном магическом квадрате; метод tfmn решает необходимую арифметическую часть задачи 6/9, но не подменяет всю систему.",
-              "It is solvable in nonzero rational scales u and v exactly when f(m,n) and f(p,q) lie in the same square class. The function tf is introduced precisely as a canonical coordinate of that class. Once the differences have been matched, the two progressions must still satisfy the placement conditions of a single magic square; the tfmn method solves the necessary arithmetic part of the 6/9 problem, not the entire system.",
+              "Оно разрешимо в ненулевых рациональных масштабах u,v ровно тогда, когда f(m,n) и f(p,q) принадлежат одному квадратному классу. Функция tf вводится именно как каноническая координата этого класса. Для ABEFGJ и ABDFHJ это условие не только необходимо, но и достаточно: после согласования шагов центры двух прогрессий непосредственно восстанавливают единственную тройку E,x,y.",
+              "It is solvable in nonzero rational scales u and v exactly when f(m,n) and f(p,q) lie in the same square class. The function tf is introduced precisely as a canonical coordinate of this class. For ABEFGJ and ABDFHJ the condition is not merely necessary but sufficient: after matching the differences, the two progression centers directly recover the unique triple E,x,y.",
             )}
           </p>
           <div className="topic-actions">
             <TheoryLink className="button button-ghost" to="/theory/6-9-patterns">
               {text("Предшествующая теория масок 6/9", "Preceding theory of 6/9 patterns")}
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abefgj-abdfhj">
+              {text("Полный вывод двух параллельных масок", "Complete derivation of the two parallel patterns")}
             </TheoryLink>
           </div>
         </section>
@@ -441,18 +444,22 @@ E_T:\quad y^2=x^3-T^2x.`}</Latex>
           <h2>{text("10. Что остаётся от задачи 6/9", "10. What remains of the 6/9 problem")}</h2>
           <p>
             {text(
-              "Равенство значений tf решает задачу согласования шагов двух прогрессий квадратов. Чтобы разместить обе прогрессии в одном магическом квадрате, необходимо дополнительно согласовать их средние члены, общие клетки и линейные координаты E,x,y. Эти условия зависят от позиционного типа конфигурации.",
-              "Equality of tf values solves the problem of matching the differences of two progressions of squares. To place both progressions in one magic square, their middle terms, shared entries, and linear coordinates E,x,y must also be compatible. Those conditions depend on the positional type of the configuration.",
+              "Для двух параллельных классов 6/9 равенство значений tf полностью решает систему выбранных квадратных клеток. В ABEFGJ центры двух прогрессий занимают E и G; в ABDFHJ они занимают A и J. После выбора общего шага эти два центра дают E,x,y линейными формулами, поэтому дополнительных алгебраических условий размещения нет.",
+              "For the two parallel 6/9 classes, equality of tf values solves the entire system of selected square entries. In ABEFGJ the two progression centers occupy E and G; in ABDFHJ they occupy A and J. Once the common difference is chosen, those centers give E,x,y by linear formulas, so no further algebraic placement conditions remain.",
             )}
           </p>
           <p>
             {text(
-              "Для классов 6/9 с двумя параллельными прогрессиями значение tf служит естественной арифметической координатой метода tfmn: сначала выбираются две точки одной кривой E_T, затем решаются оставшиеся уравнения их размещения в общей форме магического квадрата. В исследованных классах дополнительные уравнения размещения приводят к коникам и эллиптическим поверхностям конкретных семейств.",
-              "For 6/9 classes containing two parallel progressions, the tf value is the natural arithmetic coordinate of the tfmn method: one first chooses two points on the same curve E_T and then solves the remaining equations that place them in the general form of a magic square. In the classes studied so far, the additional placement equations lead to conics and elliptic surfaces associated with particular families.",
+              "Ограничение метода находится в другом месте. Равенство tf не гарантирует положительность всех девяти клеток, их попарное различие и отсутствие дополнительных квадратов в трёх невыбранных позициях. Кроме того, для остальных четырнадцати позиционных типов красные прогрессии пересекаются либо отсутствуют, и их три квадрики уже не сводятся к одному сравнению шагов.",
+              "The limitation lies elsewhere. Equality of tf does not guarantee positivity of all nine entries, pairwise distinctness, or the absence of extra squares in the three unselected positions. Moreover, in the other fourteen positional types the red progressions intersect or are absent, and their three quadrics no longer reduce to a single comparison of differences.",
             )}
           </p>
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/tf-pair-generation">
+            <TheoryLink className="button button-primary" to="/theory/6-9/abefgj-abdfhj">
+              {text("Общая Kummer-поверхность масок", "The common Kummer surface of the patterns")}{" "}
+              <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/tf-pair-generation">
               {text("Генерация совпадений tf", "Generating equal tf values")}{" "}
               <span>→</span>
             </TheoryLink>

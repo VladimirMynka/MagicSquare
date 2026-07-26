@@ -326,10 +326,10 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     },
     status: "tfmn",
     statusText: {
-      ru: "tfmn-параметризация",
-      en: "tfmn parametrization",
+      ru: "Kummer K3; tfmn полно",
+      en: "Kummer K3; complete tfmn",
     },
-    theoryPath: "/theory/fmn-tfmn",
+    theoryPath: "/theory/6-9/abefgj-abdfhj",
   },
   {
     mask: "ABEFGH",
@@ -366,9 +366,9 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
     },
     status: "tfmn",
     statusText: {
-      ru: "tfmn-параметризация",
-      en: "tfmn parametrization",
+      ru: "Kummer K3; tfmn полно",
+      en: "Kummer K3; complete tfmn",
     },
-    theoryPath: "/theory/fmn-tfmn",
+    theoryPath: "/theory/6-9/abefgj-abdfhj",
   },
 ];

@@ -353,6 +353,12 @@ z^2=q(r,1).`}</Latex>
             <TheoryLink className="button button-ghost" to="/theory/tf-pair-generation">
               {text("F7+ и F4+", "F7+ and F4+")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abefgj-abdfhj">
+              {text(
+                "F9+ внутри общей поверхности двух масок 6/9",
+                "F9+ inside the shared surface of two 6/9 patterns",
+              )}
+            </TheoryLink>
           </nav>
         </section>
       </div>

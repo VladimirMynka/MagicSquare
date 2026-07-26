@@ -248,8 +248,8 @@ export function TheoryIndexPage() {
         "Elliptic surfaces for 6/9 patterns",
       ),
       summary: text(
-        "Полные выводы для отдельных непараллельных масок: от трёх квадратичных условий через квартику рода 1 к якобиану, паспорту поверхности и явным семействам решений.",
-        "Complete derivations for individual nonparallel patterns: from three quadratic conditions through a genus-one quartic to its Jacobian, surface passport, and explicit solution families.",
+        "Полные выводы для масок 6/9: от трёх квадратичных условий через квартики рода 1 или общую поверхность равных шагов к K3-геометрии и явным семействам решений.",
+        "Complete derivations for 6/9 patterns: from three quadratic conditions through genus-one quartics or the shared equal-difference surface to K3 geometry and explicit solution families.",
       ),
       chapters: [
         {
@@ -360,10 +360,22 @@ export function TheoryIndexPage() {
             "The DEF progression and two norms on the CDE block reduce to an even quartic, a split 12I₂ K3 surface, a non-torsion section, and an explicit polynomial family.",
           ),
         },
+        {
+          index: "5.10",
+          to: "/theory/6-9/abefgj-abdfhj",
+          title: text(
+            "ABEFGJ и ABDFHJ: tfmn как общая Kummer–K3-поверхность",
+            "ABEFGJ and ABDFHJ: tfmn as a shared Kummer K3 surface",
+          ),
+          summary: text(
+            "Параметризация двух параллельных прогрессий превращает жёлтую квадрику точно в равенство tf; обе маски линейно эквивалентны и задают поверхность Km(E×E) для E:y²=x³−x.",
+            "Parametrizing the two parallel progressions turns the yellow quadric exactly into equality of tf; the two patterns are linearly equivalent and define Km(E×E) for E:y²=x³−x.",
+          ),
+        },
       ],
       continuation: text(
-        "Параллельные ABDFHJ и ABEFGJ разобраны ранее через tfmn и F4+/F7+/F9+. Для четырёх оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
-        "The parallel ABDFHJ and ABEFGJ patterns were treated earlier through tfmn and F4+/F7+/F9+. Four remaining positional types are not yet covered by the published derivations.",
+        "Для четырёх оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
+        "Four remaining positional types are not yet covered by the published derivations.",
       ),
     },
     {

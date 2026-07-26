@@ -423,6 +423,9 @@ f&=R(t)H(t).
             <TheoryLink className="button button-ghost" to="/theory/6-9/abefgh">
               {text("Предыдущая поверхность: ABEFGH", "Previous surface: ABEFGH")}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abefgj-abdfhj">
+              {text("Следующая поверхность: ABEFGJ / ABDFHJ", "Next surface: ABEFGJ / ABDFHJ")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>
