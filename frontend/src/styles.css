@@ -4027,6 +4027,7 @@ main {
 }
 
 .exact-magic-cell {
+  container-type: inline-size;
   min-width: 0;
   min-height: 128px;
   display: flex;
@@ -4056,7 +4057,7 @@ main {
 .exact-magic-cell strong {
   max-width: 100%;
   color: var(--graphite);
-  font: 700 clamp(14px, 2vw, 20px)/1.15 var(--serif);
+  font: 700 clamp(11px, 11.5cqi, 20px)/1.15 var(--serif);
   overflow-wrap: anywhere;
 }
 
@@ -4065,19 +4066,27 @@ main {
   vertical-align: super;
 }
 
-.exact-magic-cell small {
-  max-width: 100%;
-  color: var(--muted);
-  font: 11px/1.35 var(--mono);
-  overflow-wrap: anywhere;
-}
-
 .exact-magic-cell strong.exact-magic-cell-factorization {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
   color: var(--brick);
   font-family: var(--mono);
+  line-height: 1.25;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.exact-magic-cell-factorization span {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
 }
 
 .exact-magic-cell-factorization i {
+  margin: 0 0.28em;
   font-style: normal;
 }
 

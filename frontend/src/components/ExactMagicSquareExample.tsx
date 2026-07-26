@@ -95,10 +95,7 @@ export function ExactMagicSquareExample({
             >
               <span className="exact-magic-cell-label">{label}</span>
               {absoluteRoot === null ? (
-                <>
-                  <strong>{formatInteger(values[index])}</strong>
-                  <small>{text("не квадрат", "nonsquare")}</small>
-                </>
+                <strong>{formatInteger(values[index])}</strong>
               ) : (
                 <SquareFactorization root={absoluteRoot} />
               )}
