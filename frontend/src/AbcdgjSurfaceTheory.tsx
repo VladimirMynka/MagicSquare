@@ -405,6 +405,9 @@ g&=-2tN_8^2+(t^2-1)Q_8^2.
             <TheoryLink className="button button-primary" to="/orbits/6">
               {text("К полному атласу 6/9", "Open the complete 6/9 atlas")} <span>→</span>
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abcghj">
+              {text("Следующая поверхность: ABCGHJ", "Next surface: ABCGHJ")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/6-9/abcdfg">
               {text("Предыдущая поверхность: ABCDFG", "Previous surface: ABCDFG")}
             </TheoryLink>

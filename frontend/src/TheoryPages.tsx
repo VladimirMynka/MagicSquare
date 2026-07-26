@@ -408,10 +408,22 @@ export function TheoryIndexPage() {
             "The BDJ progression and the two yellow norms ACGJ/BCDG reduce to an even quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and an explicit degree-18 family.",
           ),
         },
+        {
+          index: "5.14",
+          to: "/theory/6-9/abcghj",
+          title: text(
+            "ABCGHJ: K3-поверхность без красной прогрессии",
+            "ABCGHJ: a K3 surface without a red progression",
+          ),
+          summary: text(
+            "Две гауссовы нормы и голубая норма задают гладкое пересечение трёх квадрик, расщеплённое расслоение 4I₄+4I₂, неторсионную секцию и явное семейство степени 14.",
+            "Two Gaussian norms and one blue norm define a smooth intersection of three quadrics, a split 4I₄+4I₂ fibration, a non-torsion section, and an explicit degree-14 family.",
+          ),
+        },
       ],
       continuation: text(
-        "Не покрыт опубликованным выводом один позиционный тип: ABCGHJ, единственная маска цикла без красной прогрессии.",
-        "One positional type remains without a published derivation: ABCGHJ, the only pattern in the series with no red progression.",
+        "Цикл покрывает все 16 позиционных типов 6/9: для каждого опубликованы точная система и её геометрическое приведение.",
+        "The series covers all 16 positional 6/9 types: an exact system and its geometric reduction are published for each.",
       ),
     },
     {

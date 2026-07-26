@@ -191,6 +191,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-26",
     modified: "2026-07-26",
   },
+  "theory/6-9/abcghj": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -496,6 +500,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCDGJ: One Progression, Two Gaussian Norms, and a 12I₂ K3 Surface",
       description:
         "A complete derivation of the ABCDGJ pattern: the BDJ progression, two yellow norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcghj": {
+    ru: {
+      title: "ABCGHJ: бескрасная маска и K3-поверхность 4I₄+4I₂",
+      description:
+        "Полный вывод маски ABCGHJ: гладкое пересечение трёх квадрик, гауссова карта, расщеплённая K3-поверхность 4I₄+4I₂, неторсионная секция и семейство степени 14.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCGHJ: The Red-Free Pattern and a 4I₄+4I₂ K3 Surface",
+      description:
+        "A complete derivation of ABCGHJ: a smooth intersection of three quadrics, a Gaussian chart, a split 4I₄+4I₂ K3 surface, a non-torsion section, and a degree-14 family.",
       type: "Article",
     },
   },
@@ -1029,6 +1047,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abcdeg",
     "theory/6-9/abcdfg",
     "theory/6-9/abcdgj",
+    "theory/6-9/abcghj",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",
