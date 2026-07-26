@@ -100,6 +100,7 @@ import { AbefghSurfaceTheoryPage } from "./AbefghSurfaceTheory";
 import { AbcdefSurfaceTheoryPage } from "./AbcdefSurfaceTheory";
 import { ParallelTfmnKummerTheoryPage } from "./ParallelTfmnKummerTheory";
 import { AbcdegSurfaceTheoryPage } from "./AbcdegSurfaceTheory";
+import { AbcdfgSurfaceTheoryPage } from "./AbcdfgSurfaceTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3165,8 +3166,8 @@ a+e+j=c+e+g=M.
           </h4>
           <p>
             {text(
-              "Для двух позиционных типов 6/9, образованных параллельными тройками квадратов в арифметических прогрессиях, построены развитые параметризации методом tfmn. Для одиннадцати непараллельных типов, включая ABCDEG, системы сведены к расслоениям кривыми рода 1 и эллиптическим K3-поверхностям; доказанные неторсионные секции дают явные бесконечные семейства решений. Полного решения всех 16 позиционных типов пока нет.",
-              "For two 6/9 positional types formed by parallel triples of squares in arithmetic progression, the project constructs parametrizations through the tfmn method. Eleven nonparallel types, including ABCDEG, have been reduced to genus-one fibrations and elliptic K3 surfaces; proved non-torsion sections yield explicit infinite families of solutions. A complete solution of all 16 positional types is not yet known.",
+              "Для двух позиционных типов 6/9, образованных параллельными тройками квадратов в арифметических прогрессиях, построены развитые параметризации методом tfmn. Для двенадцати непараллельных типов, включая трёхцветный ABCDFG, системы сведены к расслоениям кривыми рода 1 и эллиптическим K3-поверхностям; доказанные неторсионные секции дают явные бесконечные семейства решений. Полного решения всех 16 позиционных типов пока нет.",
+              "For two 6/9 positional types formed by parallel triples of squares in arithmetic progression, the project constructs parametrizations through the tfmn method. Twelve nonparallel types, including the three-color ABCDFG pattern, have been reduced to genus-one fibrations and elliptic K3 surfaces; proved non-torsion sections yield explicit infinite families of solutions. A complete solution of all 16 positional types is not yet known.",
             )}
           </p>
 
@@ -3449,6 +3450,10 @@ export function App() {
         <Route
           path="theory/6-9/abcdeg"
           element={<AbcdegSurfaceTheoryPage />}
+        />
+        <Route
+          path="theory/6-9/abcdfg"
+          element={<AbcdfgSurfaceTheoryPage />}
         />
         <Route
           path="theory/matrix-algebra/magic-charming-semimagic"

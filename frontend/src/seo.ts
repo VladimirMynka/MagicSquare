@@ -183,6 +183,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-26",
     modified: "2026-07-26",
   },
+  "theory/6-9/abcdfg": {
+    published: "2026-07-26",
+    modified: "2026-07-26",
+  },
   "theory/matrix-algebra/magic-charming-semimagic": {
     published: "2026-07-23",
     modified: "2026-07-23",
@@ -460,6 +464,20 @@ const STATIC_METADATA: Readonly<
       title: "ABCDEG: Two Gaussian Gluings and a 12I₂ Elliptic K3 Surface",
       description:
         "A complete derivation of the ABCDEG pattern: a central progression, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 polynomial family.",
+      type: "Article",
+    },
+  },
+  "theory/6-9/abcdfg": {
+    ru: {
+      title: "ABCDFG: красная, жёлтая и голубая квадрики на K3-поверхности 12I₂",
+      description:
+        "Полный вывод трёхцветной маски ABCDFG: прогрессия, две различные нормы, чётная квартика рода 1, расщеплённый K3-якобиан 12I₂, неторсионная секция и семейство степени 18.",
+      type: "Article",
+    },
+    en: {
+      title: "ABCDFG: Red, Yellow, and Blue Quadrics on a 12I₂ K3 Surface",
+      description:
+        "A complete derivation of the three-color ABCDFG pattern: a progression, two distinct norms, an even genus-one quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
       type: "Article",
     },
   },
@@ -991,6 +1009,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/6-9/abcdef",
     "theory/6-9/abefgj-abdfhj",
     "theory/6-9/abcdeg",
+    "theory/6-9/abcdfg",
     "theory/matrix-algebra/magic-charming-semimagic",
     "theory/matrix-algebra/block-structure-split-quaternions",
     "lab",

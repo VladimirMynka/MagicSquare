@@ -384,10 +384,22 @@ export function TheoryIndexPage() {
             "The central CEG progression and two yellow quadrics give an even genus-one quartic, a split K3 Jacobian, a non-torsion section, and an explicit degree-18 family.",
           ),
         },
+        {
+          index: "5.12",
+          to: "/theory/6-9/abcdfg",
+          title: text(
+            "ABCDFG: красная, жёлтая и голубая квадрики",
+            "ABCDFG: red, yellow, and blue quadrics",
+          ),
+          summary: text(
+            "Прогрессия BFG, гауссова норма и норма x²+2y² снова дают чётную квартику, расщеплённый K3-якобиан 12I₂, неторсионную секцию и семейство степени 18.",
+            "The BFG progression, a Gaussian norm, and an x²+2y² norm again give an even quartic, a split 12I₂ K3 Jacobian, a non-torsion section, and a degree-18 family.",
+          ),
+        },
       ],
       continuation: text(
-        "Для трёх оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
-        "Three remaining positional types are not yet covered by the published derivations.",
+        "Для двух оставшихся позиционных типов опубликованные выводы пока не дают полного покрытия.",
+        "Two remaining positional types are not yet covered by the published derivations.",
       ),
     },
     {

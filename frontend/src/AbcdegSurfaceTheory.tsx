@@ -440,6 +440,9 @@ g&=R(t)H(t).
                 "Previous surface: ABEFGJ / ABDFHJ",
               )}
             </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/6-9/abcdfg">
+              {text("Следующая поверхность: ABCDFG", "Next surface: ABCDFG")}
+            </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory">
               {text("К оглавлению теории", "Theory contents")}
             </TheoryLink>

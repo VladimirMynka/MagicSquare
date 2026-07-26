@@ -148,11 +148,12 @@ export const SIX_NINE_PATTERNS: readonly SixNinePattern[] = [
       ru: "Прогрессия, гауссова норма и норма x²+2y² без центральной клетки.",
       en: "A progression, a Gaussian norm, and an x²+2y² norm without the center.",
     },
-    status: "system",
+    status: "elliptic",
     statusText: {
-      ru: "Каноническая система",
-      en: "Canonical system",
+      ru: "K3: 12I₂; 1≤rank≤6",
+      en: "K3: 12I₂; 1≤rank≤6",
     },
+    theoryPath: "/theory/6-9/abcdfg",
   },
   {
     mask: "ABCDFH",
