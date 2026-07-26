@@ -433,6 +433,18 @@ b^2+d^2=2j^2,\qquad b^2+f^2=2g^2.
               "The central root contains only primes congruent to 1 or 5 modulo 8, with at least two distinct primes. In every noncentral root, a prime divisor congruent to 3 modulo 4 can only lie in the class 7 modulo 8; primes congruent to 3 modulo 8 are excluded.",
             )}
           </p>
+          <ul className="proof-references">
+            <li>
+              <a href="https://arxiv.org/abs/1809.03067" rel="noreferrer" target="_blank">
+                J. Woll, <em>A Partial Residue Categorization of the Magic Square of Squares</em> (2018)
+              </a>
+            </li>
+            <li>
+              <a href="https://doi.org/10.4064/aa99-3-6" rel="noreferrer" target="_blank">
+                A. Bremner, <em>On squares of squares II</em>, Acta Arithmetica 99 (2001)
+              </a>
+            </li>
+          </ul>
           <p>
             {text(
               "Вместе с ограничениями по модулю 24 все девять корней нечётны и не делятся на 3. Эти условия необходимы, но сами по себе не достаточны для существования квадрата 9/9.",

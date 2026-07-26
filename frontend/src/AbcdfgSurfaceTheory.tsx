@@ -2,7 +2,7 @@ import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { Latex } from "./components/Latex";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbcdfgSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -50,6 +50,7 @@ export function AbcdfgSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abcdfg-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Точная трёхцветная система", "1. The exact three-color system")}</h2>
           <p>
@@ -247,7 +248,7 @@ t^2(t-1)^2(t+1)^2\\
           <p>
             {text(
               "Суммарное число Эйлера равно 24, поэтому минимальная эллиптическая поверхность является K3.",
-              "The total Euler number is 24, so the minimal elliptic surface is K3.",
+              "For the relatively minimal model with a section and no multiple fibers, the total Euler number is 24; the canonical-bundle formula gives chi(O)=2, so the smooth minimal elliptic surface is K3.",
             )}
           </p>
         </section>

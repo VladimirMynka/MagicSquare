@@ -18,8 +18,8 @@ export function F4PlusTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия квадратных классов · 4.2",
-              "Elliptic geometry of square classes · 4.2",
+              "Эллиптическая геометрия квадратных классов · 4.3",
+              "Elliptic geometry of square classes · 4.3",
             )}
           </p>
           <h1>
@@ -333,10 +333,13 @@ R_1(x,y)
               "The component y=1 means d=b and gives the trivial pairing of a pair with itself. The nontrivial component is the conic",
             )}
           </p>
-          <Latex display>{String.raw`
+          <Latex display>{text(String.raw`
 x^2=y^2+y+1,
 \qquad\text{то есть}\qquad
-a^2=b^2+bd+d^2.`}</Latex>
+a^2=b^2+bd+d^2.`, String.raw`
+x^2=y^2+y+1,
+\qquad\text{equivalently}\qquad
+a^2=b^2+bd+d^2.`)}</Latex>
           <p>
             {text(
               "Именно этот слой ранее использовался для построения семейств кривых конгруэнтных чисел ранга не меньше 2. При τ=−1 аналогично",

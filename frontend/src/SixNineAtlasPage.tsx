@@ -41,8 +41,8 @@ export function SixNineAtlasPage() {
           </p>
           <p>
             {text(
-              "Статус карточки фиксирует сильнейший доказанный результат. Название со стрелкой открывает полный вывод; для ABDFHJ и ABEFGJ опубликована общая статья о Kummer–K3-поверхности tfmn.",
-              "Each card records the strongest proved result. A title followed by an arrow opens the complete derivation; ABDFHJ and ABEFGJ share an article on their tfmn Kummer K3 surface.",
+              "Статус карточки фиксирует сильнейший доказанный результат. Название со стрелкой открывает подробный вывод выбранной модели; такой вывод не означает полноты всех рациональных точек, если это отдельно не доказано. Для ABDFHJ и ABEFGJ опубликована общая статья с полным tfmn-описанием невырожденной рациональной части Kummer–K3-поверхности.",
+              "Each card records the strongest proved result. A title followed by an arrow opens a detailed derivation of the chosen model; this does not imply global coverage of all rational points unless stated separately. ABDFHJ and ABEFGJ share an article giving a complete tfmn description of the nondegenerate rational part of their Kummer K3 surface.",
             )}
           </p>
           <p>

@@ -2,7 +2,7 @@ import { Latex } from "./components/Latex";
 import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbceCommonSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -65,6 +65,7 @@ export function AbceCommonSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abce-common-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Две точные системы", "1. Two exact systems")}</h2>
           <p>
@@ -212,8 +213,8 @@ p^2(p-1)^2(p+1)^2C(p)^4D(p)^2,`}</Latex>
 D(p)=p^4+2p^3+2p^2-2p+1.`}</Latex>
           <p>
             {text(
-              "Два корня C дают слои I₄. Точки p=0,±1, четыре корня D и бесконечность дают восемь слоёв I₂. Сумма чисел Эйлера равна 24, поэтому минимальная эллиптическая поверхность является K3.",
-              "The two roots of C give I₄ fibers. The points p=0,±1, the four roots of D, and infinity give eight I₂ fibers. Their Euler numbers sum to 24, so the minimal elliptic surface is K3.",
+              "Два корня C дают слои I₄. Точки p=0,±1, четыре корня D и бесконечность дают восемь слоёв I₂. Для относительно минимальной модели с сечением и без кратных слоёв сумма чисел Эйлера равна 24; формула канонического пучка даёт χ(𝒪)=2, поэтому гладкая минимальная эллиптическая поверхность является K3.",
+              "The two roots of C give I₄ fibers. The points p=0,±1, the four roots of D, and infinity give eight I₂ fibers. For the relatively minimal model with a section and no multiple fibers, their Euler numbers sum to 24; the canonical-bundle formula gives chi(O)=2, so the smooth minimal elliptic surface is K3.",
             )}
           </p>
         </section>

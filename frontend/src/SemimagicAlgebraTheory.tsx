@@ -152,7 +152,7 @@ E-z+2w&E-z-w&E+2z-w
             <h3>{text("Историческое положение", "Historical context")}</h3>
             <p>
               {text(
-                "Название «чарующий квадрат» возникло внутри проекта при независимом выводе этой трёхмерной компоненты. В общей литературе используется название balanced semimagic matrix. Алгебра полумагических матриц изучалась по меньшей мере с работ Вайнера и Мурасе 1950-х годов; разложение на associated и balanced-компоненты и его блочная форма развиты в последующих работах.",
+                "Название «чарующий квадрат» возникло внутри проекта при независимом выводе этой трёхмерной компоненты. В общей литературе используется название центросимметрической полумагической матрицы (balanced semimagic matrix). Алгебра полумагических матриц изучалась по меньшей мере с работ Вайнера и Мурасе 1950-х годов; разложение на ассоциированную (associated) и центросимметрическую (balanced) компоненты и его блочная форма развиты в последующих работах.",
                 "The term “charming square” arose within this project during an independent derivation of this three-dimensional component. The standard literature calls it a balanced semimagic matrix. The algebra of semimagic matrices has been studied at least since work by Weiner and Murase in the 1950s; later work develops its associated/balanced decomposition and block form.",
               )}
             </p>

@@ -20,6 +20,22 @@ export function TheoryLink({
   );
 }
 
+export function EllipticTermsNote() {
+  const { text } = useLocale();
+  return (
+    <aside className="theorem-block theory-prerequisite-note">
+      <strong>{text("Используемый язык.", "Terminology.")}</strong>{" "}
+      {text(
+        "Якобиан, эллиптическая поверхность, K3-модель, типы особых слоёв и геометрический ранг употребляются в смысле вводной главы.",
+        "Jacobian, elliptic surface, K3 model, singular-fiber types, and geometric rank are used as defined in the primer.",
+      )}{" "}
+      <TheoryLink to="/theory/elliptic-surfaces-primer">
+        {text("Открыть определения →", "Open the definitions →")}
+      </TheoryLink>
+    </aside>
+  );
+}
+
 export function TheoryIndexPage() {
   const { text } = useLocale();
   const series = [
@@ -177,6 +193,18 @@ export function TheoryIndexPage() {
       chapters: [
         {
           index: "4.1",
+          to: "/theory/elliptic-surfaces-primer",
+          title: text(
+            "Кривые рода 1, якобианы и эллиптические поверхности",
+            "Genus-one curves, Jacobians, and elliptic surfaces",
+          ),
+          summary: text(
+            "Общий словарь цикла: якобианы квартик рода 1, слои и сечения, модели Вейерштрасса, типы Кодайры, рациональные и K3-поверхности, формула Шиоды—Тейта и три различных понятия ранга.",
+            "The common language of the series: Jacobians of genus-one quartics, fibers and sections, Weierstrass models, Kodaira types, rational and K3 surfaces, the Shioda–Tate formula, and three distinct notions of rank.",
+          ),
+        },
+        {
+          index: "4.2",
           to: "/theory/f7-plus",
           title: text(
             "F7+: пары параметров и поверхность конгруэнтных чисел",
@@ -188,7 +216,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.2",
+          index: "4.3",
           to: "/theory/f4-plus",
           title: text(
             "F4+: эллиптическая поверхность пар пифагоровых площадей",
@@ -200,7 +228,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.3",
+          index: "4.4",
           to: "/theory/tf-pair-generation",
           title: text(
             "F7+ и F4+: генерация совпадений tf",
@@ -212,19 +240,19 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.4",
+          index: "4.5",
           to: "/theory/f9-plus",
           title: text(
             "F9+: квадратичные подстановки и теорема сокращения",
             "F9+: quadratic substitutions and the cancellation theorem",
           ),
           summary: text(
-            "Полная классификация однородных квадратичных подстановок с точным полиномиальным сокращением, 204 невырожденные проективные ветви и остаточная квартита как точный критерий совпадения tf.",
+            "Полная классификация однородных квадратичных подстановок с точным полиномиальным сокращением, 204 невырожденные проективные ветви и остаточная квартика как точный критерий совпадения tf.",
             "A complete classification of homogeneous quadratic substitutions with exact polynomial cancellation, 204 nondegenerate projective branches, and the residual quartic as an exact criterion for equal tf values.",
           ),
         },
         {
-          index: "4.5",
+          index: "4.6",
           to: "/theory/f9-plus-elliptic-layers",
           title: text(
             "Эллиптические слои F9+",
@@ -248,8 +276,8 @@ export function TheoryIndexPage() {
         "Elliptic surfaces for 6/9 patterns",
       ),
       summary: text(
-        "Полные выводы для масок 6/9: от трёх квадратичных условий через квартики рода 1 или общую поверхность равных шагов к K3-геометрии и явным семействам решений.",
-        "Complete derivations for 6/9 patterns: from three quadratic conditions through genus-one quartics or the shared equal-difference surface to K3 geometry and explicit solution families.",
+        "Подробные выводы выбранных эллиптических карт для масок 6/9: от трёх квадратичных условий через квартики рода 1 или общую поверхность равных шагов к K3-геометрии и явным семействам решений.",
+        "Detailed derivations of chosen elliptic charts for 6/9 patterns: from three quadratic conditions through genus-one quartics or the shared equal-difference surface to K3 geometry and explicit solution families.",
       ),
       chapters: [
         {
@@ -428,8 +456,8 @@ export function TheoryIndexPage() {
             "The general geometry of 6/9: an expanded atlas",
           ),
           summary: text(
-            "Все 16 типов упорядочены по сложности условий и сведены к четырём K3-сериям; статья объясняет лестницу рангов, родные секции и точный смысл аналогов F4+ и F9+.",
-            "All 16 types are ordered by condition complexity and organized into four K3 series; the article explains the rank ladder, native sections, and the precise meaning of F4+ and F9+ analogues.",
+            "Все 16 типов упорядочены по сложности условий и распределены между шестью комбинаторными группами и четырьмя модельными классами; статья объясняет лестницу геометрических рангов, родные секции и точный смысл аналогов F4+ и F9+.",
+            "All 16 types are ordered by condition complexity and distributed among six combinatorial groups and four model classes; the article explains the geometric-rank ladder, native sections, and the precise meaning of F4+ and F9+ analogues.",
           ),
         },
       ],
@@ -457,7 +485,7 @@ export function TheoryIndexPage() {
             "Magic, charming, and semimagic squares",
           ),
           summary: text(
-            "Стандартные associated и balanced-компоненты, четыре закона умножения, полная пятимерная форма и точные разложения.",
+            "Стандартные ассоциированные (associated) и центросимметрические (balanced) компоненты, четыре закона умножения, полная пятимерная форма и точные разложения.",
             "The standard associated and balanced components, four product laws, the complete five-dimensional form, and exact decompositions.",
           ),
         },
@@ -829,6 +857,18 @@ a^2&b^2&c^2\\d^2&e^2&f^2\\g^2&h^2&j^2
               "Representations as sums of two squares and factorization in ℤ[i] extend this corner restriction to every noncentral entry and determine the possible factorization of the central root.",
             )}
           </p>
+          <ul className="proof-references">
+            <li>
+              <a href="https://arxiv.org/abs/1809.03067" rel="noreferrer" target="_blank">
+                J. Woll, <em>A Partial Residue Categorization of the Magic Square of Squares</em> (2018)
+              </a>
+            </li>
+            <li>
+              <a href="https://www.impan.pl/en/publishing-house/journals-and-series/acta-arithmetica/all/88/3/110732/on-squares-of-squares" rel="noreferrer" target="_blank">
+                A. Bremner, <em>On squares of squares</em>, Acta Arithmetica 88 (1999)
+              </a>
+            </li>
+          </ul>
           <div className="topic-actions">
             <TheoryLink className="button button-primary" to="/theory/prime-divisors">
               {text("Перейти к факторизации корней", "Continue to root factorizations")} <span>→</span>

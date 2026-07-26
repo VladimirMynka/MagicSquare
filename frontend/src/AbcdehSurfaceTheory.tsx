@@ -1,7 +1,7 @@
 import { Latex } from "./components/Latex";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbcdehSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -46,6 +46,7 @@ export function AbcdehSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abcdeh-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Исходная система", "1. The initial system")}</h2>
           <p>
@@ -174,7 +175,7 @@ X_2&=-12(7p^4+12p^3+14p^2-12p+7).
 \end{aligned}`}</Latex>
           <p>
             {text(
-              "Следовательно, якобиан имеет полную рациональную 2-кручение над ℚ(p). Это существенно и для вычисления особых слоёв, и для точной проверки независимости найденных сечений.",
+              "Следовательно, якобиан имеет полное рациональное 2-кручение над ℚ(p). Это существенно и для вычисления особых слоёв, и для точной проверки независимости найденных сечений.",
               "Thus the Jacobian has full rational 2-torsion over ℚ(p). This is useful both for computing the singular fibers and for an exact independence test for the sections found below.",
             )}
           </p>
@@ -233,8 +234,8 @@ V=\pm\frac{(p^2+2p-1)^2}{p^2}.`}</Latex>
 \end{aligned}`}</Latex>
           <p>
             {text(
-              "Корни первого множителя дают два слоя типа I₄; корни остальных — восемь слоёв типа I₂. Слой над бесконечностью гладок. Сумма чисел Эйлера равна 24, поэтому минимальная эллиптическая поверхность является K3.",
-              "The roots of the first factor give two I₄ fibers; the roots of the remaining factors give eight I₂ fibers. The fiber at infinity is smooth. The Euler numbers sum to 24, so the minimal elliptic surface is a K3 surface.",
+              "Корни первого множителя дают два слоя типа I₄; корни остальных — восемь слоёв типа I₂. Слой над бесконечностью гладок. Для относительно минимальной модели с сечением и без кратных слоёв сумма чисел Эйлера равна 24; формула канонического пучка даёт χ(𝒪)=2, поэтому гладкая минимальная эллиптическая поверхность является K3.",
+              "The roots of the first factor give two I₄ fibers; the roots of the remaining factors give eight I₂ fibers. The fiber at infinity is smooth. For the relatively minimal model with a section and no multiple fibers, the Euler numbers sum to 24; the canonical-bundle formula gives chi(O)=2, so the smooth minimal elliptic surface is K3.",
             )}
           </p>
           <div className="theorem-block">
@@ -242,7 +243,7 @@ V=\pm\frac{(p^2+2p-1)^2}{p^2}.`}</Latex>
             <Latex display>{String.raw`2\le \operatorname{rank}E(\overline{\mathbb Q}(p))\le4.`}</Latex>
             <p>
               {text(
-                "Нижняя граница дана двумя независимыми сечениями. Для верхней границы конфигурация 2I₄+8I₂ имеет корневой ранг 14; формула Шиоды—Тейта и неравенство ρ≤20 для комплексной K3 дают rank≤20−2−14=4. Равенство точному рангу 2 пока не утверждается.",
+                "Нижняя граница дана двумя независимыми сечениями. Для верхней границы конфигурация 2I₄+8I₂ имеет корневой ранг 14; формула Шиоды—Тейта и неравенство ρ≤20 для комплексной K3 дают ранг не выше 20−2−14=4. Равенство точному рангу 2 пока не утверждается.",
                 "The two independent sections give the lower bound. For the upper bound, the configuration 2I₄+8I₂ has root rank 14; Shioda–Tate and ρ≤20 for a complex K3 surface give rank≤20−2−14=4. Exact rank 2 is not claimed.",
               )}
             </p>

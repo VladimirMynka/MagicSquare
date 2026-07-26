@@ -1,7 +1,7 @@
 import { Latex } from "./components/Latex";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbcdejSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -46,6 +46,7 @@ export function AbcdejSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abcdej-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Три независимых условия", "1. The three independent conditions")}</h2>
           <p>
@@ -249,8 +250,8 @@ p^2(p-1)^2(p+1)^2R(p)^4\cdot
 (p^4+2p^3+2p^2-2p+1)^2.`}</Latex>
           <p>
             {text(
-              "Два корня R(p) дают слои I₄. Точки p=0,±1, четыре корня последнего множителя и бесконечность дают восемь слоёв I₂. Сумма чисел Эйлера равна 24, поэтому минимальная поверхность является K3.",
-              "The two roots of R(p) give I₄ fibers. The points p=0,±1, the four roots of the last factor, and infinity give eight I₂ fibers. Their Euler numbers sum to 24, so the minimal surface is a K3 surface.",
+              "Два корня R(p) дают слои I₄. Точки p=0,±1, четыре корня последнего множителя и бесконечность дают восемь слоёв I₂. Для относительно минимальной модели с сечением и без кратных слоёв сумма чисел Эйлера равна 24; формула канонического пучка даёт χ(𝒪)=2, поэтому гладкая минимальная поверхность является K3.",
+              "The two roots of R(p) give I₄ fibers. The points p=0,±1, the four roots of the last factor, and infinity give eight I₂ fibers. For the relatively minimal model with a section and no multiple fibers, their Euler numbers sum to 24; the canonical-bundle formula gives chi(O)=2, so the smooth minimal surface is K3.",
             )}
           </p>
           <div className="theorem-block">

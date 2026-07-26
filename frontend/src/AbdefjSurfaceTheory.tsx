@@ -2,7 +2,7 @@ import { Latex } from "./components/Latex";
 import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbdefjSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -48,6 +48,7 @@ export function AbdefjSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abdefj-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Точная система и восстановление", "1. The exact system and reconstruction")}</h2>
           <p>
@@ -176,8 +177,8 @@ C(t)^4L(t)^4
 \bigl(3t^2-2t+1\bigr)^2.`}</Latex>
           <p>
             {text(
-              "Корни C и L дают четыре слоя I₄, а корни двух оставшихся квадратичных множителей — четыре слоя I₂. Слой на бесконечности гладок. Сумма чисел Эйлера равна 24, поэтому минимальная эллиптическая поверхность является K3.",
-              "The roots of C and L give four I₄ fibers, while the roots of the remaining two quadratic factors give four I₂ fibers. The fiber at infinity is smooth. The Euler numbers sum to 24, so the minimal elliptic surface is K3.",
+              "Корни C и L дают четыре слоя I₄, а корни двух оставшихся квадратичных множителей — четыре слоя I₂. Слой на бесконечности гладок. Для относительно минимальной модели с сечением и без кратных слоёв сумма чисел Эйлера равна 24; формула канонического пучка даёт χ(𝒪)=2, поэтому гладкая минимальная эллиптическая поверхность является K3.",
+              "The roots of C and L give four I₄ fibers, while the roots of the remaining two quadratic factors give four I₂ fibers. The fiber at infinity is smooth. For the relatively minimal model with a section and no multiple fibers, the Euler numbers sum to 24; the canonical-bundle formula gives chi(O)=2, so the smooth minimal elliptic surface is K3.",
             )}
           </p>
         </section>

@@ -2,7 +2,7 @@ import { Latex } from "./components/Latex";
 import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbefghSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -48,6 +48,7 @@ export function AbefghSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abefgh-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Точная система", "1. The exact system")}</h2>
           <p>
@@ -141,6 +142,12 @@ U^2=(s^2+4)\Bigl(
           <h2>{text("4. Якобиан и форма Лежандра", "4. The Jacobian and Legendre form")}</h2>
           <p>
             {text(
+              "Здесь «форма Лежандра» означает нормальную форму семейства эллиптических кривых v²=u(u−1)(u−λ). Это не символ Лежандра (a/p), используемый для квадратичных вычетов.",
+              "Here “Legendre form” means the normal form v²=u(u−1)(u−lambda) for a family of elliptic curves. It is unrelated to the Legendre symbol (a/p) used for quadratic residues.",
+            )}
+          </p>
+          <p>
+            {text(
               "Инварианты бинарной квартики приводят к компактной модели якобиана",
               "The binary-quartic invariants give the compact Jacobian model",
             )}
@@ -195,8 +202,8 @@ v^2=u(u-1)(u-\lambda),\qquad
           </div>
           <p>
             {text(
-              "Точки x=0,±1 и бесконечность дают четыре слоя I₄; четыре корня двух оставшихся квадратичных множителей дают четыре слоя I₂. Все слои полустабильны, а сумма их чисел Эйлера равна 24. Минимальная эллиптическая поверхность является K3 и имеет паспорт",
-              "The points x=0,±1 and infinity give four I₄ fibers; the four roots of the remaining quadratic factors give four I₂ fibers. All fibers are semistable, and their Euler numbers sum to 24. The minimal elliptic surface is K3 with passport",
+              "Точки x=0,±1 и бесконечность дают четыре слоя I₄; четыре корня двух оставшихся квадратичных множителей дают четыре слоя I₂. Все слои полустабильны. Для относительно минимальной модели с сечением их числа Эйлера суммируются в 24, а формула канонического пучка даёт χ(𝒪)=2. Поэтому гладкая минимальная эллиптическая поверхность является K3 и имеет паспорт",
+              "The points x=0,±1 and infinity give four I₄ fibers; the four roots of the remaining quadratic factors give four I₂ fibers. All fibers are semistable. For the relatively minimal model with a section, their Euler numbers sum to 24 and the canonical-bundle formula gives chi(O)=2. Hence the smooth minimal elliptic surface is K3 with passport",
             )}
           </p>
           <Latex display>{String.raw`4I_4+4I_2.`}</Latex>

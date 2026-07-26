@@ -25,6 +25,7 @@ import {
   justificationLabel,
 } from "../src/lib/families";
 import { familyParameterGuide } from "../src/lib/parameterGuides";
+import { indexableRouteSuffixes } from "../src/seo";
 
 const CYRILLIC = /[А-Яа-яЁё]/;
 
@@ -240,6 +241,27 @@ function verifyEnglishRoutes(): number {
     );
   }
 
+  const publishedRoutes = indexableRouteSuffixes().map((suffix) =>
+    suffix ? `/en/${suffix}` : "/en",
+  );
+  for (const route of publishedRoutes) {
+    const html = renderToStaticMarkup(
+      createElement(
+        MemoryRouter,
+        { initialEntries: [route] },
+        createElement(App),
+      ),
+    );
+    invariant(
+      !html.includes("Page not found"),
+      `${route} resolves to the not-found page`,
+    );
+    invariant(
+      !CYRILLIC.test(html),
+      `${route} renders untranslated Cyrillic text`,
+    );
+  }
+
   const russianHome = renderToStaticMarkup(
     createElement(
       MemoryRouter,
@@ -257,7 +279,7 @@ function verifyEnglishRoutes(): number {
     russianHome.includes('href="/ru/lab"'),
     "/ru does not render Russian locale-prefixed links",
   );
-  return Object.keys(routes).length;
+  return new Set([...Object.keys(routes), ...publishedRoutes]).size;
 }
 /* END_FUNCTION verifyEnglishRoutes */
 

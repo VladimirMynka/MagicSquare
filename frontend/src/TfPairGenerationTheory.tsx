@@ -18,8 +18,8 @@ export function TfPairGenerationTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.3",
-              "Elliptic geometry of tfmn · 4.3",
+              "Эллиптическая геометрия tfmn · 4.4",
+              "Elliptic geometry of tfmn · 4.4",
             )}
           </p>
           <h1>
@@ -123,26 +123,26 @@ R_{r,s}=rP+sQ,\qquad
         <section>
           <h2>
             {text(
-              "3. Почему одной F7+ недостаточно для поиска",
-              "3. Why F7+ alone is not a search engine",
+              "3. Входные данные для F7+",
+              "3. Input data for F7+",
             )}
           </h2>
           <p>
             {text(
-              "F7+ является полной координатной теоремой, но не поставляет начальную точку. Если задано число T, а нетривиальные точки E_T(ℚ) ещё не известны, обратная формула [x:T] неприменима: складывать в группе пока нечего. Даже одна известная точка обычно даёт только циклическую цепочку её кратных и сама по себе не обнаруживает второе независимое направление.",
-              "F7+ is a complete coordinate theorem, but it does not supply an initial point. If T is given and no nontrivial point of E_T(ℚ) is known, the inverse formula [x:T] has no input: there is nothing to add in the group. Even one known point usually gives only the cyclic sequence of its multiples and does not by itself reveal a second independent direction.",
+              "F7+ является полной координатной теоремой, но для применения обратной формулы [x:T] требуется заранее известная нетривиальная точка E_T(ℚ). Одна известная точка порождает циклическую цепочку кратных; наличие второго независимого направления требует дополнительного аргумента.",
+              "F7+ is a complete coordinate theorem, but applying the inverse formula [x:T] requires a previously known nontrivial point of E_T(Q). One known point generates a cyclic sequence of multiples; a second independent direction requires additional input.",
             )}
           </p>
           <p>
             {text(
-              "Следовательно, как генератор F7+ требует начального набора точек. Именно этот недостаток компенсирует F4+.",
-              "Consequently, F7+ as a generator requires a seed set of points. This is precisely the gap filled by F4+.",
+              "Следовательно, генерация через F7+ начинается с набора известных точек. F4+ предоставляет такой набор вместе с самим квадратным классом.",
+              "Consequently, generation through F7+ starts from a set of known points. F4+ supplies such a set together with the square class itself.",
             )}
           </p>
         </section>
 
         <section>
-          <h2>{text("4. F4+ как полный источник пар", "4. F4+ as a complete source of pairs")}</h2>
+          <h2>{text("4. Нормализованные пары из F4+", "4. Normalized pairs from F4+")}</h2>
           <div className="theorem-block">
             <h3>
               {text(
@@ -329,11 +329,15 @@ f(7,3)=f(7,5)=840=210\cdot2^2.`}</Latex>
               "Under F7+, they correspond to",
             )}
           </p>
-          <Latex display>{String.raw`
+          <Latex display>{text(String.raw`
 P=(490,9800),\qquad
 Q=(294,3528)
 \quad\text{на}\quad
-E_{210}:v^2=u^3-210^2u.`}</Latex>
+E_{210}:v^2=u^3-210^2u.`, String.raw`
+P=(490,9800),\qquad
+Q=(294,3528)
+\quad\text{on}\quad
+E_{210}:v^2=u^3-210^2u.`)}</Latex>
           <p>
             {text(
               "Они независимы. Уже первое сложение даёт",

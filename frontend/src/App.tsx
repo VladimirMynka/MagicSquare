@@ -104,6 +104,7 @@ import { AbcdfgSurfaceTheoryPage } from "./AbcdfgSurfaceTheory";
 import { AbcdgjSurfaceTheoryPage } from "./AbcdgjSurfaceTheory";
 import { AbcghjSurfaceTheoryPage } from "./AbcghjSurfaceTheory";
 import { SixNineSynthesisTheoryPage } from "./SixNineSynthesisTheory";
+import { EllipticSurfacesPrimerTheoryPage } from "./EllipticSurfacesPrimerTheory";
 import { SemimagicAlgebraTheoryPage } from "./SemimagicAlgebraTheory";
 import { SemimagicStructureTheoryPage } from "./SemimagicStructureTheory";
 
@@ -3060,8 +3061,8 @@ a+e+j=c+e+g=M.
           </p>
           <p>
             {text(
-              "Однако один квадрат 7/9 уже известен и сам по себе не решает слабую задачу. Слабая задача состоит в том, чтобы найти другой, нетривиально новый квадрат 7/9 либо доказать, что известный квадрат единственен с точностью до естественных эквивалентностей. Ни второй класс, ни доказательство единственности пока не получены: слабая задача остаётся открытой.",
-              "However, one 7/9 square is already known and does not by itself solve the weak problem. The weak problem is to find another, nontrivially new 7/9 square or to prove that the known square is unique up to the natural equivalences. Neither a second class nor a uniqueness proof is known, so the weak problem remains open.",
+              "Однако один квадрат 7/9 уже известен и сам по себе не решает слабую задачу. Слабая задача состоит в том, чтобы найти другой, нетривиально новый квадрат 7/9 либо доказать, что известный квадрат единственен с точностью до естественных эквивалентностей. В рассмотренной для этого сайта литературе не найдено ни второго класса, ни доказательства единственности; это библиографически ограниченная формулировка статуса.",
+              "However, one 7/9 square is already known and does not by itself solve the weak problem. The weak problem is to find another, nontrivially new 7/9 square or to prove that the known square is unique up to the natural equivalences. The literature reviewed for this site contains neither a second class nor a uniqueness proof; this status statement is explicitly limited to that bibliography.",
             )}
           </p>
           <p>
@@ -3092,14 +3093,27 @@ a+e+j=c+e+g=M.
           </p>
           <p>
             {text(
-              "Связь двух постановок асимметрична. При поиске примера условие 9/9 сильнее и потому труднее: любой квадрат 9/9 автоматически дал бы новое решение 7/9. При доказательстве невозможности направление меняется: доказательство единственности известного 7/9 исключило бы также 8/9 и 9/9, тогда как одна лишь невозможность 9/9 не решила бы слабую задачу. Поэтому отрицательная постановка 9/9 идеологически проще, а положительная — сложнее.",
-              "The relation between the two formulations is asymmetric. When constructing an example, the 9/9 condition is stronger and therefore harder: any 9/9 square would automatically give a new 7/9 solution. For a nonexistence proof, the direction reverses: proving uniqueness of the known 7/9 square would also rule out 8/9 and 9/9 squares, whereas ruling out 9/9 alone would not settle the weak problem. Thus the negative 9/9 formulation is conceptually simpler, while its positive formulation is harder.",
+              "Между постановками есть точные логические импликации. Любой квадрат 9/9 был бы новым решением 7/9. Доказательство единственности известного класса 7/9 исключило бы также 8/9 и 9/9, тогда как доказательство несуществования 9/9 само по себе не решило бы задачу единственности 7/9.",
+              "There are exact logical implications between the two formulations. Any 9/9 square would be a new 7/9 solution. A proof that the known 7/9 class is unique would also rule out 8/9 and 9/9 squares, whereas a proof of nonexistence for 9/9 alone would not settle uniqueness for 7/9.",
             )}
           </p>
           <ul className="proof-references">
             <li>
               <a href="https://www.impan.pl/en/publishing-house/journals-and-series/acta-arithmetica/all/88/3/110732/on-squares-of-squares">
                 A. Bremner, <em>On squares of squares</em>, Acta Arithmetica 88 (1999), 289–297
+              </a>
+            </li>
+            <li>
+              <a href="https://doi.org/10.4064/aa99-3-6">
+                A. Bremner, <em>On squares of squares II</em>, Acta Arithmetica 99 (2001), 289–308
+              </a>
+            </li>
+            <li>
+              <a href="https://link.springer.com/article/10.1007/s40993-025-00671-5">
+                {text(
+                  "Современная статья Research in Number Theory (2025), формулирующая задачу 3×3 как открытую",
+                  "A 2025 Research in Number Theory article recording the 3×3 problem as open",
+                )}
               </a>
             </li>
             <li>
@@ -3169,8 +3183,14 @@ a+e+j=c+e+g=M.
           </h4>
           <p>
             {text(
-              "Для двух позиционных типов 6/9, образованных параллельными тройками квадратов в арифметических прогрессиях, построены развитые параметризации методом tfmn. Для двенадцати непараллельных типов, включая трёхцветный ABCDFG, системы сведены к расслоениям кривыми рода 1 и эллиптическим K3-поверхностям; доказанные неторсионные секции дают явные бесконечные семейства решений. Полного решения всех 16 позиционных типов пока нет.",
-              "For two 6/9 positional types formed by parallel triples of squares in arithmetic progression, the project constructs parametrizations through the tfmn method. Twelve nonparallel types, including the three-color ABCDFG pattern, have been reduced to genus-one fibrations and elliptic K3 surfaces; proved non-torsion sections yield explicit infinite families of solutions. A complete solution of all 16 positional types is not yet known.",
+              "Все 16 позиционных типов 6/9 имеют точные системы уравнений, отдельные статьи, бесконечные рациональные семейства и положительные специализации ровно 6/9. Для двух параллельных типов доказана полная tfmn-классификация всех невырожденных рациональных решений. Четырнадцать непараллельных типов сведены к выбранным расслоениям рода 1 и моделям эллиптических K3-поверхностей; предъявленные неторсионные секции дают бесконечные семейства. Для большинства этих K3 точный геометрический ранг и полнота выбранной рациональной карты не установлены.",
+              "All 16 positional 6/9 types have exact systems of equations, dedicated articles, infinite rational families, and positive specializations of exact type 6/9. For the two parallel types, a complete tfmn classification of all nondegenerate rational solutions is proved. The fourteen nonparallel types are reduced through chosen genus-one fibrations to elliptic K3 models; explicit non-torsion sections give infinite families. For most of these K3 surfaces, the exact geometric rank and global completeness of the chosen rational chart remain undetermined.",
+            )}
+          </p>
+          <p>
+            {text(
+              "Бремнер ранее рассмотрел те же шестнадцать конфигураций как пересечения трёх квадрик и доказал существование бесконечных семейств для каждой из них. Представленный здесь корпус организует конфигурации по цветовым профилям, выписывает выбранные эллиптические карты и паспорта, отделяет глобально полную параллельную пару от остальных карт и даёт воспроизводимые формулы семейств. Поэтому приоритет относится к конкретным дополнительным утверждениям, а не к самому числу шестнадцать или существованию семейств 6/9.",
+              "Bremner previously treated the same sixteen configurations as intersections of three quadrics and proved the existence of infinite families for each. The corpus presented here organizes them by color profile, gives chosen elliptic charts and passports, separates the globally complete parallel pair from the remaining charts, and records reproducible family formulas. Any priority claim therefore concerns specific additional statements, not the number sixteen or the existence of 6/9 families itself.",
             )}
           </p>
 
@@ -3400,6 +3420,10 @@ export function App() {
           element={<EarlyTfFamiliesTheoryPage />}
         />
         <Route path="theory/f7-plus" element={<F7PlusTheoryPage />} />
+        <Route
+          path="theory/elliptic-surfaces-primer"
+          element={<EllipticSurfacesPrimerTheoryPage />}
+        />
         <Route path="theory/f4-plus" element={<F4PlusTheoryPage />} />
         <Route
           path="theory/tf-pair-generation"

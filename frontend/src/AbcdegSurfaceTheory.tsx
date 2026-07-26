@@ -2,7 +2,7 @@ import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { Latex } from "./components/Latex";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbcdegSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -50,6 +50,7 @@ export function AbcdegSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abcdeg-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Точная система", "1. The exact system")}</h2>
           <p>
@@ -246,8 +247,8 @@ t^2(t-1)^2(t+1)^2\\
           <Latex display>{String.raw`\text{fiber configuration}=12I_2.`}</Latex>
           <p>
             {text(
-              "Сумма чисел Эйлера равна 24, поэтому минимальная эллиптическая поверхность является K3.",
-              "The Euler numbers sum to 24, so the minimal elliptic surface is K3.",
+              "Для относительно минимальной модели с сечением и без кратных слоёв сумма чисел Эйлера равна 24; формула канонического пучка даёт χ(𝒪)=2, поэтому гладкая минимальная эллиптическая поверхность является K3.",
+              "For the relatively minimal model with a section and no multiple fibers, the Euler numbers sum to 24; the canonical-bundle formula gives chi(O)=2, so the smooth minimal elliptic surface is K3.",
             )}
           </p>
         </section>

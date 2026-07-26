@@ -1,7 +1,7 @@
 import { Latex } from "./components/Latex";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function ParallelTfmnKummerTheoryPage() {
   const { text } = useLocale();
@@ -28,8 +28,8 @@ export function ParallelTfmnKummerTheoryPage() {
           </h1>
           <p>
             {text(
-              "Два параллельных прямоугольных типа не являются исключением из общей теории трёх квадрик. Параметризация двух красных коник превращает жёлтую квадрику точно в равенство их шагов, а значит — в равенство tf. Обе маски оказываются двумя линейными прочтениями одной Kummer–K3-поверхности.",
-              "The two parallel rectangular types are not exceptions to the general theory of three quadrics. Parametrizing the two red conics turns the yellow quadric exactly into equality of their differences, hence equality of tf. The two patterns are linear readings of the same Kummer K3 surface.",
+              "У двух параллельных прямоугольных типов параметризация красных коник превращает жёлтую квадрику в точное равенство шагов, эквивалентное равенству tf. Обе маски являются двумя линейными прочтениями одной Kummer–K3-поверхности.",
+              "For the two parallel rectangular types, parametrizing the red conics turns the yellow quadric into exact equality of their differences, equivalently equality of tf. The two patterns are linear readings of the same Kummer K3 surface.",
             )}
           </p>
         </div>
@@ -64,6 +64,7 @@ export function ParallelTfmnKummerTheoryPage() {
       </header>
 
       <div className="proof-document topic-document parallel-tfmn-kummer-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Две точные системы", "1. Two exact systems")}</h2>
           <p>
@@ -374,8 +375,8 @@ r(r^2-1)=\rho^2s(s^2-1).`}</Latex>
           </div>
           <p>
             {text(
-              "Таким образом, общая теория масок, tfmn и F-цикл описывают не конкурирующие методы, а последовательные координатные слои одного объекта.",
-              "Thus the general pattern theory, tfmn, and the F-series are not competing methods; they are successive coordinate layers of one object.",
+              "Общая теория масок задаёт три квадрики, tfmn классифицирует их невырожденные рациональные решения, а F-цикл описывает связанные эллиптические координаты и групповой закон.",
+              "The general pattern theory supplies the three quadrics, tfmn classifies their nondegenerate rational solutions, and the F-series describes the associated elliptic coordinates and group law.",
             )}
           </p>
         </section>

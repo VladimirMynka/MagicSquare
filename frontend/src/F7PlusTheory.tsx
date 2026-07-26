@@ -15,8 +15,8 @@ export function F7PlusTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.1",
-              "Elliptic geometry of tfmn · 4.1",
+              "Эллиптическая геометрия tfmn · 4.2",
+              "Elliptic geometry of tfmn · 4.2",
             )}
           </p>
           <h1>
@@ -287,14 +287,21 @@ f(x,T)
               "The four removed points correspond exactly to the four ways in which a factor of f can vanish:",
             )}
           </p>
-          <Latex display>{String.raw`
+          <Latex display>{text(String.raw`
 \begin{array}{c|c|c}
 \text{точка на }E_T & \text{проективная пара} & \text{вырождение}\\ \hline
 \mathcal O &[1:0]&n=0\\
 (0,0)&[0:1]&m=0\\
 (T,0)&[1:1]&m=n\\
 (-T,0)&[-1:1]&m=-n
-\end{array}`}</Latex>
+\end{array}`, String.raw`
+\begin{array}{c|c|c}
+\text{point on }E_T & \text{projective pair} & \text{degeneracy}\\ \hline
+\mathcal O &[1:0]&n=0\\
+(0,0)&[0:1]&m=0\\
+(T,0)&[1:1]&m=n\\
+(-T,0)&[-1:1]&m=-n
+\end{array}`)}</Latex>
           <p>
             {text(
               "Других исключений нет: всякая рациональная точка с y≠0 даёт невырожденную пару, а всякая невырожденная пара даёт такую точку.",

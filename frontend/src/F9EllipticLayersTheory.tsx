@@ -15,8 +15,8 @@ export function F9EllipticLayersTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.5",
-              "Elliptic geometry of tfmn · 4.5",
+              "Эллиптическая геометрия tfmn · 4.6",
+              "Elliptic geometry of tfmn · 4.6",
             )}
           </p>
           <h1>
@@ -162,7 +162,7 @@ D=p a^2+mab-nb^2.`}</Latex>
 }.`}</Latex>
           <p>
             {text(
-              "Для полиномиального сокращения один из четырёх множителей числителя должен исчезать при a=b, а один — при a=−b. Эти два выбора дают линейные условия на p,m,n. После удаления тождественно нулевой ветви получается 14 невырожденных однопараметрических ветвей; типичный остаток является бинарной квартитой.",
+              "Для полиномиального сокращения один из четырёх множителей числителя должен исчезать при a=b, а один — при a=−b. Эти два выбора дают линейные условия на p,m,n. После удаления тождественно нулевой ветви получается 14 невырожденных однопараметрических ветвей; типичный остаток является бинарной квартикой.",
               "For polynomial cancellation, one of the four numerator factors must vanish at a=b and one at a=−b. These two choices impose linear conditions on p,m,n. After the identically zero branch is removed, 14 nonzero one-parameter branches remain; a typical residual is a binary quartic.",
             )}
           </p>
@@ -319,7 +319,7 @@ y_F(r)=\frac{rD(r)}{C(r)},
             <h3>{text("Что доказано и что остаётся открытым", "What is proved and what remains open")}</h3>
             <p>
               {text(
-                "Полностью классифицирован слой точного полиномиального сокращения и доказан критерий через остаточную квартиту. Для каждого конкретного слоя остаются отдельные арифметические вопросы: наличие рациональных точек, ранг якобиана, независимость порождённых точек на E_T и совпадения ветвей после факторизации по симметриям.",
+                "Полностью классифицирован слой точного полиномиального сокращения и доказан критерий через остаточную квартику. Для каждого конкретного слоя остаются отдельные арифметические вопросы: наличие рациональных точек, ранг якобиана, независимость порождённых точек на E_T и совпадения ветвей после факторизации по симметриям.",
                 "The exact polynomial-cancellation layer and the residual-quartic criterion are completely classified. Each concrete layer still has its own arithmetic questions: rational solubility, Jacobian rank, independence of the induced points on E_T, and branch identifications after quotienting by symmetries.",
               )}
             </p>

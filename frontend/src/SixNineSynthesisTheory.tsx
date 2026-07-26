@@ -405,8 +405,8 @@ export function SixNineSynthesisTheoryPage() {
           </h1>
           <p>
             {text(
-              "Шестнадцать позиционных типов образуют не набор несвязанных исключений, а четыре геометрические серии K3. Расширенный атлас упорядочивает их по сложности исходных норм и сопоставляет каждой маске модель, паспорт слоёв, границу ранга и известные общие секции.",
-              "The sixteen positional types are not a collection of unrelated exceptions but four geometric K3 series. This expanded atlas orders them by the complexity of their defining norms and records the model, fiber passport, rank bound, and known generic sections of every pattern.",
+              "Шестнадцать позиционных типов разбиваются на шесть комбинаторных групп и реализуют четыре модельных класса: три паспорта эллиптических K3-поверхностей для четырнадцати непараллельных масок и одну Kummer-модель для двух параллельных. Атлас упорядочивает маски по локальной сложности условий и указывает доказанные границы каждой модели.",
+              "The sixteen positional types split into six combinatorial groups and realize four model classes: three elliptic K3 passports for the fourteen nonparallel patterns and one Kummer model for the two parallel patterns. The atlas orders the patterns by local condition complexity and records the proved boundaries of each model.",
             )}
           </p>
         </div>
@@ -417,16 +417,16 @@ export function SixNineSynthesisTheoryPage() {
           <h2>{text("1. Конечный результат классификации", "1. The finite classification result")}</h2>
           <p>
             {text(
-              "С точностью до диэдральных симметрий квадрата существует ровно 16 масок 6/9. Для каждой шесть корней удовлетворяют трём независимым квадрикам. Порядок ниже задаётся не размером найденных чисел и не сложностью доказательства, а локальной сложностью предпочтительного базиса условий:",
-              "Up to the dihedral symmetries of the square, there are exactly 16 patterns of type 6/9. For each one, six roots satisfy three independent quadrics. The order below is determined neither by the size of known examples nor by proof length, but by the local complexity of the preferred basis of conditions:",
+              "С точностью до диэдральных симметрий квадрата существует ровно 16 масок 6/9. Для каждой шесть корней удовлетворяют трём независимым квадрикам. Порядок ниже задаётся локальной сложностью предпочтительного базиса условий:",
+              "Up to the dihedral symmetries of the square, there are exactly 16 patterns of type 6/9. For each one, six roots satisfy three independent quadrics. The order below is determined by the local complexity of the preferred basis of conditions:",
             )}
           </p>
           <Latex display>{String.raw`
 \mathrm{red}<\mathrm{yellow}<\mathrm{blue}.`}</Latex>
           <p>
             {text(
-              "Внутри профиля RRY параллельный случай поставлен раньше пересекающегося: после параметризации двух красных коник он полностью решается одним равенством tf.",
-              "Within the RRY profile, the parallel case precedes the intersecting one: after parametrizing the two red conics, it is completely solved by one equality of tf.",
+              "Это порядок сложности, обратный редакционному порядку предпочтения цветов в общем атласе, где красный ставится выше жёлтого, а жёлтый выше голубого. Внутри профиля RRY параллельный случай поставлен раньше пересекающегося: после параметризации двух красных коник он полностью решается одним равенством tf.",
+              "This complexity order is the reverse of the editorial color preference used in the general atlas, where red is preferred to yellow and yellow to blue. Within the RRY profile, the parallel case precedes the intersecting one: after parametrizing the two red conics, it is completely solved by one equality of tf.",
             )}
           </p>
           <div className="theorem-block">
@@ -468,12 +468,26 @@ export function SixNineSynthesisTheoryPage() {
                           <dd>{entry.surface}</dd>
                         </div>
                         <div>
-                          <dt>{text("Ранг MW", "MW rank")}</dt>
+                          <dt>{text("Геометрический ранг MW", "Geometric MW rank")}</dt>
                           <dd>{entry.rank}</dd>
                         </div>
                         <div>
                           <dt>{text("Секции", "Sections")}</dt>
                           <dd>{text(entry.sections.ru, entry.sections.en)}</dd>
+                        </div>
+                        <div>
+                          <dt>{text("Полнота покрытия", "Coverage")}</dt>
+                          <dd>
+                            {entry.surface === "Km(E×E)"
+                              ? text(
+                                  "все невырожденные рациональные точки",
+                                  "all nondegenerate rational points",
+                                )
+                              : text(
+                                  "доказанная рациональная карта; глобальная полнота не установлена",
+                                  "proved rational chart; global coverage undetermined",
+                                )}
+                          </dd>
                         </div>
                       </dl>
                     </div>
@@ -484,12 +498,18 @@ export function SixNineSynthesisTheoryPage() {
           </div>
           <p>
             {text(
-              "Для всех шестнадцати типов опубликованы бесконечные рациональные конструкции и точные положительные специализации ровно 6/9. В строке «секции» учитываются секции выбранного эллиптического расслоения; для двух Kummer-масок это поле оставлено без искусственного ранга, поскольку их сильнейший результат — полное tfmn-описание всей невырожденной рациональной поверхности.",
-              "For all sixteen types, infinite rational constructions and exact positive specializations of type exactly 6/9 are published. The “sections” field refers to the chosen elliptic fibration; no artificial rank is assigned to the two Kummer patterns because their strongest result is the complete tfmn description of the entire nondegenerate rational surface.",
+              "Для всех шестнадцати типов опубликованы бесконечные рациональные конструкции и точные положительные специализации ровно 6/9. Обозначение r в таблице означает rank E(ℚ̄(t)) для выбранного якобианова расслоения, а не ранг каждого специализированного слоя. Для двух Kummer-масок такой ранг не указан: их доказанный глобальный результат — полное tfmn-описание всех невырожденных рациональных решений.",
+              "For all sixteen types, infinite rational constructions and exact positive specializations of type exactly 6/9 are published. In the table, r means rank E(Qbar(t)) for the chosen Jacobian fibration, not the rank of every specialized fiber. No such rank is assigned to the two Kummer patterns: their proved global result is the complete tfmn description of all nondegenerate rational solutions.",
             )}
           </p>
           <Latex display>{String.raw`
 \operatorname{Km}(E\times E),\qquad E:\ v^2=u^3-u.`}</Latex>
+          <p>
+            {text(
+              "Одинаковый паспорт означает одинаковые типы и кратности особых слоёв выбранного расслоения. Он не доказывает, что соответствующие K3-поверхности изоморфны, бирациональны или принадлежат одной деформационной семье с дополнительной структурой.",
+              "A shared passport records the same types and multiplicities of singular fibers in the chosen fibration. It does not by itself prove that the corresponding K3 surfaces are isomorphic, birational, or members of one deformation family with the stated additional structure.",
+            )}
+          </p>
         </section>
 
         <section>
@@ -534,8 +554,8 @@ export function SixNineSynthesisTheoryPage() {
           </div>
           <p>
             {text(
-              "Во всех трёх строках сумма чисел Эйлера равна 24. Формула Шиоды—Тейта и неравенство ρ(K3)≤20 дают одну и ту же лестницу:",
-              "In all three rows, the Euler numbers sum to 24. The Shioda–Tate formula and the bound ρ(K3)≤20 give the same ladder:",
+              "Для относительно минимальных эллиптических моделей с сечением и без кратных слоёв сумма чисел Эйлера в каждой строке равна 24, а формула канонического пучка даёт χ(𝒪)=2. После проверки гладкости минимальной модели это K3-поверхности. Формула Шиоды—Тейта и неравенство ρ(K3)≤20 дают лестницу верхних границ геометрического ранга:",
+              "For the relatively minimal elliptic models with a section and no multiple fibers, the Euler numbers in every row sum to 24 and the canonical-bundle formula gives χ(O)=2. Once smoothness of the minimal model is checked, these are K3 surfaces. The Shioda–Tate formula and ρ(K3)≤20 give the following ladder of geometric-rank upper bounds:",
             )}
           </p>
           <Latex display>{String.raw`
@@ -553,17 +573,17 @@ export function SixNineSynthesisTheoryPage() {
         </section>
 
         <section>
-          <h2>{text("4. Почему K3 возникает во всех ветвях", "4. Why K3 appears in every branch")}</h2>
+          <h2>{text("4. В каком смысле возникают K3-модели", "4. In what sense K3 models arise")}</h2>
           <p>
             {text(
-              "Шесть выбранных квадратных клеток дают шесть корней и три однородные квадрики. Их естественный проективный объект — поверхность, а гладкое полное пересечение трёх квадрик в ℙ⁵ имеет тривиальный канонический класс. В вырожденных картах тот же объект появляется после минимального разрешения или через якобиан расслоения рода 1.",
-              "Six selected square entries give six roots and three homogeneous quadrics. Their natural projective object is a surface, and a smooth complete intersection of three quadrics in ℙ⁵ has trivial canonical class. In degenerate charts, the same geometry appears after minimal resolution or through the Jacobian of a genus-one fibration.",
+              "Шесть выбранных квадратных клеток дают шесть корней и три однородные квадрики. Если их проективное пересечение в ℙ⁵ гладко, формула сопряжения даёт тривиальный канонический пучок, а H¹(𝒪)=0 следует из теоремы Лефшеца или комплекса Кошуля; такая поверхность является K3. В остальных статьях термин K3 относится к гладкой минимальной модели якобиана выбранного расслоения рода 1 либо, для параллельной пары, к минимальному разрешению Kummer-поверхности.",
+              "Six selected square entries give six roots and three homogeneous quadrics. If their projective intersection in P5 is smooth, adjunction gives a trivial canonical bundle and H1(O)=0 follows from Lefschetz or the Koszul complex; the surface is then K3. In the other articles, K3 refers to the smooth minimal model of the Jacobian of a chosen genus-one fibration or, for the parallel pair, to the minimal resolution of a Kummer surface.",
             )}
           </p>
           <p>
             {text(
-              "Поэтому K3 здесь не неожиданная удача конкретной параметризации. Это естественный геометрический уровень условия 6/9. Различаются карты, особые слои и решётки секций, но не класс минимальной поверхности.",
-              "Thus K3 is not an accidental success of a particular parametrization. It is the natural geometric level of the 6/9 condition. The charts, singular fibers, and section lattices vary, but the class of the minimal surface does not.",
+              "Эти конструкции объясняют систематическое появление K3-геометрии, но не отождествляют исходное пересечение квадрик, его отдельную карту, якобианову поверхность и Kummer-модель. Между моделями используются явно указанные бирациональные переходы и минимальные разрешения.",
+              "These constructions explain the systematic appearance of K3 geometry, but they do not identify the original intersection of quadrics, an individual chart, a Jacobian surface, and a Kummer model. The articles use explicitly stated birational maps and minimal resolutions between the relevant models.",
             )}
           </p>
         </section>
@@ -590,6 +610,12 @@ export function SixNineSynthesisTheoryPage() {
           <Latex display>{String.raw`
 \operatorname{rank}\mathcal C_k(\overline{\mathbb Q}(k))
 =10-2-8=0.`}</Latex>
+          <p>
+            {text(
+              "При k=1 получается кривая y²=x³−x, рациональная группа кручения которой равна (ℤ/2ℤ)². Специализация кручения общего слоя в этот хороший слой инъективна, а три ненулевые точки порядка 2 уже видны над ℚ(k). Поэтому ранг 0 вместе со специализацией определяет всю группу общих секций.",
+              "At k=1 the fiber is y²=x³−x, whose rational torsion group is (Z/2Z)^2. Specialization of generic torsion into this good fiber is injective, while the three nonzero 2-torsion points are already visible over Q(k). Thus rank zero together with specialization determines the entire group of generic sections.",
+            )}
+          </p>
           <div className="theorem-block">
             <h3>{text("Все общие секции над ℚ(k)", "All generic sections over ℚ(k)")}</h3>
             <Latex display>{String.raw`
@@ -606,7 +632,7 @@ export function SixNineSynthesisTheoryPage() {
         </section>
 
         <section>
-          <h2>{text("6. Что именно делает F4+", "6. What F4+ actually does")}</h2>
+          <h2>{text("6. Замена поля функций в F4+", "6. The function-field extension in F4+")}</h2>
           <p>
             {text(
               "F4+ не находит секции над исходной прямой k. Он заменяет поле ℚ(k) полем функций двумерной поверхности",
@@ -634,14 +660,14 @@ R_2&=\bigl(\rho^2x^2(x^2-y^2),\,
 \operatorname{rank}C_A(\mathbb Q(\mathcal S))\ge2.`}</Latex>
           <p>
             {text(
-              "Отдельно сама нормализованная кубика F4+ в параметре τ=ρ² образует рациональную эллиптическую поверхность точного ранга 2. После возврата к полю ℚ(ρ) две секции сохраняются; один этот паспорт не исключает дополнительных антиинвариантных секций квадратичной замены. Эти утверждения связаны одной арифметикой, но относятся к двум различным эллиптическим объектам.",
-              "Separately, the normalized F4+ cubic in the parameter τ=ρ² forms a rational elliptic surface of exact rank 2. After returning to ℚ(ρ), the two sections remain; this passport alone does not exclude additional anti-invariant sections of the quadratic base change. These statements are linked by the same arithmetic but concern two different elliptic objects.",
+              "Отдельно нормализованная кубика F4+ в параметре τ=ρ² образует рациональную эллиптическую поверхность точного арифметического и геометрического ранга 2. Квадратичная замена базы τ=ρ² даёт эллиптическую K3-поверхность: расчёт тривиальной решётки и две поднятые независимые секции доказывают, что её геометрический ранг также в точности равен 2 и новых свободных секций над ℚ̄(ρ) нет. Универсальная кривая C_A над ℚ(𝒮) — другой эллиптический объект.",
+              "Separately, the normalized F4+ cubic in the parameter tau=rho^2 forms a rational elliptic surface of exact arithmetic and geometric rank 2. The quadratic base change tau=rho^2 gives an elliptic K3 surface: its trivial lattice and the two lifted independent sections prove that its geometric rank is also exactly 2, with no new free sections over Qbar(rho). The universal curve C_A over Q(S) is a different elliptic object.",
             )}
           </p>
           <p>
             {text(
-              "Для ABEFGJ и ABDFHJ поверхность 𝒮 и есть точный универсальный объект 6/9. Поэтому здесь F4+ не аналогия, а буквальная общая теория этих двух масок.",
-              "For ABEFGJ and ABDFHJ, the surface 𝒮 is precisely the universal 6/9 object. Here F4+ is not an analogy but the literal common theory of the two patterns.",
+              "Для ABEFGJ и ABDFHJ доказанная tfmn-нормализация отождествляет невырожденную рациональную часть задачи 6/9 с соответствующей моделью 𝒮. Поэтому F4+-координаты дают для этих двух масок глобальное описание, а для остальных масок служат сравнительной конструкцией.",
+              "For ABEFGJ and ABDFHJ, the proved tfmn normalization identifies the nondegenerate rational part of the 6/9 problem with the corresponding model S. Thus F4+ coordinates give a global description for these two patterns and serve as a comparison construction for the others.",
             )}
           </p>
         </section>
@@ -700,8 +726,8 @@ R_2&=\bigl(\rho^2x^2(x^2-y^2),\,
           </p>
           <p>
             {text(
-              "У четырнадцати остальных масок ситуация в одном отношении проще: их K3-якобианы уже имеют родные неторсионные секции над ℚ(t), без дополнительной замены основания. Но эти секции не являются сильными F9+-аналогами, потому что они не повышают ранг после base change — они уже входят в исходную группу Морделла—Вейля.",
-              "For the other fourteen patterns, one aspect is simpler: their K3 Jacobians already have native non-torsion sections over ℚ(t), without an extra base change. But these sections are not strong F9+ analogues because they do not raise the rank after base change; they already belong to the original Mordell–Weil group.",
+              "Якобианы четырнадцати остальных масок уже имеют предъявленные неторсионные секции над ℚ(t), без дополнительной замены базы. Эти секции не являются сильными F9+-аналогами: они входят в исходную группу Морделла—Вейля и сами по себе не доказывают скачок ранга после замены базы.",
+              "The Jacobians of the other fourteen patterns already have explicit non-torsion sections over Q(t), without an additional base change. These sections are not strong F9+ analogues: they belong to the original Mordell–Weil group and do not by themselves prove a rank jump after base change.",
             )}
           </p>
         </section>
@@ -739,7 +765,7 @@ E(\mathbb Q(t))\otimes_{\mathbb Z}\mathbb Q
             </li>
             <li>
               {text(
-                "Наконец 12I₂: верхняя граница 6 оставляет больше возможных направлений и требует более широкой классификации multisection.",
+                "Наконец 12I₂: верхняя граница 6 оставляет больше возможных направлений и требует более широкой классификации мультисечений.",
                 "Finally treat 12I₂: the upper bound 6 leaves more possible directions and requires a broader classification of multisections.",
               )}
             </li>
@@ -764,8 +790,8 @@ E(\mathbb Q(t))\otimes_{\mathbb Z}\mathbb Q
 u_1^2=D_1,\qquad u_2^2=D_2,\qquad u_3^2=D_3.`}</Latex>
           <p>
             {text(
-              "Следовательно, препятствие 9/9 не находится ни в одной отдельной шестиклеточной конфигурации: каждая из них имеет бесконечно много рациональных и положительных точек. Оно должно возникать в совместимости трёх квадратных классов на одном из тройных квадратичных накрытий K3-поверхности.",
-              "Thus the obstruction to 9/9 is not located in any individual six-entry configuration: every one has infinitely many rational and positive points. It must arise from compatibility of the three square classes on an iterated triple quadratic cover of a K3 surface.",
+              "Тем самым задача 9/9 точно переформулируется как поиск рациональных точек на одновременном тройном квадратичном накрытии одной из поверхностей 6/9 с дополнительными условиями различности и положительности. Из существования бесконечных семейств 6/9 не следует, где именно находится возможное препятствие для 9/9; оно может быть глобальным, локальным или отсутствовать.",
+              "The 9/9 problem is thereby reformulated exactly as the search for rational points on a simultaneous triple quadratic cover of one of the 6/9 surfaces, together with distinctness and positivity conditions. Infinite 6/9 families do not determine where a possible obstruction to 9/9 lies; it may be global, local, or absent.",
             )}
           </p>
           <p>

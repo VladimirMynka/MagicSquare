@@ -2,7 +2,7 @@ import { ExactMagicSquareExample } from "./components/ExactMagicSquareExample";
 import { Latex } from "./components/Latex";
 import { SixNineMaskDiagram } from "./components/SixNineMaskDiagram";
 import { useLocale } from "./i18n";
-import { TheoryLink } from "./TheoryPages";
+import { EllipticTermsNote, TheoryLink } from "./TheoryPages";
 
 export function AbcghjSurfaceTheoryPage() {
   const { text } = useLocale();
@@ -50,6 +50,7 @@ export function AbcghjSurfaceTheoryPage() {
       </header>
 
       <div className="proof-document topic-document abcghj-surface-theory-document">
+        <EllipticTermsNote />
         <section>
           <h2>{text("1. Точная жёлто-жёлто-голубая система", "1. The exact yellow-yellow-blue system")}</h2>
           <p>
@@ -109,8 +110,8 @@ M=
           </div>
           <p>
             {text(
-              "По формуле присоединения канонический класс гладкого пересечения трёх квадрик в ℙ⁵ тривиален. Тем самым исходная поверхность ABCGHJ — K3, а не только семейство кривых с K3-якобианом.",
-              "By adjunction, a smooth intersection of three quadrics in ℙ⁵ has trivial canonical class. Thus the original ABCGHJ surface itself is K3, not merely a family of curves with a K3 Jacobian.",
+              "По формуле сопряжения канонический пучок гладкого пересечения трёх квадрик в ℙ⁵ тривиален. Кроме того, H¹(𝒪)=0 по теореме Лефшеца о гиперплоском сечении; то же исчезновение получается из комплекса Кошуля полного пересечения. Следовательно, исходная поверхность ABCGHJ является K3. Якобиан выбранного ниже расслоения — дополнительная эллиптическая модель этой поверхности.",
+              "By adjunction, the canonical bundle of a smooth intersection of three quadrics in P5 is trivial. Moreover, H1(O)=0 by the Lefschetz hyperplane theorem; the same vanishing follows from the Koszul complex of the complete intersection. Hence the original ABCGHJ surface is K3. The Jacobian of the fibration chosen below is an additional elliptic model of this surface.",
             )}
           </p>
         </section>
@@ -255,13 +256,13 @@ q^2(q^2+1)^2(q^2-4q+1)^4(q^2+4q+1)^4.`}</Latex>
           </div>
           <p>
             {text(
-              "Четыре корня q²±4q+1 дают четыре слоя I₄. Точки q=0 и q=±i дают три слоя I₂, а минимальная карта при q=∞ — четвёртый I₂. Сумма чисел Эйлера равна 4·4+4·2=24, как и должно быть для K3.",
-              "The four roots of q²±4q+1 give four I₄ fibers. The points q=0 and q=±i give three I₂ fibers, and the minimal chart at q=∞ supplies the fourth I₂. The Euler-number sum is 4·4+4·2=24, as required for a K3 surface.",
+              "Четыре корня q²±4q+1 дают четыре слоя I₄. Точки q=0 и q=±i дают три слоя I₂, а минимальная карта при q=∞ — четвёртый I₂. Для относительно минимальной модели с сечением эти слои имеют сумму чисел Эйлера 4·4+4·2=24, согласованную с уже доказанным K3-свойством.",
+              "The four roots of q²±4q+1 give four I₄ fibers. The points q=0 and q=±i give three I₂ fibers, and the minimal chart at q=∞ supplies the fourth I₂. On the relatively minimal model with a section, these fibers have Euler-number sum 4·4+4·2=24, consistent with the K3 property already proved.",
             )}
           </p>
           <p>
             {text(
-              "Тривиальная решётка расслоения имеет ранг 2+4·3+4·1=18. Так как число Пикара K3 не превосходит 20, формула Шиоды—Тейта даёт rank≤2.",
+              "Тривиальная решётка расслоения имеет ранг 2+4·3+4·1=18. Так как число Пикара K3 не превосходит 20, формула Шиоды—Тейта даёт геометрический ранг не выше 2.",
               "The trivial lattice of the fibration has rank 2+4·3+4·1=18. Since the Picard number of a K3 surface is at most 20, the Shioda–Tate formula gives rank≤2.",
             )}
           </p>

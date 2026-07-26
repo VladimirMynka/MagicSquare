@@ -15,8 +15,8 @@ export function F9PlusTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.4",
-              "Elliptic geometry of tfmn · 4.4",
+              "Эллиптическая геометрия tfmn · 4.5",
+              "Elliptic geometry of tfmn · 4.5",
             )}
           </p>
           <h1>
@@ -222,7 +222,7 @@ C=a^2-b^2,\qquad D=b^2+\lambda ab.`}</Latex>
         </section>
 
         <section>
-          <h2>{text("6. Остаточная квартита и точный критерий tf", "6. The residual quartic and the exact tf criterion")}</h2>
+          <h2>{text("6. Остаточная квартика и точный критерий tf", "6. The residual quartic and the exact tf criterion")}</h2>
           <p>
             {text(
               "На любой невырожденной ветви частное",
@@ -265,7 +265,7 @@ z^2=q(r,1).`}</Latex>
           <h2>{text("7. Почему возникают кривые рода 1", "7. Why genus-one curves appear")}</h2>
           <p>
             {text(
-              "Если квартита q(r,1) квадратсвободна и имеет степень 3 или 4, гладкая проективная модель кривой z²=q(r,1) имеет род 1. Её факторизация определяет не род, а доступность рациональной исходной точки и структуру 2-кручения.",
+              "Если квартика q(r,1) квадратсвободна и имеет степень 3 или 4, гладкая проективная модель кривой z²=q(r,1) имеет род 1. Её факторизация определяет не род, а доступность рациональной исходной точки и структуру 2-кручения.",
               "If the quartic q(r,1) is squarefree and has degree 3 or 4, the smooth projective model of z²=q(r,1) has genus one. Its factorization controls not the genus but the availability of a rational base point and the structure of 2-torsion.",
             )}
           </p>
