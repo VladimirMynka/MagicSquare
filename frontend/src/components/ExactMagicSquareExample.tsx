@@ -35,23 +35,22 @@ function factorPositiveInteger(value: bigint): PrimePower[] {
   return factors;
 }
 
-function RootFactorization({ root }: { root: string }) {
+function SquareFactorization({ root }: { root: string }) {
   const absoluteRoot = BigInt(root) < 0n ? -BigInt(root) : BigInt(root);
   const factors = factorPositiveInteger(absoluteRoot);
-  const isAlreadyPrime = factors.length === 1 && factors[0].exponent === 1;
-
-  if (factors.length === 0 || isAlreadyPrime) return null;
 
   return (
-    <span className="exact-magic-cell-factorization">
-      {factors.map((factor, index) => (
-        <span key={factor.prime.toString()}>
-          {index > 0 && <i> · </i>}
-          {factor.prime.toString()}
-          <sup>{factor.exponent * 2}</sup>
-        </span>
-      ))}
-    </span>
+    <strong className="exact-magic-cell-factorization">
+      {factors.length === 0
+        ? absoluteRoot.toString()
+        : factors.map((factor, index) => (
+            <span key={factor.prime.toString()}>
+              {index > 0 && <i> · </i>}
+              {factor.prime.toString()}
+              <sup>{factor.exponent * 2}</sup>
+            </span>
+          ))}
+    </strong>
   );
 }
 
@@ -101,14 +100,7 @@ export function ExactMagicSquareExample({
                   <small>{text("не квадрат", "nonsquare")}</small>
                 </>
               ) : (
-                <>
-                  <strong>
-                    {absoluteRoot}
-                    <sup>2</sup>
-                  </strong>
-                  <RootFactorization root={absoluteRoot} />
-                  <small>= {formatInteger(values[index])}</small>
-                </>
+                <SquareFactorization root={absoluteRoot} />
               )}
             </div>
           );
@@ -117,8 +109,8 @@ export function ExactMagicSquareExample({
       <figcaption>
         <span className="exact-magic-legend-square" />
         {text(
-          "Квадратные клетки показаны через корень; для составного корня ниже приведена простая факторизация самого квадрата.",
-          "Square entries are shown through their roots; when the root is composite, the prime factorization of the square appears below.",
+          "Квадратные клетки записаны в разложении на простые множители.",
+          "Square entries are written as prime factorizations.",
         )}
       </figcaption>
     </figure>

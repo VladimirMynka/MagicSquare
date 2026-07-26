@@ -4060,22 +4060,21 @@ main {
   overflow-wrap: anywhere;
 }
 
-.exact-magic-cell strong sup,
-.exact-magic-cell-factorization sup {
+.exact-magic-cell strong sup {
   font-size: 0.62em;
   vertical-align: super;
 }
 
-.exact-magic-cell small,
-.exact-magic-cell-factorization {
+.exact-magic-cell small {
   max-width: 100%;
   color: var(--muted);
   font: 11px/1.35 var(--mono);
   overflow-wrap: anywhere;
 }
 
-.exact-magic-cell-factorization {
+.exact-magic-cell strong.exact-magic-cell-factorization {
   color: var(--brick);
+  font-family: var(--mono);
 }
 
 .exact-magic-cell-factorization i {
