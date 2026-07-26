@@ -4073,7 +4073,6 @@ main {
   align-items: baseline;
   justify-content: center;
   color: var(--brick);
-  font-family: var(--mono);
   line-height: 1.25;
   overflow-wrap: normal;
   word-break: normal;
