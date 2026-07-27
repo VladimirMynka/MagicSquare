@@ -85,7 +85,19 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   theory: {
     published: "2026-07-22",
-    modified: "2026-07-26",
+    modified: "2026-07-27",
+  },
+  "proofs/general": {
+    published: "2026-07-21",
+    modified: "2026-07-27",
+  },
+  "orbits/5": {
+    published: "2026-07-21",
+    modified: "2026-07-27",
+  },
+  "orbits/5/abcdg": {
+    published: "2026-07-21",
+    modified: "2026-07-27",
   },
   "theory/magic-squares-3x3": {
     published: "2026-07-22",
@@ -217,7 +229,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   news: {
     published: "2026-07-22",
-    modified: "2026-07-22",
+    modified: "2026-07-27",
   },
   timeline: {
     published: "2026-07-22",
@@ -225,7 +237,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   about: {
     published: "2026-07-22",
-    modified: "2026-07-22",
+    modified: "2026-07-27",
   },
 };
 
@@ -751,13 +763,13 @@ const STATIC_METADATA: Readonly<
     en: {
       title: "3×3 Magic Squares with 4 or 5 Square Entries",
       description:
-        "A complete D4-orbit classification of four and five perfect-square entries, with elimination of E, x, y and necessary-and-sufficient quadratic systems.",
+        "A complete D4-orbit classification of four and five perfect-square entries, with necessary-and-sufficient quadratic systems and the globally complete ABCDG algorithm.",
       type: "Article",
     },
     ru: {
       title: "Магические квадраты 3×3 с 4 или 5 квадратными клетками",
       description:
-        "Полная классификация D₄-орбит четырёх и пяти квадратных клеток, исключение E, x, y и необходимые и достаточные системы квадрик.",
+        "Полная классификация D₄-орбит четырёх и пяти квадратных клеток, необходимые и достаточные системы квадрик и глобально полный алгоритм ABCDG.",
       type: "Article",
     },
   },
@@ -779,13 +791,13 @@ const STATIC_METADATA: Readonly<
     en: {
       title: "Five Square Entries in a 3×3 Magic Square — 23 Orbits",
       description:
-        "The 23 D4 symmetry orbits of five guaranteed perfect-square entries in a 3×3 magic square, with paired quadrics, parametrizations, and proofs.",
+        "The 23 D4 symmetry orbits of five guaranteed perfect-square entries, with paired quadrics, parametrizations, coverage proofs, and the complete ABCDG algorithm.",
       type: "Article",
     },
     ru: {
       title: "Пять квадратных клеток в магическом квадрате 3×3 — 23 орбиты",
       description:
-        "Все 23 орбиты D₄ для пяти гарантированно квадратных клеток магического квадрата 3×3: пары квадрик, параметризации и доказательства.",
+        "Все 23 орбиты D₄ для пяти гарантированно квадратных клеток: пары квадрик, параметризации, доказательства покрытия и полный алгоритм ABCDG.",
       type: "Article",
     },
   },

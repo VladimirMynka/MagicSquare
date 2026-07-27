@@ -17,7 +17,6 @@ const CONDITIONAL_FIVE = new Set([
   "abefj",
   "abfgj",
   "befgj",
-  "abcdg",
 ]);
 
 let completeFive = 0;
@@ -80,10 +79,10 @@ for (const family of FAMILIES) {
   else conditionalFive += 1;
 }
 
-invariant(completeFive === 15, `Expected 15 complete 5/9 families, received ${completeFive}`);
+invariant(completeFive === 16, `Expected 16 complete 5/9 families, received ${completeFive}`);
 invariant(
-  conditionalFive === 8,
-  `Expected 8 conditional 5/9 families, received ${conditionalFive}`,
+  conditionalFive === 7,
+  `Expected 7 conditional 5/9 families, received ${conditionalFive}`,
 );
 
 console.log(

@@ -1667,6 +1667,190 @@ function OrbitFamilyPage() {
   return <LabPage key={`${level}/${family.id}`} routeFamilyId={family.id} />;
 }
 
+function AbcdgCompleteAlgorithm() {
+  const { text } = useLocale();
+  return (
+    <section>
+      <h3>
+        {text(
+          "Глобально полный алгоритм ABCDG",
+          "The globally complete ABCDG algorithm",
+        )}
+      </h3>
+      <p>
+        {text(
+          "Полиномиальная формула предыдущего раздела строит явное бесконечное подсемейство. Для перечисления всех рациональных решений используется другое представление той же поверхности — коническое расслоение над проективной прямой.",
+          "The polynomial formula in the preceding section constructs an explicit infinite subfamily. Enumerating every rational solution uses a different presentation of the same surface: a conic bundle over the projective line.",
+        )}
+      </p>
+
+      <h4>{text("1. Глобальная база", "1. The global base")}</h4>
+      <p>
+        {text(
+          "Пусть a,b,c,d,g — рациональные знаковые корни клеток A,B,C,D,G. Две клеточные связи имеют вид",
+          "Let a,b,c,d,g be rational signed roots of the entries A,B,C,D,G. The two cell relations are",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`b^2+c^2=d^2+g^2,\qquad 2a^2+2b^2=c^2+3g^2.`}
+      </Latex>
+      <p>
+        {text(
+          "Первая квадрика равносильна det M=0 для следующей матрицы. В проективной точке M не может быть нулевой: тогда b=c=d=g=0, а вторая квадрика даёт a=0. Поэтому M всюду имеет ранг один и единственное рациональное направление строк [r:s].",
+          "The first quadric is equivalent to det M=0 for the following matrix. At a projective point M cannot vanish: that would give b=c=d=g=0, and the second quadric would then give a=0. Thus M has rank one everywhere and a unique rational row direction [r:s].",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`M=\begin{pmatrix}b+d&c+g\\c-g&d-b\end{pmatrix}
+=2\begin{pmatrix}rP&rQ\\sP&sQ\end{pmatrix}.`}
+      </Latex>
+      <p>
+        {text(
+          "Соответствующие координаты слоя P,Q восстанавливают все четыре корня жёлтой квадрики:",
+          "The corresponding fiber coordinates P,Q recover all four roots of the yellow quadric:",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`\begin{aligned}
+b&=rP-sQ,&c&=sP+rQ,\\
+d&=rP+sQ,&g&=rQ-sP.
+\end{aligned}`}
+      </Latex>
+      <p>
+        {text(
+          "После подстановки вторая квадрика становится коникой слоя",
+          "After substitution, the second quadric becomes the fiber conic",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`C_{r,s}:\quad a^2=(2s^2-r^2)P^2+(2r^2-s^2)Q^2.`}
+      </Latex>
+
+      <h4>
+        {text(
+          "2. Точное решение каждого слоя",
+          "2. Exact solution of every fiber",
+        )}
+      </h4>
+      <p>
+        {text(
+          "Для примитивного представителя [r:s] оба коэффициента коники ненулевые: их зануление потребовало бы рационального числа √2. Поэтому каждый слой — гладкая проективная коника. Рациональная разрешимость тернарной квадратичной формы над Q алгоритмически разрешима. Реализация либо получает рациональную точку O, либо точное локальное препятствие; пустой слой пропускается только во втором случае.",
+          "For a primitive representative [r:s], both conic coefficients are nonzero: vanishing would require a rational value of √2. Every fiber is therefore a smooth projective conic. Rational solubility of a ternary quadratic form over Q is decidable. The implementation returns either a rational point O or an exact local obstruction; a fiber is skipped only in the latter case.",
+        )}
+      </p>
+      <p>
+        {text(
+          "Пусть F(X)=x²−(2s²−r²)y²−(2r²−s²)z² и B — связанная с F билинейная форма. Выберем координату j с Oⱼ≠0 и вектор U на прямой Uⱼ=0. Тогда",
+          "Let F(X)=x²−(2s²−r²)y²−(2r²−s²)z² and let B be the bilinear form associated with F. Choose a coordinate j with Oⱼ≠0 and a vector U on the line Uⱼ=0. Then",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`X=-F(U)O+2B(O,U)U,\qquad F(X)=F(U)^2F(O)=0.`}
+      </Latex>
+      <p>
+        {text(
+          "Точки [m:n] проективной прямой задают все направления U. Обратно, для X≠O берётся U=OⱼX−XⱼO; единственное касательное направление возвращает X=O. Следовательно, формула параметризует весь разрешимый слой, а не только открытую карту.",
+          "Points [m:n] of the projective line give all directions U. Conversely, for X≠O take U=OⱼX−XⱼO; the unique tangent direction returns X=O. Hence the formula parametrizes the entire soluble fiber, not merely an open chart.",
+        )}
+      </p>
+
+      <h4>
+        {text(
+          "3. Полный и честный перебор",
+          "3. Complete fair enumeration",
+        )}
+      </h4>
+      <p>
+        {text(
+          "Проективные пары перечисляются примитивными целыми представителями по высоте h([x:y])=max(|x|,|y|). Обычный вложенный цикл навсегда остался бы на первом бесконечном слое, поэтому высоты базы и параметра слоя объединяются:",
+          "Projective pairs are enumerated by primitive integer representatives of height h([x:y])=max(|x|,|y|). An ordinary nested loop would remain forever on the first infinite fiber, so the base and fiber-parameter heights are dovetailed:",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`h([r:s])+h([m:n])-1=H.`}
+      </Latex>
+      <p>
+        {text(
+          "На шаге H обрабатываются все пары с этой суммой высот. Поэтому каждая пара рациональных параметров и каждая рациональная точка поверхности появляются после конечного числа шагов. Результат нормализуется до примитивного знакового проективного целого вектора.",
+          "At step H, every pair with this height sum is processed. Thus every pair of rational parameters and every rational point of the surface appears after finitely many steps. The result is normalized to a primitive signed projective integer vector.",
+        )}
+      </p>
+
+      <h4>{text("4. Явный обратный ход", "4. Explicit inverse")}</h4>
+      <p>
+        {text(
+          "Для заданной ненулевой точки направление базы извлекается из ненулевого столбца M:",
+          "For a given nonzero point, the base direction is read from a nonzero column of M:",
+        )}
+      </p>
+      <Latex display>
+        {text(
+          String.raw`[r:s]=
+\begin{cases}
+[b+d:c-g],&(b+d,c-g)\ne(0,0),\\
+[c+g:d-b],&\text{иначе}.
+\end{cases}`,
+          String.raw`[r:s]=
+\begin{cases}
+[b+d:c-g],&(b+d,c-g)\ne(0,0),\\
+[c+g:d-b],&\text{otherwise}.
+\end{cases}`,
+        )}
+      </Latex>
+      <p>
+        {text(
+          "После канонической нормализации [r:s] координаты слоя равны",
+          "After canonical normalization of [r:s], the fiber coordinates are",
+        )}
+      </p>
+      <Latex display>
+        {String.raw`(P,Q)=
+\begin{cases}
+\left(\dfrac{b+d}{2r},\dfrac{c+g}{2r}\right),&r\ne0,\\[6pt]
+\left(\dfrac{c-g}{2s},\dfrac{d-b}{2s}\right),&r=0.
+\end{cases}`}
+      </Latex>
+      <p>
+        {text(
+          "Обратная проекция на найденной конике затем восстанавливает [m:n]. Это конечная конструкция для любой рациональной точки и потому является конструктивным доказательством сюръективности.",
+          "The inverse projection on the recovered conic then reconstructs [m:n]. This finite construction applies to every rational point and is therefore a constructive proof of surjectivity.",
+        )}
+      </p>
+
+      <h4>
+        {text(
+          "5. Переход к магическим квадратам и границы теоремы",
+          "5. Magic squares and the scope of the theorem",
+        )}
+      </h4>
+      <p>
+        {text(
+          "Из конечного набора знаковых подъёмов оставляется представитель с неотрицательными корнями. Остальные четыре клетки восстанавливаются линейно; при необходимости умножение корней на 2 очищает знаменатель и умножает все клетки на 4. Положительность, попарная различность и условие «квадратны ровно ABCDG» проверяются точными фильтрами. Поэтому отфильтрованный перебор достигает каждого нормального точного квадрата ABCDG и не выдаёт посторонних квадратов.",
+          "Among the finitely many signed lifts, retain the representative with nonnegative roots. The other four entries are recovered linearly; when necessary, multiplying the roots by 2 clears the denominator and multiplies every entry by 4. Positivity, pairwise distinctness, and the condition that exactly ABCDG are squares are decided by exact filters. The filtered iterator therefore reaches every normal exact ABCDG square and emits no extraneous square.",
+        )}
+      </p>
+      <p>
+        {text(
+          "Результат устанавливает глобальную алгоритмическую полноту. Он не даёт одной сюръективной рациональной формулы, конечного рационального атласа или оптимального перечисления по высоте.",
+          "The result establishes global algorithmic completeness. It does not provide one surjective rational formula, a finite rational atlas, or a height-optimal enumeration.",
+        )}
+      </p>
+      <ul className="proof-references">
+        <li>
+          <a href="https://doc.sagemath.org/html/en/reference/curves/sage/schemes/plane_conics/con_rational_field.html">
+            SageMath: {text("проективные коники над Q", "projective conics over Q")}
+          </a>
+        </li>
+        <li>
+          <a href="https://pari.math.u-bordeaux.fr/dochtml/html-stable/Vectors__matrices__linear_algebra_and_sets.html">
+            PARI/GP: <code>qfsolve</code> / <code>qfparam</code>
+          </a>
+        </li>
+      </ul>
+    </section>
+  );
+}
+
 function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
   const { locale, text } = useLocale();
   const proof = familyProof(family, locale);
@@ -1837,6 +2021,8 @@ function FamilyProofDocument({ family }: { family: FamilyDefinition }) {
           );
         })}
       </section>
+
+      {family.id === "abcdg" && <AbcdgCompleteAlgorithm />}
 
       <section>
         <h3>{text("Полнота покрытия", "Coverage completeness")}</h3>
@@ -3168,12 +3354,13 @@ a+e+j=c+e+g=M.
           </p>
           <p>
             {text(
-              "Это полнота покрытия позиционных типов, а не утверждение, что одна выписанная формула перечисляет каждую рациональную точку соответствующей системы уравнений. Для каждой формулы отдельно указано, какая часть рациональных решений ею покрывается.",
-              "This is completeness of coverage of the positional types, not a claim that one displayed formula enumerates every rational point of the corresponding system of equations. The subset of rational solutions covered by each formula is stated separately.",
+              "Для каждой выписанной формулы отдельно указана покрываемая часть рациональных решений. В маске ABCDG одна полиномиальная формула также покрывает лишь подсемейство, однако отдельный алгоритм по коническому расслоению перечисляет уже все рациональные решения и имеет явный обратный ход. Поэтому полноту формулы и полноту эффективного алгоритма следует различать.",
+              "The subset of rational solutions covered by each displayed formula is stated separately. For the ABCDG pattern, one polynomial formula likewise covers only a subfamily, but a separate conic-bundle algorithm enumerates every rational solution and has an explicit inverse. Completeness of a formula and completeness of an effective algorithm must therefore be distinguished.",
             )}
           </p>
           <ul className="proof-references">
             <li><Link to="/orbits/5">{text("Атлас позиционных типов 5/9", "Atlas of the 5/9 positional types")}</Link></li>
+            <li><Link to="/orbits/5/abcdg">{text("Полный алгоритм ABCDG", "Complete ABCDG algorithm")}</Link></li>
             <li><Link to="/orbits/6">{text("Атлас позиционных типов 6/9", "Atlas of the 6/9 positional types")}</Link></li>
             <li><Link to="/proofs/general">{text("Общая теория частичных квадратных масок", "General theory of partial square patterns")}</Link></li>
           </ul>

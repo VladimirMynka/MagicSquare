@@ -132,6 +132,18 @@ export function TheoryIndexPage() {
         },
         {
           index: "3.2",
+          to: "/orbits/5/abcdg",
+          title: text(
+            "ABCDG: глобально полный алгоритм",
+            "ABCDG: a globally complete algorithm",
+          ),
+          summary: text(
+            "Вся рациональная поверхность раскладывается в гладкие коники над P¹; точное решение слоёв, проекция и честный совместный перебор дают полный алгоритм с явным обратным ходом.",
+            "The entire rational surface is decomposed into smooth conics over P¹; exact fiber solving, projection, and fair dovetailing give a complete algorithm with an explicit inverse.",
+          ),
+        },
+        {
+          index: "3.3",
           to: "/theory/arithmetic-progressions-dir",
           title: text(
             "Арифметические прогрессии квадратов и dir-функция",
@@ -143,7 +155,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "3.3",
+          index: "3.4",
           to: "/theory/6-9-patterns",
           title: text(
             "Маски 6/9: шестнадцать позиционных типов",
@@ -155,7 +167,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "3.4",
+          index: "3.5",
           to: "/theory/fmn-tfmn",
           title: text(
             "fmn и tfmn в задаче 6/9",
@@ -167,7 +179,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "3.5",
+          index: "3.6",
           to: "/theory/early-tf-families",
           title: text(
             "Ранние семейства F1–F8",

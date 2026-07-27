@@ -767,34 +767,35 @@ function fiveCoverage(id: string, locale: Locale): FamilyCoverageText {
 
   if (id === "abcdg") {
     return {
-      status: "conditional",
+      status: "complete",
       guaranteedSubset: choose(
         locale,
-        "Все рациональные решения, для которых после выбора знаков корней жёлтая матрица ранга один допускает факторизацию ниже с рациональным квадратом 2s²−r²=u², а также нулевое решение. Это точный полный образ доказанной двухступенчатой карты, а не только произвольно выбранная невырожденная часть.",
-        "Every rational solution for which, after choosing root signs, the rank-one yellow matrix admits the factorization below with 2s²−r²=u² a rational square, together with the zero solution. This is the exact full image of the proved two-stage chart, not merely an arbitrarily chosen nondegenerate portion.",
+        "Все рациональные знаковые векторы корней (a,b,c,d,g), удовлетворяющие двум квадрикам ABCDG, включая нулевой вектор. Полнота достигается эффективным алгоритмом по коническому расслоению; выписанная выше полиномиальная формула остаётся удобным подсемейством этого полного множества.",
+        "Every rational signed root vector (a,b,c,d,g) satisfying the two ABCDG quadrics, including the zero vector. Completeness is achieved by an effective conic-bundle algorithm; the polynomial formula displayed above remains a convenient subfamily of this complete set.",
       ),
       conditions: [
+        String.raw`b^2+c^2=d^2+g^2,\qquad 2a^2+2b^2=c^2+3g^2`,
         String.raw`\begin{pmatrix}b+d&c+g\\c-g&d-b\end{pmatrix}=2\begin{pmatrix}rP&rQ\\sP&sQ\end{pmatrix}`,
-        String.raw`2s^2-r^2=u^2\in\mathbb Q^2,\qquad K=2r^2-s^2`,
-        String.raw`a^2=u^2P^2+KQ^2`,
+        String.raw`a^2=(2s^2-r^2)P^2+(2r^2-s^2)Q^2`,
+        String.raw`h([r:s])+h([m:n])-1=H`,
       ],
       inverseArgument: choose(
         locale,
-        "Жёлтая квадрика равносильна нулю определителя показанной матрицы, поэтому всякая ненулевая жёлтая точка имеет рациональную факторизацию ранга один. Если её квадратный класс 2s²−r² тривиален, берём рациональный u. Коричневая квадрика тогда становится коникой a²=u²P²+KQ², и формулы P=Kμ²−ν², Q=2uμν, a=u(Kμ²+ν²) дают все её рациональные точки. Для ненулевой точки u и K автоматически ненулевые, иначе возникло бы рациональное √2.",
-        "The yellow quadric is equivalent to vanishing of the displayed determinant, so every nonzero yellow point has a rational rank-one factorization. If the square class of 2s²−r² is trivial, choose rational u. The brown quadric then becomes the conic a²=u²P²+KQ², and P=Kμ²−ν², Q=2uμν, a=u(Kμ²+ν²) gives all of its rational points. For a nonzero point both u and K are automatically nonzero, or else a rational √2 would result.",
+        "Для ненулевой точки матрица имеет ранг один и единственное рациональное направление строк [r:s]. Оно восстанавливается как [b+d:c−g], если первый столбец ненулевой, и как [c+g:d−b] иначе. Затем P,Q находятся линейно, а обратная проекция на соответствующей конике возвращает единственный параметр [m:n]. Поэтому у каждой рациональной точки имеется конечный явный обратный ход.",
+        "At a nonzero point the matrix has rank one and a unique rational row direction [r:s]. Recover it as [b+d:c−g] when the first column is nonzero and as [c+g:d−b] otherwise. Then recover P,Q linearly, and the inverse projection on the corresponding conic returns the unique parameter [m:n]. Thus every rational point has a finite explicit inverse.",
       ),
       exceptionalLocus: choose(
         locale,
-        "Вне доказанного образа остаются те рациональные решения, для которых при всех допустимых выборах знаков квадратный класс 2s²−r² нетривиален. Это арифметическое, а не ранговое исключение. Не доказано ни отсутствие таких точек, ни их покрытие текущей формулой.",
-        "Outside the proved image are rational solutions for which every admissible choice of root signs leaves the square class of 2s²−r² nontrivial. This is an arithmetic rather than a rank exception. Neither the absence of such points nor their coverage by the current formula has been proved.",
+        "Рациональных точек вне алгоритма нет. Базы с пустой коникой пропускаются только после точного решения локально-глобальной задачи для тернарной квадратичной формы. Теорема не утверждает существование одной сюръективной рациональной формулы, конечного рационального атласа или оптимального порядка по высоте.",
+        "No rational points lie outside the algorithm. A base with an empty conic is skipped only after the local-global problem for its ternary quadratic form has been decided exactly. The theorem does not assert the existence of one surjective rational formula, a finite rational atlas, or a height-optimal ordering.",
       ),
       exceptionalConditions: [
-        String.raw`\operatorname{Exc}(\Phi_{ABCDG})\subseteq\{[2s^2-r^2]\ne1\text{ in }\mathbb Q^\times/(\mathbb Q^\times)^2\}`,
+        String.raw`\operatorname{Exc}(\mathcal A_{ABCDG})=\varnothing`,
       ],
       conclusion: choose(
         locale,
-        "Полнота доказана для всего подмножества с тривиальным указанным квадратным классом; глобальная полнота ABCDG остаётся отдельной задачей.",
-        "Completeness is proved for the entire subset with the indicated trivial square class; global completeness of ABCDG remains a separate problem.",
+        "Глобальная полнота ABCDG доказана в эффективном алгоритмическом смысле: корректность, сюръективность и конечная достижимость каждой рациональной точки установлены отдельно.",
+        "Global completeness of ABCDG is proved in the effective algorithmic sense: soundness, surjectivity, and finite reachability of every rational point are established separately.",
       ),
     };
   }

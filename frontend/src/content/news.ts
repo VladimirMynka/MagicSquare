@@ -23,6 +23,29 @@ export interface NewsArticle {
 
 export const NEWS: readonly NewsArticle[] = [
   {
+    slug: "abcdg-global-completeness",
+    date: "2026-07-27",
+    title: "Доказана глобальная алгоритмическая полнота ABCDG",
+    titleEn: "Global algorithmic completeness is proved for ABCDG",
+    summary:
+      "Коническое расслоение даёт эффективный алгоритм, перечисляющий все рациональные решения двух квадрик ABCDG.",
+    summaryEn:
+      "A conic bundle gives an effective algorithm enumerating every rational solution of the two ABCDG quadrics.",
+    tags: ["5/9", "ABCDG", "CONIC BUNDLE"],
+    body: [
+      "Для маски ABCDG доказана глобальная полнота в эффективном алгоритмическом смысле. Результат относится ко всем рациональным знаковым векторам корней, а не только к образу ранее выписанной полиномиальной формулы.",
+      "Жёлтая квадрика превращает матрицу из комбинаций корней в матрицу ранга один. Её направление задаёт базу [r:s], а коричневая квадрика становится гладкой коникой a²=(2s²−r²)P²+(2r²−s²)Q².",
+      "Для каждой рациональной базы разрешимость коники решается точно. Если коника имеет рациональную точку, проекция из неё параметризует весь слой; совместный перебор высот базы и параметра слоя достигает каждой рациональной точки за конечное число шагов.",
+      "Алгоритм имеет явный обратный ход. Тем самым доказаны корректность, сюръективность и конечная достижимость, без утверждения о существовании одной глобальной рациональной формулы или конечного рационального атласа.",
+    ],
+    bodyEn: [
+      "Global completeness in the effective algorithmic sense is proved for the ABCDG pattern. The result concerns every rational signed root vector, not only the image of the previously displayed polynomial formula.",
+      "The yellow quadric turns a matrix of root combinations into a rank-one matrix. Its direction supplies the base [r:s], while the brown quadric becomes the smooth conic a²=(2s²−r²)P²+(2r²−s²)Q².",
+      "Conic solubility is decided exactly for every rational base. When a fiber has a rational point, projection from that point parametrizes the entire fiber; dovetailing the base and fiber-parameter heights reaches every rational point after finitely many steps.",
+      "The algorithm has an explicit inverse. This proves soundness, surjectivity, and finite reachability without asserting one global rational formula or a finite rational atlas.",
+    ],
+  },
+  {
     slug: "public-site-launched",
     date: "2026-07-22",
     title: "Открыт сайт проекта Magic Squares",
@@ -56,13 +79,13 @@ export const NEWS: readonly NewsArticle[] = [
     body: [
       "21 июля 2026 года завершено построение параметрических решений для всех 23 орбит D₄ на уровне 5/9.",
       "Для каждой орбиты зафиксированы выбранные квадратные клетки, система квадрик, параметризация координат E, x, y и точный статус покрытия.",
-      "Для 15 орбит доказана полнота параметризации. Для остальных восьми указано максимально широкое подмножество, для которого покрытие доказано, и описано исключительное множество.",
+      "На 21 июля полнота параметризации была доказана для 15 орбит. Для остальных восьми было указано максимально широкое подмножество с доказанным покрытием и описано исключительное множество.",
       "Результат завершает поорбитальное построение для задачи 5/9, но не решает открытую задачу существования квадрата 9/9.",
     ],
     bodyEn: [
       "On 21 July 2026, parametric solutions were completed for all 23 D₄ orbits at the 5/9 level.",
       "For each orbit, the selected square-valued entries, the system of quadrics, the parametrization of E, x, and y, and the precise coverage status are recorded.",
-      "Completeness of the parametrization is proved for 15 orbits. For each of the remaining eight, the widest subset with proved coverage is stated together with the exceptional locus.",
+      "As of 21 July, completeness of the parametrization had been proved for 15 orbits. For each of the remaining eight, the widest subset with proved coverage and its exceptional locus were recorded.",
       "This completes the orbit-by-orbit construction for the 5/9 problem, but it does not solve the open existence problem at the 9/9 level.",
     ],
   },

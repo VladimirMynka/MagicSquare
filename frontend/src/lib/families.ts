@@ -972,7 +972,7 @@ export const FIVE_FAMILIES: readonly FamilyDefinition[] = [
   }),
   family({
     id: "abcdg", title: "ABCDG", positions: ["A", "B", "C", "D", "G"], group: "yellow-brown",
-    summary: "Жёлтая четвёрка BCDG и взвешенная коричневая коника ABCG.", theorem: "yellow_brown_abcdg_square_mask", proofStatus: "proof-core",
+    summary: "Жёлтая четвёрка BCDG, взвешенная коричневая коника ABCG и глобально полный алгоритм по коническому расслоению.", theorem: "yellow_brown_abcdg_square_mask", proofStatus: "proof-core",
     reconstructionLatex: String.raw`(E,x,y)=(E,\,A-E,\,G-E)`, defaults: ["2", "1", "1", "2"], generate: yellowBrownAbcdg,
     justifications: [
       support("bcdg", YELLOW, "yellow", ["B", "C", "D", "G"], "B+C=D+G", "two-square-norm"),
@@ -1059,7 +1059,7 @@ const FIVE_SUMMARIES_EN: Readonly<Record<string, string>> = {
   abcgh: "The yellow support BCGH and the blue support ACGH.",
   abcde: "A Gaussian norm and an x²+2y² norm, with no runtime division.",
   abcdf: "Two independent blue norms on ABDF and ACDF.",
-  abcdg: "The yellow support BCDG and the weighted brown conic ABCG.",
+  abcdg: "The yellow support BCDG, the weighted brown conic ABCG, and a globally complete conic-bundle algorithm.",
 };
 
 export function familyGroupLabel(
