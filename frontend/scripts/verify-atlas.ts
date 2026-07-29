@@ -14,6 +14,11 @@ import {
   sixNineShapeClass,
   type SixNinePattern,
 } from "../src/content/sixNinePatterns";
+import {
+  SEVEN_NINE_PATTERNS,
+  sevenNineProfile,
+  type SevenNinePattern,
+} from "../src/content/sevenNinePatterns";
 
 const CELL_FORMS: Readonly<Record<Position, readonly [number, number, number]>> = {
   A: [1, 1, 0],
@@ -171,8 +176,8 @@ interface ColoredRelationCandidate {
   key: string;
 }
 
-function coloredCandidates(pattern: SixNinePattern): readonly ColoredRelationCandidate[] {
-  const positions = [...pattern.mask] as Position[];
+function coloredCandidatesForMask(mask: string): readonly ColoredRelationCandidate[] {
+  const positions = [...mask] as Position[];
   const candidates = new Map<string, ColoredRelationCandidate>();
   for (const family of FOUR_FAMILIES) {
     const coefficients = parseRelation(family.justifications[0].relationLatex);
@@ -204,7 +209,7 @@ function verifyColorPriority(
   pattern: SixNinePattern,
   selectedVectors: readonly (readonly number[])[],
 ) {
-  const candidates = coloredCandidates(pattern);
+  const candidates = coloredCandidatesForMask(pattern.mask);
   const candidateKeys = new Set(
     candidates.map((candidate) => `${candidate.kind}:${candidate.key}`),
   );
@@ -238,6 +243,47 @@ function verifyColorPriority(
   invariant(
     selectedProfile.join(",") === preferredProfile.join(","),
     `${pattern.mask}: selected colors violate priority; got ${selectedProfile}, expected ${preferredProfile}`,
+  );
+}
+
+function verifySevenNineColorPriority(
+  pattern: SevenNinePattern,
+  selectedVectors: readonly (readonly number[])[],
+) {
+  const candidates = coloredCandidatesForMask(pattern.mask);
+  const candidateKeys = new Set(
+    candidates.map((candidate) => `${candidate.kind}:${candidate.key}`),
+  );
+  pattern.relations.forEach((relation, index) => {
+    invariant(
+      candidateKeys.has(`${relation.kind}:${normalizeVector(selectedVectors[index])}`),
+      `${pattern.mask}: ${relation.kind}(${relation.support}) is not a known colored relation`,
+    );
+  });
+
+  const preferred: ColoredRelationCandidate[] = [];
+  for (const candidate of [...candidates].sort(
+    (left, right) => COLOR_PRIORITY[left.kind] - COLOR_PRIORITY[right.kind],
+  )) {
+    if (
+      matrixRank([...preferred.map((item) => item.vector), candidate.vector]) >
+      preferred.length
+    ) {
+      preferred.push(candidate);
+      if (preferred.length === 4) break;
+    }
+  }
+  invariant(preferred.length === 4, `${pattern.mask}: colored inventory has rank below 4`);
+
+  const selectedProfile = pattern.relations
+    .map((relation) => COLOR_PRIORITY[relation.kind])
+    .sort((left, right) => left - right);
+  const preferredProfile = preferred
+    .map((candidate) => COLOR_PRIORITY[candidate.kind])
+    .sort((left, right) => left - right);
+  invariant(
+    selectedProfile.join(",") === preferredProfile.join(","),
+    `${pattern.mask}: selected 7/9 colors violate priority; got ${selectedProfile}, expected ${preferredProfile}`,
   );
 }
 
@@ -358,6 +404,50 @@ function verifySixNinePattern(pattern: SixNinePattern) {
   );
 }
 
+function verifySevenNinePattern(pattern: SevenNinePattern) {
+  const positions = [...pattern.mask] as Position[];
+  invariant(positions.length === 7, `${pattern.mask}: expected seven positions`);
+  invariant(
+    pattern.complement === POSITIONS.filter((position) => !positions.includes(position)).join(""),
+    `${pattern.mask}: wrong complement`,
+  );
+  invariant(pattern.relations.length === 4, `${pattern.mask}: expected four quadrics`);
+
+  const vectors = pattern.relations.map((relation) => {
+    const coefficients = parseSquaredRelation(relation.latex);
+    for (let column = 0; column < 3; column += 1) {
+      const residual = POSITIONS.reduce(
+        (sum, position) => sum + coefficients[position] * CELL_FORMS[position][column],
+        0,
+      );
+      invariant(
+        residual === 0,
+        `${pattern.mask}: ${relation.latex} is not in the left kernel`,
+      );
+    }
+    const support = POSITIONS.filter((position) => coefficients[position] !== 0);
+    invariant(
+      support.join("") === relation.support,
+      `${pattern.mask}: support ${relation.support} does not match ${relation.latex}`,
+    );
+    invariant(
+      support.every((position) => positions.includes(position)),
+      `${pattern.mask}: ${relation.latex} uses a cell outside the pattern`,
+    );
+    return positions.map((position) => coefficients[position]);
+  });
+  invariant(
+    matrixRank(vectors) === 4,
+    `${pattern.mask}: defining 7/9 quadrics are dependent`,
+  );
+  invariant(
+    new Set(pattern.relations.slice(0, 3).flatMap((relation) => [...relation.support]))
+      .size === 7,
+    `${pattern.mask}: the three constructive relations do not cover all seven roots`,
+  );
+  verifySevenNineColorPriority(pattern, vectors);
+}
+
 verifyOrbitCensus(FOUR_FAMILIES, 4);
 verifyOrbitCensus(FIVE_FAMILIES, 5);
 invariant(FAMILIES.length === 46, `Combined atlas has ${FAMILIES.length}, expected 46`);
@@ -389,6 +479,48 @@ const shapeCounts = Object.fromEntries(
 invariant(shapeCounts.triangle === 3, "6/9 atlas must contain three triangular types");
 invariant(shapeCounts.rectangle === 8, "6/9 atlas must contain eight rectangular types");
 
+const sevenNineOrbits = new Set(
+  combinations(POSITIONS, 7).map((mask) => canonicalMask(mask)),
+);
+const sevenNineAtlasOrbits = SEVEN_NINE_PATTERNS.map((pattern) =>
+  canonicalMask([...pattern.mask] as Position[]),
+);
+invariant(sevenNineOrbits.size === 8, `7/9 census has ${sevenNineOrbits.size}, expected 8`);
+invariant(SEVEN_NINE_PATTERNS.length === 8, "7/9 atlas must contain 8 entries");
+invariant(
+  new Set(sevenNineAtlasOrbits).size === 8,
+  "7/9 atlas contains duplicate D4 orbits",
+);
+for (const orbit of sevenNineOrbits) {
+  invariant(sevenNineAtlasOrbits.includes(orbit), `7/9 atlas misses orbit ${orbit}`);
+}
+SEVEN_NINE_PATTERNS.forEach((pattern) => {
+  verifySevenNinePattern(pattern);
+  const images = new Set(
+    [false, true].flatMap((reflected) =>
+      [0, 1, 2, 3].map((rotation) =>
+        [...pattern.mask]
+          .map((position) => transformPosition(position as Position, rotation, reflected))
+          .sort()
+          .join(""),
+      ),
+    ),
+  );
+  invariant(
+    images.size === pattern.orbitSize,
+    `${pattern.mask}: orbit size ${pattern.orbitSize}, computed ${images.size}`,
+  );
+});
+invariant(
+  SEVEN_NINE_PATTERNS.map(sevenNineProfile).join(",") ===
+    "RRRY,RRRR,RRRY,RRRR,RRRR,RRRY,RRYY,RRRY",
+  "7/9 color-profile sequence changed",
+);
+invariant(
+  SEVEN_NINE_PATTERNS.reduce((sum, pattern) => sum + pattern.orbitSize, 0) === 36,
+  "7/9 orbit sizes must sum to C(9,2)=36",
+);
+
 console.log(
-  "Verified 23 D4 orbits for 4/9, 23 D4 orbits for 5/9, 16 D4 orbits for 6/9, 69 lower-level relations, 48 ranked 6/9 relations, the 3/8 shape taxonomy, and 46 exact defaults.",
+  "Verified 23 D4 orbits for 4/9, 23 for 5/9, 16 for 6/9, 8 for 7/9, 69 lower-level relations, 48 ranked 6/9 relations, 32 ranked 7/9 relations, the color priorities, the 3/8 shape taxonomy, and 46 exact defaults.",
 );

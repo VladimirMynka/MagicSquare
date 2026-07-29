@@ -190,6 +190,18 @@ export function TheoryIndexPage() {
             "Complete elementary parametrizations of F1–F4, the F7 identity, the F8 quartic lift, and the exact scope of the outdated simplified classification.",
           ),
         },
+        {
+          index: "3.7",
+          to: "/theory/7-9-patterns",
+          title: text(
+            "Маски 7/9: полный тригонометрический атлас",
+            "7/9 patterns: a complete trigonometric atlas",
+          ),
+          summary: text(
+            "Восемь D₄-орбит, полный базис из четырёх квадрик для каждой маски и обратимая редукция каждой системы к одному уравнению на трёх рациональных углах.",
+            "Eight D4 orbits, a complete basis of four quadrics for every pattern, and a reversible reduction of every system to one equation in three rational angles.",
+          ),
+        },
       ],
     },
     {

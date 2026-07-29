@@ -4004,6 +4004,355 @@ main {
   background: color-mix(in srgb, var(--brick-soft) 20%, var(--paper));
 }
 
+.seven-nine-orbit-atlas {
+  --seven-nine-red-light: #e3aaa5;
+  --seven-nine-red-mid: #ca726a;
+  --seven-nine-red-dark: #984b45;
+  --seven-nine-red-deep: #703630;
+  --seven-nine-yellow-light: #dfcb87;
+  --seven-nine-yellow-dark: #a98d3d;
+}
+
+.seven-nine-atlas-status-legend {
+  margin-left: auto;
+}
+
+.orbit-atlas-legend .seven-nine-red {
+  background: linear-gradient(
+    90deg,
+    var(--seven-nine-red-light) 0 25%,
+    var(--seven-nine-red-mid) 25% 50%,
+    var(--seven-nine-red-dark) 50% 75%,
+    var(--seven-nine-red-deep) 75%
+  );
+}
+
+.orbit-atlas-legend .seven-nine-yellow {
+  background: linear-gradient(
+    90deg,
+    var(--seven-nine-yellow-light) 0 50%,
+    var(--seven-nine-yellow-dark) 50%
+  );
+}
+
+.seven-nine-atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-strong);
+}
+
+.seven-nine-atlas-entry {
+  min-width: 0;
+  padding: clamp(16px, 2.2vw, 25px);
+  background: var(--paper-strong);
+  scroll-margin-top: 110px;
+}
+
+.seven-nine-atlas-entry.known-integral-class {
+  box-shadow: inset 0 4px 0 var(--brick);
+}
+
+.seven-nine-atlas-entry-header {
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: 18px 58px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+}
+
+.seven-nine-atlas-pattern {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.seven-nine-atlas-pattern i {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: var(--paper-strong);
+  font: normal 6px var(--mono);
+}
+
+.seven-nine-atlas-pattern i.active {
+  color: var(--graphite);
+}
+
+.seven-nine-atlas-entry-header > div {
+  min-width: 0;
+}
+
+.seven-nine-atlas-entry-header .orbit-atlas-title {
+  font-size: 13px;
+}
+
+.proof-document .seven-nine-atlas-entry-header p {
+  margin: 0 0 3px;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.35;
+}
+
+.seven-nine-atlas-entry-header small {
+  display: block;
+  color: var(--muted);
+  font: 7px/1.35 var(--mono);
+}
+
+.seven-nine-equation-hero {
+  margin: 15px 0 10px;
+  padding: 12px 13px;
+  border: 1px solid color-mix(in srgb, var(--brick) 48%, var(--line));
+  background: color-mix(in srgb, var(--brick-soft) 8%, var(--paper));
+  overflow-x: auto;
+}
+
+.seven-nine-equation-hero > span {
+  color: var(--brick);
+  font: 7px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.seven-nine-equation-hero .latex.display {
+  margin: 7px 0 0;
+  padding: 0;
+  font-size: clamp(10px, 1.3vw, 14px);
+}
+
+.seven-nine-equation-hero .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
+.seven-nine-atlas-signature {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.seven-nine-atlas-signature strong,
+.seven-nine-atlas-signature span {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  color: var(--graphite-soft);
+  font: 7px/1.2 var(--mono);
+}
+
+.seven-nine-atlas-signature strong {
+  color: var(--brick);
+  background: var(--paper-muted);
+  letter-spacing: 0.1em;
+}
+
+.seven-nine-atlas-signature .red-light {
+  border-color: var(--seven-nine-red-light);
+}
+
+.seven-nine-atlas-signature .red-mid {
+  border-color: var(--seven-nine-red-mid);
+}
+
+.seven-nine-atlas-signature .red-dark {
+  border-color: var(--seven-nine-red-dark);
+}
+
+.seven-nine-atlas-signature .red-deep {
+  border-color: var(--seven-nine-red-deep);
+}
+
+.seven-nine-atlas-signature .yellow-light,
+.seven-nine-atlas-signature .yellow-dark {
+  border-color: var(--seven-nine-yellow-dark);
+  background: color-mix(in srgb, var(--seven-nine-yellow-light) 15%, var(--paper));
+}
+
+.seven-nine-root-chart {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  overflow-x: auto;
+}
+
+.proof-document .seven-nine-root-chart p {
+  margin: 0;
+  color: var(--muted);
+  font: 8px/1.4 var(--mono);
+}
+
+.seven-nine-root-chart .latex.display {
+  margin: 8px 0 0;
+  padding: 0;
+  font-size: 10px;
+}
+
+.seven-nine-root-chart .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
+.seven-nine-atlas-relations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 10px;
+  background: var(--line);
+}
+
+.seven-nine-atlas-relation {
+  --relation-ink: var(--graphite-soft);
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  padding: 7px 8px;
+  border-left: 3px solid var(--relation-ink);
+  background: var(--paper);
+}
+
+.seven-nine-atlas-relation.red-light {
+  --relation-ink: var(--seven-nine-red-light);
+}
+
+.seven-nine-atlas-relation.red-mid {
+  --relation-ink: var(--seven-nine-red-mid);
+}
+
+.seven-nine-atlas-relation.red-dark {
+  --relation-ink: var(--seven-nine-red-dark);
+}
+
+.seven-nine-atlas-relation.red-deep {
+  --relation-ink: var(--seven-nine-red-deep);
+}
+
+.seven-nine-atlas-relation.yellow-light {
+  --relation-ink: var(--seven-nine-yellow-light);
+}
+
+.seven-nine-atlas-relation.yellow-dark {
+  --relation-ink: var(--seven-nine-yellow-dark);
+}
+
+.seven-nine-atlas-relation > span {
+  color: var(--relation-ink);
+  font: 7px var(--mono);
+}
+
+.seven-nine-atlas-relation .latex.display {
+  margin: 0;
+  padding: 0;
+  font-size: 8px;
+}
+
+.seven-nine-atlas-relation .katex-display {
+  margin: 0;
+  text-align: left;
+}
+
+.proof-document .seven-nine-atlas-note {
+  min-height: 88px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.seven-nine-known-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 7px;
+  color: var(--brick);
+  background: color-mix(in srgb, var(--brick-soft) 18%, var(--paper));
+  font: 7px/1.3 var(--mono);
+}
+
+.seven-nine-derivation {
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 110px;
+}
+
+.seven-nine-derivation:first-of-type {
+  margin-top: 26px;
+}
+
+.seven-nine-derivation-relations {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 18px 0;
+  background: var(--line);
+}
+
+.seven-nine-derivation-relations > div {
+  min-width: 0;
+  padding: 10px;
+  border-top: 3px solid var(--seven-nine-red-mid);
+  background: var(--paper);
+}
+
+.seven-nine-derivation-relations > .relation-yellow {
+  border-top-color: var(--seven-nine-yellow-dark);
+}
+
+.seven-nine-derivation-relations > .residual {
+  background: color-mix(in srgb, var(--brick-soft) 8%, var(--paper));
+}
+
+.seven-nine-derivation-relations span {
+  color: var(--muted);
+  font: 7px/1.3 var(--mono);
+}
+
+.seven-nine-derivation-relations .latex.display {
+  margin: 7px 0 0;
+  padding: 0;
+  font-size: 9px;
+}
+
+.seven-nine-derived-equation {
+  padding: 11px 14px;
+  border-left: 4px solid var(--brick);
+  background: var(--paper);
+  overflow-x: auto;
+}
+
+.seven-nine-derived-equation .latex.display {
+  margin: 0;
+}
+
+@media (max-width: 820px) {
+  .seven-nine-atlas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seven-nine-atlas-status-legend {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .seven-nine-derivation-relations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .seven-nine-atlas-relations,
+  .seven-nine-derivation-relations {
+    grid-template-columns: 1fr;
+  }
+}
+
 .synthesis-atlas {
   display: grid;
   gap: 24px;

@@ -16,9 +16,11 @@ React + TypeScript SPA for the proof-backed Magic Squares interface.
   will live in `src/content/news.ts` and be versioned with the UI.
 - KaTeX renders local proof cards and shared lemmas without a server runtime.
 - Exact integer calculations use native `BigInt` in the browser.
-- The atlas exposes all 23 `4/9` and all 23 `5/9` orbits under `D4`. The exact
-  finite census, relation bases, and nondegenerate defaults are checked during
-  verification; proof-core and legacy formulas retain distinct statuses.
+- The atlas exposes all 23 `4/9`, 23 `5/9`, 16 `6/9`, and 8 `7/9` orbits
+  under `D4`. The exact finite census and relation bases are checked during
+  verification; the `4/9` and `5/9` families additionally retain verified
+  nondegenerate defaults, while proof-core and legacy formulas keep distinct
+  statuses.
 - The laboratory state is the canonical integer triple `(E, x, y)`:
 
   ```text

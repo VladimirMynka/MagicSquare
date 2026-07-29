@@ -82,6 +82,8 @@ import { PrimeDivisorsTheoryPage } from "./PrimeDivisorsTheory";
 import { DirProgressionsTheoryPage } from "./DirProgressionsTheory";
 import { SixNinePatternsTheoryPage } from "./SixNinePatternsTheory";
 import { SixNineAtlasPage } from "./SixNineAtlasPage";
+import { SevenNinePatternsTheoryPage } from "./SevenNinePatternsTheory";
+import { SevenNineAtlasPage } from "./SevenNineAtlasPage";
 import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
 import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { F7PlusTheoryPage } from "./F7PlusTheory";
@@ -553,6 +555,7 @@ function HomePage() {
               <Link to="/orbits/4">4/9</Link>
               <Link to="/orbits/5">5/9</Link>
               <Link to="/orbits/6">6/9</Link>
+              <Link to="/orbits/7">7/9</Link>
             </nav>
           </article>
           <article className="home-section-card">
@@ -2373,6 +2376,11 @@ function SquaresOfSquaresPage() {
               <strong>{text("16 орбит шести клеток", "16 six-cell orbits")}</strong>
               <i>→</i>
             </Link>
+            <Link to="/orbits/7">
+              <span>7/9</span>
+              <strong>{text("8 трёхугловых орбит", "8 three-angle orbits")}</strong>
+              <i>→</i>
+            </Link>
           </div>
         </section>
 
@@ -3362,6 +3370,7 @@ a+e+j=c+e+g=M.
             <li><Link to="/orbits/5">{text("Атлас позиционных типов 5/9", "Atlas of the 5/9 positional types")}</Link></li>
             <li><Link to="/orbits/5/abcdg">{text("Полный алгоритм ABCDG", "Complete ABCDG algorithm")}</Link></li>
             <li><Link to="/orbits/6">{text("Атлас позиционных типов 6/9", "Atlas of the 6/9 positional types")}</Link></li>
+            <li><Link to="/orbits/7">{text("Тригонометрический атлас 7/9", "Trigonometric atlas of the 7/9 positional types")}</Link></li>
             <li><Link to="/proofs/general">{text("Общая теория частичных квадратных масок", "General theory of partial square patterns")}</Link></li>
           </ul>
 
@@ -3601,6 +3610,10 @@ export function App() {
           path="theory/6-9-patterns"
           element={<SixNinePatternsTheoryPage />}
         />
+        <Route
+          path="theory/7-9-patterns"
+          element={<SevenNinePatternsTheoryPage />}
+        />
         <Route path="theory/fmn-tfmn" element={<FmnTfmnTheoryPage />} />
         <Route
           path="theory/early-tf-families"
@@ -3695,6 +3708,7 @@ export function App() {
         <Route path="orbits/4" element={<OrbitLevelPage level={4} />} />
         <Route path="orbits/5" element={<OrbitLevelPage level={5} />} />
         <Route path="orbits/6" element={<SixNineAtlasPage />} />
+        <Route path="orbits/7" element={<SevenNineAtlasPage />} />
         <Route path="orbits/:level/:familyId" element={<OrbitFamilyPage />} />
         <Route path="proofs/general" element={<GeneralTheoryPage />} />
         <Route path="proofs/:proofId" element={<CommonProofPage />} />

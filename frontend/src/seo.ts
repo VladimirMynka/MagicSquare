@@ -123,6 +123,14 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
     published: "2026-07-25",
     modified: "2026-07-26",
   },
+  "theory/7-9-patterns": {
+    published: "2026-07-29",
+    modified: "2026-07-29",
+  },
+  "orbits/7": {
+    published: "2026-07-29",
+    modified: "2026-07-29",
+  },
   "theory/fmn-tfmn": {
     published: "2026-07-23",
     modified: "2026-07-26",
@@ -647,6 +655,34 @@ const STATIC_METADATA: Readonly<
       type: "Article",
     },
   },
+  "theory/7-9-patterns": {
+    ru: {
+      title: "Маски 7/9: полный тригонометрический атлас",
+      description:
+        "Полная классификация восьми D₄-орбит 7/9 и обратимая редукция четырёх квадрик каждой маски к одному уравнению на трёх рациональных углах.",
+      type: "Article",
+    },
+    en: {
+      title: "7/9 Patterns: A Complete Trigonometric Atlas",
+      description:
+        "A complete classification of the eight D4 orbits of 7/9 patterns and a reversible reduction of each four-quadric system to one equation in three rational angles.",
+      type: "Article",
+    },
+  },
+  "orbits/7": {
+    ru: {
+      title: "Атлас 7/9: восемь трёхугловых поверхностей",
+      description:
+        "Восемь позиционных орбит 7/9 с полными базисами квадрик, формулами семи корней и итоговыми уравнениями на трёх рациональных углах.",
+      type: "Article",
+    },
+    en: {
+      title: "7/9 Atlas: Eight Three-Angle Surfaces",
+      description:
+        "Eight positional orbits of 7/9 patterns with complete quadric bases, seven-root formulas, and final equations in three rational angles.",
+      type: "Article",
+    },
+  },
   "theory/fmn-tfmn": {
     ru: {
       title: "fmn и tfmn в задаче 6/9",
@@ -1075,6 +1111,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/prime-divisors",
     "theory/arithmetic-progressions-dir",
     "theory/6-9-patterns",
+    "theory/7-9-patterns",
     "theory/fmn-tfmn",
     "theory/early-tf-families",
     "theory/elliptic-surfaces-primer",
@@ -1106,6 +1143,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "orbits/4",
     "orbits/5",
     "orbits/6",
+    "orbits/7",
     ...FAMILIES.map((family) => `orbits/${family.level}/${family.id}`),
     ...COMMON_PROOFS.map((proof) => `proofs/${proof.id}`),
     "news",
