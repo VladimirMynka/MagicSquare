@@ -4113,7 +4113,7 @@ main {
   overflow-x: auto;
 }
 
-.seven-nine-equation-hero > span {
+.seven-nine-equation-label {
   color: var(--brick);
   font: 7px var(--mono);
   letter-spacing: 0.08em;

@@ -124,7 +124,7 @@ export function SevenNineOrbitAtlas({ title }: { title: string }) {
             </header>
 
             <div className="seven-nine-equation-hero">
-              <span>
+              <span className="seven-nine-equation-label">
                 {text(
                   "упрощённое тригонометрическое уравнение",
                   "simplified trigonometric equation",
