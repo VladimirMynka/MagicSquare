@@ -24,8 +24,8 @@ export function SevenNineAtlasPage() {
           </h1>
           <p>
             {text(
-              "Каждая карточка представляет одну позиционную орбиту, полный базис из четырёх красных и жёлтых квадрик, обратимые формулы семи корней и одно итоговое уравнение на трёх рациональных углах.",
-              "Every card represents one positional orbit, a complete basis of four red and yellow quadrics, reversible formulas for the seven roots, and one final equation in three rational angles.",
+              "Каждая карточка представляет одну позиционную орбиту, полный базис из четырёх красных и жёлтых квадрик и одно упрощённое тригонометрическое уравнение на трёх рациональных углах. Обратимые координатные формулы семи корней сохранены в раскрываемом техническом блоке.",
+              "Every card represents one positional orbit, a complete basis of four red and yellow quadrics, and one simplified trigonometric equation in three rational angles. Reversible coordinate formulas for the seven roots remain available in an expandable technical block.",
             )}
           </p>
         </div>

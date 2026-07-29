@@ -25,7 +25,8 @@ export interface SevenNinePattern {
   ];
   normalizationLatex: string;
   rootsLatex: string;
-  equationLatex: string;
+  trigEquationLatex: string;
+  coordinateEquationLatex: string;
   derivation: LocalizedSevenNineText;
   knownIntegralClass?: boolean;
 }
@@ -52,7 +53,13 @@ c&=L_u,&g&=R_u,\\
 d&=L_uL_v,&h&=L_uR_v,\\
 f&=C_w-S_wR_u,&j&=S_w+C_wR_u,
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\begin{gathered}
+(1-\sin4\alpha)(1-\sin4\beta)\\
++\bigl[\cos2\gamma-\sin2\gamma
+(\sin2\alpha+\cos2\alpha)\bigr]^2=2
+\end{gathered}}`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ (L_uL_v)^2+(C_w-S_wR_u)^2=2\ }`,
     derivation: {
       ru: "CEG задаёт первую прогрессию, CDH — вторую с центром c². Жёлтая норма EFGJ поворачивает рациональный вектор (1,Rᵤ) в (f,j). После этого неиспользованной остаётся ровно прогрессия DEF.",
@@ -80,7 +87,12 @@ b&=L_u,&d&=R_u,\\
 e&=\frac{L_u}{L_v},&h&=\frac{L_uR_v}{L_v},\\
 g&=\frac{L_u}{L_w},&f&=\frac{L_uR_w}{L_w},
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\begin{gathered}
+\bigl(1-2\sin4\alpha+\sin4\alpha\sin4\beta\bigr)\sin4\gamma\\
+=\sin4\beta-\sin4\alpha
+\end{gathered}}`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ R_u^2+\left(\frac{L_uR_w}{L_w}\right)^2
 =2\left(\frac{L_u}{L_v}\right)^2\ }`,
     derivation: {
@@ -109,7 +121,12 @@ b&=L_u,&d&=R_u,\\
 g&=\frac{L_u}{L_v},&f&=\frac{L_uR_v}{L_v},\\
 c&=\frac{R_u}{L_w},&h&=\frac{R_uR_w}{L_w},
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\begin{gathered}
+\bigl(1+\sin4\alpha-2\sin4\alpha\sin4\beta\bigr)\sin4\gamma\\
+=\sin4\beta(1-\sin4\alpha)
+\end{gathered}}`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ \left(\frac{R_u}{L_w}\right)^2+
 \left(\frac{L_u}{L_v}\right)^2
 =L_u^2+\left(\frac{R_uR_w}{L_w}\right)^2\ }`,
@@ -139,7 +156,10 @@ b&=L_u,&d&=R_u,\\
 e&=\frac{L_u}{L_v},&h&=\frac{L_uR_v}{L_v},\\
 c&=\frac{L_uL_w}{L_v},&g&=\frac{L_uR_w}{L_v},
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\ (1-\sin4\alpha)\sin4\gamma
+=-\sin4\alpha(1-\sin4\beta)\ }`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ R_u^2+\left(\frac{L_uR_v}{L_v}\right)^2
 =2\left(\frac{L_uL_w}{L_v}\right)^2\ }`,
     derivation: {
@@ -169,7 +189,10 @@ b&=L_u,&h&=R_u,\\
 g&=\frac{L_u}{L_v},&f&=\frac{L_uR_v}{L_v},\\
 c&=\frac{R_u}{R_w},&d&=\frac{R_uL_w}{R_w},
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\ (1+\sin4\alpha-2\sin4\beta)\sin4\gamma
+=\sin4\beta(1-\sin4\alpha)\ }`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ \left(\frac{R_u}{R_w}\right)^2+
 \left(\frac{L_u}{L_v}\right)^2=2\ }`,
     derivation: {
@@ -198,7 +221,9 @@ a&=L_u,&j&=R_u,\\
 f&=L_uL_v,&h&=L_uR_v,\\
 c&=L_w,&g&=R_w,
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\ \sin4\gamma=-(1-\sin4\alpha)\sin4\beta\ }`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ L_u^2+L_w^2=1+(L_uR_v)^2\ }`,
     derivation: {
       ru: "AEJ и CEG — две прогрессии с общим центром e². Прогрессия AFH использует a² как новый центр. После трёх полных параметризаций остаётся только равенство норм ACEH.",
@@ -227,7 +252,17 @@ c&=\frac{L_u}{R_v},&d&=\frac{L_uL_v}{R_v},\\
 j&=\frac{C_w-L_u/R_v}{S_w},&
 g&=S_w+C_wj,
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\begin{gathered}
+\left(
+\frac{\displaystyle\cos2\gamma-
+\frac{\sin2\alpha-\cos2\alpha}{\sin2\beta+\cos2\beta}}
+{\displaystyle\sin2\gamma}
+\right)^2\\
+=\frac{1-\sin4\beta+2\sin4\alpha\sin4\beta}
+{1+\sin4\beta}
+\end{gathered}}`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ 1+\left(\frac{L_uL_v}{R_v}\right)^2
 =L_u^2+\left(\frac{C_w-L_u/R_v}{S_w}\right)^2\ }`,
     derivation: {
@@ -256,7 +291,9 @@ a&=L_u,&j&=R_u,\\
 c&=L_v,&g&=R_v,\\
 d&=L_w,&f&=R_w,
 \end{aligned}`,
-    equationLatex: String.raw`
+    trigEquationLatex: String.raw`
+\boxed{\ \sin4\gamma=\sin4\beta-\sin4\alpha\ }`,
+    coordinateEquationLatex: String.raw`
 \boxed{\ L_u^2+L_w^2=L_v^2+1\ }`,
     derivation: {
       ru: "Три прогрессии AEJ, CEG и DEF имеют один центр e² и независимо параметризуются тремя углами. Жёлтая квадрика ACDE — единственное соотношение между ними, поэтому здесь итоговое уравнение принимает самый короткий вид.",

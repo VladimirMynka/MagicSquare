@@ -4199,6 +4199,38 @@ main {
   text-align: left;
 }
 
+.seven-nine-coordinate-details {
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.seven-nine-coordinate-details summary {
+  padding: 9px 12px;
+  color: var(--muted);
+  cursor: pointer;
+  font: 8px/1.4 var(--mono);
+  list-style-position: inside;
+}
+
+.seven-nine-coordinate-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  color: var(--graphite-soft);
+}
+
+.seven-nine-coordinate-details .seven-nine-root-chart {
+  border: 0;
+  background: var(--paper-strong);
+}
+
+.seven-nine-coordinate-details .seven-nine-root-chart p + .latex.display {
+  margin-top: 8px;
+}
+
+.seven-nine-coordinate-details .seven-nine-root-chart .latex.display + p {
+  margin-top: 14px;
+}
+
 .seven-nine-atlas-relations {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4329,6 +4361,10 @@ main {
 
 .seven-nine-derived-equation .latex.display {
   margin: 0;
+}
+
+.seven-nine-derivation-details {
+  margin-top: 12px;
 }
 
 @media (max-width: 820px) {

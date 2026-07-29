@@ -106,8 +106,8 @@ N_{7/9}=N_{2/9}
           </h2>
           <p>
             {text(
-              "Пусть t=tan θ∈P¹(ℚ). Введём четыре рациональные функции:",
-              "Let t=tan θ∈P¹(ℚ). Introduce four rational functions:",
+              "Пусть t=n/m=tan θ∈P¹(ℚ). Введём четыре рациональные функции:",
+              "Let t=n/m=tan θ∈P¹(ℚ). Introduce four rational functions:",
             )}
           </p>
           <Latex display>{String.raw`
@@ -141,9 +141,16 @@ P^2+Q^2=U^2+V^2
             )}
           </p>
           <Latex display>{String.raw`
-\operatorname{dir}(t)=R_t^2-1=1-L_t^2
+\delta_\theta:=R_t^2-1=1-L_t^2
 =\sin4\theta
+=4\operatorname{dir}(m,n)
 =\frac{4t(1-t^2)}{(1+t^2)^2}.`}</Latex>
+          <p>
+            {text(
+              "Таким образом, в принятой на сайте нормировке угловая координата связана с dir равенством δθ=4dir(m,n). Множитель 4 существенен: для прогрессии квадратов Δ/V=4dir(m,n)=δθ.",
+              "Thus, in the convention used on this site, the angular coordinate satisfies δθ=4dir(m,n). The factor 4 matters: for a progression of squares, Δ/V=4dir(m,n)=δθ.",
+            )}
+          </p>
           <p>
             {text(
               "Вторая строка — рациональный поворот окружности. Обе параметризации полны над ℚ в проективном смысле: точка t=∞ добавляет недостающую точку обычной аффинной карты, а знаки корней позволяют выбрать компоненту ортогонального преобразования с определителем +1.",
@@ -178,8 +185,18 @@ C=-1\Longleftrightarrow t=\infty.`}</Latex>
 RRRY,\ RRRR,\ RRRY,\ RRRR,\ RRRR,\ RRRY,\ RRYY,\ RRRY.`}</Latex>
           <p>
             {text(
-              "Первые три отношения в каждой строке атласа используются как строительные. Каждое вводит один рациональный угол и новые корни, сохраняя уже построенные общие клетки. После общей нормировки все семь корней становятся рациональными функциями u,v,w. Четвёртая независимая квадрика не может следовать из первых трёх; её подстановка даёт одно уравнение Fᵢ(u,v,w)=0.",
-              "The first three relations in every atlas row are used constructively. Each introduces one rational angle and new roots while preserving the already constructed shared entries. After one common normalization, all seven roots become rational functions of u,v,w. The fourth independent quadric cannot follow from the first three; substitution into it gives one equation Fᵢ(u,v,w)=0.",
+              "Первые три отношения в каждой строке атласа используются как строительные. Каждое вводит один рациональный угол и новые корни, сохраняя уже построенные общие клетки. После общей нормировки все семь корней становятся рациональными функциями u,v,w, где u=tan α, v=tan β и w=tan γ. Четвёртая независимая квадрика даёт одно уравнение Fᵢ(α,β,γ)=0.",
+              "The first three relations in every atlas row are used constructively. Each introduces one rational angle and new roots while preserving the already constructed shared entries. After one common normalization, all seven roots become rational functions of u,v,w, where u=tan α, v=tan β, and w=tan γ. The fourth independent quadric gives one equation Fᵢ(α,β,γ)=0.",
+            )}
+          </p>
+          <Latex display>{String.raw`
+\delta_\alpha=\sin4\alpha,\qquad
+\delta_\beta=\sin4\beta,\qquad
+\delta_\gamma=\sin4\gamma.`}</Latex>
+          <p>
+            {text(
+              "Тождества L²=1−δ и R²=1+δ сворачивают шесть из восьми итоговых моделей в линейные по δγ соотношения между тремя функциями sin 4. В типах CDEFGHJ и ACDFGHJ жёлтая норма соединена с красными прогрессиями рациональным поворотом; поэтому в их окончательных формулах дополнительно остаются sin 2 и cos 2. Это две смешанные тригонометрические модели, а не неупрощённые версии остальных шести.",
+              "The identities L²=1−δ and R²=1+δ reduce six of the eight final models to relations among the three sin 4 functions that are linear in δγ. In types CDEFGHJ and ACDFGHJ, a yellow norm is joined to the red progressions by a rational rotation, so sin 2 and cos 2 also remain in their final formulas. These are two mixed trigonometric models, not unsimplified versions of the other six.",
             )}
           </p>
           <div className="theorem-block">
@@ -191,16 +208,16 @@ RRRY,\ RRRR,\ RRRY,\ RRRR,\ RRRR,\ RRRY,\ RRYY,\ RRRY.`}</Latex>
             </h3>
             <p>
               {text(
-                "На невырожденном рациональном локусе каждой из восьми масок любое решение четырёх исходных квадрик после выбора общего масштаба и знаков корней представляется рациональной тройкой (u,v,w), удовлетворяющей выделенному уравнению соответствующей карточки. Обратно, каждая такая тройка восстанавливает решение по выписанным формулам корней.",
-                "On the nondegenerate rational locus of each of the eight patterns, every solution of the four original quadrics can, after choosing a common scale and root signs, be represented by a rational triple (u,v,w) satisfying the highlighted equation in the corresponding card. Conversely, every such triple reconstructs a solution through the displayed root formulas.",
+                "На невырожденном рациональном локусе каждой из восьми масок любое решение четырёх исходных квадрик после выбора общего масштаба и знаков корней представляется рациональной тройкой (u,v,w), или эквивалентно тройкой рационально параметризованных углов (α,β,γ), удовлетворяющей выделенному тригонометрическому уравнению соответствующей карточки. Обратно, каждая такая тройка восстанавливает решение по координатным формулам.",
+                "On the nondegenerate rational locus of each of the eight patterns, every solution of the four original quadrics can, after choosing a common scale and root signs, be represented by a rational triple (u,v,w), equivalently by three rationally parametrized angles (α,β,γ), satisfying the highlighted trigonometric equation in the corresponding card. Conversely, every such triple reconstructs a solution through the coordinate formulas.",
               )}
             </p>
           </div>
           <h3>{text("Доказательство", "Proof")}</h3>
           <p>
             {text(
-              "Необходимость следует последовательным применением полной параметризации красной коники и рационального поворота жёлтой нормы. В каждой цепочке общая ненулевая клетка однозначно определяет следующий масштаб. После трёх шагов остаётся четвёртая базисная квадрика, то есть ровно Fᵢ=0. В обратную сторону формулы тождественно удовлетворяют первым трём отношениям, а Fᵢ=0 — четвёртому. Поскольку четыре коэффициентных вектора имеют ранг 4=7−3, вектор семи квадратов лежит в образе Lₛ и восстанавливает единственные E,x,y.",
-              "Necessity follows by successively applying the complete parametrization of the red conic and the rational rotation for a yellow norm. In every chain, a shared nonzero entry uniquely determines the next scale. After three steps, the fourth basis quadric remains, which is exactly Fᵢ=0. Conversely, the formulas identically satisfy the first three relations, while Fᵢ=0 gives the fourth. Since the four coefficient vectors have rank 4=7−3, the vector of seven squares lies in the image of Lₛ and recovers unique E,x,y.",
+              "Необходимость следует последовательным применением полной параметризации красной коники и рационального поворота жёлтой нормы. В каждой цепочке общая ненулевая клетка определяет следующий масштаб. После трёх шагов остаётся четвёртая базисная квадрика. Подстановка координат и тождества L²=1−sin 4θ, R²=1+sin 4θ переводят её в указанную тригонометрическую форму. В обратную сторону координатные формулы тождественно удовлетворяют первым трём отношениям, а тригонометрическое уравнение эквивалентно четвёртому. Поскольку четыре коэффициентных вектора имеют ранг 4=7−3, вектор семи квадратов лежит в образе Lₛ и восстанавливает единственные E,x,y.",
+              "Necessity follows by successively applying the complete parametrization of the red conic and the rational rotation for a yellow norm. In every chain, a shared nonzero entry determines the next scale. After three steps, the fourth basis quadric remains. Substituting the coordinates and using L²=1−sin 4θ and R²=1+sin 4θ converts it to the stated trigonometric form. Conversely, the coordinate formulas identically satisfy the first three relations, and the trigonometric equation is equivalent to the fourth. Since the four coefficient vectors have rank 4=7−3, the vector of seven squares lies in the image of Lₛ and recovers unique E,x,y.",
             )}
           </p>
           <p>
@@ -215,8 +232,8 @@ RRRY,\ RRRR,\ RRRY,\ RRRR,\ RRRR,\ RRRY,\ RRYY,\ RRRY.`}</Latex>
           <h2>{text("4. Атлас как главный объект", "4. The atlas as the main object")}</h2>
           <p>
             {text(
-              "Карточки упорядочены по геометрическому типу двух неквадратных позиций. Цветовая полоса показывает четыре базисных отношения, а крупная рамка — итоговую трёхугловую поверхность. Число 7 остаётся нижней гарантией: точка поверхности может дать дополнительную восьмую или девятую квадратную клетку.",
-              "The cards are ordered by the geometric type of the two nonspecified positions. The colored strip shows the four basis relations, while the large framed formula is the resulting three-angle surface. The number 7 remains a lower guarantee: a point on a surface may produce an additional eighth or ninth square entry.",
+              "Карточки упорядочены по геометрическому типу двух неквадратных позиций. Цветовая полоса показывает четыре базисных отношения, а крупная рамка — упрощённое тригонометрическое уравнение итоговой трёхугловой поверхности. Координатные подстановки доступны в техническом раскрываемом блоке. Число 7 остаётся нижней гарантией: точка поверхности может дать дополнительную восьмую или девятую квадратную клетку.",
+              "The cards are ordered by the geometric type of the two nonspecified positions. The colored strip shows the four basis relations, while the large framed formula is the simplified trigonometric equation of the resulting three-angle surface. Coordinate substitutions remain available in an expandable technical block. The number 7 remains a lower guarantee: a point on a surface may produce an additional eighth or ninth square entry.",
             )}
           </p>
           <SevenNineOrbitAtlas
@@ -272,20 +289,37 @@ RRRY,\ RRRR,\ RRRY,\ RRRR,\ RRRR,\ RRRY,\ RRYY,\ RRRY.`}</Latex>
                 {text("После нормировки", "After normalization")}{" "}
                 <Latex>{pattern.normalizationLatex}</Latex>
                 {text(
-                  " первые три отношения дают",
-                  ", the first three relations give",
-                )}
-              </p>
-              <Latex display>{pattern.rootsLatex}</Latex>
-              <p>
-                {text(
-                  `Подстановка в ${pattern.relations[3].id} даёт`,
-                  `Substitution into ${pattern.relations[3].id} gives`,
+                  ` остаток ${pattern.relations[3].id} упрощается до`,
+                  `, the ${pattern.relations[3].id} residual simplifies to`,
                 )}
               </p>
               <div className="seven-nine-derived-equation">
-                <Latex display>{pattern.equationLatex}</Latex>
+                <Latex display>{pattern.trigEquationLatex}</Latex>
               </div>
+              <details className="seven-nine-coordinate-details seven-nine-derivation-details">
+                <summary>
+                  {text(
+                    "Координатная подстановка и обратное восстановление",
+                    "Coordinate substitution and inverse reconstruction",
+                  )}
+                </summary>
+                <div className="seven-nine-root-chart">
+                  <p>
+                    {text(
+                      "Первые три отношения дают корни",
+                      "The first three relations give the roots",
+                    )}
+                  </p>
+                  <Latex display>{pattern.rootsLatex}</Latex>
+                  <p>
+                    {text(
+                      `До тригонометрического упрощения остаток ${pattern.relations[3].id} имеет вид`,
+                      `Before trigonometric simplification, the ${pattern.relations[3].id} residual is`,
+                    )}
+                  </p>
+                  <Latex display>{pattern.coordinateEquationLatex}</Latex>
+                </div>
+              </details>
             </section>
           ))}
         </section>

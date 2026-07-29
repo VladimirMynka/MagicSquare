@@ -71,8 +71,8 @@ export function SevenNineOrbitAtlas({ title }: { title: string }) {
         </div>
         <p>
           {text(
-            "Главный объект каждой карточки — одно уравнение на трёх рациональных углах. Формулы корней перед ним тождественно решают первые три цветных отношения; четвёртое отношение и есть выделенное уравнение.",
-            "The main object in every card is one equation in three rational angles. The root formulas preceding it identically solve the first three colored relations; the fourth relation is precisely the highlighted equation.",
+            "Главный объект каждой карточки — упрощённое уравнение на трёх рациональных углах. Шесть орбит выражаются только через sin 4α, sin 4β и sin 4γ; две смешанные орбиты сохраняют также функции двойных углов. Координатное восстановление корней вынесено в раскрываемый технический блок.",
+            "The main object in every card is a simplified equation in three rational angles. Six orbits use only sin 4α, sin 4β, and sin 4γ; two mixed orbits also retain double-angle functions. Coordinate reconstruction of the roots is placed in an expandable technical block.",
           )}
         </p>
         <div className="orbit-atlas-legend">
@@ -124,8 +124,13 @@ export function SevenNineOrbitAtlas({ title }: { title: string }) {
             </header>
 
             <div className="seven-nine-equation-hero">
-              <span>{text("трёхугловая модель", "three-angle model")}</span>
-              <Latex display>{pattern.equationLatex}</Latex>
+              <span>
+                {text(
+                  "упрощённое тригонометрическое уравнение",
+                  "simplified trigonometric equation",
+                )}
+              </span>
+              <Latex display>{pattern.trigEquationLatex}</Latex>
             </div>
 
             <div className="seven-nine-atlas-signature">
@@ -138,14 +143,6 @@ export function SevenNineOrbitAtlas({ title }: { title: string }) {
                   {relation.id}
                 </span>
               ))}
-            </div>
-
-            <div className="seven-nine-root-chart">
-              <p>
-                {text("Нормировка", "Normalization")}:{" "}
-                <Latex>{pattern.normalizationLatex}</Latex>
-              </p>
-              <Latex display>{pattern.rootsLatex}</Latex>
             </div>
 
             <div className="seven-nine-atlas-relations">
@@ -162,6 +159,24 @@ export function SevenNineOrbitAtlas({ title }: { title: string }) {
                 </div>
               ))}
             </div>
+
+            <details className="seven-nine-coordinate-details">
+              <summary>
+                {text(
+                  "Координатное восстановление корней",
+                  "Coordinate reconstruction of the roots",
+                )}
+              </summary>
+              <div className="seven-nine-root-chart">
+                <p>
+                  {text("Нормировка", "Normalization")}:{" "}
+                  <Latex>{pattern.normalizationLatex}</Latex>
+                </p>
+                <Latex display>{pattern.rootsLatex}</Latex>
+                <p>{text("Координатный остаток", "Coordinate residual")}</p>
+                <Latex display>{pattern.coordinateEquationLatex}</Latex>
+              </div>
+            </details>
 
             <p className="seven-nine-atlas-note">{pattern.derivation[locale]}</p>
             {pattern.knownIntegralClass && (

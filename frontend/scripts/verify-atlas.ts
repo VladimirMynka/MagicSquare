@@ -412,6 +412,14 @@ function verifySevenNinePattern(pattern: SevenNinePattern) {
     `${pattern.mask}: wrong complement`,
   );
   invariant(pattern.relations.length === 4, `${pattern.mask}: expected four quadrics`);
+  invariant(
+    pattern.trigEquationLatex.includes("\\sin4"),
+    `${pattern.mask}: the main 7/9 equation is not in trigonometric form`,
+  );
+  invariant(
+    pattern.coordinateEquationLatex.includes("\\boxed"),
+    `${pattern.mask}: missing coordinate reconstruction residual`,
+  );
 
   const vectors = pattern.relations.map((relation) => {
     const coefficients = parseSquaredRelation(relation.latex);
