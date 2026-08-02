@@ -241,6 +241,18 @@ export function TheoryIndexPage() {
         },
         {
           index: "4.3",
+          to: "/theory/tfmn-forms",
+          title: text(
+            "Целочисленные tfmn-формы: контейнеры, Куммер и групповой закон",
+            "Integral tfmn forms: containers, Kummer coordinates, and the group law",
+          ),
+          summary: text(
+            "Четыре контейнера как гармонический репер ранга два, их куммерова сигнатура, точные квадратные поправки при сложении, формулы удвоения и утроения и связь с матрицей Монски.",
+            "The four containers as a harmonic rank-two frame, their Kummer signature, exact square corrections under addition, doubling and tripling formulas, and the link with the Monsky matrix.",
+          ),
+        },
+        {
+          index: "4.4",
           to: "/theory/f4-plus",
           title: text(
             "F4+: эллиптическая поверхность пар пифагоровых площадей",
@@ -252,7 +264,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.4",
+          index: "4.5",
           to: "/theory/tf-pair-generation",
           title: text(
             "F7+ и F4+: генерация совпадений tf",
@@ -264,7 +276,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.5",
+          index: "4.6",
           to: "/theory/f9-plus",
           title: text(
             "F9+: квадратичные подстановки и теорема сокращения",
@@ -276,7 +288,7 @@ export function TheoryIndexPage() {
           ),
         },
         {
-          index: "4.6",
+          index: "4.7",
           to: "/theory/f9-plus-elliptic-layers",
           title: text(
             "Эллиптические слои F9+",

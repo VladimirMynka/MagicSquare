@@ -205,6 +205,7 @@ function verifyEnglishRoutes(): number {
     "/en/theory/magic-squares-3x3": "3×3 magic squares over a general carrier",
     "/en/theory/residues": "Residues and quadratic residues",
     "/en/theory/prime-divisors": "Prime divisors in a minimal 9/9 square",
+    "/en/theory/tfmn-forms": "Integral tfmn Forms",
     "/en/theory/6-9/abcdeh": "The ABCDEH Pattern",
     "/en/theory/6-9/abcdej": "The ABCDEJ Pattern",
     "/en/theory/6-9/abcdfh": "The ABCDFH Pattern",

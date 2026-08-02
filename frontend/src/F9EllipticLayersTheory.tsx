@@ -15,8 +15,8 @@ export function F9EllipticLayersTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.6",
-              "Elliptic geometry of tfmn · 4.6",
+              "Эллиптическая геометрия tfmn · 4.7",
+              "Elliptic geometry of tfmn · 4.7",
             )}
           </p>
           <h1>

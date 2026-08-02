@@ -440,9 +440,12 @@ x(2P)
           </p>
 
           <div className="topic-actions">
-            <TheoryLink className="button button-primary" to="/theory/tf-pair-generation">
-              {text("Генерация пар через F7+ и F4+", "Generating pairs with F7+ and F4+")}{" "}
+            <TheoryLink className="button button-primary" to="/theory/tfmn-forms">
+              {text("Далее: целочисленные tfmn-формы", "Next: integral tfmn forms")}{" "}
               <span>→</span>
+            </TheoryLink>
+            <TheoryLink className="button button-ghost" to="/theory/tf-pair-generation">
+              {text("Генерация пар через F7+ и F4+", "Generating pairs with F7+ and F4+")}
             </TheoryLink>
             <TheoryLink className="button button-ghost" to="/theory/f4-plus">
               {text("Эллиптическая поверхность F4+", "The F4+ elliptic surface")}

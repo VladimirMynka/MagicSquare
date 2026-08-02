@@ -18,8 +18,8 @@ export function TfPairGenerationTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.4",
-              "Elliptic geometry of tfmn · 4.4",
+              "Эллиптическая геометрия tfmn · 4.5",
+              "Elliptic geometry of tfmn · 4.5",
             )}
           </p>
           <h1>

@@ -85,7 +85,7 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   },
   theory: {
     published: "2026-07-22",
-    modified: "2026-07-27",
+    modified: "2026-08-02",
   },
   "proofs/general": {
     published: "2026-07-21",
@@ -142,6 +142,10 @@ const ROUTE_PUBLICATION_DATES: Readonly<Record<string, PublicationDates>> = {
   "theory/f7-plus": {
     published: "2026-07-23",
     modified: "2026-07-23",
+  },
+  "theory/tfmn-forms": {
+    published: "2026-08-02",
+    modified: "2026-08-02",
   },
   "theory/elliptic-surfaces-primer": {
     published: "2026-07-26",
@@ -725,6 +729,20 @@ const STATIC_METADATA: Readonly<
       type: "Article",
     },
   },
+  "theory/tfmn-forms": {
+    ru: {
+      title: "Целочисленные tfmn-формы: контейнеры, Куммер и групповой закон",
+      description:
+        "Четыре контейнера tfmn как гармонический репер и целочисленный подъём куммеровых координат: точные законы сложения, удвоения, утроения и связь с матрицей Монски.",
+      type: "Article",
+    },
+    en: {
+      title: "Integral tfmn Forms: Containers, Kummer Coordinates, and the Group Law",
+      description:
+        "The four tfmn containers as a harmonic frame and integral lift of Kummer coordinates, with exact addition, doubling, and tripling laws and their link to the Monsky matrix.",
+      type: "Article",
+    },
+  },
   "theory/elliptic-surfaces-primer": {
     ru: {
       title: "Кривые рода 1, якобианы и эллиптические поверхности",
@@ -1116,6 +1134,7 @@ export function indexableRouteSuffixes(): readonly string[] {
     "theory/early-tf-families",
     "theory/elliptic-surfaces-primer",
     "theory/f7-plus",
+    "theory/tfmn-forms",
     "theory/f4-plus",
     "theory/tf-pair-generation",
     "theory/f9-plus",

@@ -18,8 +18,8 @@ export function F4PlusTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия квадратных классов · 4.3",
-              "Elliptic geometry of square classes · 4.3",
+              "Эллиптическая геометрия квадратных классов · 4.4",
+              "Elliptic geometry of square classes · 4.4",
             )}
           </p>
           <h1>

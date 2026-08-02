@@ -87,6 +87,7 @@ import { SevenNineAtlasPage } from "./SevenNineAtlasPage";
 import { FmnTfmnTheoryPage } from "./FmnTfmnTheory";
 import { EarlyTfFamiliesTheoryPage } from "./EarlyTfFamiliesTheory";
 import { F7PlusTheoryPage } from "./F7PlusTheory";
+import { TfmnContainerFormsTheoryPage } from "./TfmnContainerFormsTheory";
 import { F4PlusTheoryPage } from "./F4PlusTheory";
 import { TfPairGenerationTheoryPage } from "./TfPairGenerationTheory";
 import { F9PlusTheoryPage } from "./F9PlusTheory";
@@ -3620,6 +3621,7 @@ export function App() {
           element={<EarlyTfFamiliesTheoryPage />}
         />
         <Route path="theory/f7-plus" element={<F7PlusTheoryPage />} />
+        <Route path="theory/tfmn-forms" element={<TfmnContainerFormsTheoryPage />} />
         <Route
           path="theory/elliptic-surfaces-primer"
           element={<EllipticSurfacesPrimerTheoryPage />}

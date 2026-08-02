@@ -15,8 +15,8 @@ export function F9PlusTheoryPage() {
         <div>
           <p className="eyebrow">
             {text(
-              "Эллиптическая геометрия tfmn · 4.5",
-              "Elliptic geometry of tfmn · 4.5",
+              "Эллиптическая геометрия tfmn · 4.6",
+              "Elliptic geometry of tfmn · 4.6",
             )}
           </p>
           <h1>
